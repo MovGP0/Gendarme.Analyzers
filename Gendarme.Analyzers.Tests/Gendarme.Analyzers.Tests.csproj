@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzer.Testing" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Analyzer.Testing.XUnit" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Testing.Verifiers.XUnit" Version="1.1.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+    <PackageReference Include="Roslynator.Testing.CSharp.Xunit" Version="4.12.4" />
+    <PackageReference Include="xunit" Version="2.5.3"/>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
+  </ItemGroup>
+  <Import Project="..\TestAnalyzers.props" />
+  <ItemGroup>
+    <Using Include="Xunit"/>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gendarme.Analyzers\Gendarme.Analyzers.csproj" />
+  </ItemGroup>
+</Project>
