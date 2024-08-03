@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -18,41 +18,47 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="AssemblyVersionMismatch_Title" xml:space="preserve">
-        <value>Assembly version mismatch</value>
+    <data name="AssemblyVersionMismatch_Description" xml:space="preserve">
+        <value>All assembly version attributes should be consistent.</value>
+    </data>
+    <data name="AssemblyVersionMismatch_HelpLink" xml:space="preserve">
+        <value>https://www.mono-project.com/docs/tools+libraries/tools/gendarme/rules/bad-practice/#avoidassemblyversionmismatchrule</value>
     </data>
     <data name="AssemblyVersionMismatch_Message" xml:space="preserve">
         <value>Assembly version '{0}' does not match other version attributes</value>
     </data>
-    <data name="AssemblyVersionMismatch_Description" xml:space="preserve">
-        <value>All assembly version attributes should be consistent.</value>
-    </data>
-    <data name="AvoidCallingProblematicMethods_Title" xml:space="preserve">
-        <value>Avoid problematic methods</value>
-    </data>
-    <data name="AvoidCallingProblematicMethods_Message" xml:space="preserve">
-        <value>Method '{0}' is considered problematic.</value>
+    <data name="AssemblyVersionMismatch_Title" xml:space="preserve">
+        <value>Assembly version mismatch</value>
     </data>
     <data name="AvoidCallingProblematicMethods_Description" xml:space="preserve">
         <value>Avoid using methods that are known to be problematic due to potential issues such as performance problems or incorrect behavior.</value>
     </data>
-    <data name="AvoidVisibleConstantField_Title" xml:space="preserve">
-        <value>Avoid visible constant field</value>
+    <data name="AvoidCallingProblematicMethods_Message" xml:space="preserve">
+        <value>Method '{0}' is considered problematic.</value>
     </data>
-    <data name="AvoidVisibleConstantField_Message" xml:space="preserve">
-        <value>The constant field '{0}' is visible outside the assembly</value>
+    <data name="AvoidCallingProblematicMethods_Title" xml:space="preserve">
+        <value>Avoid problematic methods</value>
     </data>
     <data name="AvoidVisibleConstantField_Description" xml:space="preserve">
         <value>Avoid constant fields which are visible outside the current assembly. Use 'static readonly' instead.</value>
     </data>
-    <data name="CheckNewExceptionWithoutThrowing_Title" xml:space="preserve">
-        <value>Exception object created but not thrown or used</value>
+    <data name="AvoidVisibleConstantField_Message" xml:space="preserve">
+        <value>The constant field '{0}' is visible outside the assembly</value>
+    </data>
+    <data name="AvoidVisibleConstantField_Title" xml:space="preserve">
+        <value>Avoid visible constant field</value>
+    </data>
+    <data name="CheckNewExceptionWithoutThrowing_Description" xml:space="preserve">
+        <value>Exception objects should be thrown, returned, or passed to another method as an argument.</value>
     </data>
     <data name="CheckNewExceptionWithoutThrowing_Message" xml:space="preserve">
         <value>The exception '{0}' is created but not thrown, not returned, and not passed to another method</value>
     </data>
-    <data name="CheckNewExceptionWithoutThrowing_Description" xml:space="preserve">
-        <value>Exception objects should be thrown, returned, or passed to another method as an argument.</value>
+    <data name="CheckNewExceptionWithoutThrowing_Title" xml:space="preserve">
+        <value>Exception object created but not thrown or used</value>
+    </data>
+    <data name="CheckNewThreadWithoutStart_Description" xml:space="preserve">
+        <value>Thread objects should be started, returned, or passed to another method as an argument.</value>
     </data>
     <data name="CheckNewThreadWithoutStart_Message" xml:space="preserve">
         <value>The thread '{0}' is created but not started, not returned, and not passed to another method</value>
@@ -60,35 +66,35 @@
     <data name="CheckNewThreadWithoutStart_Title" xml:space="preserve">
         <value>Thread object created but not started or used</value>
     </data>
-    <data name="CheckNewThreadWithoutStart_Description" xml:space="preserve">
-        <value>Thread objects should be started, returned, or passed to another method as an argument.</value>
-    </data>
-    <data name="CloneMethodShouldNotReturnNull_Title" xml:space="preserve">
-        <value>Clone method should not return null</value>
+    <data name="CloneMethodShouldNotReturnNull_Description" xml:space="preserve">
+        <value>Clone methods should not return null. They should return a new object instance.</value>
     </data>
     <data name="CloneMethodShouldNotReturnNull_Message" xml:space="preserve">
         <value>The Clone method returns null</value>
     </data>
-    <data name="CloneMethodShouldNotReturnNull_Description" xml:space="preserve">
-        <value>Clone methods should not return null. They should return a new object instance.</value>
-    </data>
-    <data name="ConstructorShouldNotCallVirtualMethods_Title" xml:space="preserve">
-        <value>Constructor should not call virtual methods</value>
-    </data>
-    <data name="ConstructorShouldNotCallVirtualMethods_Message" xml:space="preserve">
-        <value>The constructor calls the virtual method '{0}'</value>
+    <data name="CloneMethodShouldNotReturnNull_Title" xml:space="preserve">
+        <value>Clone method should not return null</value>
     </data>
     <data name="ConstructorShouldNotCallVirtualMethods_Description" xml:space="preserve">
         <value>Constructors of non-sealed types should not call virtual methods. This can lead to fragile code if the method is overridden in a derived class.</value>
     </data>
-    <data name="DisableDebuggingCode_Title" xml:space="preserve">
-        <value>Disable debugging code in non-console applications</value>
+    <data name="ConstructorShouldNotCallVirtualMethods_Message" xml:space="preserve">
+        <value>The constructor calls the virtual method '{0}'</value>
+    </data>
+    <data name="ConstructorShouldNotCallVirtualMethods_Title" xml:space="preserve">
+        <value>Constructor should not call virtual methods</value>
+    </data>
+    <data name="DisableDebuggingCode_Description" xml:space="preserve">
+        <value>Non-console applications should not contain calls to Console.WriteLine. Use Debug.WriteLine or Conditional(\"DEBUG\") instead.</value>
     </data>
     <data name="DisableDebuggingCode_Message" xml:space="preserve">
         <value>The method '{0}' contains a call to Console.WriteLine</value>
     </data>
-    <data name="DisableDebuggingCode_Description" xml:space="preserve">
-        <value>Non-console applications should not contain calls to Console.WriteLine. Use Debug.WriteLine or Conditional(\"DEBUG\") instead.</value>
+    <data name="DisableDebuggingCode_Title" xml:space="preserve">
+        <value>Disable debugging code in non-console applications</value>
+    </data>
+    <data name="DoNotForgetNotImplementedMethods_Description" xml:space="preserve">
+        <value>Methods throwing NotImplementedException should be implemented before release.</value>
     </data>
     <data name="DoNotForgetNotImplementedMethods_Message" xml:space="preserve">
         <value>The method '{0}' throws a NotImplementedException</value>
@@ -96,8 +102,26 @@
     <data name="DoNotForgetNotImplementedMethods_Title" xml:space="preserve">
         <value>Do not forget NotImplemented methods</value>
     </data>
-    <data name="DoNotForgetNotImplementedMethods_Description" xml:space="preserve">
-        <value>Methods throwing NotImplementedException should be implemented before release.</value>
+    <data name="DoNotLockOnThisOrTypesAnalyzer_Description" xml:space="preserve">
+        <value>Using 'lock (this)' or 'lock (typeof(...))' can cause deadlocks. Use a private lock object instead.</value>
+    </data>
+    <data name="DoNotLockOnThisOrTypesAnalyzer_Message" xml:space="preserve">
+        <value>Do not lock on 'this' or 'Type' to avoid deadlocks</value>
+    </data>
+    <data name="DoNotLockOnThisOrTypesAnalyzer_Title" xml:space="preserve">
+        <value>Do not lock on 'this' or 'Type'</value>
+    </data>
+    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Description" xml:space="preserve">
+        <value>Locking on objects with weak identity (e.g., strings, exceptions) can cause deadlocks. Use a private lock object instead.</value>
+    </data>
+    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Message" xml:space="preserve">
+        <value>Do not lock on objects with weak identity to avoid deadlocks</value>
+    </data>
+    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Title" xml:space="preserve">
+        <value>Do not lock on objects with weak identity</value>
+    </data>
+    <data name="DoNotUseEnumIsAssignableFrom_Description" xml:space="preserve">
+        <value>Calls to typeof(Enum).IsAssignableFrom(type) can be simplified to type.IsEnum.</value>
     </data>
     <data name="DoNotUseEnumIsAssignableFrom_Message" xml:space="preserve">
         <value>Replace 'typeof(Enum).IsAssignableFrom({0})' with '{0}.IsEnum'</value>
@@ -105,82 +129,148 @@
     <data name="DoNotUseEnumIsAssignableFrom_Title" xml:space="preserve">
         <value>Use type.IsEnum instead of typeof(Enum).IsAssignableFrom(type)</value>
     </data>
-    <data name="DoNotUseEnumIsAssignableFrom_Description" xml:space="preserve">
-        <value>Calls to typeof(Enum).IsAssignableFrom(type) can be simplified to type.IsEnum.</value>
+    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Description" xml:space="preserve">
+        <value>Using Monitor.Enter without Monitor.Exit in the same method can lead to deadlocks and is difficult to maintain.</value>
     </data>
-    <data name="EqualsShouldHandleNullArg_Title" xml:space="preserve">
-        <value>Equals method should handle null argument</value>
+    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Message" xml:space="preserve">
+        <value>Do not use Monitor.Enter without corresponding Monitor.Exit in the same method</value>
     </data>
-    <data name="EqualsShouldHandleNullArg_Message" xml:space="preserve">
-        <value>Equals method does not handle null argument</value>
+    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Title" xml:space="preserve">
+        <value>Do not use locked region outside method</value>
+    </data>
+    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Description" xml:space="preserve">
+        <value>Using MethodImplOptions.Synchronized causes a lock(this) or lock(typeof(...)) which can cause deadlocks. Use a private lock object instead.</value>
+    </data>
+    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Message" xml:space="preserve">
+        <value>Do not use MethodImplOptions.Synchronized on method '{0}'</value>
+    </data>
+    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Title" xml:space="preserve">
+        <value>Do not use MethodImplOptions.Synchronized</value>
+    </data>
+    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Description" xml:space="preserve">
+        <value>The ThreadStatic attribute can only be applied to static fields. Applying it to instance fields is ineffective.</value>
+    </data>
+    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Message" xml:space="preserve">
+        <value>The field '{0}' is an instance field with the ThreadStatic attribute, which is ineffective</value>
+    </data>
+    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Title" xml:space="preserve">
+        <value>Do not use ThreadStatic attribute with instance fields</value>
+    </data>
+    <data name="DoubleCheckLockingAnalyzer_Description" xml:space="preserve">
+        <value>Double-check locking can be problematic in older versions of .NET. Ensure it is used correctly.</value>
+    </data>
+    <data name="DoubleCheckLockingAnalyzer_Message" xml:space="preserve">
+        <value>Avoid double-check locking on '{0}'</value>
+    </data>
+    <data name="DoubleCheckLockingAnalyzer_Title" xml:space="preserve">
+        <value>Avoid double-check locking</value>
     </data>
     <data name="EqualsShouldHandleNullArg_Description" xml:space="preserve">
         <value>Equals(object) methods should return false when the object parameter is null.</value>
     </data>
-    <data name="GetEntryAssemblyMayReturnNull_Title" xml:space="preserve">
-        <value>Assembly.GetEntryAssembly may return null</value>
+    <data name="EqualsShouldHandleNullArg_Message" xml:space="preserve">
+        <value>Equals method does not handle null argument</value>
     </data>
-    <data name="GetEntryAssemblyMayReturnNull_Message" xml:space="preserve">
-        <value>Assembly.GetEntryAssembly may return null when called from a library or DLL</value>
+    <data name="EqualsShouldHandleNullArg_Title" xml:space="preserve">
+        <value>Equals method should handle null argument</value>
     </data>
     <data name="GetEntryAssemblyMayReturnNull_Description" xml:space="preserve">
         <value>Calls to Assembly.GetEntryAssembly() may return null in libraries or DLLs. Ensure proper null handling.</value>
     </data>
-    <data name="ObsoleteMessagesShouldNotBeEmpty_Title" xml:space="preserve">
-        <value>Obsolete attribute should not be empty</value>
+    <data name="GetEntryAssemblyMayReturnNull_Message" xml:space="preserve">
+        <value>Assembly.GetEntryAssembly may return null when called from a library or DLL</value>
     </data>
-    <data name="ObsoleteMessagesShouldNotBeEmpty_Message" xml:space="preserve">
-        <value>The Obsolete attribute on '{0}' should include a message providing guidance.</value>
+    <data name="GetEntryAssemblyMayReturnNull_Title" xml:space="preserve">
+        <value>Assembly.GetEntryAssembly may return null</value>
+    </data>
+    <data name="NonConstantStaticFieldsShouldNotBeVisible_Description" xml:space="preserve">
+        <value>Public static fields should be constant or readonly to avoid synchronization issues.</value>
+    </data>
+    <data name="NonConstantStaticFieldsShouldNotBeVisible_Message" xml:space="preserve">
+        <value>The static field '{0}' should not be publicly visible</value>
+    </data>
+    <data name="NonConstantStaticFieldsShouldNotBeVisible_Title" xml:space="preserve">
+        <value>Non-constant static fields should not be visible</value>
     </data>
     <data name="ObsoleteMessagesShouldNotBeEmpty_Description" xml:space="preserve">
         <value>The Obsolete attribute is more helpful if it includes advice on how to deal with the situation (e.g., the new recommended API to use).</value>
     </data>
-    <data name="OnlyUseDisposeForIDisposableTypes_Title" xml:space="preserve">
-        <value>Methods named Dispose should be reserved for types that implement IDisposable</value>
+    <data name="ObsoleteMessagesShouldNotBeEmpty_Message" xml:space="preserve">
+        <value>The Obsolete attribute on '{0}' should include a message providing guidance.</value>
     </data>
-    <data name="OnlyUseDisposeForIDisposableTypes_Message" xml:space="preserve">
-        <value>The method '{0}' is named Dispose but the containing type does not implement IDisposable</value>
+    <data name="ObsoleteMessagesShouldNotBeEmpty_Title" xml:space="preserve">
+        <value>Obsolete attribute should not be empty</value>
     </data>
     <data name="OnlyUseDisposeForIDisposableTypes_Description" xml:space="preserve">
         <value>Methods named Dispose should be reserved for types that implement IDisposable to avoid confusing developers.</value>
     </data>
-    <data name="PreferEmptyInstanceOverNull_Title" xml:space="preserve">
-        <value>Prefer returning an empty instance over null</value>
+    <data name="OnlyUseDisposeForIDisposableTypes_Message" xml:space="preserve">
+        <value>The method '{0}' is named Dispose but the containing type does not implement IDisposable</value>
     </data>
-    <data name="PreferEmptyInstanceOverNull_Message" xml:space="preserve">
-        <value>The method or property '{0}' returns null; consider returning an empty instance instead</value>
+    <data name="OnlyUseDisposeForIDisposableTypes_Title" xml:space="preserve">
+        <value>Methods named Dispose should be reserved for types that implement IDisposable</value>
     </data>
     <data name="PreferEmptyInstanceOverNull_Description" xml:space="preserve">
         <value>Methods and properties which return a string, an array, a collection, or an enumerable should return an empty instance rather than null.</value>
     </data>
-    <data name="PreferSafeHandle_Title" xml:space="preserve">
-        <value>Prefer SafeHandle over IntPtr or UIntPtr for unmanaged resources</value>
+    <data name="PreferEmptyInstanceOverNull_Message" xml:space="preserve">
+        <value>The method or property '{0}' returns null; consider returning an empty instance instead</value>
     </data>
-    <data name="PreferSafeHandle_Message" xml:space="preserve">
-        <value>Consider using SafeHandle instead of {0} for better resource management and safety</value>
+    <data name="PreferEmptyInstanceOverNull_Title" xml:space="preserve">
+        <value>Prefer returning an empty instance over null</value>
     </data>
     <data name="PreferSafeHandle_Description" xml:space="preserve">
         <value>It is recommended to use SafeHandle instead of IntPtr or UIntPtr for handling unmanaged resources.</value>
     </data>
-    <data name="ReplaceIncompleteOddnessCheck_Title" xml:space="preserve">
-        <value>Replace incomplete oddness check</value>
+    <data name="PreferSafeHandle_Message" xml:space="preserve">
+        <value>Consider using SafeHandle instead of {0} for better resource management and safety</value>
     </data>
-    <data name="ReplaceIncompleteOddnessCheck_Message" xml:space="preserve">
-        <value>The modulo operation used to check oddness may fail for negative numbers; consider using '(x % 2 != 0)' or '(x &amp; 1 == 1)'</value>
+    <data name="PreferSafeHandle_Title" xml:space="preserve">
+        <value>Prefer SafeHandle over IntPtr or UIntPtr for unmanaged resources</value>
+    </data>
+    <data name="ProtectCallToEventDelegatesAnalyzer_Description" xml:space="preserve">
+        <value>Event delegates should be checked for null and copied to a local variable to avoid race conditions.</value>
+    </data>
+    <data name="ProtectCallToEventDelegatesAnalyzer_Message" xml:space="preserve">
+        <value>The event '{0}' should be checked for null before invocation</value>
+    </data>
+    <data name="ProtectCallToEventDelegatesAnalyzer_Title" xml:space="preserve">
+        <value>Protect call to event delegates</value>
     </data>
     <data name="ReplaceIncompleteOddnessCheck_Description" xml:space="preserve">
         <value>Using '(x % 2) == 1' to check for odd numbers will fail for negative numbers. Use '(x % 2 != 0)' or '(x &amp; 1 == 1)' instead.</value>
     </data>
-    <data name="ToStringShouldNotReturnNull_Title" xml:space="preserve">
-        <value>ToString() should not return null</value>
+    <data name="ReplaceIncompleteOddnessCheck_Message" xml:space="preserve">
+        <value>The modulo operation used to check oddness may fail for negative numbers; consider using '(x % 2 != 0)' or '(x &amp; 1 == 1)'</value>
     </data>
-    <data name="ToStringShouldNotReturnNull_Message" xml:space="preserve">
-        <value>The ToString() method returns null; consider returning a descriptive string or string.Empty</value>
+    <data name="ReplaceIncompleteOddnessCheck_Title" xml:space="preserve">
+        <value>Replace incomplete oddness check</value>
+    </data>
+    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description" xml:space="preserve">
+        <value>Locks should be used only for operations on variables. Consider using Interlocked for atomic operations.</value>
+    </data>
+    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message" xml:space="preserve">
+        <value>The lock on '{0}' should be reviewed to ensure it is necessary</value>
+    </data>
+    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title" xml:space="preserve">
+        <value>Review lock used only for operations on variables</value>
     </data>
     <data name="ToStringShouldNotReturnNull_Description" xml:space="preserve">
         <value>Overridden ToString() methods should not return null. An appropriately descriptive string, or string.Empty, should be returned instead to make the value more useful.</value>
     </data>
-    <data name="AssemblyVersionMismatch_HelpLink" xml:space="preserve">
-        <value>https://www.mono-project.com/docs/tools+libraries/tools/gendarme/rules/bad-practice/#avoidassemblyversionmismatchrule</value>
+    <data name="ToStringShouldNotReturnNull_Message" xml:space="preserve">
+        <value>The ToString() method returns null; consider returning a descriptive string or string.Empty</value>
+    </data>
+    <data name="ToStringShouldNotReturnNull_Title" xml:space="preserve">
+        <value>ToString() should not return null</value>
+    </data>
+    <data name="WriteStaticFieldFromInstanceMethod_Description" xml:space="preserve">
+        <value>Writing to static fields from instance methods can cause issues in multithreaded environments. Consider refactoring to avoid this pattern.</value>
+    </data>
+    <data name="WriteStaticFieldFromInstanceMethod_Message" xml:space="preserve">
+        <value>The instance method '{0}' writes to static field '{1}', which can cause issues in multithreaded environments</value>
+    </data>
+    <data name="WriteStaticFieldFromInstanceMethod_Title" xml:space="preserve">
+        <value>Do not write to static fields from instance methods</value>
     </data>
 </root>

@@ -312,6 +312,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using &apos;lock (this)&apos; or &apos;lock (typeof(...))&apos; can cause deadlocks. Use a private lock object instead..
+        /// </summary>
+        internal static string DoNotLockOnThisOrTypesAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoNotLockOnThisOrTypesAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not lock on &apos;this&apos; or &apos;Type&apos; to avoid deadlocks.
+        /// </summary>
+        internal static string DoNotLockOnThisOrTypesAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoNotLockOnThisOrTypesAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not lock on &apos;this&apos; or &apos;Type&apos;.
+        /// </summary>
+        internal static string DoNotLockOnThisOrTypesAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoNotLockOnThisOrTypesAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locking on objects with weak identity (e.g., strings, exceptions) can cause deadlocks. Use a private lock object instead..
+        /// </summary>
+        internal static string DoNotLockOnWeakIdentityObjectsAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoNotLockOnWeakIdentityObjectsAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not lock on objects with weak identity to avoid deadlocks.
+        /// </summary>
+        internal static string DoNotLockOnWeakIdentityObjectsAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoNotLockOnWeakIdentityObjectsAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not lock on objects with weak identity.
+        /// </summary>
+        internal static string DoNotLockOnWeakIdentityObjectsAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoNotLockOnWeakIdentityObjectsAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calls to typeof(Enum).IsAssignableFrom(type) can be simplified to type.IsEnum..
         /// </summary>
         internal static string DoNotUseEnumIsAssignableFrom_Description {
@@ -335,6 +389,114 @@ namespace Gendarme.Analyzers {
         internal static string DoNotUseEnumIsAssignableFrom_Title {
             get {
                 return ResourceManager.GetString("DoNotUseEnumIsAssignableFrom_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using Monitor.Enter without Monitor.Exit in the same method can lead to deadlocks and is difficult to maintain..
+        /// </summary>
+        internal static string DoNotUseLockedRegionOutsideMethodAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoNotUseLockedRegionOutsideMethodAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use Monitor.Enter without corresponding Monitor.Exit in the same method.
+        /// </summary>
+        internal static string DoNotUseLockedRegionOutsideMethodAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoNotUseLockedRegionOutsideMethodAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use locked region outside method.
+        /// </summary>
+        internal static string DoNotUseLockedRegionOutsideMethodAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoNotUseLockedRegionOutsideMethodAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using MethodImplOptions.Synchronized causes a lock(this) or lock(typeof(...)) which can cause deadlocks. Use a private lock object instead..
+        /// </summary>
+        internal static string DoNotUseMethodImplOptionsSynchronizedAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoNotUseMethodImplOptionsSynchronizedAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use MethodImplOptions.Synchronized on method &apos;{0}&apos;.
+        /// </summary>
+        internal static string DoNotUseMethodImplOptionsSynchronizedAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoNotUseMethodImplOptionsSynchronizedAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use MethodImplOptions.Synchronized.
+        /// </summary>
+        internal static string DoNotUseMethodImplOptionsSynchronizedAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoNotUseMethodImplOptionsSynchronizedAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The ThreadStatic attribute can only be applied to static fields. Applying it to instance fields is ineffective..
+        /// </summary>
+        internal static string DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field &apos;{0}&apos; is an instance field with the ThreadStatic attribute, which is ineffective.
+        /// </summary>
+        internal static string DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use ThreadStatic attribute with instance fields.
+        /// </summary>
+        internal static string DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Double-check locking can be problematic in older versions of .NET. Ensure it is used correctly..
+        /// </summary>
+        internal static string DoubleCheckLockingAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("DoubleCheckLockingAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid double-check locking on &apos;{0}&apos;.
+        /// </summary>
+        internal static string DoubleCheckLockingAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("DoubleCheckLockingAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid double-check locking.
+        /// </summary>
+        internal static string DoubleCheckLockingAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("DoubleCheckLockingAnalyzer_Title", resourceCulture);
             }
         }
         
@@ -389,6 +551,33 @@ namespace Gendarme.Analyzers {
         internal static string GetEntryAssemblyMayReturnNull_Title {
             get {
                 return ResourceManager.GetString("GetEntryAssemblyMayReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public static fields should be constant or readonly to avoid synchronization issues..
+        /// </summary>
+        internal static string NonConstantStaticFieldsShouldNotBeVisible_Description {
+            get {
+                return ResourceManager.GetString("NonConstantStaticFieldsShouldNotBeVisible_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The static field &apos;{0}&apos; should not be publicly visible.
+        /// </summary>
+        internal static string NonConstantStaticFieldsShouldNotBeVisible_Message {
+            get {
+                return ResourceManager.GetString("NonConstantStaticFieldsShouldNotBeVisible_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-constant static fields should not be visible.
+        /// </summary>
+        internal static string NonConstantStaticFieldsShouldNotBeVisible_Title {
+            get {
+                return ResourceManager.GetString("NonConstantStaticFieldsShouldNotBeVisible_Title", resourceCulture);
             }
         }
         
@@ -501,6 +690,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event delegates should be checked for null and copied to a local variable to avoid race conditions..
+        /// </summary>
+        internal static string ProtectCallToEventDelegatesAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("ProtectCallToEventDelegatesAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The event &apos;{0}&apos; should be checked for null before invocation.
+        /// </summary>
+        internal static string ProtectCallToEventDelegatesAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("ProtectCallToEventDelegatesAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protect call to event delegates.
+        /// </summary>
+        internal static string ProtectCallToEventDelegatesAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("ProtectCallToEventDelegatesAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using &apos;(x % 2) == 1&apos; to check for odd numbers will fail for negative numbers. Use &apos;(x % 2 != 0)&apos; or &apos;(x &amp; 1 == 1)&apos; instead..
         /// </summary>
         internal static string ReplaceIncompleteOddnessCheck_Description {
@@ -528,6 +744,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locks should be used only for operations on variables. Consider using Interlocked for atomic operations..
+        /// </summary>
+        internal static string ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The lock on &apos;{0}&apos; should be reviewed to ensure it is necessary.
+        /// </summary>
+        internal static string ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review lock used only for operations on variables.
+        /// </summary>
+        internal static string ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overridden ToString() methods should not return null. An appropriately descriptive string, or string.Empty, should be returned instead to make the value more useful..
         /// </summary>
         internal static string ToStringShouldNotReturnNull_Description {
@@ -551,6 +794,33 @@ namespace Gendarme.Analyzers {
         internal static string ToStringShouldNotReturnNull_Title {
             get {
                 return ResourceManager.GetString("ToStringShouldNotReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Writing to static fields from instance methods can cause issues in multithreaded environments. Consider refactoring to avoid this pattern..
+        /// </summary>
+        internal static string WriteStaticFieldFromInstanceMethod_Description {
+            get {
+                return ResourceManager.GetString("WriteStaticFieldFromInstanceMethod_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The instance method &apos;{0}&apos; writes to static field &apos;{1}&apos;, which can cause issues in multithreaded environments.
+        /// </summary>
+        internal static string WriteStaticFieldFromInstanceMethod_Message {
+            get {
+                return ResourceManager.GetString("WriteStaticFieldFromInstanceMethod_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not write to static fields from instance methods.
+        /// </summary>
+        internal static string WriteStaticFieldFromInstanceMethod_Title {
+            get {
+                return ResourceManager.GetString("WriteStaticFieldFromInstanceMethod_Title", resourceCulture);
             }
         }
     }
