@@ -273,4 +273,238 @@
     <data name="WriteStaticFieldFromInstanceMethod_Title" xml:space="preserve">
         <value>Do not write to static fields from instance methods</value>
     </data>
+    <data name="AttributeStringLiteralsShouldParseCorrectly_Description" xml:space="preserve">
+        <value>This rule checks attributes with certain types (Version, Guid, Uri) and validates the string value.</value>
+    </data>
+    <data name="AttributeStringLiteralsShouldParseCorrectly_Message" xml:space="preserve">
+        <value>String literal in attribute does not parse correctly: '{0}'</value>
+    </data>
+    <data name="AttributeStringLiteralsShouldParseCorrectly_Title" xml:space="preserve">
+        <value>Attribute string literals should parse correctly</value>
+    </data>
+    <data name="AvoidConstructorsInStaticTypes_Description" xml:space="preserve">
+        <value>This rule checks for types that contain only static members and fires if the type contains a visible instance constructor.</value>
+    </data>
+    <data name="AvoidConstructorsInStaticTypes_Message" xml:space="preserve">
+        <value>Static type '{0}' contains a constructor</value>
+    </data>
+    <data name="AvoidConstructorsInStaticTypes_Title" xml:space="preserve">
+        <value>Avoid constructors in static types</value>
+    </data>
+    <data name="AvoidFloatingPointEquality_Description" xml:space="preserve">
+        <value>In general floating point numbers cannot be usefully compared using the equality and inequality operators.</value>
+    </data>
+    <data name="AvoidFloatingPointEquality_Message" xml:space="preserve">
+        <value>Floating point comparison with equality operator may cause unexpected results</value>
+    </data>
+    <data name="AvoidFloatingPointEquality_Title" xml:space="preserve">
+        <value>Avoid floating point equality comparison</value>
+    </data>
+    <data name="BadRecursiveInvocation_Description" xml:space="preserve">
+        <value>This rule checks for methods that may be infinitely recursive.</value>
+    </data>
+    <data name="BadRecursiveInvocation_Message" xml:space="preserve">
+        <value>Method '{0}' recursively calls itself</value>
+    </data>
+    <data name="BadRecursiveInvocation_Title" xml:space="preserve">
+        <value>Avoid bad recursive invocation</value>
+    </data>
+    <data name="CallingEqualsWithNullArg_Description" xml:space="preserve">
+        <value>This rule checks for methods that call Equals with a null actual parameter.</value>
+    </data>
+    <data name="CallingEqualsWithNullArg_Message" xml:space="preserve">
+        <value>Method '{0}' calls Equals with a null argument</value>
+    </data>
+    <data name="CallingEqualsWithNullArg_Title" xml:space="preserve">
+        <value>Avoid calling Equals with null argument</value>
+    </data>
+    <data name="CheckParametersNullityInVisibleMethods_Description" xml:space="preserve">
+        <value>This rule checks if all nullable parameters of visible methods are compared with null before they get used.</value>
+    </data>
+    <data name="CheckParametersNullityInVisibleMethods_Message" xml:space="preserve">
+        <value>Parameter '{0}' is not checked for null</value>
+    </data>
+    <data name="CheckParametersNullityInVisibleMethods_Title" xml:space="preserve">
+        <value>Check nullable parameters for null before use</value>
+    </data>
+    <data name="DisposableFieldsShouldBeDisposed_Description" xml:space="preserve">
+        <value>The rule inspects all fields for disposable types and checks that the type’s Dispose method calls Dispose on all disposable fields.</value>
+    </data>
+    <data name="DisposableFieldsShouldBeDisposed_Message" xml:space="preserve">
+        <value>Field '{0}' is not disposed</value>
+    </data>
+    <data name="DisposableFieldsShouldBeDisposed_Title" xml:space="preserve">
+        <value>Disposable fields should be disposed</value>
+    </data>
+    <data name="DoNotCompareWithNaN_Description" xml:space="preserve">
+        <value>As defined in IEEE 754 it’s impossible to compare any floating-point value, even another NaN, with NaN.</value>
+    </data>
+    <data name="DoNotCompareWithNaN_Message" xml:space="preserve">
+        <value>Comparison with NaN always returns false</value>
+    </data>
+    <data name="DoNotCompareWithNaN_Title" xml:space="preserve">
+        <value>Do not compare with NaN</value>
+    </data>
+    <data name="DoNotRecurseInEquality_Description" xml:space="preserve">
+        <value>An equality operator (==) orinequality operator (!=) method is calling itself recursively.</value>
+    </data>
+    <data name="DoNotRecurseInEquality_Message" xml:space="preserve">
+        <value>Equality operator calls itself recursively</value>
+    </data>
+    <data name="DoNotRecurseInEquality_Title" xml:space="preserve">
+        <value>Do not recurse in equality operator</value>
+    </data>
+    <data name="DoNotRoundIntegers_Description" xml:space="preserve">
+        <value>This rule checks for attempts to call Round, Ceiling, Floor or Truncate on an integral type.</value>
+    </data>
+    <data name="DoNotRoundIntegers_Message" xml:space="preserve">
+        <value>Rounding operation on an integer is redundant</value>
+    </data>
+    <data name="DoNotRoundIntegers_Title" xml:space="preserve">
+        <value>Do not round integers</value>
+    </data>
+    <data name="EnsureLocalDisposal_Description" xml:space="preserve">
+        <value>This rule checks that disposable locals are always disposed of before the method returns.</value>
+    </data>
+    <data name="EnsureLocalDisposal_Message" xml:space="preserve">
+        <value>Local disposable object '{0}' is not disposed</value>
+    </data>
+    <data name="EnsureLocalDisposal_Title" xml:space="preserve">
+        <value>Ensure local disposal</value>
+    </data>
+    <data name="FinalizersShouldCallBaseClassFinalizer_Description" xml:space="preserve">
+        <value>This rule checks that a finalizer calls the base class finalizer.</value>
+    </data>
+    <data name="FinalizersShouldCallBaseClassFinalizer_Message" xml:space="preserve">
+        <value>Finalizer does not call the base class finalizer</value>
+    </data>
+    <data name="FinalizersShouldCallBaseClassFinalizer_Title" xml:space="preserve">
+        <value>Finalizers should call base class finalizer</value>
+    </data>
+    <data name="MethodCanBeMadeStatic_Description" xml:space="preserve">
+        <value>This rule checks for methods that do not require anything from the current instance and can be converted into static methods.</value>
+    </data>
+    <data name="MethodCanBeMadeStatic_Message" xml:space="preserve">
+        <value>Method '{0}' can be made static</value>
+    </data>
+    <data name="MethodCanBeMadeStatic_Title" xml:space="preserve">
+        <value>Method can be made static</value>
+    </data>
+    <data name="ProvideCorrectArgumentsToFormattingMethods_Description" xml:space="preserve">
+        <value>This rule checks that the format string used with String.Format matches the other parameters used with the method.</value>
+    </data>
+    <data name="ProvideCorrectArgumentsToFormattingMethods_Message" xml:space="preserve">
+        <value>The format string in '{0}' does not match the arguments provided</value>
+    </data>
+    <data name="ProvideCorrectArgumentsToFormattingMethods_Title" xml:space="preserve">
+        <value>Provide correct arguments to formatting methods</value>
+    </data>
+    <data name="ProvideCorrectRegexPattern_Description" xml:space="preserve">
+        <value>This rule verifies that valid regular expression strings are used as arguments.</value>
+    </data>
+    <data name="ProvideCorrectRegexPattern_Message" xml:space="preserve">
+        <value>Invalid regex pattern in '{0}'</value>
+    </data>
+    <data name="ProvideCorrectRegexPattern_Title" xml:space="preserve">
+        <value>Provide correct regex pattern</value>
+    </data>
+    <data name="ProvideValidXmlString_Description" xml:space="preserve">
+        <value>This rule verifies that valid XML string arguments are passed as arguments.</value>
+    </data>
+    <data name="ProvideValidXmlString_Message" xml:space="preserve">
+        <value>Invalid XML string in '{0}'</value>
+    </data>
+    <data name="ProvideValidXmlString_Title" xml:space="preserve">
+        <value>Provide valid XML string</value>
+    </data>
+    <data name="ProvideValidXPathExpression_Description" xml:space="preserve">
+        <value>This rule verifies that valid XPath expression strings are passed as arguments.</value>
+    </data>
+    <data name="ProvideValidXPathExpression_Message" xml:space="preserve">
+        <value>Invalid XPath expression in '{0}'</value>
+    </data>
+    <data name="ProvideValidXPathExpression_Title" xml:space="preserve">
+        <value>Provide valid XPath expression</value>
+    </data>
+    <data name="ReviewCastOnIntegerDivision_Description" xml:space="preserve">
+        <value>This rule checks for integral divisions where the result is cast to a floating point type.</value>
+    </data>
+    <data name="ReviewCastOnIntegerDivision_Message" xml:space="preserve">
+        <value>Cast on integer division may cause truncation</value>
+    </data>
+    <data name="ReviewCastOnIntegerDivision_Title" xml:space="preserve">
+        <value>Review cast on integer division</value>
+    </data>
+    <data name="ReviewCastOnIntegerMultiplication_Description" xml:space="preserve">
+        <value>This rule checks for integral multiply operations where the result is cast to a larger integral type.</value>
+    </data>
+    <data name="ReviewCastOnIntegerMultiplication_Message" xml:space="preserve">
+        <value>Cast on integer multiplication may cause overflow</value>
+    </data>
+    <data name="ReviewCastOnIntegerMultiplication_Title" xml:space="preserve">
+        <value>Review cast on integer multiplication</value>
+    </data>
+    <data name="ReviewDoubleAssignment_Description" xml:space="preserve">
+        <value>This rule checks for variables or fields that are assigned multiple times using the same value.</value>
+    </data>
+    <data name="ReviewDoubleAssignment_Message" xml:space="preserve">
+        <value>Variable '{0}' is assigned twice with the same value</value>
+    </data>
+    <data name="ReviewDoubleAssignment_Title" xml:space="preserve">
+        <value>Review double assignment</value>
+    </data>
+    <data name="ReviewInconsistentIdentity_Description" xml:space="preserve">
+        <value>This rule checks to see if a type manages its identity in a consistent way.</value>
+    </data>
+    <data name="ReviewInconsistentIdentity_Message" xml:space="preserve">
+        <value>Identity management for '{0}' is inconsistent</value>
+    </data>
+    <data name="ReviewInconsistentIdentity_Title" xml:space="preserve">
+        <value>Review inconsistent identity management</value>
+    </data>
+    <data name="ReviewSelfAssignment_Description" xml:space="preserve">
+        <value>This rule checks for variables or fields that are assigned to themselves.</value>
+    </data>
+    <data name="ReviewSelfAssignment_Message" xml:space="preserve">
+        <value>Variable '{0}' is assigned to itself</value>
+    </data>
+    <data name="ReviewSelfAssignment_Title" xml:space="preserve">
+        <value>Review self-assignment</value>
+    </data>
+    <data name="ReviewUselessControlFlow_Description" xml:space="preserve">
+        <value>This rule checks for empty blocks that produce useless control flow inside IL.</value>
+    </data>
+    <data name="ReviewUselessControlFlow_Message" xml:space="preserve">
+        <value>Useless control flow detected</value>
+    </data>
+    <data name="ReviewUselessControlFlow_Title" xml:space="preserve">
+        <value>Review useless control flow</value>
+    </data>
+    <data name="ReviewUseOfInt64BitsToDouble_Description" xml:space="preserve">
+        <value>This rule checks for invalid integer to double conversion using BitConverter.Int64BitsToDouble method.</value>
+    </data>
+    <data name="ReviewUseOfInt64BitsToDouble_Message" xml:space="preserve">
+        <value>Invalid use of BitConverter.Int64BitsToDouble</value>
+    </data>
+    <data name="ReviewUseOfInt64BitsToDouble_Title" xml:space="preserve">
+        <value>Review use of Int64BitsToDouble</value>
+    </data>
+    <data name="ReviewUseOfModuloOneOnIntegers_Description" xml:space="preserve">
+        <value>This rule checks for a modulo one operation on an integral type.</value>
+    </data>
+    <data name="ReviewUseOfModuloOneOnIntegers_Message" xml:space="preserve">
+        <value>Modulo one operation on an integer is likely a typo</value>
+    </data>
+    <data name="ReviewUseOfModuloOneOnIntegers_Title" xml:space="preserve">
+        <value>Review use of modulo one on integers</value>
+    </data>
+    <data name="UseValueInPropertySetter_Description" xml:space="preserve">
+        <value>Use value in property setter</value>
+    </data>
+    <data name="UseValueInPropertySetter_Message" xml:space="preserve">
+        <value>Property setter does not use 'value'</value>
+    </data>
+    <data name="UseValueInPropertySetter_Title" xml:space="preserve">
+        <value>This rule ensures all setter properties uses the value argument passed to the property.</value>
+    </data>
 </root>

@@ -96,6 +96,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks attributes with certain types (Version, Guid, Uri) and validates the string value..
+        /// </summary>
+        internal static string AttributeStringLiteralsShouldParseCorrectly_Description {
+            get {
+                return ResourceManager.GetString("AttributeStringLiteralsShouldParseCorrectly_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String literal in attribute does not parse correctly: &apos;{0}&apos;.
+        /// </summary>
+        internal static string AttributeStringLiteralsShouldParseCorrectly_Message {
+            get {
+                return ResourceManager.GetString("AttributeStringLiteralsShouldParseCorrectly_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute string literals should parse correctly.
+        /// </summary>
+        internal static string AttributeStringLiteralsShouldParseCorrectly_Title {
+            get {
+                return ResourceManager.GetString("AttributeStringLiteralsShouldParseCorrectly_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avoid using methods that are known to be problematic due to potential issues such as performance problems or incorrect behavior..
         /// </summary>
         internal static string AvoidCallingProblematicMethods_Description {
@@ -123,6 +150,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks for types that contain only static members and fires if the type contains a visible instance constructor..
+        /// </summary>
+        internal static string AvoidConstructorsInStaticTypes_Description {
+            get {
+                return ResourceManager.GetString("AvoidConstructorsInStaticTypes_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static type &apos;{0}&apos; contains a constructor.
+        /// </summary>
+        internal static string AvoidConstructorsInStaticTypes_Message {
+            get {
+                return ResourceManager.GetString("AvoidConstructorsInStaticTypes_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid constructors in static types.
+        /// </summary>
+        internal static string AvoidConstructorsInStaticTypes_Title {
+            get {
+                return ResourceManager.GetString("AvoidConstructorsInStaticTypes_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In general floating point numbers cannot be usefully compared using the equality and inequality operators..
+        /// </summary>
+        internal static string AvoidFloatingPointEquality_Description {
+            get {
+                return ResourceManager.GetString("AvoidFloatingPointEquality_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floating point comparison with equality operator may cause unexpected results.
+        /// </summary>
+        internal static string AvoidFloatingPointEquality_Message {
+            get {
+                return ResourceManager.GetString("AvoidFloatingPointEquality_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid floating point equality comparison.
+        /// </summary>
+        internal static string AvoidFloatingPointEquality_Title {
+            get {
+                return ResourceManager.GetString("AvoidFloatingPointEquality_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avoid constant fields which are visible outside the current assembly. Use &apos;static readonly&apos; instead..
         /// </summary>
         internal static string AvoidVisibleConstantField_Description {
@@ -146,6 +227,60 @@ namespace Gendarme.Analyzers {
         internal static string AvoidVisibleConstantField_Title {
             get {
                 return ResourceManager.GetString("AvoidVisibleConstantField_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for methods that may be infinitely recursive..
+        /// </summary>
+        internal static string BadRecursiveInvocation_Description {
+            get {
+                return ResourceManager.GetString("BadRecursiveInvocation_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; recursively calls itself.
+        /// </summary>
+        internal static string BadRecursiveInvocation_Message {
+            get {
+                return ResourceManager.GetString("BadRecursiveInvocation_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid bad recursive invocation.
+        /// </summary>
+        internal static string BadRecursiveInvocation_Title {
+            get {
+                return ResourceManager.GetString("BadRecursiveInvocation_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for methods that call Equals with a null actual parameter..
+        /// </summary>
+        internal static string CallingEqualsWithNullArg_Description {
+            get {
+                return ResourceManager.GetString("CallingEqualsWithNullArg_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; calls Equals with a null argument.
+        /// </summary>
+        internal static string CallingEqualsWithNullArg_Message {
+            get {
+                return ResourceManager.GetString("CallingEqualsWithNullArg_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid calling Equals with null argument.
+        /// </summary>
+        internal static string CallingEqualsWithNullArg_Title {
+            get {
+                return ResourceManager.GetString("CallingEqualsWithNullArg_Title", resourceCulture);
             }
         }
         
@@ -200,6 +335,33 @@ namespace Gendarme.Analyzers {
         internal static string CheckNewThreadWithoutStart_Title {
             get {
                 return ResourceManager.GetString("CheckNewThreadWithoutStart_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks if all nullable parameters of visible methods are compared with null before they get used..
+        /// </summary>
+        internal static string CheckParametersNullityInVisibleMethods_Description {
+            get {
+                return ResourceManager.GetString("CheckParametersNullityInVisibleMethods_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; is not checked for null.
+        /// </summary>
+        internal static string CheckParametersNullityInVisibleMethods_Message {
+            get {
+                return ResourceManager.GetString("CheckParametersNullityInVisibleMethods_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check nullable parameters for null before use.
+        /// </summary>
+        internal static string CheckParametersNullityInVisibleMethods_Title {
+            get {
+                return ResourceManager.GetString("CheckParametersNullityInVisibleMethods_Title", resourceCulture);
             }
         }
         
@@ -285,6 +447,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The rule inspects all fields for disposable types and checks that the type’s Dispose method calls Dispose on all disposable fields..
+        /// </summary>
+        internal static string DisposableFieldsShouldBeDisposed_Description {
+            get {
+                return ResourceManager.GetString("DisposableFieldsShouldBeDisposed_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is not disposed.
+        /// </summary>
+        internal static string DisposableFieldsShouldBeDisposed_Message {
+            get {
+                return ResourceManager.GetString("DisposableFieldsShouldBeDisposed_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disposable fields should be disposed.
+        /// </summary>
+        internal static string DisposableFieldsShouldBeDisposed_Title {
+            get {
+                return ResourceManager.GetString("DisposableFieldsShouldBeDisposed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As defined in IEEE 754 it’s impossible to compare any floating-point value, even another NaN, with NaN..
+        /// </summary>
+        internal static string DoNotCompareWithNaN_Description {
+            get {
+                return ResourceManager.GetString("DoNotCompareWithNaN_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comparison with NaN always returns false.
+        /// </summary>
+        internal static string DoNotCompareWithNaN_Message {
+            get {
+                return ResourceManager.GetString("DoNotCompareWithNaN_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not compare with NaN.
+        /// </summary>
+        internal static string DoNotCompareWithNaN_Title {
+            get {
+                return ResourceManager.GetString("DoNotCompareWithNaN_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Methods throwing NotImplementedException should be implemented before release..
         /// </summary>
         internal static string DoNotForgetNotImplementedMethods_Description {
@@ -362,6 +578,60 @@ namespace Gendarme.Analyzers {
         internal static string DoNotLockOnWeakIdentityObjectsAnalyzer_Title {
             get {
                 return ResourceManager.GetString("DoNotLockOnWeakIdentityObjectsAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An equality operator (==) orinequality operator (!=) method is calling itself recursively..
+        /// </summary>
+        internal static string DoNotRecurseInEquality_Description {
+            get {
+                return ResourceManager.GetString("DoNotRecurseInEquality_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equality operator calls itself recursively.
+        /// </summary>
+        internal static string DoNotRecurseInEquality_Message {
+            get {
+                return ResourceManager.GetString("DoNotRecurseInEquality_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not recurse in equality operator.
+        /// </summary>
+        internal static string DoNotRecurseInEquality_Title {
+            get {
+                return ResourceManager.GetString("DoNotRecurseInEquality_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for attempts to call Round, Ceiling, Floor or Truncate on an integral type..
+        /// </summary>
+        internal static string DoNotRoundIntegers_Description {
+            get {
+                return ResourceManager.GetString("DoNotRoundIntegers_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rounding operation on an integer is redundant.
+        /// </summary>
+        internal static string DoNotRoundIntegers_Message {
+            get {
+                return ResourceManager.GetString("DoNotRoundIntegers_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not round integers.
+        /// </summary>
+        internal static string DoNotRoundIntegers_Title {
+            get {
+                return ResourceManager.GetString("DoNotRoundIntegers_Title", resourceCulture);
             }
         }
         
@@ -501,6 +771,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks that disposable locals are always disposed of before the method returns..
+        /// </summary>
+        internal static string EnsureLocalDisposal_Description {
+            get {
+                return ResourceManager.GetString("EnsureLocalDisposal_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local disposable object &apos;{0}&apos; is not disposed.
+        /// </summary>
+        internal static string EnsureLocalDisposal_Message {
+            get {
+                return ResourceManager.GetString("EnsureLocalDisposal_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ensure local disposal.
+        /// </summary>
+        internal static string EnsureLocalDisposal_Title {
+            get {
+                return ResourceManager.GetString("EnsureLocalDisposal_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equals(object) methods should return false when the object parameter is null..
         /// </summary>
         internal static string EqualsShouldHandleNullArg_Description {
@@ -528,6 +825,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks that a finalizer calls the base class finalizer..
+        /// </summary>
+        internal static string FinalizersShouldCallBaseClassFinalizer_Description {
+            get {
+                return ResourceManager.GetString("FinalizersShouldCallBaseClassFinalizer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finalizer does not call the base class finalizer.
+        /// </summary>
+        internal static string FinalizersShouldCallBaseClassFinalizer_Message {
+            get {
+                return ResourceManager.GetString("FinalizersShouldCallBaseClassFinalizer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finalizers should call base class finalizer.
+        /// </summary>
+        internal static string FinalizersShouldCallBaseClassFinalizer_Title {
+            get {
+                return ResourceManager.GetString("FinalizersShouldCallBaseClassFinalizer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Calls to Assembly.GetEntryAssembly() may return null in libraries or DLLs. Ensure proper null handling..
         /// </summary>
         internal static string GetEntryAssemblyMayReturnNull_Description {
@@ -551,6 +875,33 @@ namespace Gendarme.Analyzers {
         internal static string GetEntryAssemblyMayReturnNull_Title {
             get {
                 return ResourceManager.GetString("GetEntryAssemblyMayReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for methods that do not require anything from the current instance and can be converted into static methods..
+        /// </summary>
+        internal static string MethodCanBeMadeStatic_Description {
+            get {
+                return ResourceManager.GetString("MethodCanBeMadeStatic_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; can be made static.
+        /// </summary>
+        internal static string MethodCanBeMadeStatic_Message {
+            get {
+                return ResourceManager.GetString("MethodCanBeMadeStatic_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method can be made static.
+        /// </summary>
+        internal static string MethodCanBeMadeStatic_Title {
+            get {
+                return ResourceManager.GetString("MethodCanBeMadeStatic_Title", resourceCulture);
             }
         }
         
@@ -717,6 +1068,114 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks that the format string used with String.Format matches the other parameters used with the method..
+        /// </summary>
+        internal static string ProvideCorrectArgumentsToFormattingMethods_Description {
+            get {
+                return ResourceManager.GetString("ProvideCorrectArgumentsToFormattingMethods_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The format string in &apos;{0}&apos; does not match the arguments provided.
+        /// </summary>
+        internal static string ProvideCorrectArgumentsToFormattingMethods_Message {
+            get {
+                return ResourceManager.GetString("ProvideCorrectArgumentsToFormattingMethods_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide correct arguments to formatting methods.
+        /// </summary>
+        internal static string ProvideCorrectArgumentsToFormattingMethods_Title {
+            get {
+                return ResourceManager.GetString("ProvideCorrectArgumentsToFormattingMethods_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule verifies that valid regular expression strings are used as arguments..
+        /// </summary>
+        internal static string ProvideCorrectRegexPattern_Description {
+            get {
+                return ResourceManager.GetString("ProvideCorrectRegexPattern_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid regex pattern in &apos;{0}&apos;.
+        /// </summary>
+        internal static string ProvideCorrectRegexPattern_Message {
+            get {
+                return ResourceManager.GetString("ProvideCorrectRegexPattern_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide correct regex pattern.
+        /// </summary>
+        internal static string ProvideCorrectRegexPattern_Title {
+            get {
+                return ResourceManager.GetString("ProvideCorrectRegexPattern_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule verifies that valid XML string arguments are passed as arguments..
+        /// </summary>
+        internal static string ProvideValidXmlString_Description {
+            get {
+                return ResourceManager.GetString("ProvideValidXmlString_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid XML string in &apos;{0}&apos;.
+        /// </summary>
+        internal static string ProvideValidXmlString_Message {
+            get {
+                return ResourceManager.GetString("ProvideValidXmlString_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide valid XML string.
+        /// </summary>
+        internal static string ProvideValidXmlString_Title {
+            get {
+                return ResourceManager.GetString("ProvideValidXmlString_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule verifies that valid XPath expression strings are passed as arguments..
+        /// </summary>
+        internal static string ProvideValidXPathExpression_Description {
+            get {
+                return ResourceManager.GetString("ProvideValidXPathExpression_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid XPath expression in &apos;{0}&apos;.
+        /// </summary>
+        internal static string ProvideValidXPathExpression_Message {
+            get {
+                return ResourceManager.GetString("ProvideValidXPathExpression_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide valid XPath expression.
+        /// </summary>
+        internal static string ProvideValidXPathExpression_Title {
+            get {
+                return ResourceManager.GetString("ProvideValidXPathExpression_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using &apos;(x % 2) == 1&apos; to check for odd numbers will fail for negative numbers. Use &apos;(x % 2 != 0)&apos; or &apos;(x &amp; 1 == 1)&apos; instead..
         /// </summary>
         internal static string ReplaceIncompleteOddnessCheck_Description {
@@ -740,6 +1199,114 @@ namespace Gendarme.Analyzers {
         internal static string ReplaceIncompleteOddnessCheck_Title {
             get {
                 return ResourceManager.GetString("ReplaceIncompleteOddnessCheck_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for integral divisions where the result is cast to a floating point type..
+        /// </summary>
+        internal static string ReviewCastOnIntegerDivision_Description {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerDivision_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cast on integer division may cause truncation.
+        /// </summary>
+        internal static string ReviewCastOnIntegerDivision_Message {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerDivision_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review cast on integer division.
+        /// </summary>
+        internal static string ReviewCastOnIntegerDivision_Title {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerDivision_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for integral multiply operations where the result is cast to a larger integral type..
+        /// </summary>
+        internal static string ReviewCastOnIntegerMultiplication_Description {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerMultiplication_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cast on integer multiplication may cause overflow.
+        /// </summary>
+        internal static string ReviewCastOnIntegerMultiplication_Message {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerMultiplication_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review cast on integer multiplication.
+        /// </summary>
+        internal static string ReviewCastOnIntegerMultiplication_Title {
+            get {
+                return ResourceManager.GetString("ReviewCastOnIntegerMultiplication_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for variables or fields that are assigned multiple times using the same value..
+        /// </summary>
+        internal static string ReviewDoubleAssignment_Description {
+            get {
+                return ResourceManager.GetString("ReviewDoubleAssignment_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variable &apos;{0}&apos; is assigned twice with the same value.
+        /// </summary>
+        internal static string ReviewDoubleAssignment_Message {
+            get {
+                return ResourceManager.GetString("ReviewDoubleAssignment_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review double assignment.
+        /// </summary>
+        internal static string ReviewDoubleAssignment_Title {
+            get {
+                return ResourceManager.GetString("ReviewDoubleAssignment_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks to see if a type manages its identity in a consistent way..
+        /// </summary>
+        internal static string ReviewInconsistentIdentity_Description {
+            get {
+                return ResourceManager.GetString("ReviewInconsistentIdentity_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identity management for &apos;{0}&apos; is inconsistent.
+        /// </summary>
+        internal static string ReviewInconsistentIdentity_Message {
+            get {
+                return ResourceManager.GetString("ReviewInconsistentIdentity_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review inconsistent identity management.
+        /// </summary>
+        internal static string ReviewInconsistentIdentity_Title {
+            get {
+                return ResourceManager.GetString("ReviewInconsistentIdentity_Title", resourceCulture);
             }
         }
         
@@ -771,6 +1338,114 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks for variables or fields that are assigned to themselves..
+        /// </summary>
+        internal static string ReviewSelfAssignment_Description {
+            get {
+                return ResourceManager.GetString("ReviewSelfAssignment_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variable &apos;{0}&apos; is assigned to itself.
+        /// </summary>
+        internal static string ReviewSelfAssignment_Message {
+            get {
+                return ResourceManager.GetString("ReviewSelfAssignment_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review self-assignment.
+        /// </summary>
+        internal static string ReviewSelfAssignment_Title {
+            get {
+                return ResourceManager.GetString("ReviewSelfAssignment_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for empty blocks that produce useless control flow inside IL..
+        /// </summary>
+        internal static string ReviewUselessControlFlow_Description {
+            get {
+                return ResourceManager.GetString("ReviewUselessControlFlow_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Useless control flow detected.
+        /// </summary>
+        internal static string ReviewUselessControlFlow_Message {
+            get {
+                return ResourceManager.GetString("ReviewUselessControlFlow_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review useless control flow.
+        /// </summary>
+        internal static string ReviewUselessControlFlow_Title {
+            get {
+                return ResourceManager.GetString("ReviewUselessControlFlow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for invalid integer to double conversion using BitConverter.Int64BitsToDouble method..
+        /// </summary>
+        internal static string ReviewUseOfInt64BitsToDouble_Description {
+            get {
+                return ResourceManager.GetString("ReviewUseOfInt64BitsToDouble_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid use of BitConverter.Int64BitsToDouble.
+        /// </summary>
+        internal static string ReviewUseOfInt64BitsToDouble_Message {
+            get {
+                return ResourceManager.GetString("ReviewUseOfInt64BitsToDouble_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review use of Int64BitsToDouble.
+        /// </summary>
+        internal static string ReviewUseOfInt64BitsToDouble_Title {
+            get {
+                return ResourceManager.GetString("ReviewUseOfInt64BitsToDouble_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for a modulo one operation on an integral type..
+        /// </summary>
+        internal static string ReviewUseOfModuloOneOnIntegers_Description {
+            get {
+                return ResourceManager.GetString("ReviewUseOfModuloOneOnIntegers_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modulo one operation on an integer is likely a typo.
+        /// </summary>
+        internal static string ReviewUseOfModuloOneOnIntegers_Message {
+            get {
+                return ResourceManager.GetString("ReviewUseOfModuloOneOnIntegers_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review use of modulo one on integers.
+        /// </summary>
+        internal static string ReviewUseOfModuloOneOnIntegers_Title {
+            get {
+                return ResourceManager.GetString("ReviewUseOfModuloOneOnIntegers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Overridden ToString() methods should not return null. An appropriately descriptive string, or string.Empty, should be returned instead to make the value more useful..
         /// </summary>
         internal static string ToStringShouldNotReturnNull_Description {
@@ -794,6 +1469,33 @@ namespace Gendarme.Analyzers {
         internal static string ToStringShouldNotReturnNull_Title {
             get {
                 return ResourceManager.GetString("ToStringShouldNotReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use value in property setter.
+        /// </summary>
+        internal static string UseValueInPropertySetter_Description {
+            get {
+                return ResourceManager.GetString("UseValueInPropertySetter_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property setter does not use &apos;value&apos;.
+        /// </summary>
+        internal static string UseValueInPropertySetter_Message {
+            get {
+                return ResourceManager.GetString("UseValueInPropertySetter_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule ensures all setter properties uses the value argument passed to the property..
+        /// </summary>
+        internal static string UseValueInPropertySetter_Title {
+            get {
+                return ResourceManager.GetString("UseValueInPropertySetter_Title", resourceCulture);
             }
         }
         

@@ -40,4 +40,36 @@ public static class DiagnosticId
     public const string WriteStaticFieldFromInstanceMethod = "GEN010A";
 
     #endregion
+    
+    #region Correctness
+
+    public const string AttributeStringLiteralsShouldParseCorrectly = "GEN0201";
+    public const string AvoidConstructorsInStaticTypes = "GEN0202";
+    public const string AvoidFloatingPointEquality = "GEN0203";
+    public const string BadRecursiveInvocation = "GEN0204";
+    public const string CallingEqualsWithNullArg = "GEN0205";
+    public const string CheckParametersNullityInVisibleMethods = "GEN0206";
+    public const string DisposableFieldsShouldBeDisposed = "GEN0207";
+    public const string DoNotCompareWithNaN = "GEN0208";
+    public const string DoNotRecurseInEquality = "GEN0209";
+    public const string DoNotRoundIntegers = "GEN020A";
+    public const string EnsureLocalDisposal = "GEN020B";
+    public const string FinalizersShouldCallBaseClassFinalizer = "GEN020C";
+    public const string MethodCanBeMadeStatic = "GEN020D";
+    public const string ProvideCorrectArgumentsToFormattingMethods = "GEN020E";
+    public const string ProvideCorrectRegexPattern = "GEN020F";
+    public const string ProvideValidXmlString = "GEN0210";
+    public const string ProvideValidXPathExpression = "GEN0211";
+    public const string ReviewCastOnIntegerDivision = "GEN0212";
+    public const string ReviewCastOnIntegerMultiplication = "GEN0213";
+    public const string ReviewDoubleAssignment = "GEN0214";
+    public const string ReviewInconsistentIdentity = "GEN0215";
+    public const string ReviewSelfAssignment = "GEN0216";
+    public const string ReviewUselessControlFlow = "GEN0217";
+    public const string ReviewUseOfInt64BitsToDouble = "GEN0218";
+    public const string ReviewUseOfModuloOneOnIntegers = "GEN0219";
+    public const string UseValueInPropertySetter = "GEN021A";
+
+    #endregion
+
 }
