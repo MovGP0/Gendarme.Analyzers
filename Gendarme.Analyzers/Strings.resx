@@ -507,4 +507,13 @@
     <data name="UseValueInPropertySetter_Title" xml:space="preserve">
         <value>This rule ensures all setter properties uses the value argument passed to the property.</value>
     </data>
+    <data name="AvoidExtensionMethodOnSystemObject_Title" xml:space="preserve">
+        <value>Avoid extension method on System.Object</value>
+    </data>
+    <data name="AvoidExtensionMethodOnSystemObject_Message" xml:space="preserve">
+        <value>Extension method '{0}' should not be defined on System.Object</value>
+    </data>
+    <data name="AvoidExtensionMethodOnSystemObject_Description" xml:space="preserve">
+        <value>Extension methods should not be used to extend System.Object. Such extension methods cannot be consumed by some languages, like VB.NET, which use late-binding on System.Object instances.</value>
+    </data>
 </root>

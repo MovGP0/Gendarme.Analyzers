@@ -177,6 +177,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extension methods should not be used to extend System.Object. Such extension methods cannot be consumed by some languages, like VB.NET, which use late-binding on System.Object instances..
+        /// </summary>
+        internal static string AvoidExtensionMethodOnSystemObject_Description {
+            get {
+                return ResourceManager.GetString("AvoidExtensionMethodOnSystemObject_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension method &apos;{0}&apos; should not be defined on System.Object.
+        /// </summary>
+        internal static string AvoidExtensionMethodOnSystemObject_Message {
+            get {
+                return ResourceManager.GetString("AvoidExtensionMethodOnSystemObject_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid extension method on System.Object.
+        /// </summary>
+        internal static string AvoidExtensionMethodOnSystemObject_Title {
+            get {
+                return ResourceManager.GetString("AvoidExtensionMethodOnSystemObject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In general floating point numbers cannot be usefully compared using the equality and inequality operators..
         /// </summary>
         internal static string AvoidFloatingPointEquality_Description {
