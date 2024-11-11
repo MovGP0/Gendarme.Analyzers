@@ -1170,5 +1170,113 @@
     <data name="UseCorrectSignatureForSerializationMethodsDescription" xml:space="preserve">
   <value>Methods decorated with serialization attributes should be private, return void, and have a single parameter of type StreamingContext.</value>
 </data>
+    <data name="ArrayFieldsShouldNotBeReadOnlyTitle" xml:space="preserve">
+  <value>Array fields should not be public and readonly</value>
+</data>
+    <data name="ArrayFieldsShouldNotBeReadOnlyMessage" xml:space="preserve">
+  <value>Public readonly array field '{0}' can be modified externally</value>
+</data>
+    <data name="ArrayFieldsShouldNotBeReadOnlyDescription" xml:space="preserve">
+  <value>Marking a public array field as readonly only prevents the field from being assigned a different array instance. The array elements can still be modified. This can lead to unexpected behavior and security issues.</value>
+</data>
+
+    <data name="DoNotShortCircuitCertificateCheckTitle" xml:space="preserve">
+  <value>Do not short-circuit certificate checks</value>
+</data>
+    <data name="DoNotShortCircuitCertificateCheckMessage" xml:space="preserve">
+  <value>Certificate validation callback '{0}' should not unconditionally accept certificates</value>
+</data>
+    <data name="DoNotShortCircuitCertificateCheckDescription" xml:space="preserve">
+  <value>Overriding certificate validation to accept all certificates disables critical security checks, making the application vulnerable to man-in-the-middle attacks.</value>
+</data>
+
+    <data name="NativeFieldsShouldNotBeVisibleTitle" xml:space="preserve">
+  <value>Native fields should not be publicly visible</value>
+</data>
+    <data name="NativeFieldsShouldNotBeVisibleMessage" xml:space="preserve">
+  <value>Field '{0}' is a publicly visible native field of type '{1}'</value>
+</data>
+    <data name="NativeFieldsShouldNotBeVisibleDescription" xml:space="preserve">
+  <value>Exposing native fields publicly can lead to security and stability issues, as external code can modify or misuse these fields.</value>
+</data>
+
+    <data name="StaticConstructorsShouldBePrivateTitle" xml:space="preserve">
+  <value>Static constructors should be private</value>
+</data>
+    <data name="StaticConstructorsShouldBePrivateMessage" xml:space="preserve">
+  <value>Static constructor for type '{0}' is not private</value>
+</data>
+    <data name="StaticConstructorsShouldBePrivateDescription" xml:space="preserve">
+  <value>Static constructors should be private to prevent external code from invoking them, which could lead to security vulnerabilities or unexpected behavior.</value>
+</data>
+    <data name="AddMissingTypeInheritanceDemandTitle" xml:space="preserve">
+  <value>Add missing InheritanceDemand for unsealed types with LinkDemand</value>
+</data>
+    <data name="AddMissingTypeInheritanceDemandMessage" xml:space="preserve">
+  <value>Type '{0}' is not sealed and has a LinkDemand but lacks an InheritanceDemand</value>
+</data>
+    <data name="AddMissingTypeInheritanceDemandDescription" xml:space="preserve">
+  <value>Types that are not sealed and have a LinkDemand should also have an InheritanceDemand for the same permissions to prevent security issues arising from subclassing.</value>
+</data>
+
+    <data name="DoNotExposeFieldsInSecuredTypeTitle" xml:space="preserve">
+  <value>Do not expose fields in secured types</value>
+</data>
+    <data name="DoNotExposeFieldsInSecuredTypeMessage" xml:space="preserve">
+  <value>Type '{0}' has security demands but exposes public fields: {1}</value>
+</data>
+    <data name="DoNotExposeFieldsInSecuredTypeDescription" xml:space="preserve">
+  <value>Types secured by demands should not expose public fields, as access to these fields is not covered by the declarative demands, potentially leading to security vulnerabilities.</value>
+</data>
+
+    <data name="DoNotExposeMethodsProtectedByLinkDemandTitle" xml:space="preserve">
+  <value>Do not expose methods that bypass security by calling methods with stricter demands</value>
+</data>
+    <data name="DoNotExposeMethodsProtectedByLinkDemandMessage" xml:space="preserve">
+  <value>Method '{0}' exposes a method protected by a LinkDemand with stricter permissions</value>
+</data>
+    <data name="DoNotExposeMethodsProtectedByLinkDemandDescription" xml:space="preserve">
+  <value>Visible methods should not be less protected than the methods they call if the called methods are protected by a LinkDemand. This could allow bypassing security checks.</value>
+</data>
+
+    <data name="DoNotReduceTypeSecurityOnMethodsTitle" xml:space="preserve">
+  <value>Do not reduce type security on methods</value>
+</data>
+    <data name="DoNotReduceTypeSecurityOnMethodsMessage" xml:space="preserve">
+  <value>Method '{0}' has security demands that are not a subset of the type's demands</value>
+</data>
+    <data name="DoNotReduceTypeSecurityOnMethodsDescription" xml:space="preserve">
+  <value>Methods in a secured type should not have security permissions that are not a subset of the type's permissions, as this can create security vulnerabilities.</value>
+</data>
+
+    <data name="ReviewSealedTypeWithInheritanceDemandTitle" xml:space="preserve">
+  <value>Review sealed type with InheritanceDemand</value>
+</data>
+    <data name="ReviewSealedTypeWithInheritanceDemandMessage" xml:space="preserve">
+  <value>Sealed type '{0}' has an InheritanceDemand which will never be enforced</value>
+</data>
+    <data name="ReviewSealedTypeWithInheritanceDemandDescription" xml:space="preserve">
+  <value>Sealed types cannot be inherited from, so any InheritanceDemand on them will never be executed. Check if the permission is required and adjust accordingly.</value>
+</data>
+
+    <data name="ReviewSuppressUnmanagedCodeSecurityUsageTitle" xml:space="preserve">
+  <value>Review usage of [SuppressUnmanagedCodeSecurity]</value>
+</data>
+    <data name="ReviewSuppressUnmanagedCodeSecurityUsageMessage" xml:space="preserve">
+  <value>Type or method '{0}' is decorated with [SuppressUnmanagedCodeSecurity]</value>
+</data>
+    <data name="ReviewSuppressUnmanagedCodeSecurityUsageDescription" xml:space="preserve">
+  <value>The [SuppressUnmanagedCodeSecurity] attribute reduces security checks when executing unmanaged code. Its usage should be reviewed to ensure no security holes are introduced.</value>
+</data>
+
+    <data name="SecureGetObjectDataOverridesTitle" xml:space="preserve">
+  <value>Secure GetObjectData overrides</value>
+</data>
+    <data name="SecureGetObjectDataOverridesMessage" xml:space="preserve">
+  <value>GetObjectData method in type '{0}' is not protected with a security demand</value>
+</data>
+    <data name="SecureGetObjectDataOverridesDescription" xml:space="preserve">
+  <value>Types implementing ISerializable should protect their GetObjectData method with a demand or link demand for SerializationFormatter permission to prevent unauthorized access.</value>
+</data>
 
 </root>

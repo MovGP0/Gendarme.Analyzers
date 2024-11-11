@@ -32,7 +32,6 @@
     <Folder Include="Maintainability\" />
     <Folder Include="Performance\" />
     <Folder Include="Portability\" />
-    <Folder Include="Security\Cas\" />
     <Folder Include="Serialization\" />
     <Folder Include="Smells\" />
   </ItemGroup>

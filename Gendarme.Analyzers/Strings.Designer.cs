@@ -87,6 +87,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Types that are not sealed and have a LinkDemand should also have an InheritanceDemand for the same permissions to prevent security issues arising from subclassing..
+        /// </summary>
+        internal static string AddMissingTypeInheritanceDemandDescription {
+            get {
+                return ResourceManager.GetString("AddMissingTypeInheritanceDemandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not sealed and has a LinkDemand but lacks an InheritanceDemand.
+        /// </summary>
+        internal static string AddMissingTypeInheritanceDemandMessage {
+            get {
+                return ResourceManager.GetString("AddMissingTypeInheritanceDemandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add missing InheritanceDemand for unsealed types with LinkDemand.
+        /// </summary>
+        internal static string AddMissingTypeInheritanceDemandTitle {
+            get {
+                return ResourceManager.GetString("AddMissingTypeInheritanceDemandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marking a public array field as readonly only prevents the field from being assigned a different array instance. The array elements can still be modified. This can lead to unexpected behavior and security issues..
+        /// </summary>
+        internal static string ArrayFieldsShouldNotBeReadOnlyDescription {
+            get {
+                return ResourceManager.GetString("ArrayFieldsShouldNotBeReadOnlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public readonly array field &apos;{0}&apos; can be modified externally.
+        /// </summary>
+        internal static string ArrayFieldsShouldNotBeReadOnlyMessage {
+            get {
+                return ResourceManager.GetString("ArrayFieldsShouldNotBeReadOnlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Array fields should not be public and readonly.
+        /// </summary>
+        internal static string ArrayFieldsShouldNotBeReadOnlyTitle {
+            get {
+                return ResourceManager.GetString("ArrayFieldsShouldNotBeReadOnlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All assembly version attributes should be consistent..
         /// </summary>
         internal static string AssemblyVersionMismatch_Description {
@@ -1311,6 +1365,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Types secured by demands should not expose public fields, as access to these fields is not covered by the declarative demands, potentially leading to security vulnerabilities..
+        /// </summary>
+        internal static string DoNotExposeFieldsInSecuredTypeDescription {
+            get {
+                return ResourceManager.GetString("DoNotExposeFieldsInSecuredTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has security demands but exposes public fields: {1}.
+        /// </summary>
+        internal static string DoNotExposeFieldsInSecuredTypeMessage {
+            get {
+                return ResourceManager.GetString("DoNotExposeFieldsInSecuredTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not expose fields in secured types.
+        /// </summary>
+        internal static string DoNotExposeFieldsInSecuredTypeTitle {
+            get {
+                return ResourceManager.GetString("DoNotExposeFieldsInSecuredTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visible methods should not be less protected than the methods they call if the called methods are protected by a LinkDemand. This could allow bypassing security checks..
+        /// </summary>
+        internal static string DoNotExposeMethodsProtectedByLinkDemandDescription {
+            get {
+                return ResourceManager.GetString("DoNotExposeMethodsProtectedByLinkDemandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; exposes a method protected by a LinkDemand with stricter permissions.
+        /// </summary>
+        internal static string DoNotExposeMethodsProtectedByLinkDemandMessage {
+            get {
+                return ResourceManager.GetString("DoNotExposeMethodsProtectedByLinkDemandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not expose methods that bypass security by calling methods with stricter demands.
+        /// </summary>
+        internal static string DoNotExposeMethodsProtectedByLinkDemandTitle {
+            get {
+                return ResourceManager.GetString("DoNotExposeMethodsProtectedByLinkDemandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nested generic signatures should be avoided for publicly exposed methods, as they can be difficult to construct and understand..
         /// </summary>
         internal static string DoNotExposeNestedGenericSignatures_Description {
@@ -1527,6 +1635,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Methods in a secured type should not have security permissions that are not a subset of the type&apos;s permissions, as this can create security vulnerabilities..
+        /// </summary>
+        internal static string DoNotReduceTypeSecurityOnMethodsDescription {
+            get {
+                return ResourceManager.GetString("DoNotReduceTypeSecurityOnMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; has security demands that are not a subset of the type&apos;s demands.
+        /// </summary>
+        internal static string DoNotReduceTypeSecurityOnMethodsMessage {
+            get {
+                return ResourceManager.GetString("DoNotReduceTypeSecurityOnMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not reduce type security on methods.
+        /// </summary>
+        internal static string DoNotReduceTypeSecurityOnMethodsTitle {
+            get {
+                return ResourceManager.GetString("DoNotReduceTypeSecurityOnMethodsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for attempts to call Round, Ceiling, Floor or Truncate on an integral type..
         /// </summary>
         internal static string DoNotRoundIntegers_Description {
@@ -1550,6 +1685,33 @@ namespace Gendarme.Analyzers {
         internal static string DoNotRoundIntegers_Title {
             get {
                 return ResourceManager.GetString("DoNotRoundIntegers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Overriding certificate validation to accept all certificates disables critical security checks, making the application vulnerable to man-in-the-middle attacks..
+        /// </summary>
+        internal static string DoNotShortCircuitCertificateCheckDescription {
+            get {
+                return ResourceManager.GetString("DoNotShortCircuitCertificateCheckDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate validation callback &apos;{0}&apos; should not unconditionally accept certificates.
+        /// </summary>
+        internal static string DoNotShortCircuitCertificateCheckMessage {
+            get {
+                return ResourceManager.GetString("DoNotShortCircuitCertificateCheckMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not short-circuit certificate checks.
+        /// </summary>
+        internal static string DoNotShortCircuitCertificateCheckTitle {
+            get {
+                return ResourceManager.GetString("DoNotShortCircuitCertificateCheckTitle", resourceCulture);
             }
         }
         
@@ -2364,6 +2526,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposing native fields publicly can lead to security and stability issues, as external code can modify or misuse these fields..
+        /// </summary>
+        internal static string NativeFieldsShouldNotBeVisibleDescription {
+            get {
+                return ResourceManager.GetString("NativeFieldsShouldNotBeVisibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is a publicly visible native field of type &apos;{1}&apos;.
+        /// </summary>
+        internal static string NativeFieldsShouldNotBeVisibleMessage {
+            get {
+                return ResourceManager.GetString("NativeFieldsShouldNotBeVisibleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Native fields should not be publicly visible.
+        /// </summary>
+        internal static string NativeFieldsShouldNotBeVisibleTitle {
+            get {
+                return ResourceManager.GetString("NativeFieldsShouldNotBeVisibleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using literal &apos;\n&apos; or &apos;\r&apos; for new lines is not portable across operating systems. Use Environment.NewLine instead..
         /// </summary>
         internal static string NewLineLiteralDescription {
@@ -2931,6 +3120,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sealed types cannot be inherited from, so any InheritanceDemand on them will never be executed. Check if the permission is required and adjust accordingly..
+        /// </summary>
+        internal static string ReviewSealedTypeWithInheritanceDemandDescription {
+            get {
+                return ResourceManager.GetString("ReviewSealedTypeWithInheritanceDemandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sealed type &apos;{0}&apos; has an InheritanceDemand which will never be enforced.
+        /// </summary>
+        internal static string ReviewSealedTypeWithInheritanceDemandMessage {
+            get {
+                return ResourceManager.GetString("ReviewSealedTypeWithInheritanceDemandMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review sealed type with InheritanceDemand.
+        /// </summary>
+        internal static string ReviewSealedTypeWithInheritanceDemandTitle {
+            get {
+                return ResourceManager.GetString("ReviewSealedTypeWithInheritanceDemandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for variables or fields that are assigned to themselves..
         /// </summary>
         internal static string ReviewSelfAssignment_Description {
@@ -2954,6 +3170,33 @@ namespace Gendarme.Analyzers {
         internal static string ReviewSelfAssignment_Title {
             get {
                 return ResourceManager.GetString("ReviewSelfAssignment_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The [SuppressUnmanagedCodeSecurity] attribute reduces security checks when executing unmanaged code. Its usage should be reviewed to ensure no security holes are introduced..
+        /// </summary>
+        internal static string ReviewSuppressUnmanagedCodeSecurityUsageDescription {
+            get {
+                return ResourceManager.GetString("ReviewSuppressUnmanagedCodeSecurityUsageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type or method &apos;{0}&apos; is decorated with [SuppressUnmanagedCodeSecurity].
+        /// </summary>
+        internal static string ReviewSuppressUnmanagedCodeSecurityUsageMessage {
+            get {
+                return ResourceManager.GetString("ReviewSuppressUnmanagedCodeSecurityUsageMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review usage of [SuppressUnmanagedCodeSecurity].
+        /// </summary>
+        internal static string ReviewSuppressUnmanagedCodeSecurityUsageTitle {
+            get {
+                return ResourceManager.GetString("ReviewSuppressUnmanagedCodeSecurityUsageTitle", resourceCulture);
             }
         }
         
@@ -3035,6 +3278,60 @@ namespace Gendarme.Analyzers {
         internal static string ReviewUseOfModuloOneOnIntegers_Title {
             get {
                 return ResourceManager.GetString("ReviewUseOfModuloOneOnIntegers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types implementing ISerializable should protect their GetObjectData method with a demand or link demand for SerializationFormatter permission to prevent unauthorized access..
+        /// </summary>
+        internal static string SecureGetObjectDataOverridesDescription {
+            get {
+                return ResourceManager.GetString("SecureGetObjectDataOverridesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetObjectData method in type &apos;{0}&apos; is not protected with a security demand.
+        /// </summary>
+        internal static string SecureGetObjectDataOverridesMessage {
+            get {
+                return ResourceManager.GetString("SecureGetObjectDataOverridesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Secure GetObjectData overrides.
+        /// </summary>
+        internal static string SecureGetObjectDataOverridesTitle {
+            get {
+                return ResourceManager.GetString("SecureGetObjectDataOverridesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static constructors should be private to prevent external code from invoking them, which could lead to security vulnerabilities or unexpected behavior..
+        /// </summary>
+        internal static string StaticConstructorsShouldBePrivateDescription {
+            get {
+                return ResourceManager.GetString("StaticConstructorsShouldBePrivateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static constructor for type &apos;{0}&apos; is not private.
+        /// </summary>
+        internal static string StaticConstructorsShouldBePrivateMessage {
+            get {
+                return ResourceManager.GetString("StaticConstructorsShouldBePrivateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static constructors should be private.
+        /// </summary>
+        internal static string StaticConstructorsShouldBePrivateTitle {
+            get {
+                return ResourceManager.GetString("StaticConstructorsShouldBePrivateTitle", resourceCulture);
             }
         }
         
