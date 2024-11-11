@@ -1,10 +1,10 @@
-using Gendarme.Analyzers;
 using Gendarme.Analyzers.BadPractice;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
 
-namespace Gendarme.Rules.BadPractice.Tests;
+namespace Gendarme.Analyzers.Tests.BadPractice;
 
+[TestOf(typeof(AssemblyVersionMismatchAnalyzer))]
 public sealed class AssemblyVersionMismatchAnalyzerTests
 {
     [Fact]
