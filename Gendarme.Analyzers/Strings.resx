@@ -1091,5 +1091,84 @@
   <value>Switch statements can lead to duplicated code. Consider using polymorphism to achieve the same behavior.</value>
 </data>
 
-    
+    <data name="CallBaseMethodsOnISerializableTypesTitle" xml:space="preserve">
+  <value>Call base methods in ISerializable types</value>
+</data>
+    <data name="CallBaseMethodsOnISerializableTypesMessage" xml:space="preserve">
+  <value>ISerializable type '{0}' does not call base {1} method</value>
+</data>
+    <data name="CallBaseMethodsOnISerializableTypesDescription" xml:space="preserve">
+  <value>Types implementing ISerializable should call their base type's serialization constructor and GetObjectData method to ensure proper serialization.</value>
+</data>
+
+    <data name="DeserializeOptionalFieldTitle" xml:space="preserve">
+  <value>Handle [OptionalField] during deserialization</value>
+</data>
+    <data name="DeserializeOptionalFieldMessage" xml:space="preserve">
+  <value>Type '{0}' has [OptionalField] but no [OnDeserialized] or [OnDeserializing] method</value>
+</data>
+    <data name="DeserializeOptionalFieldDescription" xml:space="preserve">
+  <value>Types with [OptionalField] should have methods decorated with [OnDeserialized] or [OnDeserializing] to properly initialize those fields during deserialization.</value>
+</data>
+
+    <data name="ImplementISerializableCorrectlyTitle" xml:space="preserve">
+  <value>Implement ISerializable correctly</value>
+</data>
+    <data name="ImplementISerializableCorrectlyMessage" xml:space="preserve">
+  <value>Type '{0}' does not implement ISerializable correctly</value>
+</data>
+    <data name="ImplementISerializableCorrectlyDescription" xml:space="preserve">
+  <value>Types implementing ISerializable should serialize all instance fields not marked with [NonSerialized], and GetObjectData should be virtual if the type is not sealed.</value>
+</data>
+
+    <data name="MarkAllNonSerializableFieldsTitle" xml:space="preserve">
+  <value>Mark all non-serializable fields with [NonSerialized]</value>
+</data>
+    <data name="MarkAllNonSerializableFieldsMessage" xml:space="preserve">
+  <value>Field '{0}' in serializable type '{1}' is not serializable</value>
+</data>
+    <data name="MarkAllNonSerializableFieldsDescription" xml:space="preserve">
+  <value>Fields of serializable types must be serializable or marked with [NonSerialized].</value>
+</data>
+
+    <data name="MarkEnumerationsAsSerializableTitle" xml:space="preserve">
+  <value>Mark enumerations as [Serializable]</value>
+</data>
+    <data name="MarkEnumerationsAsSerializableMessage" xml:space="preserve">
+  <value>Enum '{0}' is not marked as [Serializable]</value>
+</data>
+    <data name="MarkEnumerationsAsSerializableDescription" xml:space="preserve">
+  <value>Even though enums are serializable by default, marking them with [Serializable] improves code readability.</value>
+</data>
+
+    <data name="MissingSerializableAttributeOnISerializableTypeTitle" xml:space="preserve">
+  <value>Missing [Serializable] attribute on ISerializable type</value>
+</data>
+    <data name="MissingSerializableAttributeOnISerializableTypeMessage" xml:space="preserve">
+  <value>Type '{0}' implements ISerializable but is not marked as [Serializable]</value>
+</data>
+    <data name="MissingSerializableAttributeOnISerializableTypeDescription" xml:space="preserve">
+  <value>Types implementing ISerializable must be marked with the [Serializable] attribute to be serializable by the runtime.</value>
+</data>
+
+    <data name="MissingSerializationConstructorTitle" xml:space="preserve">
+  <value>Missing serialization constructor</value>
+</data>
+    <data name="MissingSerializationConstructorMessage" xml:space="preserve">
+  <value>Type '{0}' implements ISerializable but lacks the required serialization constructor</value>
+</data>
+    <data name="MissingSerializationConstructorDescription" xml:space="preserve">
+  <value>Types implementing ISerializable must provide a serialization constructor with the correct signature.</value>
+</data>
+
+    <data name="UseCorrectSignatureForSerializationMethodsTitle" xml:space="preserve">
+  <value>Use correct signature for serialization methods</value>
+</data>
+    <data name="UseCorrectSignatureForSerializationMethodsMessage" xml:space="preserve">
+  <value>Method '{0}' has an incorrect signature for a serialization callback</value>
+</data>
+    <data name="UseCorrectSignatureForSerializationMethodsDescription" xml:space="preserve">
+  <value>Methods decorated with serialization attributes should be private, return void, and have a single parameter of type StreamingContext.</value>
+</data>
+
 </root>

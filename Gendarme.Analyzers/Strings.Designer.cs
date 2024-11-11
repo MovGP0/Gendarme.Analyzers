@@ -906,6 +906,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Types implementing ISerializable should call their base type&apos;s serialization constructor and GetObjectData method to ensure proper serialization..
+        /// </summary>
+        internal static string CallBaseMethodsOnISerializableTypesDescription {
+            get {
+                return ResourceManager.GetString("CallBaseMethodsOnISerializableTypesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ISerializable type &apos;{0}&apos; does not call base {1} method.
+        /// </summary>
+        internal static string CallBaseMethodsOnISerializableTypesMessage {
+            get {
+                return ResourceManager.GetString("CallBaseMethodsOnISerializableTypesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call base methods in ISerializable types.
+        /// </summary>
+        internal static string CallBaseMethodsOnISerializableTypesTitle {
+            get {
+                return ResourceManager.GetString("CallBaseMethodsOnISerializableTypesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for methods that call Equals with a null actual parameter..
         /// </summary>
         internal static string CallingEqualsWithNullArg_Description {
@@ -1118,6 +1145,33 @@ namespace Gendarme.Analyzers {
         internal static string DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle {
             get {
                 return ResourceManager.GetString("DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types with [OptionalField] should have methods decorated with [OnDeserialized] or [OnDeserializing] to properly initialize those fields during deserialization..
+        /// </summary>
+        internal static string DeserializeOptionalFieldDescription {
+            get {
+                return ResourceManager.GetString("DeserializeOptionalFieldDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has [OptionalField] but no [OnDeserialized] or [OnDeserializing] method.
+        /// </summary>
+        internal static string DeserializeOptionalFieldMessage {
+            get {
+                return ResourceManager.GetString("DeserializeOptionalFieldMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handle [OptionalField] during deserialization.
+        /// </summary>
+        internal static string DeserializeOptionalFieldTitle {
+            get {
+                return ResourceManager.GetString("DeserializeOptionalFieldTitle", resourceCulture);
             }
         }
         
@@ -2013,6 +2067,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Types implementing ISerializable should serialize all instance fields not marked with [NonSerialized], and GetObjectData should be virtual if the type is not sealed..
+        /// </summary>
+        internal static string ImplementISerializableCorrectlyDescription {
+            get {
+                return ResourceManager.GetString("ImplementISerializableCorrectlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; does not implement ISerializable correctly.
+        /// </summary>
+        internal static string ImplementISerializableCorrectlyMessage {
+            get {
+                return ResourceManager.GetString("ImplementISerializableCorrectlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement ISerializable correctly.
+        /// </summary>
+        internal static string ImplementISerializableCorrectlyTitle {
+            get {
+                return ResourceManager.GetString("ImplementISerializableCorrectlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ensure that the parameter name and message are provided in the correct order when throwing argument exceptions..
         /// </summary>
         internal static string InstantiateArgumentExceptionCorrectlyDescription {
@@ -2036,6 +2117,60 @@ namespace Gendarme.Analyzers {
         internal static string InstantiateArgumentExceptionCorrectlyTitle {
             get {
                 return ResourceManager.GetString("InstantiateArgumentExceptionCorrectlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fields of serializable types must be serializable or marked with [NonSerialized]..
+        /// </summary>
+        internal static string MarkAllNonSerializableFieldsDescription {
+            get {
+                return ResourceManager.GetString("MarkAllNonSerializableFieldsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; in serializable type &apos;{1}&apos; is not serializable.
+        /// </summary>
+        internal static string MarkAllNonSerializableFieldsMessage {
+            get {
+                return ResourceManager.GetString("MarkAllNonSerializableFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark all non-serializable fields with [NonSerialized].
+        /// </summary>
+        internal static string MarkAllNonSerializableFieldsTitle {
+            get {
+                return ResourceManager.GetString("MarkAllNonSerializableFieldsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Even though enums are serializable by default, marking them with [Serializable] improves code readability..
+        /// </summary>
+        internal static string MarkEnumerationsAsSerializableDescription {
+            get {
+                return ResourceManager.GetString("MarkEnumerationsAsSerializableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum &apos;{0}&apos; is not marked as [Serializable].
+        /// </summary>
+        internal static string MarkEnumerationsAsSerializableMessage {
+            get {
+                return ResourceManager.GetString("MarkEnumerationsAsSerializableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark enumerations as [Serializable].
+        /// </summary>
+        internal static string MarkEnumerationsAsSerializableTitle {
+            get {
+                return ResourceManager.GetString("MarkEnumerationsAsSerializableTitle", resourceCulture);
             }
         }
         
@@ -2144,6 +2279,60 @@ namespace Gendarme.Analyzers {
         internal static string MissingExceptionConstructorsTitle {
             get {
                 return ResourceManager.GetString("MissingExceptionConstructorsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types implementing ISerializable must be marked with the [Serializable] attribute to be serializable by the runtime..
+        /// </summary>
+        internal static string MissingSerializableAttributeOnISerializableTypeDescription {
+            get {
+                return ResourceManager.GetString("MissingSerializableAttributeOnISerializableTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements ISerializable but is not marked as [Serializable].
+        /// </summary>
+        internal static string MissingSerializableAttributeOnISerializableTypeMessage {
+            get {
+                return ResourceManager.GetString("MissingSerializableAttributeOnISerializableTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing [Serializable] attribute on ISerializable type.
+        /// </summary>
+        internal static string MissingSerializableAttributeOnISerializableTypeTitle {
+            get {
+                return ResourceManager.GetString("MissingSerializableAttributeOnISerializableTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types implementing ISerializable must provide a serialization constructor with the correct signature..
+        /// </summary>
+        internal static string MissingSerializationConstructorDescription {
+            get {
+                return ResourceManager.GetString("MissingSerializationConstructorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements ISerializable but lacks the required serialization constructor.
+        /// </summary>
+        internal static string MissingSerializationConstructorMessage {
+            get {
+                return ResourceManager.GetString("MissingSerializationConstructorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing serialization constructor.
+        /// </summary>
+        internal static string MissingSerializationConstructorTitle {
+            get {
+                return ResourceManager.GetString("MissingSerializationConstructorTitle", resourceCulture);
             }
         }
         
@@ -2954,6 +3143,33 @@ namespace Gendarme.Analyzers {
         internal static string UseCorrectPrefixTitle {
             get {
                 return ResourceManager.GetString("UseCorrectPrefixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods decorated with serialization attributes should be private, return void, and have a single parameter of type StreamingContext..
+        /// </summary>
+        internal static string UseCorrectSignatureForSerializationMethodsDescription {
+            get {
+                return ResourceManager.GetString("UseCorrectSignatureForSerializationMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; has an incorrect signature for a serialization callback.
+        /// </summary>
+        internal static string UseCorrectSignatureForSerializationMethodsMessage {
+            get {
+                return ResourceManager.GetString("UseCorrectSignatureForSerializationMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use correct signature for serialization methods.
+        /// </summary>
+        internal static string UseCorrectSignatureForSerializationMethodsTitle {
+            get {
+                return ResourceManager.GetString("UseCorrectSignatureForSerializationMethodsTitle", resourceCulture);
             }
         }
         
