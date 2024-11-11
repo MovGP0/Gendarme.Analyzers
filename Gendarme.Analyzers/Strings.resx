@@ -1278,5 +1278,291 @@
     <data name="SecureGetObjectDataOverridesDescription" xml:space="preserve">
   <value>Types implementing ISerializable should protect their GetObjectData method with a demand or link demand for SerializationFormatter permission to prevent unauthorized access.</value>
 </data>
+    <data name="AvoidLargeNumberOfLocalVariablesTitle" xml:space="preserve">
+  <value>Avoid methods with a large number of local variables</value>
+</data>
+    <data name="AvoidLargeNumberOfLocalVariablesMessage" xml:space="preserve">
+  <value>Method '{0}' contains {1} local variables, exceeding the maximum allowed ({2})</value>
+</data>
+    <data name="AvoidLargeNumberOfLocalVariablesDescription" xml:space="preserve">
+  <value>Methods with too many local variables can be hard to understand and maintain. Consider refactoring to reduce the number of local variables.</value>
+</data>
 
+    <data name="AvoidLargeStructureTitle" xml:space="preserve">
+  <value>Avoid large structures (value types)</value>
+</data>
+    <data name="AvoidLargeStructureMessage" xml:space="preserve">
+  <value>Structure '{0}' is larger than {1} bytes</value>
+</data>
+    <data name="AvoidLargeStructureDescription" xml:space="preserve">
+  <value>Large value types can negatively impact performance due to copying overhead. Consider converting to a reference type or reducing its size.</value>
+</data>
+
+    <data name="AvoidRepetitiveCastsTitle" xml:space="preserve">
+  <value>Avoid repetitive casts on the same value</value>
+</data>
+    <data name="AvoidRepetitiveCastsMessage" xml:space="preserve">
+  <value>Value '{0}' is cast to '{1}' multiple times</value>
+</data>
+    <data name="AvoidRepetitiveCastsDescription" xml:space="preserve">
+  <value>Casting the same value multiple times is inefficient. Consider caching the casted value in a variable.</value>
+</data>
+
+    <data name="AvoidReturningArraysOnPropertiesTitle" xml:space="preserve">
+  <value>Avoid returning arrays from properties</value>
+</data>
+    <data name="AvoidReturningArraysOnPropertiesMessage" xml:space="preserve">
+  <value>Property '{0}' returns an array</value>
+</data>
+    <data name="AvoidReturningArraysOnPropertiesDescription" xml:space="preserve">
+  <value>Returning arrays from properties can expose internal state. Use methods to return copies or return a read-only collection instead.</value>
+</data>
+
+    <data name="AvoidTypeGetTypeForConstantStringsTitle" xml:space="preserve">
+  <value>Avoid using Type.GetType with constant strings</value>
+</data>
+    <data name="AvoidTypeGetTypeForConstantStringsMessage" xml:space="preserve">
+  <value>Use 'typeof({0})' instead of 'Type.GetType("{1}")'</value>
+</data>
+    <data name="AvoidTypeGetTypeForConstantStringsDescription" xml:space="preserve">
+  <value>Using Type.GetType with constant strings is less efficient and can fail at runtime. Use the 'typeof' operator instead.</value>
+</data>
+
+    <data name="AvoidUncalledPrivateCodeTitle" xml:space="preserve">
+  <value>Avoid uncalled private code</value>
+</data>
+    <data name="AvoidUncalledPrivateCodeMessage" xml:space="preserve">
+  <value>Private method '{0}' is never called</value>
+</data>
+    <data name="AvoidUncalledPrivateCodeDescription" xml:space="preserve">
+  <value>Private methods that are never called can be removed to reduce code clutter and potential confusion.</value>
+</data>
+
+    <data name="AvoidUninstantiatedInternalClassesTitle" xml:space="preserve">
+  <value>Avoid uninstantiated internal classes</value>
+</data>
+    <data name="AvoidUninstantiatedInternalClassesMessage" xml:space="preserve">
+  <value>Internal class '{0}' is never instantiated</value>
+</data>
+    <data name="AvoidUninstantiatedInternalClassesDescription" xml:space="preserve">
+  <value>Internal classes that are never instantiated may be unused code and can be removed or made abstract if intended for inheritance.</value>
+</data>
+
+    <data name="AvoidUnneededCallsOnStringTitle" xml:space="preserve">
+  <value>Avoid unnecessary method calls on string instances</value>
+</data>
+    <data name="AvoidUnneededCallsOnStringMessage" xml:space="preserve">
+  <value>Method '{0}' called on string instance '{1}' is unnecessary</value>
+</data>
+    <data name="AvoidUnneededCallsOnStringDescription" xml:space="preserve">
+  <value>Methods like 'ToString' on string instances return the original string and are redundant. They can be safely removed.</value>
+</data>
+
+    <data name="AvoidUnneededFieldInitializationTitle" xml:space="preserve">
+  <value>Avoid unnecessary field initialization</value>
+</data>
+    <data name="AvoidUnneededFieldInitializationMessage" xml:space="preserve">
+  <value>Field '{0}' is initialized to its default value</value>
+</data>
+    <data name="AvoidUnneededFieldInitializationDescription" xml:space="preserve">
+  <value>Fields are automatically initialized to their default values. Explicitly assigning default values is redundant and can be removed.</value>
+</data>
+
+    <data name="AvoidUnneededUnboxingTitle" xml:space="preserve">
+  <value>Avoid unnecessary unboxing</value>
+</data>
+    <data name="AvoidUnneededUnboxingMessage" xml:space="preserve">
+  <value>Value type '{0}' is unboxed multiple times</value>
+</data>
+    <data name="AvoidUnneededUnboxingDescription" xml:space="preserve">
+  <value>Unboxing a value type multiple times is inefficient. Consider caching the unboxed value in a variable.</value>
+</data>
+    <data name="AvoidUnsealedConcreteAttributesTitle" xml:space="preserve">
+  <value>Avoid unsealed concrete attribute classes</value>
+</data>
+    <data name="AvoidUnsealedConcreteAttributesMessage" xml:space="preserve">
+  <value>Attribute class '{0}' is concrete and unsealed</value>
+</data>
+    <data name="AvoidUnsealedConcreteAttributesDescription" xml:space="preserve">
+  <value>Concrete attribute classes should be sealed to improve performance. Alternatively, make the attribute class abstract.</value>
+</data>
+
+    <data name="AvoidUnsealedUninheritedInternalTypeTitle" xml:space="preserve">
+  <value>Avoid unsealed internal classes that are not inherited</value>
+</data>
+    <data name="AvoidUnsealedUninheritedInternalTypeMessage" xml:space="preserve">
+  <value>Internal class '{0}' is unsealed and not inherited</value>
+</data>
+    <data name="AvoidUnsealedUninheritedInternalTypeDescription" xml:space="preserve">
+  <value>Sealing internal classes that are not inherited allows for compiler optimizations and clarifies the type hierarchy.</value>
+</data>
+
+    <data name="AvoidUnusedParametersTitle" xml:space="preserve">
+  <value>Avoid unused parameters</value>
+</data>
+    <data name="AvoidUnusedParametersMessage" xml:space="preserve">
+  <value>Parameter '{0}' of method '{1}' is not used</value>
+</data>
+    <data name="AvoidUnusedParametersDescription" xml:space="preserve">
+  <value>All parameters in a method should be used to avoid confusion and potential errors. Remove unused parameters or use them appropriately.</value>
+</data>
+
+    <data name="AvoidUnusedPrivateFieldsTitle" xml:space="preserve">
+  <value>Avoid unused private fields</value>
+</data>
+    <data name="AvoidUnusedPrivateFieldsMessage" xml:space="preserve">
+  <value>Private field '{0}' is never used</value>
+</data>
+    <data name="AvoidUnusedPrivateFieldsDescription" xml:space="preserve">
+  <value>Unused private fields increase code clutter and can lead to confusion. Remove unused fields to improve code clarity.</value>
+</data>
+
+    <data name="CompareWithEmptyStringEfficientlyTitle" xml:space="preserve">
+  <value>Compare strings with empty string efficiently</value>
+</data>
+    <data name="CompareWithEmptyStringEfficientlyMessage" xml:space="preserve">
+  <value>Use 'string.Length == 0' instead of comparing to '{0}'</value>
+</data>
+    <data name="CompareWithEmptyStringEfficientlyDescription" xml:space="preserve">
+  <value>Comparing string length is more efficient than comparing to empty strings or String.Empty. Consider using 'string.IsNullOrEmpty' when appropriate.</value>
+</data>
+
+    <data name="ConsiderCustomAccessorsForNonVisibleEventsTitle" xml:space="preserve">
+  <value>Consider custom accessors for non-visible events</value>
+</data>
+    <data name="ConsiderCustomAccessorsForNonVisibleEventsMessage" xml:space="preserve">
+  <value>Non-visible event '{0}' uses default synchronized accessors</value>
+</data>
+    <data name="ConsiderCustomAccessorsForNonVisibleEventsDescription" xml:space="preserve">
+  <value>Default event accessors are synchronized, which can impact performance. For non-visible events, consider custom accessors without synchronization if thread safety is managed elsewhere.</value>
+</data>
+
+    <data name="DoNotIgnoreMethodResultTitle" xml:space="preserve">
+  <value>Do not ignore method results</value>
+</data>
+    <data name="DoNotIgnoreMethodResultMessage" xml:space="preserve">
+  <value>The result of method '{0}' is ignored</value>
+</data>
+    <data name="DoNotIgnoreMethodResultDescription" xml:space="preserve">
+  <value>Ignoring the result of certain methods can lead to wasted resources and potential logic errors. Ensure that method results are used appropriately.</value>
+</data>
+
+    <data name="ImplementEqualsTypeTitle" xml:space="preserve">
+  <value>Implement type-specific Equals method and IEquatable&lt;T&gt;</value>
+</data>
+    <data name="ImplementEqualsTypeMessage" xml:space="preserve">
+  <value>Type '{0}' overrides Equals(object) but does not implement Equals({0}) or IEquatable&lt;{0}&gt;</value>
+</data>
+    <data name="ImplementEqualsTypeDescription" xml:space="preserve">
+  <value>Implementing a type-specific Equals method and IEquatable&lt;T&gt; improves performance and usability, especially for value types.</value>
+</data>
+
+    <data name="MathMinMaxCandidateTitle" xml:space="preserve">
+  <value>Use Math.Min and Math.Max methods</value>
+</data>
+    <data name="MathMinMaxCandidateMessage" xml:space="preserve">
+  <value>Expression can be simplified using 'Math.{0}'</value>
+</data>
+    <data name="MathMinMaxCandidateDescription" xml:space="preserve">
+  <value>Using Math.Min or Math.Max can lead to better performance and clearer code compared to custom implementations.</value>
+</data>
+    <data name="OverrideValueTypeDefaultsTitle" xml:space="preserve">
+  <value>Override default implementations of Equals and GetHashCode for value types</value>
+</data>
+    <data name="OverrideValueTypeDefaultsMessage" xml:space="preserve">
+  <value>Value type '{0}' does not override Equals(object) and GetHashCode()</value>
+</data>
+    <data name="OverrideValueTypeDefaultsDescription" xml:space="preserve">
+  <value>Value types should override Equals(object) and GetHashCode() methods to improve performance and correctness. The default implementations use reflection and can be inefficient.</value>
+</data>
+
+    <data name="PreferCharOverloadTitle" xml:space="preserve">
+  <value>Prefer char overloads over string overloads when possible</value>
+</data>
+    <data name="PreferCharOverloadMessage" xml:space="preserve">
+  <value>Use '{0}' overload of '{1}' instead of string overload for better performance</value>
+</data>
+    <data name="PreferCharOverloadDescription" xml:space="preserve">
+  <value>Using char overloads of string methods is more efficient than using string overloads when working with single characters.</value>
+</data>
+
+    <data name="PreferLiteralOverInitOnlyFieldsTitle" xml:space="preserve">
+  <value>Prefer const over static readonly for compile-time constants</value>
+</data>
+    <data name="PreferLiteralOverInitOnlyFieldsMessage" xml:space="preserve">
+  <value>Field '{0}' can be made const</value>
+</data>
+    <data name="PreferLiteralOverInitOnlyFieldsDescription" xml:space="preserve">
+  <value>Fields initialized with compile-time constants can be declared as const to improve performance and reduce code size.</value>
+</data>
+
+    <data name="RemoveUnneededFinalizerTitle" xml:space="preserve">
+  <value>Remove unneeded finalizer</value>
+</data>
+    <data name="RemoveUnneededFinalizerMessage" xml:space="preserve">
+  <value>Finalizer in class '{0}' is empty or only sets fields to null</value>
+</data>
+    <data name="RemoveUnneededFinalizerDescription" xml:space="preserve">
+  <value>Empty finalizers or those that only set fields to null are unnecessary and can negatively impact garbage collection performance.</value>
+</data>
+
+    <data name="RemoveUnusedLocalVariablesTitle" xml:space="preserve">
+  <value>Remove unused local variables</value>
+</data>
+    <data name="RemoveUnusedLocalVariablesMessage" xml:space="preserve">
+  <value>Local variable '{0}' is declared but never used</value>
+</data>
+    <data name="RemoveUnusedLocalVariablesDescription" xml:space="preserve">
+  <value>Unused local variables can be removed to reduce code clutter and potential confusion.</value>
+</data>
+
+    <data name="ReviewLinqMethodTitle" xml:space="preserve">
+  <value>Review LINQ method usage for potential performance improvements</value>
+</data>
+    <data name="ReviewLinqMethodMessage" xml:space="preserve">
+  <value>Consider replacing '{0}' with a more efficient alternative</value>
+</data>
+    <data name="ReviewLinqMethodDescription" xml:space="preserve">
+  <value>Some LINQ methods may have suboptimal performance in certain contexts. Review usage to see if a more efficient method or approach can be used.</value>
+</data>
+
+    <data name="UseIsOperatorTitle" xml:space="preserve">
+  <value>Use 'is' operator instead of complex cast checks</value>
+</data>
+    <data name="UseIsOperatorMessage" xml:space="preserve">
+  <value>Expression '{0}' can be simplified using the 'is' operator</value>
+</data>
+    <data name="UseIsOperatorDescription" xml:space="preserve">
+  <value>Using the 'is' operator simplifies code and can improve performance over using 'as' followed by a null check.</value>
+</data>
+
+    <data name="UseStringEmptyTitle" xml:space="preserve">
+  <value>Use 'string.Empty' instead of empty string literal</value>
+</data>
+    <data name="UseStringEmptyMessage" xml:space="preserve">
+  <value>Use 'string.Empty' instead of empty string literal</value>
+</data>
+    <data name="UseStringEmptyDescription" xml:space="preserve">
+  <value>Using 'string.Empty' can improve readability and consistency over using empty string literals.</value>
+</data>
+
+    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerTitle" xml:space="preserve">
+  <value>Call GC.SuppressFinalize in Dispose method</value>
+</data>
+    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerMessage" xml:space="preserve">
+  <value>Type '{0}' implements IDisposable and has a finalizer but does not call GC.SuppressFinalize(this) in Dispose()</value>
+</data>
+    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerDescription" xml:space="preserve">
+  <value>Calling GC.SuppressFinalize prevents unnecessary finalization and improves performance when the Dispose method has already cleaned up resources.</value>
+</data>
+
+    <data name="UseTypeEmptyTypesTitle" xml:space="preserve">
+  <value>Use 'Type.EmptyTypes' instead of 'new Type[0]'</value>
+</data>
+    <data name="UseTypeEmptyTypesMessage" xml:space="preserve">
+  <value>Use 'Type.EmptyTypes' instead of creating a new empty Type array</value>
+</data>
+    <data name="UseTypeEmptyTypesDescription" xml:space="preserve">
+  <value>Using 'Type.EmptyTypes' avoids unnecessary allocations and improves performance.</value>
+</data>
 </root>

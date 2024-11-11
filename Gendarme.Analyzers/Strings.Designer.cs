@@ -555,6 +555,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Methods with too many local variables can be hard to understand and maintain. Consider refactoring to reduce the number of local variables..
+        /// </summary>
+        internal static string AvoidLargeNumberOfLocalVariablesDescription {
+            get {
+                return ResourceManager.GetString("AvoidLargeNumberOfLocalVariablesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; contains {1} local variables, exceeding the maximum allowed ({2}).
+        /// </summary>
+        internal static string AvoidLargeNumberOfLocalVariablesMessage {
+            get {
+                return ResourceManager.GetString("AvoidLargeNumberOfLocalVariablesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid methods with a large number of local variables.
+        /// </summary>
+        internal static string AvoidLargeNumberOfLocalVariablesTitle {
+            get {
+                return ResourceManager.GetString("AvoidLargeNumberOfLocalVariablesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Large value types can negatively impact performance due to copying overhead. Consider converting to a reference type or reducing its size..
+        /// </summary>
+        internal static string AvoidLargeStructureDescription {
+            get {
+                return ResourceManager.GetString("AvoidLargeStructureDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Structure &apos;{0}&apos; is larger than {1} bytes.
+        /// </summary>
+        internal static string AvoidLargeStructureMessage {
+            get {
+                return ResourceManager.GetString("AvoidLargeStructureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid large structures (value types).
+        /// </summary>
+        internal static string AvoidLargeStructureTitle {
+            get {
+                return ResourceManager.GetString("AvoidLargeStructureTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Methods that are too long are harder to understand and maintain. Consider refactoring this method into smaller methods..
         /// </summary>
         internal static string AvoidLongMethodsDescription {
@@ -771,6 +825,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Casting the same value multiple times is inefficient. Consider caching the casted value in a variable..
+        /// </summary>
+        internal static string AvoidRepetitiveCastsDescription {
+            get {
+                return ResourceManager.GetString("AvoidRepetitiveCastsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value &apos;{0}&apos; is cast to &apos;{1}&apos; multiple times.
+        /// </summary>
+        internal static string AvoidRepetitiveCastsMessage {
+            get {
+                return ResourceManager.GetString("AvoidRepetitiveCastsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid repetitive casts on the same value.
+        /// </summary>
+        internal static string AvoidRepetitiveCastsTitle {
+            get {
+                return ResourceManager.GetString("AvoidRepetitiveCastsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returning arrays from properties can expose internal state. Use methods to return copies or return a read-only collection instead..
+        /// </summary>
+        internal static string AvoidReturningArraysOnPropertiesDescription {
+            get {
+                return ResourceManager.GetString("AvoidReturningArraysOnPropertiesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; returns an array.
+        /// </summary>
+        internal static string AvoidReturningArraysOnPropertiesMessage {
+            get {
+                return ResourceManager.GetString("AvoidReturningArraysOnPropertiesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid returning arrays from properties.
+        /// </summary>
+        internal static string AvoidReturningArraysOnPropertiesTitle {
+            get {
+                return ResourceManager.GetString("AvoidReturningArraysOnPropertiesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unused abstractions or parameters may indicate speculative generality. Remove unnecessary code to improve clarity..
         /// </summary>
         internal static string AvoidSpeculativeGeneralityDescription {
@@ -852,6 +960,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using Type.GetType with constant strings is less efficient and can fail at runtime. Use the &apos;typeof&apos; operator instead..
+        /// </summary>
+        internal static string AvoidTypeGetTypeForConstantStringsDescription {
+            get {
+                return ResourceManager.GetString("AvoidTypeGetTypeForConstantStringsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;typeof({0})&apos; instead of &apos;Type.GetType(&quot;{1}&quot;)&apos;.
+        /// </summary>
+        internal static string AvoidTypeGetTypeForConstantStringsMessage {
+            get {
+                return ResourceManager.GetString("AvoidTypeGetTypeForConstantStringsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid using Type.GetType with constant strings.
+        /// </summary>
+        internal static string AvoidTypeGetTypeForConstantStringsTitle {
+            get {
+                return ResourceManager.GetString("AvoidTypeGetTypeForConstantStringsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If a type and an interface share the same base name, the type should implement the interface to meet expectations..
         /// </summary>
         internal static string AvoidTypeInterfaceInconsistencyDescription {
@@ -879,6 +1014,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Private methods that are never called can be removed to reduce code clutter and potential confusion..
+        /// </summary>
+        internal static string AvoidUncalledPrivateCodeDescription {
+            get {
+                return ResourceManager.GetString("AvoidUncalledPrivateCodeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private method &apos;{0}&apos; is never called.
+        /// </summary>
+        internal static string AvoidUncalledPrivateCodeMessage {
+            get {
+                return ResourceManager.GetString("AvoidUncalledPrivateCodeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid uncalled private code.
+        /// </summary>
+        internal static string AvoidUncalledPrivateCodeTitle {
+            get {
+                return ResourceManager.GetString("AvoidUncalledPrivateCodeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal classes that are never instantiated may be unused code and can be removed or made abstract if intended for inheritance..
+        /// </summary>
+        internal static string AvoidUninstantiatedInternalClassesDescription {
+            get {
+                return ResourceManager.GetString("AvoidUninstantiatedInternalClassesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal class &apos;{0}&apos; is never instantiated.
+        /// </summary>
+        internal static string AvoidUninstantiatedInternalClassesMessage {
+            get {
+                return ResourceManager.GetString("AvoidUninstantiatedInternalClassesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid uninstantiated internal classes.
+        /// </summary>
+        internal static string AvoidUninstantiatedInternalClassesTitle {
+            get {
+                return ResourceManager.GetString("AvoidUninstantiatedInternalClassesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using unnecessarily specialized parameter types reduces method reusability. Consider using more general types or interfaces..
         /// </summary>
         internal static string AvoidUnnecessarySpecializationDescription {
@@ -902,6 +1091,195 @@ namespace Gendarme.Analyzers {
         internal static string AvoidUnnecessarySpecializationTitle {
             get {
                 return ResourceManager.GetString("AvoidUnnecessarySpecializationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods like &apos;ToString&apos; on string instances return the original string and are redundant. They can be safely removed..
+        /// </summary>
+        internal static string AvoidUnneededCallsOnStringDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnneededCallsOnStringDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; called on string instance &apos;{1}&apos; is unnecessary.
+        /// </summary>
+        internal static string AvoidUnneededCallsOnStringMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnneededCallsOnStringMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unnecessary method calls on string instances.
+        /// </summary>
+        internal static string AvoidUnneededCallsOnStringTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnneededCallsOnStringTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fields are automatically initialized to their default values. Explicitly assigning default values is redundant and can be removed..
+        /// </summary>
+        internal static string AvoidUnneededFieldInitializationDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnneededFieldInitializationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is initialized to its default value.
+        /// </summary>
+        internal static string AvoidUnneededFieldInitializationMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnneededFieldInitializationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unnecessary field initialization.
+        /// </summary>
+        internal static string AvoidUnneededFieldInitializationTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnneededFieldInitializationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unboxing a value type multiple times is inefficient. Consider caching the unboxed value in a variable..
+        /// </summary>
+        internal static string AvoidUnneededUnboxingDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnneededUnboxingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value type &apos;{0}&apos; is unboxed multiple times.
+        /// </summary>
+        internal static string AvoidUnneededUnboxingMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnneededUnboxingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unnecessary unboxing.
+        /// </summary>
+        internal static string AvoidUnneededUnboxingTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnneededUnboxingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concrete attribute classes should be sealed to improve performance. Alternatively, make the attribute class abstract..
+        /// </summary>
+        internal static string AvoidUnsealedConcreteAttributesDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedConcreteAttributesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute class &apos;{0}&apos; is concrete and unsealed.
+        /// </summary>
+        internal static string AvoidUnsealedConcreteAttributesMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedConcreteAttributesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unsealed concrete attribute classes.
+        /// </summary>
+        internal static string AvoidUnsealedConcreteAttributesTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedConcreteAttributesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sealing internal classes that are not inherited allows for compiler optimizations and clarifies the type hierarchy..
+        /// </summary>
+        internal static string AvoidUnsealedUninheritedInternalTypeDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedUninheritedInternalTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal class &apos;{0}&apos; is unsealed and not inherited.
+        /// </summary>
+        internal static string AvoidUnsealedUninheritedInternalTypeMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedUninheritedInternalTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unsealed internal classes that are not inherited.
+        /// </summary>
+        internal static string AvoidUnsealedUninheritedInternalTypeTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnsealedUninheritedInternalTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All parameters in a method should be used to avoid confusion and potential errors. Remove unused parameters or use them appropriately..
+        /// </summary>
+        internal static string AvoidUnusedParametersDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnusedParametersDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; of method &apos;{1}&apos; is not used.
+        /// </summary>
+        internal static string AvoidUnusedParametersMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnusedParametersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unused parameters.
+        /// </summary>
+        internal static string AvoidUnusedParametersTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnusedParametersTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unused private fields increase code clutter and can lead to confusion. Remove unused fields to improve code clarity..
+        /// </summary>
+        internal static string AvoidUnusedPrivateFieldsDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnusedPrivateFieldsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Private field &apos;{0}&apos; is never used.
+        /// </summary>
+        internal static string AvoidUnusedPrivateFieldsMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnusedPrivateFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unused private fields.
+        /// </summary>
+        internal static string AvoidUnusedPrivateFieldsTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnusedPrivateFieldsTitle", resourceCulture);
             }
         }
         
@@ -1118,6 +1496,60 @@ namespace Gendarme.Analyzers {
         internal static string CloneMethodShouldNotReturnNull_Title {
             get {
                 return ResourceManager.GetString("CloneMethodShouldNotReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comparing string length is more efficient than comparing to empty strings or String.Empty. Consider using &apos;string.IsNullOrEmpty&apos; when appropriate..
+        /// </summary>
+        internal static string CompareWithEmptyStringEfficientlyDescription {
+            get {
+                return ResourceManager.GetString("CompareWithEmptyStringEfficientlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;string.Length == 0&apos; instead of comparing to &apos;{0}&apos;.
+        /// </summary>
+        internal static string CompareWithEmptyStringEfficientlyMessage {
+            get {
+                return ResourceManager.GetString("CompareWithEmptyStringEfficientlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compare strings with empty string efficiently.
+        /// </summary>
+        internal static string CompareWithEmptyStringEfficientlyTitle {
+            get {
+                return ResourceManager.GetString("CompareWithEmptyStringEfficientlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default event accessors are synchronized, which can impact performance. For non-visible events, consider custom accessors without synchronization if thread safety is managed elsewhere..
+        /// </summary>
+        internal static string ConsiderCustomAccessorsForNonVisibleEventsDescription {
+            get {
+                return ResourceManager.GetString("ConsiderCustomAccessorsForNonVisibleEventsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-visible event &apos;{0}&apos; uses default synchronized accessors.
+        /// </summary>
+        internal static string ConsiderCustomAccessorsForNonVisibleEventsMessage {
+            get {
+                return ResourceManager.GetString("ConsiderCustomAccessorsForNonVisibleEventsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider custom accessors for non-visible events.
+        /// </summary>
+        internal static string ConsiderCustomAccessorsForNonVisibleEventsTitle {
+            get {
+                return ResourceManager.GetString("ConsiderCustomAccessorsForNonVisibleEventsTitle", resourceCulture);
             }
         }
         
@@ -1496,6 +1928,33 @@ namespace Gendarme.Analyzers {
         internal static string DoNotHardcodePathsTitle {
             get {
                 return ResourceManager.GetString("DoNotHardcodePathsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignoring the result of certain methods can lead to wasted resources and potential logic errors. Ensure that method results are used appropriately..
+        /// </summary>
+        internal static string DoNotIgnoreMethodResultDescription {
+            get {
+                return ResourceManager.GetString("DoNotIgnoreMethodResultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The result of method &apos;{0}&apos; is ignored.
+        /// </summary>
+        internal static string DoNotIgnoreMethodResultMessage {
+            get {
+                return ResourceManager.GetString("DoNotIgnoreMethodResultMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not ignore method results.
+        /// </summary>
+        internal static string DoNotIgnoreMethodResultTitle {
+            get {
+                return ResourceManager.GetString("DoNotIgnoreMethodResultTitle", resourceCulture);
             }
         }
         
@@ -2202,6 +2661,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Implementing a type-specific Equals method and IEquatable&lt;T&gt; improves performance and usability, especially for value types..
+        /// </summary>
+        internal static string ImplementEqualsTypeDescription {
+            get {
+                return ResourceManager.GetString("ImplementEqualsTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overrides Equals(object) but does not implement Equals({0}) or IEquatable&lt;{0}&gt;.
+        /// </summary>
+        internal static string ImplementEqualsTypeMessage {
+            get {
+                return ResourceManager.GetString("ImplementEqualsTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement type-specific Equals method and IEquatable&lt;T&gt;.
+        /// </summary>
+        internal static string ImplementEqualsTypeTitle {
+            get {
+                return ResourceManager.GetString("ImplementEqualsTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Implementing &apos;IEnumerable&lt;T&gt;&apos; helps avoid type casting and ensures type safety during iteration..
         /// </summary>
         internal static string ImplementGenericCollectionInterfaces_Description {
@@ -2387,6 +2873,33 @@ namespace Gendarme.Analyzers {
         internal static string MarshalStringsInPInvokeDeclarationsTitle {
             get {
                 return ResourceManager.GetString("MarshalStringsInPInvokeDeclarationsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using Math.Min or Math.Max can lead to better performance and clearer code compared to custom implementations..
+        /// </summary>
+        internal static string MathMinMaxCandidateDescription {
+            get {
+                return ResourceManager.GetString("MathMinMaxCandidateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression can be simplified using &apos;Math.{0}&apos;.
+        /// </summary>
+        internal static string MathMinMaxCandidateMessage {
+            get {
+                return ResourceManager.GetString("MathMinMaxCandidateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Math.Min and Math.Max methods.
+        /// </summary>
+        internal static string MathMinMaxCandidateTitle {
+            get {
+                return ResourceManager.GetString("MathMinMaxCandidateTitle", resourceCulture);
             }
         }
         
@@ -2661,6 +3174,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value types should override Equals(object) and GetHashCode() methods to improve performance and correctness. The default implementations use reflection and can be inefficient..
+        /// </summary>
+        internal static string OverrideValueTypeDefaultsDescription {
+            get {
+                return ResourceManager.GetString("OverrideValueTypeDefaultsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value type &apos;{0}&apos; does not override Equals(object) and GetHashCode().
+        /// </summary>
+        internal static string OverrideValueTypeDefaultsMessage {
+            get {
+                return ResourceManager.GetString("OverrideValueTypeDefaultsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override default implementations of Equals and GetHashCode for value types.
+        /// </summary>
+        internal static string OverrideValueTypeDefaultsTitle {
+            get {
+                return ResourceManager.GetString("OverrideValueTypeDefaultsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter names in overridden methods should match those in the base method to improve code clarity and usability..
         /// </summary>
         internal static string ParameterNamesShouldMatchOverriddenMethodDescription {
@@ -2715,6 +3255,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using char overloads of string methods is more efficient than using string overloads when working with single characters..
+        /// </summary>
+        internal static string PreferCharOverloadDescription {
+            get {
+                return ResourceManager.GetString("PreferCharOverloadDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;{0}&apos; overload of &apos;{1}&apos; instead of string overload for better performance.
+        /// </summary>
+        internal static string PreferCharOverloadMessage {
+            get {
+                return ResourceManager.GetString("PreferCharOverloadMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer char overloads over string overloads when possible.
+        /// </summary>
+        internal static string PreferCharOverloadTitle {
+            get {
+                return ResourceManager.GetString("PreferCharOverloadTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Methods and properties which return a string, an array, a collection, or an enumerable should return an empty instance rather than null..
         /// </summary>
         internal static string PreferEmptyInstanceOverNull_Description {
@@ -2765,6 +3332,33 @@ namespace Gendarme.Analyzers {
         internal static string PreferGenericsOverRefObject_Title {
             get {
                 return ResourceManager.GetString("PreferGenericsOverRefObject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fields initialized with compile-time constants can be declared as const to improve performance and reduce code size..
+        /// </summary>
+        internal static string PreferLiteralOverInitOnlyFieldsDescription {
+            get {
+                return ResourceManager.GetString("PreferLiteralOverInitOnlyFieldsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; can be made const.
+        /// </summary>
+        internal static string PreferLiteralOverInitOnlyFieldsMessage {
+            get {
+                return ResourceManager.GetString("PreferLiteralOverInitOnlyFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer const over static readonly for compile-time constants.
+        /// </summary>
+        internal static string PreferLiteralOverInitOnlyFieldsTitle {
+            get {
+                return ResourceManager.GetString("PreferLiteralOverInitOnlyFieldsTitle", resourceCulture);
             }
         }
         
@@ -2958,6 +3552,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empty finalizers or those that only set fields to null are unnecessary and can negatively impact garbage collection performance..
+        /// </summary>
+        internal static string RemoveUnneededFinalizerDescription {
+            get {
+                return ResourceManager.GetString("RemoveUnneededFinalizerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finalizer in class &apos;{0}&apos; is empty or only sets fields to null.
+        /// </summary>
+        internal static string RemoveUnneededFinalizerMessage {
+            get {
+                return ResourceManager.GetString("RemoveUnneededFinalizerMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove unneeded finalizer.
+        /// </summary>
+        internal static string RemoveUnneededFinalizerTitle {
+            get {
+                return ResourceManager.GetString("RemoveUnneededFinalizerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unused local variables can be removed to reduce code clutter and potential confusion..
+        /// </summary>
+        internal static string RemoveUnusedLocalVariablesDescription {
+            get {
+                return ResourceManager.GetString("RemoveUnusedLocalVariablesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Local variable &apos;{0}&apos; is declared but never used.
+        /// </summary>
+        internal static string RemoveUnusedLocalVariablesMessage {
+            get {
+                return ResourceManager.GetString("RemoveUnusedLocalVariablesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove unused local variables.
+        /// </summary>
+        internal static string RemoveUnusedLocalVariablesTitle {
+            get {
+                return ResourceManager.GetString("RemoveUnusedLocalVariablesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using &apos;(x % 2) == 1&apos; to check for odd numbers will fail for negative numbers. Use &apos;(x % 2 != 0)&apos; or &apos;(x &amp; 1 == 1)&apos; instead..
         /// </summary>
         internal static string ReplaceIncompleteOddnessCheck_Description {
@@ -3089,6 +3737,33 @@ namespace Gendarme.Analyzers {
         internal static string ReviewInconsistentIdentity_Title {
             get {
                 return ResourceManager.GetString("ReviewInconsistentIdentity_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some LINQ methods may have suboptimal performance in certain contexts. Review usage to see if a more efficient method or approach can be used..
+        /// </summary>
+        internal static string ReviewLinqMethodDescription {
+            get {
+                return ResourceManager.GetString("ReviewLinqMethodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider replacing &apos;{0}&apos; with a more efficient alternative.
+        /// </summary>
+        internal static string ReviewLinqMethodMessage {
+            get {
+                return ResourceManager.GetString("ReviewLinqMethodMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review LINQ method usage for potential performance improvements.
+        /// </summary>
+        internal static string ReviewLinqMethodTitle {
+            get {
+                return ResourceManager.GetString("ReviewLinqMethodTitle", resourceCulture);
             }
         }
         
@@ -3525,6 +4200,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using the &apos;is&apos; operator simplifies code and can improve performance over using &apos;as&apos; followed by a null check..
+        /// </summary>
+        internal static string UseIsOperatorDescription {
+            get {
+                return ResourceManager.GetString("UseIsOperatorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expression &apos;{0}&apos; can be simplified using the &apos;is&apos; operator.
+        /// </summary>
+        internal static string UseIsOperatorMessage {
+            get {
+                return ResourceManager.GetString("UseIsOperatorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;is&apos; operator instead of complex cast checks.
+        /// </summary>
+        internal static string UseIsOperatorTitle {
+            get {
+                return ResourceManager.GetString("UseIsOperatorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using managed alternatives improves portability and maintainability of code..
         /// </summary>
         internal static string UseManagedAlternativesToPInvokeDescription {
@@ -3683,6 +4385,87 @@ namespace Gendarme.Analyzers {
         internal static string UseSTAThreadAttributeOnSWFEntryPointsTitle {
             get {
                 return ResourceManager.GetString("UseSTAThreadAttributeOnSWFEntryPointsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using &apos;string.Empty&apos; can improve readability and consistency over using empty string literals..
+        /// </summary>
+        internal static string UseStringEmptyDescription {
+            get {
+                return ResourceManager.GetString("UseStringEmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;string.Empty&apos; instead of empty string literal.
+        /// </summary>
+        internal static string UseStringEmptyMessage {
+            get {
+                return ResourceManager.GetString("UseStringEmptyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;string.Empty&apos; instead of empty string literal.
+        /// </summary>
+        internal static string UseStringEmptyTitle {
+            get {
+                return ResourceManager.GetString("UseStringEmptyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calling GC.SuppressFinalize prevents unnecessary finalization and improves performance when the Dispose method has already cleaned up resources..
+        /// </summary>
+        internal static string UseSuppressFinalizeOnIDisposableTypeWithFinalizerDescription {
+            get {
+                return ResourceManager.GetString("UseSuppressFinalizeOnIDisposableTypeWithFinalizerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements IDisposable and has a finalizer but does not call GC.SuppressFinalize(this) in Dispose().
+        /// </summary>
+        internal static string UseSuppressFinalizeOnIDisposableTypeWithFinalizerMessage {
+            get {
+                return ResourceManager.GetString("UseSuppressFinalizeOnIDisposableTypeWithFinalizerMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Call GC.SuppressFinalize in Dispose method.
+        /// </summary>
+        internal static string UseSuppressFinalizeOnIDisposableTypeWithFinalizerTitle {
+            get {
+                return ResourceManager.GetString("UseSuppressFinalizeOnIDisposableTypeWithFinalizerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using &apos;Type.EmptyTypes&apos; avoids unnecessary allocations and improves performance..
+        /// </summary>
+        internal static string UseTypeEmptyTypesDescription {
+            get {
+                return ResourceManager.GetString("UseTypeEmptyTypesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;Type.EmptyTypes&apos; instead of creating a new empty Type array.
+        /// </summary>
+        internal static string UseTypeEmptyTypesMessage {
+            get {
+                return ResourceManager.GetString("UseTypeEmptyTypesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;Type.EmptyTypes&apos; instead of &apos;new Type[0]&apos;.
+        /// </summary>
+        internal static string UseTypeEmptyTypesTitle {
+            get {
+                return ResourceManager.GetString("UseTypeEmptyTypesTitle", resourceCulture);
             }
         }
         
