@@ -7,6 +7,7 @@
     <NoWarn>RS2008</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
   </ItemGroup>
@@ -29,7 +30,6 @@
     <Folder Include="Correctness\" />
     <Folder Include="Design\Generic\" />
     <Folder Include="Maintainability\" />
-    <Folder Include="Naming\" />
     <Folder Include="Performance\" />
     <Folder Include="Portability\" />
     <Folder Include="Security\Cas\" />

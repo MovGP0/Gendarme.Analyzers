@@ -798,4 +798,298 @@
     <data name="PreferStringIsNullOrEmptyDescription" xml:space="preserve">
     <value>Using String.IsNullOrEmpty improves code readability and clarity over manual null and length checks.</value>
   </data>
+    <data name="AvoidDeepNamespaceHierarchyTitle" xml:space="preserve">
+  <value>Avoid deep namespace hierarchy</value>
+</data>
+    <data name="AvoidDeepNamespaceHierarchyMessage" xml:space="preserve">
+  <value>Namespace '{0}' has a depth of {1}, which exceeds the maximum allowed depth</value>
+</data>
+    <data name="AvoidDeepNamespaceHierarchyDescription" xml:space="preserve">
+  <value>Deeply nested namespaces can make code harder to read and maintain. Consider refactoring to reduce the namespace depth.</value>
+</data>
+    <data name="AvoidNonAlphanumericIdentifierTitle" xml:space="preserve">
+  <value>Avoid non-alphanumeric characters in identifiers</value>
+</data>
+    <data name="AvoidNonAlphanumericIdentifierMessage" xml:space="preserve">
+  <value>Identifier '{0}' contains non-alphanumeric characters</value>
+</data>
+    <data name="AvoidNonAlphanumericIdentifierDescription" xml:space="preserve">
+  <value>Identifiers should only contain alphanumeric characters to improve readability and maintain coding standards.</value>
+</data>
+    <data name="AvoidRedundancyInMethodNameTitle" xml:space="preserve">
+  <value>Avoid redundancy in method names</value>
+</data>
+    <data name="AvoidRedundancyInMethodNameMessage" xml:space="preserve">
+  <value>Method '{0}' embeds the type name of its first parameter '{1}'</value>
+</data>
+    <data name="AvoidRedundancyInMethodNameDescription" xml:space="preserve">
+  <value>Removing the type name from the method name makes the API less verbose and easier to use.</value>
+</data>
+    <data name="AvoidRedundancyInTypeNameTitle" xml:space="preserve">
+  <value>Avoid redundancy in type names</value>
+</data>
+    <data name="AvoidRedundancyInTypeNameMessage" xml:space="preserve">
+  <value>Type '{0}' is prefixed with its namespace name '{1}'</value>
+</data>
+    <data name="AvoidRedundancyInTypeNameDescription" xml:space="preserve">
+  <value>Removing redundant namespace prefixes from type names makes them less verbose and easier to use.</value>
+</data>
+    <data name="AvoidTypeInterfaceInconsistencyTitle" xml:space="preserve">
+  <value>Avoid type/interface inconsistency</value>
+</data>
+    <data name="AvoidTypeInterfaceInconsistencyMessage" xml:space="preserve">
+  <value>Type '{0}' does not implement the interface '{1}' with the same base name</value>
+</data>
+    <data name="AvoidTypeInterfaceInconsistencyDescription" xml:space="preserve">
+  <value>If a type and an interface share the same base name, the type should implement the interface to meet expectations.</value>
+</data>
+    <data name="DoNotPrefixEventsWithAfterOrBeforeTitle" xml:space="preserve">
+  <value>Do not prefix events with 'After' or 'Before'</value>
+</data>
+    <data name="DoNotPrefixEventsWithAfterOrBeforeMessage" xml:space="preserve">
+  <value>Event '{0}' is prefixed with 'After' or 'Before'</value>
+</data>
+    <data name="DoNotPrefixEventsWithAfterOrBeforeDescription" xml:space="preserve">
+  <value>Event names should use verbs in the present or past tense, not prefixes like 'After' or 'Before'.</value>
+</data>
+    <data name="DoNotPrefixValuesWithEnumNameTitle" xml:space="preserve">
+  <value>Do not prefix enum values with enum type name</value>
+</data>
+    <data name="DoNotPrefixValuesWithEnumNameMessage" xml:space="preserve">
+  <value>Enum value '{0}' is prefixed with its enum type name '{1}'</value>
+</data>
+    <data name="DoNotPrefixValuesWithEnumNameDescription" xml:space="preserve">
+  <value>Enum values should not include the enum type name as a prefix to avoid redundancy.</value>
+</data>
+    <data name="DoNotUseReservedInEnumValueNamesTitle" xml:space="preserve">
+  <value>Do not use 'Reserved' in enum value names</value>
+</data>
+    <data name="DoNotUseReservedInEnumValueNamesMessage" xml:space="preserve">
+  <value>Enum '{1}' contains a value named '{0}', which should be avoided</value>
+</data>
+    <data name="DoNotUseReservedInEnumValueNamesDescription" xml:space="preserve">
+  <value>Using 'Reserved' in enum values can lead to breaking changes when modifying the enum. It's better to add new meaningful values as needed.</value>
+</data>
+    <data name="ParameterNamesShouldMatchOverriddenMethodTitle" xml:space="preserve">
+  <value>Parameter names should match overridden method</value>
+</data>
+    <data name="ParameterNamesShouldMatchOverriddenMethodMessage" xml:space="preserve">
+  <value>Method '{0}' parameter '{1}' does not match parameter name '{2}' in overridden method</value>
+</data>
+    <data name="ParameterNamesShouldMatchOverriddenMethodDescription" xml:space="preserve">
+  <value>Parameter names in overridden methods should match those in the base method to improve code clarity and usability.</value>
+</data>
+    <data name="UseCorrectCasingTitle" xml:space="preserve">
+  <value>Use correct casing in identifiers</value>
+</data>
+    <data name="UseCorrectCasingMessage" xml:space="preserve">
+  <value>{0} '{1}' does not follow correct casing convention</value>
+</data>
+    <data name="UseCorrectCasingDescription" xml:space="preserve">
+  <value>Identifiers should follow .NET naming conventions for casing to improve readability and maintain consistency.</value>
+</data>
+    <data name="UseSingularNameInEnumsUnlessAreFlagsTitle" xml:space="preserve">
+  <value>Use singular name in enums unless they are marked with [Flags]</value>
+</data>
+    <data name="UseSingularNameInEnumsUnlessAreFlagsMessage" xml:space="preserve">
+  <value>Enum '{0}' should have a {1} name</value>
+</data>
+    <data name="UseSingularNameInEnumsUnlessAreFlagsDescription" xml:space="preserve">
+  <value>Enums not marked with [Flags] should have singular names, while enums with [Flags] should have plural names.</value>
+</data>
+    <data name="UsePreferredTermsTitle" xml:space="preserve">
+  <value>Use preferred terms in identifiers</value>
+</data>
+    <data name="UsePreferredTermsMessage" xml:space="preserve">
+  <value>Identifier '{0}' contains '{1}', consider using '{2}' instead</value>
+</data>
+    <data name="UsePreferredTermsDescription" xml:space="preserve">
+  <value>Use terms that are consistent with .NET Framework guidelines to improve code clarity and consistency.</value>
+</data>
+    <data name="UsePluralNameInEnumFlagsTitle" xml:space="preserve">
+  <value>Use plural name for enums marked with [Flags]</value>
+</data>
+    <data name="UsePluralNameInEnumFlagsMessage" xml:space="preserve">
+  <value>Enum '{0}' is marked with [Flags] but its name is not plural</value>
+</data>
+    <data name="UsePluralNameInEnumFlagsDescription" xml:space="preserve">
+  <value>Enumerations decorated with [Flags] should have plural names to indicate that multiple values can be combined.</value>
+</data>
+    <data name="UseCorrectSuffixTitle" xml:space="preserve">
+  <value>Use correct suffix in type names</value>
+</data>
+    <data name="UseCorrectSuffixMessage" xml:space="preserve">
+  <value>{0}</value>
+</data>
+    <data name="UseCorrectSuffixDescription" xml:space="preserve">
+  <value>Ensure that types have the correct suffix based on the base types or interfaces they inherit from or implement.</value>
+</data>
+    <data name="UseCorrectPrefixTitle" xml:space="preserve">
+  <value>Use correct prefix in type names</value>
+</data>
+    <data name="UseCorrectPrefixMessage" xml:space="preserve">
+  <value>{0} '{1}' {2}</value>
+</data>
+    <data name="UseCorrectPrefixDescription" xml:space="preserve">
+  <value>Ensure that interfaces are prefixed with 'I', types are not prefixed with 'C', and generic parameters are correctly prefixed.</value>
+</data>
+    <data name="DoNotHardcodePathsTitle" xml:space="preserve">
+  <value>Do not hardcode paths</value>
+</data>
+    <data name="DoNotHardcodePathsMessage" xml:space="preserve">
+  <value>Avoid hardcoding paths in code; use Path.Combine or Environment.GetFolderPath instead</value>
+</data>
+    <data name="DoNotHardcodePathsDescription" xml:space="preserve">
+  <value>Strings containing hardcoded paths are not portable across operating systems. Use Path.Combine and/or Environment.GetFolderPath to ensure cross-platform functionality.</value>
+</data>
+
+    <data name="ExitCodeIsLimitedOnUnixTitle" xml:space="preserve">
+  <value>Limit exit codes to 0-255 on Unix</value>
+</data>
+    <data name="ExitCodeIsLimitedOnUnixMessage" xml:space="preserve">
+  <value>Process exit codes must be between 0 and 255 on Unix systems</value>
+</data>
+    <data name="ExitCodeIsLimitedOnUnixDescription" xml:space="preserve">
+  <value>On Unix systems, process exit codes must be between 0 and 255. Ensure that returned values and Environment.ExitCode are within this range.</value>
+</data>
+
+    <data name="FeatureRequiresRootPrivilegeOnUnixTitle" xml:space="preserve">
+  <value>Feature requires root privilege on Unix</value>
+</data>
+    <data name="FeatureRequiresRootPrivilegeOnUnixMessage" xml:space="preserve">
+  <value>This feature requires root privilege on Unix systems</value>
+</data>
+    <data name="FeatureRequiresRootPrivilegeOnUnixDescription" xml:space="preserve">
+  <value>Certain features require root privilege on Unix systems. Ensure that code using such features handles privilege requirements appropriately.</value>
+</data>
+
+    <data name="MonoCompatibilityReviewTitle" xml:space="preserve">
+  <value>Review Mono compatibility</value>
+</data>
+    <data name="MonoCompatibilityReviewMessage" xml:space="preserve">
+  <value>This code may not be compatible with Mono</value>
+</data>
+    <data name="MonoCompatibilityReviewDescription" xml:space="preserve">
+  <value>This code calls methods that are not fully implemented in Mono. Consider reviewing for Mono compatibility.</value>
+</data>
+
+    <data name="NewLineLiteralTitle" xml:space="preserve">
+  <value>Do not use new line literals</value>
+</data>
+    <data name="NewLineLiteralMessage" xml:space="preserve">
+  <value>Use Environment.NewLine instead of new line literals</value>
+</data>
+    <data name="NewLineLiteralDescription" xml:space="preserve">
+  <value>Using literal '\n' or '\r' for new lines is not portable across operating systems. Use Environment.NewLine instead.</value>
+</data>
+    <data name="GtkSharpExecutableTargetTitle" xml:space="preserve">
+  <value>Executable referencing GtkSharp should use Windows subsystem</value>
+</data>
+    <data name="GtkSharpExecutableTargetMessage" xml:space="preserve">
+  <value>Executable assembly references GtkSharp but is not compiled with -target:winexe</value>
+</data>
+    <data name="GtkSharpExecutableTargetDescription" xml:space="preserve">
+  <value>An executable assembly referencing GtkSharp should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
+</data>
+
+    <data name="SystemWindowsFormsExecutableTargetTitle" xml:space="preserve">
+  <value>Executable referencing System.Windows.Forms should use Windows subsystem</value>
+</data>
+    <data name="SystemWindowsFormsExecutableTargetMessage" xml:space="preserve">
+  <value>Executable assembly references System.Windows.Forms but is not compiled with -target:winexe</value>
+</data>
+    <data name="SystemWindowsFormsExecutableTargetDescription" xml:space="preserve">
+  <value>An executable assembly referencing System.Windows.Forms should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
+</data>
+
+    <data name="UseSTAThreadAttributeOnSWFEntryPointsTitle" xml:space="preserve">
+  <value>Use [STAThread] on Windows Forms entry points</value>
+</data>
+    <data name="UseSTAThreadAttributeOnSWFEntryPointsMessage" xml:space="preserve">
+  <value>Entry point of Windows Forms application should be marked with [STAThread] attribute</value>
+</data>
+    <data name="UseSTAThreadAttributeOnSWFEntryPointsDescription" xml:space="preserve">
+  <value>Windows Forms applications require the entry point method to be marked with [STAThread] attribute to function properly.</value>
+</data>
+    <data name="AvoidCodeDuplicatedInSameClassTitle" xml:space="preserve">
+  <value>Avoid code duplication in the same class</value>
+</data>
+    <data name="AvoidCodeDuplicatedInSameClassMessage" xml:space="preserve">
+  <value>Code is duplicated within the same class</value>
+</data>
+    <data name="AvoidCodeDuplicatedInSameClassDescription" xml:space="preserve">
+  <value>Duplicated code within a class makes maintenance harder. Extract common code into methods to improve reusability and readability.</value>
+</data>
+
+    <data name="AvoidCodeDuplicatedInSiblingClassesTitle" xml:space="preserve">
+  <value>Avoid code duplication in sibling classes</value>
+</data>
+    <data name="AvoidCodeDuplicatedInSiblingClassesMessage" xml:space="preserve">
+  <value>Code is duplicated across sibling classes</value>
+</data>
+    <data name="AvoidCodeDuplicatedInSiblingClassesDescription" xml:space="preserve">
+  <value>Duplicated code across sibling classes can lead to maintenance issues. Consider moving common code to a base class or utility class.</value>
+</data>
+
+    <data name="AvoidLargeClassesTitle" xml:space="preserve">
+  <value>Avoid large classes</value>
+</data>
+    <data name="AvoidLargeClassesMessage" xml:space="preserve">
+  <value>Class '{0}' is too large</value>
+</data>
+    <data name="AvoidLargeClassesDescription" xml:space="preserve">
+  <value>Classes that are too large are harder to maintain. Consider splitting this class into smaller, more focused classes.</value>
+</data>
+
+    <data name="AvoidLongMethodsTitle" xml:space="preserve">
+  <value>Avoid long methods</value>
+</data>
+    <data name="AvoidLongMethodsMessage" xml:space="preserve">
+  <value>Method '{0}' is too long</value>
+</data>
+    <data name="AvoidLongMethodsDescription" xml:space="preserve">
+  <value>Methods that are too long are harder to understand and maintain. Consider refactoring this method into smaller methods.</value>
+</data>
+
+    <data name="AvoidLongParameterListsTitle" xml:space="preserve">
+  <value>Avoid long parameter lists</value>
+</data>
+    <data name="AvoidLongParameterListsMessage" xml:space="preserve">
+  <value>Method '{0}' has too many parameters</value>
+</data>
+    <data name="AvoidLongParameterListsDescription" xml:space="preserve">
+  <value>Methods with long parameter lists can be hard to use and maintain. Consider refactoring to reduce the number of parameters.</value>
+</data>
+
+    <data name="AvoidMessageChainsTitle" xml:space="preserve">
+  <value>Avoid message chains</value>
+</data>
+    <data name="AvoidMessageChainsMessage" xml:space="preserve">
+  <value>Message chain detected in method '{0}'</value>
+</data>
+    <data name="AvoidMessageChainsDescription" xml:space="preserve">
+  <value>Long message chains indicate tight coupling to object navigation structures. Consider refactoring to reduce dependencies.</value>
+</data>
+
+    <data name="AvoidSpeculativeGeneralityTitle" xml:space="preserve">
+  <value>Avoid speculative generality</value>
+</data>
+    <data name="AvoidSpeculativeGeneralityMessage" xml:space="preserve">
+  <value>Speculative generality detected in '{0}'</value>
+</data>
+    <data name="AvoidSpeculativeGeneralityDescription" xml:space="preserve">
+  <value>Unused abstractions or parameters may indicate speculative generality. Remove unnecessary code to improve clarity.</value>
+</data>
+
+    <data name="AvoidSwitchStatementsTitle" xml:space="preserve">
+  <value>Avoid switch statements</value>
+</data>
+    <data name="AvoidSwitchStatementsMessage" xml:space="preserve">
+  <value>Switch statement detected in method '{0}'</value>
+</data>
+    <data name="AvoidSwitchStatementsDescription" xml:space="preserve">
+  <value>Switch statements can lead to duplicated code. Consider using polymorphism to achieve the same behavior.</value>
+</data>
+
+    
 </root>

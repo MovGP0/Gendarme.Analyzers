@@ -157,99 +157,105 @@ public static class DiagnosticId
     #endregion
 
     #region Naming
-    public const string AvoidDeepNamespaceHierarchyAnalyzer = "GENNA01";
-    public const string AvoidNonAlphanumericIdentifierAnalyzer = "GENNA02";
-    public const string AvoidRedundancyInMethodNameAnalyzer = "GENNA03";
-    public const string AvoidRedundancyInTypeNameAnalyzer = "GENNA04";
-    public const string AvoidTypeInterfaceInconsistencyAnalyzer = "GENNA05";
-    public const string DoNotPrefixEventsWithAfterOrBeforeAnalyzer = "GENNA06";
-    public const string DoNotPrefixValuesWithEnumNameAnalyzer = "GENNA07";
-    public const string DoNotUseReservedInEnumValueNamesAnalyzer = "GENNA08";
-    public const string ParameterNamesShouldMatchOverriddenMethodAnalyzer = "GENNA09";
-    public const string UseCorrectCasingAnalyzer = "GENNA0A";
-    public const string UseCorrectPrefixAnalyzer = "GENNA0B";
-    public const string UseCorrectSuffixAnalyzer = "GENNA0C";
-    public const string UsePluralNameInEnumFlagsAnalyzer = "GENNA0D";
-    public const string UsePreferredTermsAnalyzer = "GENNA0E";
-    public const string UseSingularNameInEnumsUnlessAreFlagsAnalyzer = "GENNA0F";
+    public const string AvoidDeepNamespaceHierarchy = "GENNA01";
+    public const string AvoidNonAlphanumericIdentifier = "GENNA02";
+    public const string AvoidRedundancyInMethodName = "GENNA03";
+    public const string AvoidRedundancyInTypeName = "GENNA04";
+    public const string AvoidTypeInterfaceInconsistency = "GENNA05";
+    public const string DoNotPrefixEventsWithAfterOrBefore = "GENNA06";
+    public const string DoNotPrefixValuesWithEnumName = "GENNA07";
+    public const string DoNotUseReservedInEnumValueNames = "GENNA08";
+    public const string ParameterNamesShouldMatchOverriddenMethod = "GENNA09";
+    public const string UseCorrectCasing = "GENNA0A";
+    public const string UseCorrectPrefix = "GENNA0B";
+    public const string UseCorrectSuffix = "GENNA0C";
+    public const string UsePluralNameInEnumFlags = "GENNA0D";
+    public const string UsePreferredTerms = "GENNA0E";
+    public const string UseSingularNameInEnumsUnlessAreFlags = "GENNA0F";
     #endregion
     
     #region Performance
-    public const string AvoidLargeNumberOfLocalVariablesAnalyzer = "GENPE01";
-    public const string AvoidLargeStructureAnalyzer = "GENPE02";
-    public const string AvoidRepetitiveCastsAnalyzer = "GENPE03";
-    public const string AvoidReturningArraysOnPropertiesAnalyzer = "GENPE004";
-    public const string AvoidTypeGetTypeForConstantStringsAnalyzer = "GENPE05";
-    public const string AvoidUncalledPrivateCodeAnalyzer = "GENPE06";
-    public const string AvoidUninstantiatedInternalClassesAnalyzer = "GENPE07";
-    public const string AvoidUnneededCallsOnStringAnalyzer = "GENPE08";
-    public const string AvoidUnneededFieldInitializationAnalyzer = "GENPE09";
-    public const string AvoidUnneededUnboxingAnalyzer = "GENPE0A";
-    public const string AvoidUnsealedConcreteAttributesAnalyzer = "GENPE0B";
-    public const string AvoidUnsealedUninheritedInternalTypeAnalyzer = "GENPE0C";
-    public const string AvoidUnusedParametersAnalyzer = "GENPE0D";
-    public const string AvoidUnusedPrivateFieldsAnalyzer = "GENPE0E";
-    public const string CompareWithEmptyStringEfficientlyAnalyzer = "GENPE0F";
-    public const string ConsiderCustomAccessorsForNonVisibleEventsAnalyzer = "GENPE10";
-    public const string DoNotIgnoreMethodResultAnalyzer = "GENPE11";
-    public const string ImplementEqualsTypeAnalyzer = "GENPE12";
-    public const string MathMinMaxCandidateAnalyzer = "GENPE13";
-    public const string OverrideValueTypeDefaultsAnalyzer = "GENPE14";
-    public const string PreferCharOverloadAnalyzer = "GENPE15";
-    public const string PreferLiteralOverInitOnlyFieldsAnalyzer = "GENPE16";
-    public const string RemoveUnneededFinalizerAnalyzer = "GENPE17";
-    public const string RemoveUnusedLocalVariablesAnalyzer = "GENPE18";
-    public const string ReviewLinqMethodAnalyzer = "GENPE19";
-    public const string UseIsOperatorAnalyzer = "GENPE1A";
-    public const string UseStringEmptyAnalyzer = "GENPE1B";
-    public const string UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer = "GENPE1C";
-    public const string UseTypeEmptyTypesAnalyzer = "GENPE1D";
+    public const string AvoidLargeNumberOfLocalVariables = "GENPE01";
+    public const string AvoidLargeStructure = "GENPE02";
+    public const string AvoidRepetitiveCasts = "GENPE03";
+    public const string AvoidReturningArraysOnProperties = "GENPE004";
+    public const string AvoidTypeGetTypeForConstantStrings = "GENPE05";
+    public const string AvoidUncalledPrivateCode = "GENPE06";
+    public const string AvoidUninstantiatedInternalClasses = "GENPE07";
+    public const string AvoidUnneededCallsOnString = "GENPE08";
+    public const string AvoidUnneededFieldInitialization = "GENPE09";
+    public const string AvoidUnneededUnboxing = "GENPE0A";
+    public const string AvoidUnsealedConcreteAttributes = "GENPE0B";
+    public const string AvoidUnsealedUninheritedInternalType = "GENPE0C";
+    public const string AvoidUnusedParameters = "GENPE0D";
+    public const string AvoidUnusedPrivateFields = "GENPE0E";
+    public const string CompareWithEmptyStringEfficiently = "GENPE0F";
+    public const string ConsiderCustomAccessorsForNonVisibleEvents = "GENPE10";
+    public const string DoNotIgnoreMethodResult = "GENPE11";
+    public const string ImplementEqualsType = "GENPE12";
+    public const string MathMinMaxCandidate = "GENPE13";
+    public const string OverrideValueTypeDefaults = "GENPE14";
+    public const string PreferCharOverload = "GENPE15";
+    public const string PreferLiteralOverInitOnlyFields = "GENPE16";
+    public const string RemoveUnneededFinalizer = "GENPE17";
+    public const string RemoveUnusedLocalVariables = "GENPE18";
+    public const string ReviewLinqMethod = "GENPE19";
+    public const string UseIsOperator = "GENPE1A";
+    public const string UseStringEmpty = "GENPE1B";
+    public const string UseSuppressFinalizeOnIDisposableTypeWithFinalizer = "GENPE1C";
+    public const string UseTypeEmptyTypes = "GENPE1D";
     #endregion
 
     #region Portability
-    public const string DoNotHardcodePathsAnalyzer = "GENPO01";
-    public const string ExitCodeIsLimitedOnUnixAnalyzer = "GENPO02";
-    public const string FeatureRequiresRootPrivilegeOnUnixAnalyzer = "GENPO03";
-    public const string MonoCompatibilityReviewAnalyzer = "GENPO04";
-    public const string NewLineLiteralAnalyzer = "GENPO05";
+    public const string DoNotHardcodePaths = "GENPO01";
+    public const string ExitCodeIsLimitedOnUnix = "GENPO02";
+    public const string FeatureRequiresRootPrivilegeOnUnix = "GENPO03";
+    public const string MonoCompatibilityReview = "GENPO04";
+    public const string NewLineLiteral = "GENPO05";
     #endregion
     
     #region Security
-    public const string ArrayFieldsShouldNotBeReadOnlyAnalyzer = "GENSE01";
-    public const string DoNotShortCircuitCertificateCheckAnalyzer = "GENSE02";
-    public const string NativeFieldsShouldNotBeVisibleAnalyzer = "GENSE03";
-    public const string StaticConstructorsShouldBePrivateAnalyzer = "GENSE04";
+    public const string ArrayFieldsShouldNotBeReadOnly = "GENSE01";
+    public const string DoNotShortCircuitCertificateCheck = "GENSE02";
+    public const string NativeFieldsShouldNotBeVisible = "GENSE03";
+    public const string StaticConstructorsShouldBePrivate = "GENSE04";
     #endregion
 
     #region Security.CodeAccessSecurity
-    public const string AddMissingTypeInheritanceDemandAnalyzer = "GENSC01";
-    public const string DoNotExposeFieldsInSecuredTypeAnalyzer = "GENSC02";
-    public const string DoNotExposeMethodsProtectedByLinkDemandAnalyzer = "GENSC03";
-    public const string DoNotReduceTypeSecurityOnMethodsAnalyzer = "GENSC04";
-    public const string ReviewSealedTypeWithInheritanceDemandAnalyzer = "GENSC05";
-    public const string ReviewSuppressUnmanagedCodeSecurityUsageAnalyzer = "GENSC06";
-    public const string SecureGetObjectDataOverridesAnalyzer = "GENSC07";
+    public const string AddMissingTypeInheritanceDemand = "GENSC01";
+    public const string DoNotExposeFieldsInSecuredType = "GENSC02";
+    public const string DoNotExposeMethodsProtectedByLinkDemand = "GENSC03";
+    public const string DoNotReduceTypeSecurityOnMethods = "GENSC04";
+    public const string ReviewSealedTypeWithInheritanceDemand = "GENSC05";
+    public const string ReviewSuppressUnmanagedCodeSecurityUsage = "GENSC06";
+    public const string SecureGetObjectDataOverrides = "GENSC07";
     #endregion
 
     #region Serialization
-    public const string CallBaseMethodsOnISerializableTypesAnalyzer = "GENSR01";
-    public const string DeserializeOptionalFieldAnalyzer = "GENSR02";
-    public const string ImplementISerializableCorrectlyAnalyzer = "GENSR03";
-    public const string MarkAllNonSerializableFieldsAnalyzer = "GENSR04";
-    public const string MarkEnumerationsAsSerializableAnalyzer = "GENSR05";
-    public const string MissingSerializableAttributeOnISerializableTypeAnalyzer = "GENSR06";
-    public const string MissingSerializationConstructorAnalyzer = "GENSR07";
-    public const string UseCorrectSignatureForSerializationMethodsAnalyzer = "GENSR08";
+    public const string CallBaseMethodsOnISerializableTypes = "GENSR01";
+    public const string DeserializeOptionalField = "GENSR02";
+    public const string ImplementISerializableCorrectly = "GENSR03";
+    public const string MarkAllNonSerializableFields = "GENSR04";
+    public const string MarkEnumerationsAsSerializable = "GENSR05";
+    public const string MissingSerializableAttributeOnISerializableType = "GENSR06";
+    public const string MissingSerializationConstructor = "GENSR07";
+    public const string UseCorrectSignatureForSerializationMethods = "GENSR08";
     #endregion
 
     #region Smells
-    public const string AvoidCodeDuplicatedInSameClassAnalyzer = "GENSM01";
-    public const string AvoidCodeDuplicatedInSiblingClassesAnalyzer = "GENSM02";
-    public const string AvoidLargeClassesAnalyzer = "GENSM03";
-    public const string AvoidLongMethodsAnalyzer = "GENSM04";
-    public const string AvoidLongParameterListsAnalyzer = "GENSM05";
-    public const string AvoidMessageChainsAnalyzer = "GENSM06";
-    public const string AvoidSpeculativeGeneralityAnalyzer = "GENSM07";
-    public const string AvoidSwitchStatementsAnalyzer = "GENSM08";
+    public const string AvoidCodeDuplicatedInSameClass = "GENSM01";
+    public const string AvoidCodeDuplicatedInSiblingClasses = "GENSM02";
+    public const string AvoidLargeClasses = "GENSM03";
+    public const string AvoidLongMethods = "GENSM04";
+    public const string AvoidLongParameterLists = "GENSM05";
+    public const string AvoidMessageChains = "GENSM06";
+    public const string AvoidSpeculativeGenerality = "GENSM07";
+    public const string AvoidSwitchStatements = "GENSM08";
+    #endregion
+
+    #region UI
+    public const string GtkSharpExecutableTarget = "GENUI01";
+    public const string SystemWindowsFormsExecutableTarget = "GENUI02";
+    public const string UseStaThreadAttributeOnSwfEntryPoints = "GENUI03";
     #endregion
 }
