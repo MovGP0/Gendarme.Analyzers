@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -13,10 +12,14 @@
         <value>1.3</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </resheader>
     <data name="AssemblyVersionMismatch_Description" xml:space="preserve">
         <value>All assembly version attributes should be consistent.</value>
@@ -516,4 +519,283 @@
     <data name="AvoidExtensionMethodOnSystemObject_Description" xml:space="preserve">
         <value>Extension methods should not be used to extend System.Object. Such extension methods cannot be consumed by some languages, like VB.NET, which use late-binding on System.Object instances.</value>
     </data>
+    <data name="AvoidMethodWithUnusedGenericType_Title" xml:space="preserve">
+        <value>Avoid Method with unused generic-type parameter</value>
+    </data>
+    <data name="AvoidMethodWithUnusedGenericType_Message" xml:space="preserve">
+        <value>Generic type parameter '{0}' is not used in method parameters</value>
+    </data>
+    <data name="AvoidMethodWithUnusedGenericType_Description" xml:space="preserve">
+        <value>Unused generic type parameters can be removed</value>
+    </data>
+    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Title" xml:space="preserve">
+        <value>Avoid Method with Unused Generic Type Parameter</value>
+    </data>
+    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Message" xml:space="preserve">
+        <value>Generic type parameter '{0}' is not used in method parameters</value>
+    </data>
+    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Description" xml:space="preserve">
+        <value>Unused generic types should be utilized in method parameters or removed to improve code clarity.</value>
+    </data>
+    <data name="DoNotExposeNestedGenericSignatures_Title" xml:space="preserve">
+        <value>Do Not Expose Nested Generic Signatures</value>
+    </data>
+    <data name="DoNotExposeNestedGenericSignatures_Message" xml:space="preserve">
+        <value>Method '{0}' exposes a nested generic signature</value>
+    </data>
+    <data name="DoNotExposeNestedGenericSignatures_Description" xml:space="preserve">
+        <value>Nested generic signatures should be avoided for publicly exposed methods, as they can be difficult to construct and understand.</value>
+    </data>
+    <data name="ImplementGenericCollectionInterfaces_Title" xml:space="preserve">
+        <value>Implement Generic Collection Interfaces</value>
+    </data>
+    <data name="ImplementGenericCollectionInterfaces_Message" xml:space="preserve">
+        <value>Consider implementing 'IEnumerable&lt;T&gt;' instead of 'IEnumerable' for type safety and improved usability</value>
+    </data>
+    <data name="ImplementGenericCollectionInterfaces_Description" xml:space="preserve">
+        <value>Implementing 'IEnumerable&lt;T&gt;' helps avoid type casting and ensures type safety during iteration.</value>
+    </data>
+    <data name="PreferGenericsOverRefObject_Title" xml:space="preserve">
+        <value>Prefer Generics Over Ref Object</value>
+    </data>
+    <data name="PreferGenericsOverRefObject_Message" xml:space="preserve">
+        <value>Avoid using 'ref object', prefer using generics for type safety</value>
+    </data>
+    <data name="PreferGenericsOverRefObject_Description" xml:space="preserve">
+        <value>Using generics instead of 'ref object' provides type safety and a more intuitive API for consumers.</value>
+    </data>
+    <data name="UseGenericEventHandler_Title" xml:space="preserve">
+        <value>Use Generic EventHandler&lt;TEventArgs&gt;</value>
+    </data>
+    <data name="UseGenericEventHandler_Message" xml:space="preserve">
+        <value>Use 'EventHandler&lt;TEventArgs&gt;' instead of custom delegate types</value>
+    </data>
+    <data name="UseGenericEventHandler_Description" xml:space="preserve">
+        <value>Replacing custom delegate types with 'EventHandler&lt;TEventArgs&gt;' improves consistency and leverages built-in .NET patterns.</value>
+    </data>
+    <data name="AvoidArgumentExceptionDefaultConstructorTitle" xml:space="preserve">
+        <value>Avoid using default constructor for {0}</value>
+    </data>
+    <data name="AvoidArgumentExceptionDefaultConstructorMessage" xml:space="preserve">
+        <value>Use of default constructor for {0} is discouraged; provide parameter name and message</value>
+    </data>
+    <data name="AvoidArgumentExceptionDefaultConstructorDescription" xml:space="preserve">
+        <value>Ensure that exceptions derived from ArgumentException provide meaningful parameter names and messages</value>
+    </data>
+    <data name="DoNotDestroyStackTraceTitle" xml:space="preserve">
+        <value>Do not destroy stack trace when rethrowing exceptions</value>
+    </data>
+    <data name="DoNotDestroyStackTraceMessage" xml:space="preserve">
+        <value>Use 'throw;' instead of 'throw ex;' to preserve stack trace</value>
+    </data>
+    <data name="DoNotDestroyStackTraceDescription" xml:space="preserve">
+        <value>Rethrowing exceptions using 'throw ex;' resets the stack trace. Use 'throw;' to preserve it.</value>
+    </data>
+    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsTitle" xml:space="preserve">
+        <value>Avoid swallowing exceptions by catching non-specific exceptions</value>
+    </data>
+    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsMessage" xml:space="preserve">
+        <value>Catching non-specific exceptions without rethrowing can swallow errors</value>
+    </data>
+    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsDescription" xml:space="preserve">
+        <value>Catch specific exceptions or rethrow to avoid swallowing errors</value>
+    </data>
+    <data name="DoNotThrowReservedExceptionTitle" xml:space="preserve">
+        <value>Avoid throwing reserved exceptions</value>
+    </data>
+    <data name="DoNotThrowReservedExceptionMessage" xml:space="preserve">
+        <value>Do not throw '{0}'; it is reserved for use by the runtime</value>
+    </data>
+    <data name="DoNotThrowReservedExceptionDescription" xml:space="preserve">
+        <value>Throwing reserved exceptions can cause unexpected behavior; use appropriate exception types</value>
+    </data>
+    <data name="ExceptionShouldBeVisibleTitle" xml:space="preserve">
+        <value>Exception types should be public</value>
+    </data>
+    <data name="ExceptionShouldBeVisibleMessage" xml:space="preserve">
+        <value>Exception type '{0}' should be public to be meaningful to API consumers</value>
+    </data>
+    <data name="ExceptionShouldBeVisibleDescription" xml:space="preserve">
+        <value>Non-public exception types derived directly from basic exceptions do not provide sufficient information to consumers</value>
+    </data>
+    <data name="InstantiateArgumentExceptionCorrectlyTitle" xml:space="preserve">
+        <value>Instantiate argument exceptions correctly</value>
+    </data>
+    <data name="InstantiateArgumentExceptionCorrectlyMessage" xml:space="preserve">
+        <value>Parameters to '{0}' constructor are in the wrong order</value>
+    </data>
+    <data name="InstantiateArgumentExceptionCorrectlyDescription" xml:space="preserve">
+        <value>Ensure that the parameter name and message are provided in the correct order when throwing argument exceptions.</value>
+    </data>
+    <data name="UseObjectDisposedExceptionTitle" xml:space="preserve">
+        <value>Throw ObjectDisposedException when disposed object is accessed</value>
+    </data>
+    <data name="UseObjectDisposedExceptionMessage" xml:space="preserve">
+        <value>Method '{0}' should throw ObjectDisposedException if object is disposed</value>
+    </data>
+    <data name="UseObjectDisposedExceptionDescription" xml:space="preserve">
+        <value>Public methods should check if the object is disposed and throw ObjectDisposedException if it is</value>
+    </data>
+    <data name="AvoidThrowingBasicExceptionsTitle" xml:space="preserve">
+        <value>Avoid throwing basic exceptions</value>
+      </data>
+    <data name="AvoidThrowingBasicExceptionsMessage" xml:space="preserve">
+    <value>Avoid throwing basic exception type '{0}'; throw a more specific exception instead</value>
+  </data>
+    <data name="AvoidThrowingBasicExceptionsDescription" xml:space="preserve">
+    <value>Throwing basic exceptions like System.Exception, System.ApplicationException, or System.SystemException does not provide enough information about the error to be helpful to the consumer of the library</value>
+  </data>
+  <data name="MissingExceptionConstructorsTitle" xml:space="preserve">
+    <value>Exception types should implement standard exception constructors</value>
+  </data>
+  <data name="MissingExceptionConstructorsMessage" xml:space="preserve">
+    <value>Exception type '{0}' is missing one or more required constructors</value>
+  </data>
+  <data name="MissingExceptionConstructorsDescription" xml:space="preserve">
+    <value>Ensure that exception types implement the standard exception constructors for proper serialization and usage.</value>
+  </data>
+  <data name="DoNotThrowInUnexpectedLocationTitle" xml:space="preserve">
+    <value>Avoid throwing exceptions in unexpected locations</value>
+  </data>
+  <data name="DoNotThrowInUnexpectedLocationMessage" xml:space="preserve">
+    <value>Do not throw exceptions in method '{0}' as it is unexpected</value>
+  </data>
+  <data name="DoNotThrowInUnexpectedLocationDescription" xml:space="preserve">
+    <value>Methods like Equals, GetHashCode, ToString, Dispose, and finalizers should not throw exceptions</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsTitle" xml:space="preserve">
+    <value>Abstract types should not have public constructors</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsMessage" xml:space="preserve">
+    <value>Abstract type '{0}' has a public constructor. Consider changing it to protected to clarify the type's intended usage.</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsDescription" xml:space="preserve">
+    <value>Abstract types should not expose public constructors as they can only be instantiated by derived types. A protected constructor is more appropriate for these cases.</value>
+  </data>
+    <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle" xml:space="preserve">
+    <value>Delegate passed to native code must include exception handling</value>
+  </data>
+  <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingMessage" xml:space="preserve">
+    <value>Method '{0}' is used as a delegate passed to native code and must include a try-catch block that spans the entire method</value>
+  </data>
+  <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingDescription" xml:space="preserve">
+    <value>Delegates passed to native code must handle exceptions to prevent unhandled exceptions from propagating into unmanaged code.</value>
+  </data>
+  <data name="DoNotAssumeIntPtrSizeTitle" xml:space="preserve">
+    <value>Do not assume IntPtr size</value>
+  </data>
+  <data name="DoNotAssumeIntPtrSizeMessage" xml:space="preserve">
+    <value>Casting IntPtr to a 32-bit or smaller type can cause errors on 64-bit platforms</value>
+  </data>
+  <data name="DoNotAssumeIntPtrSizeDescription" xml:space="preserve">
+    <value>Avoid casting IntPtr or UIntPtr to 32-bit or smaller types; use Int64 or avoid casting to integer types.</value>
+  </data>
+  <data name="GetLastErrorMustBeCalledRightAfterPInvokeTitle" xml:space="preserve">
+    <value>GetLastWin32Error must be called immediately after P/Invoke</value>
+  </data>
+  <data name="GetLastErrorMustBeCalledRightAfterPInvokeMessage" xml:space="preserve">
+    <value>Marshal.GetLastWin32Error should be called immediately after a P/Invoke call to avoid overwriting the error code</value>
+  </data>
+  <data name="GetLastErrorMustBeCalledRightAfterPInvokeDescription" xml:space="preserve">
+    <value>Calling other managed methods before GetLastWin32Error may overwrite the error code.</value>
+  </data>
+  <data name="MarshalBooleansInPInvokeDeclarationsTitle" xml:space="preserve">
+    <value>Booleans in P/Invoke signatures should be explicitly marshaled</value>
+  </data>
+  <data name="MarshalBooleansInPInvokeDeclarationsMessage" xml:space="preserve">
+    <value>Boolean parameter '{0}' in P/Invoke should have an explicit [MarshalAs] attribute</value>
+  </data>
+  <data name="MarshalBooleansInPInvokeDeclarationsDescription" xml:space="preserve">
+    <value>Specify the [MarshalAs] attribute for boolean parameters in P/Invoke declarations to ensure correct size across platforms.</value>
+  </data>
+  <data name="MarshalStringsInPInvokeDeclarationsTitle" xml:space="preserve">
+    <value>Strings in P/Invoke signatures should specify CharSet or [MarshalAs]</value>
+  </data>
+  <data name="MarshalStringsInPInvokeDeclarationsMessage" xml:space="preserve">
+    <value>String parameter '{0}' in P/Invoke should specify CharSet in DllImport or have an explicit [MarshalAs] attribute</value>
+  </data>
+  <data name="MarshalStringsInPInvokeDeclarationsDescription" xml:space="preserve">
+    <value>Specify the CharSet in DllImport or use [MarshalAs] for string parameters in P/Invoke declarations to ensure correct string marshaling across platforms</value>
+  </data>
+  <data name="PInvokeShouldNotBeVisibleTitle" xml:space="preserve">
+    <value>P/Invoke methods should not be publicly visible</value>
+  </data>
+  <data name="PInvokeShouldNotBeVisibleMessage" xml:space="preserve">
+    <value>P/Invoke method '{0}' should not be public or protected; consider making it internal</value>
+  </data>
+  <data name="PInvokeShouldNotBeVisibleDescription" xml:space="preserve">
+    <value>Making P/Invoke methods internal helps encapsulate native code dependencies and reduces the public API surface</value>
+  </data>
+  <data name="UseManagedAlternativesToPInvokeTitle" xml:space="preserve">
+    <value>Use managed alternatives to P/Invoke methods</value>
+  </data>
+  <data name="UseManagedAlternativesToPInvokeMessage" xml:space="preserve">
+    <value>Use managed alternative '{1}' instead of P/Invoke method '{0}'</value>
+  </data>
+  <data name="UseManagedAlternativesToPInvokeDescription" xml:space="preserve">
+    <value>Using managed alternatives improves portability and maintainability of code.</value>
+  </data>
+    <data name="AvoidAlwaysNullFieldTitle" xml:space="preserve">
+    <value>Avoid fields that are always null</value>
+  </data>
+    <data name="AvoidAlwaysNullFieldMessage" xml:space="preserve">
+    <value>Field '{0}' is always null and is never assigned a value</value>
+  </data>
+    <data name="AvoidAlwaysNullFieldDescription" xml:space="preserve">
+    <value>Fields that are never assigned a value and remain null can lead to NullReferenceExceptions and should be initialized or removed if unnecessary</value>
+  </data>
+    <data name="AvoidComplexMethodsTitle" xml:space="preserve">
+    <value>Avoid complex methods</value>
+  </data>
+    <data name="AvoidComplexMethodsMessage" xml:space="preserve">
+    <value>Method '{0}' has a cyclomatic complexity of {1}, which is higher than the allowed threshold</value>
+  </data>
+    <data name="AvoidComplexMethodsDescription" xml:space="preserve">
+    <value>Methods with high cyclomatic complexity are difficult to understand and maintain. Consider refactoring to reduce complexity.</value>
+  </data>
+    <data name="AvoidDeepInheritanceTreeTitle" xml:space="preserve">
+    <value>Avoid deep inheritance trees</value>
+  </data>
+    <data name="AvoidDeepInheritanceTreeMessage" xml:space="preserve">
+    <value>Type '{0}' has an inheritance depth of {1}, which exceeds the maximum allowed depth</value>
+  </data>
+    <data name="AvoidDeepInheritanceTreeDescription" xml:space="preserve">
+    <value>Deep inheritance hierarchies can make code difficult to understand and maintain. Consider refactoring to reduce inheritance depth.</value>
+  </data>
+    <data name="AvoidLackOfCohesionOfMethodsTitle" xml:space="preserve">
+    <value>Avoid types with low cohesion</value>
+  </data>
+    <data name="AvoidLackOfCohesionOfMethodsMessage" xml:space="preserve">
+    <value>Type '{0}' has a lack of cohesion value of {1}, indicating low cohesion</value>
+  </data>
+    <data name="AvoidLackOfCohesionOfMethodsDescription" xml:space="preserve">
+    <value>Types with low cohesion are often doing too many unrelated things, making them hard to understand and maintain. Consider refactoring.</value>
+  </data>
+    <data name="AvoidUnnecessarySpecializationTitle" xml:space="preserve">
+    <value>Avoid unnecessary specialization in method parameters</value>
+  </data>
+    <data name="AvoidUnnecessarySpecializationMessage" xml:space="preserve">
+    <value>Parameter '{0}' can be of a more general type '{1}'</value>
+  </data>
+    <data name="AvoidUnnecessarySpecializationDescription" xml:space="preserve">
+    <value>Using unnecessarily specialized parameter types reduces method reusability. Consider using more general types or interfaces.</value>
+  </data>
+    <data name="ConsiderUsingStopwatchTitle" xml:space="preserve">
+    <value>Consider using Stopwatch instead of DateTime for timing</value>
+  </data>
+    <data name="ConsiderUsingStopwatchMessage" xml:space="preserve">
+    <value>Consider using System.Diagnostics.Stopwatch instead of DateTime.Now for measuring elapsed time</value>
+  </data>
+    <data name="ConsiderUsingStopwatchDescription" xml:space="preserve">
+    <value>Stopwatch provides more accurate timing and better expresses the intent of measuring elapsed time.</value>
+  </data>
+    <data name="PreferStringIsNullOrEmptyTitle" xml:space="preserve">
+    <value>Prefer String.IsNullOrEmpty over manual checks</value>
+  </data>
+    <data name="PreferStringIsNullOrEmptyMessage" xml:space="preserve">
+    <value>Use String.IsNullOrEmpty instead of separate null and length checks</value>
+  </data>
+    <data name="PreferStringIsNullOrEmptyDescription" xml:space="preserve">
+    <value>Using String.IsNullOrEmpty improves code readability and clarity over manual null and length checks.</value>
+  </data>
 </root>

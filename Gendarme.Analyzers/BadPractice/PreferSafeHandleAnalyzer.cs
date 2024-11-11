@@ -32,12 +32,9 @@ public sealed class PreferSafeHandleAnalyzer : DiagnosticAnalyzer
 
         // Check if the field is of type IntPtr or UIntPtr
         var type = context.SemanticModel.GetTypeInfo(variableDeclaration.Type).Type;
-        if (type == null || (type.ToString() != "System.IntPtr" && type.ToString() != "System.UIntPtr"))
-        {
-            return;
-        }
-
-        if (context.SemanticModel.GetDeclaredSymbol(fieldDeclaration.Parent) is not INamedTypeSymbol containingType)
+        if (type == null || (type.ToString() != "System.IntPtr" && type.ToString() != "System.UIntPtr")
+            || fieldDeclaration.Parent is not {} fieldDeclarationParent
+            || context.SemanticModel.GetDeclaredSymbol(fieldDeclarationParent) is not INamedTypeSymbol containingType)
         {
             return;
         }

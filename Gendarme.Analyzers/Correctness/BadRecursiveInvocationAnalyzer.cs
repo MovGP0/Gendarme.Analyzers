@@ -50,8 +50,8 @@ public sealed class BadRecursiveInvocationAnalyzer : DiagnosticAnalyzer
         var invocations = methodDeclaration.DescendantNodes().OfType<InvocationExpressionSyntax>();
         foreach (var invocation in invocations)
         {
-            var invokedSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-            if (invokedSymbol != null && invokedSymbol.Equals(methodSymbol))
+            if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is IMethodSymbol invokedSymbol
+                && SymbolEqualityComparer.Default.Equals(invokedSymbol, methodSymbol))
             {
                 var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(), methodSymbol.Name);
                 context.ReportDiagnostic(diagnostic);
@@ -61,7 +61,12 @@ public sealed class BadRecursiveInvocationAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeProperty(SyntaxNodeAnalysisContext context, PropertyDeclarationSyntax propertyDeclaration)
     {
-        foreach (var accessor in propertyDeclaration.AccessorList.Accessors)
+        if (propertyDeclaration.AccessorList is not { } accessorList)
+        {
+            return;
+        }
+
+        foreach (var accessor in accessorList.Accessors)
         {
             var accessorSymbol = context.SemanticModel.GetDeclaredSymbol(accessor);
             if (accessorSymbol == null)
@@ -72,8 +77,8 @@ public sealed class BadRecursiveInvocationAnalyzer : DiagnosticAnalyzer
             var invocations = accessor.Body?.DescendantNodes().OfType<InvocationExpressionSyntax>() ?? [];
             foreach (var invocation in invocations)
             {
-                var invokedSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-                if (invokedSymbol != null && invokedSymbol.Equals(accessorSymbol))
+                if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is IMethodSymbol invokedSymbol
+                    && SymbolEqualityComparer.Default.Equals(invokedSymbol,accessorSymbol))
                 {
                     var diagnostic = Diagnostic.Create(Rule, invocation.GetLocation(), propertyDeclaration.Identifier.Text);
                     context.ReportDiagnostic(diagnostic);

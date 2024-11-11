@@ -60,6 +60,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abstract types should not expose public constructors as they can only be instantiated by derived types. A protected constructor is more appropriate for these cases..
+        /// </summary>
+        internal static string AbstractTypesShouldNotHavePublicConstructorsDescription {
+            get {
+                return ResourceManager.GetString("AbstractTypesShouldNotHavePublicConstructorsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abstract type &apos;{0}&apos; has a public constructor. Consider changing it to protected to clarify the type&apos;s intended usage..
+        /// </summary>
+        internal static string AbstractTypesShouldNotHavePublicConstructorsMessage {
+            get {
+                return ResourceManager.GetString("AbstractTypesShouldNotHavePublicConstructorsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abstract types should not have public constructors.
+        /// </summary>
+        internal static string AbstractTypesShouldNotHavePublicConstructorsTitle {
+            get {
+                return ResourceManager.GetString("AbstractTypesShouldNotHavePublicConstructorsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All assembly version attributes should be consistent..
         /// </summary>
         internal static string AssemblyVersionMismatch_Description {
@@ -123,6 +150,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fields that are never assigned a value and remain null can lead to NullReferenceExceptions and should be initialized or removed if unnecessary.
+        /// </summary>
+        internal static string AvoidAlwaysNullFieldDescription {
+            get {
+                return ResourceManager.GetString("AvoidAlwaysNullFieldDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is always null and is never assigned a value.
+        /// </summary>
+        internal static string AvoidAlwaysNullFieldMessage {
+            get {
+                return ResourceManager.GetString("AvoidAlwaysNullFieldMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid fields that are always null.
+        /// </summary>
+        internal static string AvoidAlwaysNullFieldTitle {
+            get {
+                return ResourceManager.GetString("AvoidAlwaysNullFieldTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ensure that exceptions derived from ArgumentException provide meaningful parameter names and messages.
+        /// </summary>
+        internal static string AvoidArgumentExceptionDefaultConstructorDescription {
+            get {
+                return ResourceManager.GetString("AvoidArgumentExceptionDefaultConstructorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use of default constructor for {0} is discouraged; provide parameter name and message.
+        /// </summary>
+        internal static string AvoidArgumentExceptionDefaultConstructorMessage {
+            get {
+                return ResourceManager.GetString("AvoidArgumentExceptionDefaultConstructorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid using default constructor for {0}.
+        /// </summary>
+        internal static string AvoidArgumentExceptionDefaultConstructorTitle {
+            get {
+                return ResourceManager.GetString("AvoidArgumentExceptionDefaultConstructorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avoid using methods that are known to be problematic due to potential issues such as performance problems or incorrect behavior..
         /// </summary>
         internal static string AvoidCallingProblematicMethods_Description {
@@ -150,6 +231,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Methods with high cyclomatic complexity are difficult to understand and maintain. Consider refactoring to reduce complexity..
+        /// </summary>
+        internal static string AvoidComplexMethodsDescription {
+            get {
+                return ResourceManager.GetString("AvoidComplexMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; has a cyclomatic complexity of {1}, which is higher than the allowed threshold.
+        /// </summary>
+        internal static string AvoidComplexMethodsMessage {
+            get {
+                return ResourceManager.GetString("AvoidComplexMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid complex methods.
+        /// </summary>
+        internal static string AvoidComplexMethodsTitle {
+            get {
+                return ResourceManager.GetString("AvoidComplexMethodsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for types that contain only static members and fires if the type contains a visible instance constructor..
         /// </summary>
         internal static string AvoidConstructorsInStaticTypes_Description {
@@ -173,6 +281,33 @@ namespace Gendarme.Analyzers {
         internal static string AvoidConstructorsInStaticTypes_Title {
             get {
                 return ResourceManager.GetString("AvoidConstructorsInStaticTypes_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deep inheritance hierarchies can make code difficult to understand and maintain. Consider refactoring to reduce inheritance depth..
+        /// </summary>
+        internal static string AvoidDeepInheritanceTreeDescription {
+            get {
+                return ResourceManager.GetString("AvoidDeepInheritanceTreeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has an inheritance depth of {1}, which exceeds the maximum allowed depth.
+        /// </summary>
+        internal static string AvoidDeepInheritanceTreeMessage {
+            get {
+                return ResourceManager.GetString("AvoidDeepInheritanceTreeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid deep inheritance trees.
+        /// </summary>
+        internal static string AvoidDeepInheritanceTreeTitle {
+            get {
+                return ResourceManager.GetString("AvoidDeepInheritanceTreeTitle", resourceCulture);
             }
         }
         
@@ -227,6 +362,141 @@ namespace Gendarme.Analyzers {
         internal static string AvoidFloatingPointEquality_Title {
             get {
                 return ResourceManager.GetString("AvoidFloatingPointEquality_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types with low cohesion are often doing too many unrelated things, making them hard to understand and maintain. Consider refactoring..
+        /// </summary>
+        internal static string AvoidLackOfCohesionOfMethodsDescription {
+            get {
+                return ResourceManager.GetString("AvoidLackOfCohesionOfMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has a lack of cohesion value of {1}, indicating low cohesion.
+        /// </summary>
+        internal static string AvoidLackOfCohesionOfMethodsMessage {
+            get {
+                return ResourceManager.GetString("AvoidLackOfCohesionOfMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid types with low cohesion.
+        /// </summary>
+        internal static string AvoidLackOfCohesionOfMethodsTitle {
+            get {
+                return ResourceManager.GetString("AvoidLackOfCohesionOfMethodsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unused generic type parameters can be removed.
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericType_Description {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericType_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic type parameter &apos;{0}&apos; is not used in method parameters.
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericType_Message {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericType_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid Method with unused generic-type parameter.
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericType_Title {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericType_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unused generic types should be utilized in method parameters or removed to improve code clarity..
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericTypeAnalyzer_Description {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericTypeAnalyzer_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generic type parameter &apos;{0}&apos; is not used in method parameters.
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericTypeAnalyzer_Message {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericTypeAnalyzer_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid Method with Unused Generic Type Parameter.
+        /// </summary>
+        internal static string AvoidMethodWithUnusedGenericTypeAnalyzer_Title {
+            get {
+                return ResourceManager.GetString("AvoidMethodWithUnusedGenericTypeAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throwing basic exceptions like System.Exception, System.ApplicationException, or System.SystemException does not provide enough information about the error to be helpful to the consumer of the library.
+        /// </summary>
+        internal static string AvoidThrowingBasicExceptionsDescription {
+            get {
+                return ResourceManager.GetString("AvoidThrowingBasicExceptionsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid throwing basic exception type &apos;{0}&apos;; throw a more specific exception instead.
+        /// </summary>
+        internal static string AvoidThrowingBasicExceptionsMessage {
+            get {
+                return ResourceManager.GetString("AvoidThrowingBasicExceptionsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid throwing basic exceptions.
+        /// </summary>
+        internal static string AvoidThrowingBasicExceptionsTitle {
+            get {
+                return ResourceManager.GetString("AvoidThrowingBasicExceptionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using unnecessarily specialized parameter types reduces method reusability. Consider using more general types or interfaces..
+        /// </summary>
+        internal static string AvoidUnnecessarySpecializationDescription {
+            get {
+                return ResourceManager.GetString("AvoidUnnecessarySpecializationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; can be of a more general type &apos;{1}&apos;.
+        /// </summary>
+        internal static string AvoidUnnecessarySpecializationMessage {
+            get {
+                return ResourceManager.GetString("AvoidUnnecessarySpecializationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid unnecessary specialization in method parameters.
+        /// </summary>
+        internal static string AvoidUnnecessarySpecializationTitle {
+            get {
+                return ResourceManager.GetString("AvoidUnnecessarySpecializationTitle", resourceCulture);
             }
         }
         
@@ -420,6 +690,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stopwatch provides more accurate timing and better expresses the intent of measuring elapsed time..
+        /// </summary>
+        internal static string ConsiderUsingStopwatchDescription {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStopwatchDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider using System.Diagnostics.Stopwatch instead of DateTime.Now for measuring elapsed time.
+        /// </summary>
+        internal static string ConsiderUsingStopwatchMessage {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStopwatchMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider using Stopwatch instead of DateTime for timing.
+        /// </summary>
+        internal static string ConsiderUsingStopwatchTitle {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStopwatchTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Constructors of non-sealed types should not call virtual methods. This can lead to fragile code if the method is overridden in a derived class..
         /// </summary>
         internal static string ConstructorShouldNotCallVirtualMethods_Description {
@@ -443,6 +740,33 @@ namespace Gendarme.Analyzers {
         internal static string ConstructorShouldNotCallVirtualMethods_Title {
             get {
                 return ResourceManager.GetString("ConstructorShouldNotCallVirtualMethods_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delegates passed to native code must handle exceptions to prevent unhandled exceptions from propagating into unmanaged code..
+        /// </summary>
+        internal static string DelegatesPassedToNativeCodeMustIncludeExceptionHandlingDescription {
+            get {
+                return ResourceManager.GetString("DelegatesPassedToNativeCodeMustIncludeExceptionHandlingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; is used as a delegate passed to native code and must include a try-catch block that spans the entire method.
+        /// </summary>
+        internal static string DelegatesPassedToNativeCodeMustIncludeExceptionHandlingMessage {
+            get {
+                return ResourceManager.GetString("DelegatesPassedToNativeCodeMustIncludeExceptionHandlingMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delegate passed to native code must include exception handling.
+        /// </summary>
+        internal static string DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle {
+            get {
+                return ResourceManager.GetString("DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle", resourceCulture);
             }
         }
         
@@ -501,6 +825,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Avoid casting IntPtr or UIntPtr to 32-bit or smaller types; use Int64 or avoid casting to integer types..
+        /// </summary>
+        internal static string DoNotAssumeIntPtrSizeDescription {
+            get {
+                return ResourceManager.GetString("DoNotAssumeIntPtrSizeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Casting IntPtr to a 32-bit or smaller type can cause errors on 64-bit platforms.
+        /// </summary>
+        internal static string DoNotAssumeIntPtrSizeMessage {
+            get {
+                return ResourceManager.GetString("DoNotAssumeIntPtrSizeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not assume IntPtr size.
+        /// </summary>
+        internal static string DoNotAssumeIntPtrSizeTitle {
+            get {
+                return ResourceManager.GetString("DoNotAssumeIntPtrSizeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to As defined in IEEE 754 it’s impossible to compare any floating-point value, even another NaN, with NaN..
         /// </summary>
         internal static string DoNotCompareWithNaN_Description {
@@ -524,6 +875,60 @@ namespace Gendarme.Analyzers {
         internal static string DoNotCompareWithNaN_Title {
             get {
                 return ResourceManager.GetString("DoNotCompareWithNaN_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rethrowing exceptions using &apos;throw ex;&apos; resets the stack trace. Use &apos;throw;&apos; to preserve it..
+        /// </summary>
+        internal static string DoNotDestroyStackTraceDescription {
+            get {
+                return ResourceManager.GetString("DoNotDestroyStackTraceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;throw;&apos; instead of &apos;throw ex;&apos; to preserve stack trace.
+        /// </summary>
+        internal static string DoNotDestroyStackTraceMessage {
+            get {
+                return ResourceManager.GetString("DoNotDestroyStackTraceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not destroy stack trace when rethrowing exceptions.
+        /// </summary>
+        internal static string DoNotDestroyStackTraceTitle {
+            get {
+                return ResourceManager.GetString("DoNotDestroyStackTraceTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nested generic signatures should be avoided for publicly exposed methods, as they can be difficult to construct and understand..
+        /// </summary>
+        internal static string DoNotExposeNestedGenericSignatures_Description {
+            get {
+                return ResourceManager.GetString("DoNotExposeNestedGenericSignatures_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; exposes a nested generic signature.
+        /// </summary>
+        internal static string DoNotExposeNestedGenericSignatures_Message {
+            get {
+                return ResourceManager.GetString("DoNotExposeNestedGenericSignatures_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do Not Expose Nested Generic Signatures.
+        /// </summary>
+        internal static string DoNotExposeNestedGenericSignatures_Title {
+            get {
+                return ResourceManager.GetString("DoNotExposeNestedGenericSignatures_Title", resourceCulture);
             }
         }
         
@@ -659,6 +1064,87 @@ namespace Gendarme.Analyzers {
         internal static string DoNotRoundIntegers_Title {
             get {
                 return ResourceManager.GetString("DoNotRoundIntegers_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Catch specific exceptions or rethrow to avoid swallowing errors.
+        /// </summary>
+        internal static string DoNotSwallowErrorsCatchingNonSpecificExceptionsDescription {
+            get {
+                return ResourceManager.GetString("DoNotSwallowErrorsCatchingNonSpecificExceptionsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Catching non-specific exceptions without rethrowing can swallow errors.
+        /// </summary>
+        internal static string DoNotSwallowErrorsCatchingNonSpecificExceptionsMessage {
+            get {
+                return ResourceManager.GetString("DoNotSwallowErrorsCatchingNonSpecificExceptionsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid swallowing exceptions by catching non-specific exceptions.
+        /// </summary>
+        internal static string DoNotSwallowErrorsCatchingNonSpecificExceptionsTitle {
+            get {
+                return ResourceManager.GetString("DoNotSwallowErrorsCatchingNonSpecificExceptionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods like Equals, GetHashCode, ToString, Dispose, and finalizers should not throw exceptions.
+        /// </summary>
+        internal static string DoNotThrowInUnexpectedLocationDescription {
+            get {
+                return ResourceManager.GetString("DoNotThrowInUnexpectedLocationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not throw exceptions in method &apos;{0}&apos; as it is unexpected.
+        /// </summary>
+        internal static string DoNotThrowInUnexpectedLocationMessage {
+            get {
+                return ResourceManager.GetString("DoNotThrowInUnexpectedLocationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid throwing exceptions in unexpected locations.
+        /// </summary>
+        internal static string DoNotThrowInUnexpectedLocationTitle {
+            get {
+                return ResourceManager.GetString("DoNotThrowInUnexpectedLocationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throwing reserved exceptions can cause unexpected behavior; use appropriate exception types.
+        /// </summary>
+        internal static string DoNotThrowReservedExceptionDescription {
+            get {
+                return ResourceManager.GetString("DoNotThrowReservedExceptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not throw &apos;{0}&apos;; it is reserved for use by the runtime.
+        /// </summary>
+        internal static string DoNotThrowReservedExceptionMessage {
+            get {
+                return ResourceManager.GetString("DoNotThrowReservedExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid throwing reserved exceptions.
+        /// </summary>
+        internal static string DoNotThrowReservedExceptionTitle {
+            get {
+                return ResourceManager.GetString("DoNotThrowReservedExceptionTitle", resourceCulture);
             }
         }
         
@@ -852,6 +1338,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Non-public exception types derived directly from basic exceptions do not provide sufficient information to consumers.
+        /// </summary>
+        internal static string ExceptionShouldBeVisibleDescription {
+            get {
+                return ResourceManager.GetString("ExceptionShouldBeVisibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception type &apos;{0}&apos; should be public to be meaningful to API consumers.
+        /// </summary>
+        internal static string ExceptionShouldBeVisibleMessage {
+            get {
+                return ResourceManager.GetString("ExceptionShouldBeVisibleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception types should be public.
+        /// </summary>
+        internal static string ExceptionShouldBeVisibleTitle {
+            get {
+                return ResourceManager.GetString("ExceptionShouldBeVisibleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks that a finalizer calls the base class finalizer..
         /// </summary>
         internal static string FinalizersShouldCallBaseClassFinalizer_Description {
@@ -906,6 +1419,141 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calling other managed methods before GetLastWin32Error may overwrite the error code..
+        /// </summary>
+        internal static string GetLastErrorMustBeCalledRightAfterPInvokeDescription {
+            get {
+                return ResourceManager.GetString("GetLastErrorMustBeCalledRightAfterPInvokeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Marshal.GetLastWin32Error should be called immediately after a P/Invoke call to avoid overwriting the error code.
+        /// </summary>
+        internal static string GetLastErrorMustBeCalledRightAfterPInvokeMessage {
+            get {
+                return ResourceManager.GetString("GetLastErrorMustBeCalledRightAfterPInvokeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GetLastWin32Error must be called immediately after P/Invoke.
+        /// </summary>
+        internal static string GetLastErrorMustBeCalledRightAfterPInvokeTitle {
+            get {
+                return ResourceManager.GetString("GetLastErrorMustBeCalledRightAfterPInvokeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implementing &apos;IEnumerable&lt;T&gt;&apos; helps avoid type casting and ensures type safety during iteration..
+        /// </summary>
+        internal static string ImplementGenericCollectionInterfaces_Description {
+            get {
+                return ResourceManager.GetString("ImplementGenericCollectionInterfaces_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider implementing &apos;IEnumerable&lt;T&gt;&apos; instead of &apos;IEnumerable&apos; for type safety and improved usability.
+        /// </summary>
+        internal static string ImplementGenericCollectionInterfaces_Message {
+            get {
+                return ResourceManager.GetString("ImplementGenericCollectionInterfaces_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement Generic Collection Interfaces.
+        /// </summary>
+        internal static string ImplementGenericCollectionInterfaces_Title {
+            get {
+                return ResourceManager.GetString("ImplementGenericCollectionInterfaces_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ensure that the parameter name and message are provided in the correct order when throwing argument exceptions..
+        /// </summary>
+        internal static string InstantiateArgumentExceptionCorrectlyDescription {
+            get {
+                return ResourceManager.GetString("InstantiateArgumentExceptionCorrectlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters to &apos;{0}&apos; constructor are in the wrong order.
+        /// </summary>
+        internal static string InstantiateArgumentExceptionCorrectlyMessage {
+            get {
+                return ResourceManager.GetString("InstantiateArgumentExceptionCorrectlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instantiate argument exceptions correctly.
+        /// </summary>
+        internal static string InstantiateArgumentExceptionCorrectlyTitle {
+            get {
+                return ResourceManager.GetString("InstantiateArgumentExceptionCorrectlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the [MarshalAs] attribute for boolean parameters in P/Invoke declarations to ensure correct size across platforms..
+        /// </summary>
+        internal static string MarshalBooleansInPInvokeDeclarationsDescription {
+            get {
+                return ResourceManager.GetString("MarshalBooleansInPInvokeDeclarationsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boolean parameter &apos;{0}&apos; in P/Invoke should have an explicit [MarshalAs] attribute.
+        /// </summary>
+        internal static string MarshalBooleansInPInvokeDeclarationsMessage {
+            get {
+                return ResourceManager.GetString("MarshalBooleansInPInvokeDeclarationsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booleans in P/Invoke signatures should be explicitly marshaled.
+        /// </summary>
+        internal static string MarshalBooleansInPInvokeDeclarationsTitle {
+            get {
+                return ResourceManager.GetString("MarshalBooleansInPInvokeDeclarationsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify the CharSet in DllImport or use [MarshalAs] for string parameters in P/Invoke declarations to ensure correct string marshaling across platforms.
+        /// </summary>
+        internal static string MarshalStringsInPInvokeDeclarationsDescription {
+            get {
+                return ResourceManager.GetString("MarshalStringsInPInvokeDeclarationsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String parameter &apos;{0}&apos; in P/Invoke should specify CharSet in DllImport or have an explicit [MarshalAs] attribute.
+        /// </summary>
+        internal static string MarshalStringsInPInvokeDeclarationsMessage {
+            get {
+                return ResourceManager.GetString("MarshalStringsInPInvokeDeclarationsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strings in P/Invoke signatures should specify CharSet or [MarshalAs].
+        /// </summary>
+        internal static string MarshalStringsInPInvokeDeclarationsTitle {
+            get {
+                return ResourceManager.GetString("MarshalStringsInPInvokeDeclarationsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for methods that do not require anything from the current instance and can be converted into static methods..
         /// </summary>
         internal static string MethodCanBeMadeStatic_Description {
@@ -929,6 +1577,33 @@ namespace Gendarme.Analyzers {
         internal static string MethodCanBeMadeStatic_Title {
             get {
                 return ResourceManager.GetString("MethodCanBeMadeStatic_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ensure that exception types implement the standard exception constructors for proper serialization and usage..
+        /// </summary>
+        internal static string MissingExceptionConstructorsDescription {
+            get {
+                return ResourceManager.GetString("MissingExceptionConstructorsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception type &apos;{0}&apos; is missing one or more required constructors.
+        /// </summary>
+        internal static string MissingExceptionConstructorsMessage {
+            get {
+                return ResourceManager.GetString("MissingExceptionConstructorsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception types should implement standard exception constructors.
+        /// </summary>
+        internal static string MissingExceptionConstructorsTitle {
+            get {
+                return ResourceManager.GetString("MissingExceptionConstructorsTitle", resourceCulture);
             }
         }
         
@@ -1014,6 +1689,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Making P/Invoke methods internal helps encapsulate native code dependencies and reduces the public API surface.
+        /// </summary>
+        internal static string PInvokeShouldNotBeVisibleDescription {
+            get {
+                return ResourceManager.GetString("PInvokeShouldNotBeVisibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P/Invoke method &apos;{0}&apos; should not be public or protected; consider making it internal.
+        /// </summary>
+        internal static string PInvokeShouldNotBeVisibleMessage {
+            get {
+                return ResourceManager.GetString("PInvokeShouldNotBeVisibleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P/Invoke methods should not be publicly visible.
+        /// </summary>
+        internal static string PInvokeShouldNotBeVisibleTitle {
+            get {
+                return ResourceManager.GetString("PInvokeShouldNotBeVisibleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Methods and properties which return a string, an array, a collection, or an enumerable should return an empty instance rather than null..
         /// </summary>
         internal static string PreferEmptyInstanceOverNull_Description {
@@ -1041,6 +1743,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using generics instead of &apos;ref object&apos; provides type safety and a more intuitive API for consumers..
+        /// </summary>
+        internal static string PreferGenericsOverRefObject_Description {
+            get {
+                return ResourceManager.GetString("PreferGenericsOverRefObject_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid using &apos;ref object&apos;, prefer using generics for type safety.
+        /// </summary>
+        internal static string PreferGenericsOverRefObject_Message {
+            get {
+                return ResourceManager.GetString("PreferGenericsOverRefObject_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer Generics Over Ref Object.
+        /// </summary>
+        internal static string PreferGenericsOverRefObject_Title {
+            get {
+                return ResourceManager.GetString("PreferGenericsOverRefObject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It is recommended to use SafeHandle instead of IntPtr or UIntPtr for handling unmanaged resources..
         /// </summary>
         internal static string PreferSafeHandle_Description {
@@ -1064,6 +1793,33 @@ namespace Gendarme.Analyzers {
         internal static string PreferSafeHandle_Title {
             get {
                 return ResourceManager.GetString("PreferSafeHandle_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using String.IsNullOrEmpty improves code readability and clarity over manual null and length checks..
+        /// </summary>
+        internal static string PreferStringIsNullOrEmptyDescription {
+            get {
+                return ResourceManager.GetString("PreferStringIsNullOrEmptyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use String.IsNullOrEmpty instead of separate null and length checks.
+        /// </summary>
+        internal static string PreferStringIsNullOrEmptyMessage {
+            get {
+                return ResourceManager.GetString("PreferStringIsNullOrEmptyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer String.IsNullOrEmpty over manual checks.
+        /// </summary>
+        internal static string PreferStringIsNullOrEmptyTitle {
+            get {
+                return ResourceManager.GetString("PreferStringIsNullOrEmptyTitle", resourceCulture);
             }
         }
         
@@ -1496,6 +2252,87 @@ namespace Gendarme.Analyzers {
         internal static string ToStringShouldNotReturnNull_Title {
             get {
                 return ResourceManager.GetString("ToStringShouldNotReturnNull_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replacing custom delegate types with &apos;EventHandler&lt;TEventArgs&gt;&apos; improves consistency and leverages built-in .NET patterns..
+        /// </summary>
+        internal static string UseGenericEventHandler_Description {
+            get {
+                return ResourceManager.GetString("UseGenericEventHandler_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use &apos;EventHandler&lt;TEventArgs&gt;&apos; instead of custom delegate types.
+        /// </summary>
+        internal static string UseGenericEventHandler_Message {
+            get {
+                return ResourceManager.GetString("UseGenericEventHandler_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Generic EventHandler&lt;TEventArgs&gt;.
+        /// </summary>
+        internal static string UseGenericEventHandler_Title {
+            get {
+                return ResourceManager.GetString("UseGenericEventHandler_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using managed alternatives improves portability and maintainability of code..
+        /// </summary>
+        internal static string UseManagedAlternativesToPInvokeDescription {
+            get {
+                return ResourceManager.GetString("UseManagedAlternativesToPInvokeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use managed alternative &apos;{1}&apos; instead of P/Invoke method &apos;{0}&apos;.
+        /// </summary>
+        internal static string UseManagedAlternativesToPInvokeMessage {
+            get {
+                return ResourceManager.GetString("UseManagedAlternativesToPInvokeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use managed alternatives to P/Invoke methods.
+        /// </summary>
+        internal static string UseManagedAlternativesToPInvokeTitle {
+            get {
+                return ResourceManager.GetString("UseManagedAlternativesToPInvokeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public methods should check if the object is disposed and throw ObjectDisposedException if it is.
+        /// </summary>
+        internal static string UseObjectDisposedExceptionDescription {
+            get {
+                return ResourceManager.GetString("UseObjectDisposedExceptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; should throw ObjectDisposedException if object is disposed.
+        /// </summary>
+        internal static string UseObjectDisposedExceptionMessage {
+            get {
+                return ResourceManager.GetString("UseObjectDisposedExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Throw ObjectDisposedException when disposed object is accessed.
+        /// </summary>
+        internal static string UseObjectDisposedExceptionTitle {
+            get {
+                return ResourceManager.GetString("UseObjectDisposedExceptionTitle", resourceCulture);
             }
         }
         

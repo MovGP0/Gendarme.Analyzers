@@ -4,6 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <NoWarn>RS2008</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis" Version="4.10.0" />
@@ -27,8 +28,6 @@
     <Folder Include="Concurrency\" />
     <Folder Include="Correctness\" />
     <Folder Include="Design\Generic\" />
-    <Folder Include="Exceptions\" />
-    <Folder Include="Interoperability\" />
     <Folder Include="Maintainability\" />
     <Folder Include="Naming\" />
     <Folder Include="Performance\" />
