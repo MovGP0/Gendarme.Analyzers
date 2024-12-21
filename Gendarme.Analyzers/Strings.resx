@@ -1504,15 +1504,6 @@
   <data name="UseTypeEmptyTypesDescription" xml:space="preserve">
     <value>Using 'Type.EmptyTypes' avoids unnecessary allocations and improves performance.</value>
   </data>
-  <data name="AbstractTypesShouldNotHavePublicConstructorsTitle" xml:space="preserve">
-    <value>Abstract types should not have public constructors</value>
-  </data>
-  <data name="AbstractTypesShouldNotHavePublicConstructorsMessage" xml:space="preserve">
-    <value>Abstract type '{0}' has a public constructor. Consider changing it to protected to clarify the type's intended usage.</value>
-  </data>
-  <data name="AbstractTypesShouldNotHavePublicConstructorsDescription" xml:space="preserve">
-    <value>Abstract types should not expose public constructors as they can only be instantiated by derived types. A protected constructor is more appropriate for these cases.</value>
-  </data>
   <data name="AttributeArgumentsShouldHaveAccessorsTitle" xml:space="preserve">
     <value>Attribute arguments should be exposed via properties</value>
   </data>

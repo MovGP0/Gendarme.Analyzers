@@ -1,7 +1,7 @@
 namespace Gendarme.Analyzers.BadPractice;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class AssemblyVersionMismatchAnalyzer : DiagnosticAnalyzer
+public sealed class AvoidAssemblyVersionMismatchAnalyzer : DiagnosticAnalyzer
 {
     private static readonly LocalizableString Title = Strings.AssemblyVersionMismatch_Title;
     private static readonly LocalizableString MessageFormat = Strings.AssemblyVersionMismatch_Message;

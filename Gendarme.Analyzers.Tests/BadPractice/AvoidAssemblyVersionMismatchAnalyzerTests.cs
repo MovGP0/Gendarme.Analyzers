@@ -4,8 +4,8 @@ using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.BadPractice;
 
-[TestOf(typeof(AssemblyVersionMismatchAnalyzer))]
-public sealed class AssemblyVersionMismatchAnalyzerTests
+[TestOf(typeof(AvoidAssemblyVersionMismatchAnalyzer))]
+public sealed class AvoidAssemblyVersionMismatchAnalyzerTests
 {
     [Fact]
     public async Task TestVersionMismatch()
@@ -19,7 +19,7 @@ using System.Reflection;
 public class MyClass { }
 """;
 
-        var context = new CSharpAnalyzerTest<AssemblyVersionMismatchAnalyzer, DefaultVerifier>
+        var context = new CSharpAnalyzerTest<AvoidAssemblyVersionMismatchAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = testCode 
