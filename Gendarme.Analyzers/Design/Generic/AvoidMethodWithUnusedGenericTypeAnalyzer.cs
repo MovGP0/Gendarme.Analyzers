@@ -28,7 +28,7 @@ public class AvoidMethodWithUnusedGenericTypeAnalyzer : DiagnosticAnalyzer
 
         foreach (var typeParam in methodDeclaration.TypeParameterList.Parameters)
         {
-            bool isUsedInParameters = methodDeclaration.ParameterList.Parameters
+            var isUsedInParameters = methodDeclaration.ParameterList.Parameters
                 .Any(p => p.Type?.ToString().Contains(typeParam.Identifier.Text) ?? false);
 
             if (!isUsedInParameters)

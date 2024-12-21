@@ -177,6 +177,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to It is generally not useful to set state in an attribute without providing a way to retrieve it. Provide appropriately cased properties for constructor parameters..
+        /// </summary>
+        internal static string AttributeArgumentsShouldHaveAccessorsDescription {
+            get {
+                return ResourceManager.GetString("AttributeArgumentsShouldHaveAccessorsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute &apos;{0}&apos; constructor parameter &apos;{1}&apos; is not exposed by a property. Consider adding a property named &apos;{1}&apos; (Pascal-cased)..
+        /// </summary>
+        internal static string AttributeArgumentsShouldHaveAccessorsMessage {
+            get {
+                return ResourceManager.GetString("AttributeArgumentsShouldHaveAccessorsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute arguments should be exposed via properties.
+        /// </summary>
+        internal static string AttributeArgumentsShouldHaveAccessorsTitle {
+            get {
+                return ResourceManager.GetString("AttributeArgumentsShouldHaveAccessorsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks attributes with certain types (Version, Guid, Uri) and validates the string value..
         /// </summary>
         internal static string AttributeStringLiteralsShouldParseCorrectly_Description {
@@ -443,6 +470,33 @@ namespace Gendarme.Analyzers {
         internal static string AvoidDeepNamespaceHierarchyTitle {
             get {
                 return ResourceManager.GetString("AvoidDeepNamespaceHierarchyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Empty interfaces are generally not useful except as markers; use attributes instead to categorize or mark types..
+        /// </summary>
+        internal static string AvoidEmptyInterfaceDescription {
+            get {
+                return ResourceManager.GetString("AvoidEmptyInterfaceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface &apos;{0}&apos; is empty. Consider removing it or using an attribute for marker semantics..
+        /// </summary>
+        internal static string AvoidEmptyInterfaceMessage {
+            get {
+                return ResourceManager.GetString("AvoidEmptyInterfaceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid empty interfaces.
+        /// </summary>
+        internal static string AvoidEmptyInterfaceTitle {
+            get {
+                return ResourceManager.GetString("AvoidEmptyInterfaceTitle", resourceCulture);
             }
         }
         
@@ -744,6 +798,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Indexers with multiple parameters can be confusing. IDE auto-complete doesn’t always handle them well. A method is often clearer for multi-parameter access..
+        /// </summary>
+        internal static string AvoidMultidimensionalIndexerDescription {
+            get {
+                return ResourceManager.GetString("AvoidMultidimensionalIndexerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has an indexer with multiple parameters. Consider using methods instead to avoid confusion and improve usability..
+        /// </summary>
+        internal static string AvoidMultidimensionalIndexerMessage {
+            get {
+                return ResourceManager.GetString("AvoidMultidimensionalIndexerMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid multidimensional indexers.
+        /// </summary>
+        internal static string AvoidMultidimensionalIndexerTitle {
+            get {
+                return ResourceManager.GetString("AvoidMultidimensionalIndexerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identifiers should only contain alphanumeric characters to improve readability and maintain coding standards..
         /// </summary>
         internal static string AvoidNonAlphanumericIdentifierDescription {
@@ -767,6 +848,33 @@ namespace Gendarme.Analyzers {
         internal static string AvoidNonAlphanumericIdentifierTitle {
             get {
                 return ResourceManager.GetString("AvoidNonAlphanumericIdentifierTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties with only a set accessor can be confusing to consumers. Generally, either provide both get and set accessors, or use a method to set the value..
+        /// </summary>
+        internal static string AvoidPropertiesWithoutGetAccessorDescription {
+            get {
+                return ResourceManager.GetString("AvoidPropertiesWithoutGetAccessorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; is externally visible but lacks a get accessor. Add a getter or convert the property to a method..
+        /// </summary>
+        internal static string AvoidPropertiesWithoutGetAccessorMessage {
+            get {
+                return ResourceManager.GetString("AvoidPropertiesWithoutGetAccessorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid properties without a get accessor.
+        /// </summary>
+        internal static string AvoidPropertiesWithoutGetAccessorTitle {
+            get {
+                return ResourceManager.GetString("AvoidPropertiesWithoutGetAccessorTitle", resourceCulture);
             }
         }
         
@@ -825,6 +933,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using ref/out parameters complicates method signatures and can be misused. Where possible, return values or use the bool Try*(out T) pattern. Provide simpler alternatives for most use cases..
+        /// </summary>
+        internal static string AvoidRefAndOutParametersDescription {
+            get {
+                return ResourceManager.GetString("AvoidRefAndOutParametersDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; uses &apos;{1}&apos; parameter. These can create confusion in public APIs. Consider alternative designs or use the bool Try*(out) pattern only..
+        /// </summary>
+        internal static string AvoidRefAndOutParametersMessage {
+            get {
+                return ResourceManager.GetString("AvoidRefAndOutParametersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid ref and out parameters.
+        /// </summary>
+        internal static string AvoidRefAndOutParametersTitle {
+            get {
+                return ResourceManager.GetString("AvoidRefAndOutParametersTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Casting the same value multiple times is inefficient. Consider caching the casted value in a variable..
         /// </summary>
         internal static string AvoidRepetitiveCastsDescription {
@@ -875,6 +1010,33 @@ namespace Gendarme.Analyzers {
         internal static string AvoidReturningArraysOnPropertiesTitle {
             get {
                 return ResourceManager.GetString("AvoidReturningArraysOnPropertiesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Namespaces with few types can create unnecessary fragmentation. Consider combining small namespaces or organizing related types together..
+        /// </summary>
+        internal static string AvoidSmallNamespaceDescription {
+            get {
+                return ResourceManager.GetString("AvoidSmallNamespaceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Namespace &apos;{0}&apos; contains only {1} externally visible type(s). At least {2} are recommended for clarity and organization..
+        /// </summary>
+        internal static string AvoidSmallNamespaceMessage {
+            get {
+                return ResourceManager.GetString("AvoidSmallNamespaceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid small namespaces.
+        /// </summary>
+        internal static string AvoidSmallNamespaceTitle {
+            get {
+                return ResourceManager.GetString("AvoidSmallNamespaceTitle", resourceCulture);
             }
         }
         
@@ -1311,6 +1473,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exposing fields directly ties callers to the field’s storage and prevents future internal changes. Use properties (getters and setters) to provide a stable API..
+        /// </summary>
+        internal static string AvoidVisibleFieldsDescription {
+            get {
+                return ResourceManager.GetString("AvoidVisibleFieldsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field &apos;{0}&apos; is externally visible. Prefer using a property instead to preserve binary compatibility if the implementation changes..
+        /// </summary>
+        internal static string AvoidVisibleFieldsMessage {
+            get {
+                return ResourceManager.GetString("AvoidVisibleFieldsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid externally visible fields.
+        /// </summary>
+        internal static string AvoidVisibleFieldsTitle {
+            get {
+                return ResourceManager.GetString("AvoidVisibleFieldsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publicly nested types can cause confusion because they appear as members rather than namespaced types. Consider scoping them within a namespace or marking them private..
+        /// </summary>
+        internal static string AvoidVisibleNestedTypesDescription {
+            get {
+                return ResourceManager.GetString("AvoidVisibleNestedTypesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nested type &apos;{0}&apos; is externally visible. Nesting can confuse usage and documentation; consider making it private or top-level..
+        /// </summary>
+        internal static string AvoidVisibleNestedTypesMessage {
+            get {
+                return ResourceManager.GetString("AvoidVisibleNestedTypesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Avoid externally visible nested types.
+        /// </summary>
+        internal static string AvoidVisibleNestedTypesTitle {
+            get {
+                return ResourceManager.GetString("AvoidVisibleNestedTypesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks for methods that may be infinitely recursive..
         /// </summary>
         internal static string BadRecursiveInvocation_Description {
@@ -1527,6 +1743,87 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Implementing an interface clarifies semantics and increases reusability. If a type already implements common interface members, explicitly implement that interface for clarity..
+        /// </summary>
+        internal static string ConsiderAddingInterfaceDescription {
+            get {
+                return ResourceManager.GetString("ConsiderAddingInterfaceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements members that appear to match an interface, but does not explicitly implement that interface..
+        /// </summary>
+        internal static string ConsiderAddingInterfaceMessage {
+            get {
+                return ResourceManager.GetString("ConsiderAddingInterfaceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider adding an interface for common members.
+        /// </summary>
+        internal static string ConsiderAddingInterfaceTitle {
+            get {
+                return ResourceManager.GetString("ConsiderAddingInterfaceTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for pairs of fields which seem to provide the same functionality as a single nullable field..
+        /// </summary>
+        internal static string ConsiderConvertingFieldToNullableDescription {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingFieldToNullableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has fields that could be combined into a nullable field..
+        /// </summary>
+        internal static string ConsiderConvertingFieldToNullableMessage {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingFieldToNullableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider converting field to nullable.
+        /// </summary>
+        internal static string ConsiderConvertingFieldToNullableTitle {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingFieldToNullableTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checks for methods whose definition looks similar to a property (e.g. name starts with &apos;Get&apos; or &apos;Is&apos;, has no parameters, etc.)..
+        /// </summary>
+        internal static string ConsiderConvertingMethodToPropertyDescription {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingMethodToPropertyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; appears to be a candidate for a property..
+        /// </summary>
+        internal static string ConsiderConvertingMethodToPropertyMessage {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingMethodToPropertyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider converting method to property.
+        /// </summary>
+        internal static string ConsiderConvertingMethodToPropertyTitle {
+            get {
+                return ResourceManager.GetString("ConsiderConvertingMethodToPropertyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default event accessors are synchronized, which can impact performance. For non-visible events, consider custom accessors without synchronization if thread safety is managed elsewhere..
         /// </summary>
         internal static string ConsiderCustomAccessorsForNonVisibleEventsDescription {
@@ -1550,6 +1847,33 @@ namespace Gendarme.Analyzers {
         internal static string ConsiderCustomAccessorsForNonVisibleEventsTitle {
             get {
                 return ResourceManager.GetString("ConsiderCustomAccessorsForNonVisibleEventsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks for types that contain only static members and suggests that the type be made static..
+        /// </summary>
+        internal static string ConsiderUsingStaticTypeDescription {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStaticTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; contains only static members and can be declared static..
+        /// </summary>
+        internal static string ConsiderUsingStaticTypeMessage {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStaticTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider using static type.
+        /// </summary>
+        internal static string ConsiderUsingStaticTypeTitle {
+            get {
+                return ResourceManager.GetString("ConsiderUsingStaticTypeTitle", resourceCulture);
             }
         }
         
@@ -1604,6 +1928,33 @@ namespace Gendarme.Analyzers {
         internal static string ConstructorShouldNotCallVirtualMethods_Title {
             get {
                 return ResourceManager.GetString("ConstructorShouldNotCallVirtualMethods_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events should have a void return type and take two parameters: object sender and EventArgs e (or derived)..
+        /// </summary>
+        internal static string DeclareEventHandlersCorrectlyDescription {
+            get {
+                return ResourceManager.GetString("DeclareEventHandlersCorrectlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event &apos;{0}&apos; does not match .NET event handler guidelines..
+        /// </summary>
+        internal static string DeclareEventHandlersCorrectlyMessage {
+            get {
+                return ResourceManager.GetString("DeclareEventHandlersCorrectlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Declare event handlers correctly.
+        /// </summary>
+        internal static string DeclareEventHandlersCorrectlyTitle {
+            get {
+                return ResourceManager.GetString("DeclareEventHandlersCorrectlyTitle", resourceCulture);
             }
         }
         
@@ -1716,6 +2067,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule fires for types that implement IDisposable and contain native fields but have no finalizer..
+        /// </summary>
+        internal static string DisposableTypesShouldHaveFinalizerDescription {
+            get {
+                return ResourceManager.GetString("DisposableTypesShouldHaveFinalizerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements IDisposable, has native resources, but does not define a finalizer..
+        /// </summary>
+        internal static string DisposableTypesShouldHaveFinalizerMessage {
+            get {
+                return ResourceManager.GetString("DisposableTypesShouldHaveFinalizerMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disposable types should have a finalizer.
+        /// </summary>
+        internal static string DisposableTypesShouldHaveFinalizerTitle {
+            get {
+                return ResourceManager.GetString("DisposableTypesShouldHaveFinalizerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Avoid casting IntPtr or UIntPtr to 32-bit or smaller types; use Int64 or avoid casting to integer types..
         /// </summary>
         internal static string DoNotAssumeIntPtrSizeDescription {
@@ -1766,6 +2144,60 @@ namespace Gendarme.Analyzers {
         internal static string DoNotCompareWithNaN_Title {
             get {
                 return ResourceManager.GetString("DoNotCompareWithNaN_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sealed types cannot be inherited from, so protected members are misleading and should be private..
+        /// </summary>
+        internal static string DoNotDeclareProtectedMembersInSealedTypeDescription {
+            get {
+                return ResourceManager.GetString("DoNotDeclareProtectedMembersInSealedTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sealed type &apos;{0}&apos; has protected member &apos;{1}&apos;..
+        /// </summary>
+        internal static string DoNotDeclareProtectedMembersInSealedTypeMessage {
+            get {
+                return ResourceManager.GetString("DoNotDeclareProtectedMembersInSealedTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not declare protected members in sealed types.
+        /// </summary>
+        internal static string DoNotDeclareProtectedMembersInSealedTypeTitle {
+            get {
+                return ResourceManager.GetString("DoNotDeclareProtectedMembersInSealedTypeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtual methods make sense only in types that can be inherited from..
+        /// </summary>
+        internal static string DoNotDeclareVirtualMethodsInSealedTypeDescription {
+            get {
+                return ResourceManager.GetString("DoNotDeclareVirtualMethodsInSealedTypeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sealed type &apos;{0}&apos; has a virtual method &apos;{1}&apos;..
+        /// </summary>
+        internal static string DoNotDeclareVirtualMethodsInSealedTypeMessage {
+            get {
+                return ResourceManager.GetString("DoNotDeclareVirtualMethodsInSealedTypeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not declare virtual methods in sealed types.
+        /// </summary>
+        internal static string DoNotDeclareVirtualMethodsInSealedTypeTitle {
+            get {
+                return ResourceManager.GetString("DoNotDeclareVirtualMethodsInSealedTypeTitle", resourceCulture);
             }
         }
         
@@ -2445,6 +2877,87 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks for operators that are not overloaded in pairs (e.g. &apos;+&apos; without &apos;-&apos;)..
+        /// </summary>
+        internal static string EnsureSymmetryForOverloadedOperatorsDescription {
+            get {
+                return ResourceManager.GetString("EnsureSymmetryForOverloadedOperatorsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overloads operator &apos;{1}&apos; but not the complementary operator..
+        /// </summary>
+        internal static string EnsureSymmetryForOverloadedOperatorsMessage {
+            get {
+                return ResourceManager.GetString("EnsureSymmetryForOverloadedOperatorsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ensure symmetry for overloaded operators.
+        /// </summary>
+        internal static string EnsureSymmetryForOverloadedOperatorsTitle {
+            get {
+                return ResourceManager.GetString("EnsureSymmetryForOverloadedOperatorsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This rule checks that every non-flags enum has a zero value for proper default initialization..
+        /// </summary>
+        internal static string EnumsShouldDefineAZeroValueDescription {
+            get {
+                return ResourceManager.GetString("EnumsShouldDefineAZeroValueDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum &apos;{0}&apos; does not define a zero value..
+        /// </summary>
+        internal static string EnumsShouldDefineAZeroValueMessage {
+            get {
+                return ResourceManager.GetString("EnumsShouldDefineAZeroValueMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enums should define a zero value.
+        /// </summary>
+        internal static string EnumsShouldDefineAZeroValueTitle {
+            get {
+                return ResourceManager.GetString("EnumsShouldDefineAZeroValueTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enumaration types should avoid specifying a non-default storage type unless it is required for interoperability..
+        /// </summary>
+        internal static string EnumsShouldUseInt32Description {
+            get {
+                return ResourceManager.GetString("EnumsShouldUseInt32Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum &apos;{0}&apos; uses a non-Int32 underlying type. Consider using int unless there&apos;s a compelling interoperability reason..
+        /// </summary>
+        internal static string EnumsShouldUseInt32Message {
+            get {
+                return ResourceManager.GetString("EnumsShouldUseInt32Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enums should use Int32 by default.
+        /// </summary>
+        internal static string EnumsShouldUseInt32Title {
+            get {
+                return ResourceManager.GetString("EnumsShouldUseInt32Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equals(object) methods should return false when the object parameter is null..
         /// </summary>
         internal static string EqualsShouldHandleNullArg_Description {
@@ -2553,6 +3066,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Finalizers must be accessible only to the type’s family (protected in C#)..
+        /// </summary>
+        internal static string FinalizersShouldBeProtectedDescription {
+            get {
+                return ResourceManager.GetString("FinalizersShouldBeProtectedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has a finalizer with non-family accessibility..
+        /// </summary>
+        internal static string FinalizersShouldBeProtectedMessage {
+            get {
+                return ResourceManager.GetString("FinalizersShouldBeProtectedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finalizers should be protected.
+        /// </summary>
+        internal static string FinalizersShouldBeProtectedTitle {
+            get {
+                return ResourceManager.GetString("FinalizersShouldBeProtectedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This rule checks that a finalizer calls the base class finalizer..
         /// </summary>
         internal static string FinalizersShouldCallBaseClassFinalizer_Description {
@@ -2576,6 +3116,33 @@ namespace Gendarme.Analyzers {
         internal static string FinalizersShouldCallBaseClassFinalizer_Title {
             get {
                 return ResourceManager.GetString("FinalizersShouldCallBaseClassFinalizer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enumerations decorated with [Flags] should not define a zero value. This value would not be usable with bitwise operators..
+        /// </summary>
+        internal static string FlagsShouldNotDefineAZeroValueDescription {
+            get {
+                return ResourceManager.GetString("FlagsShouldNotDefineAZeroValueDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum &apos;{0}&apos; is marked with [Flags] but defines a zero value, which is not recommended..
+        /// </summary>
+        internal static string FlagsShouldNotDefineAZeroValueMessage {
+            get {
+                return ResourceManager.GetString("FlagsShouldNotDefineAZeroValueMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flags enum should not define a zero value.
+        /// </summary>
+        internal static string FlagsShouldNotDefineAZeroValueTitle {
+            get {
+                return ResourceManager.GetString("FlagsShouldNotDefineAZeroValueTitle", resourceCulture);
             }
         }
         
@@ -2661,6 +3228,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule checks that if a type overrides Equals(object), it also overrides GetHashCode(), and vice versa..
+        /// </summary>
+        internal static string ImplementEqualsAndGetHashCodeInPairDescription {
+            get {
+                return ResourceManager.GetString("ImplementEqualsAndGetHashCodeInPairDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overrides &apos;{1}&apos; but not &apos;{2}&apos;. Both should be overridden together..
+        /// </summary>
+        internal static string ImplementEqualsAndGetHashCodeInPairMessage {
+            get {
+                return ResourceManager.GetString("ImplementEqualsAndGetHashCodeInPairMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement Equals and GetHashCode in pairs.
+        /// </summary>
+        internal static string ImplementEqualsAndGetHashCodeInPairTitle {
+            get {
+                return ResourceManager.GetString("ImplementEqualsAndGetHashCodeInPairTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Implementing a type-specific Equals method and IEquatable&lt;T&gt; improves performance and usability, especially for value types..
         /// </summary>
         internal static string ImplementEqualsTypeDescription {
@@ -2711,6 +3305,60 @@ namespace Gendarme.Analyzers {
         internal static string ImplementGenericCollectionInterfaces_Title {
             get {
                 return ResourceManager.GetString("ImplementGenericCollectionInterfaces_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If a method named &apos;Clone()&apos; returns object, it should implement System.ICloneable; or else return a strongly typed value..
+        /// </summary>
+        internal static string ImplementICloneableCorrectlyDescription {
+            get {
+                return ResourceManager.GetString("ImplementICloneableCorrectlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; declares a &apos;Clone()&apos; method returning System.Object but does not implement ICloneable..
+        /// </summary>
+        internal static string ImplementICloneableCorrectlyMessage {
+            get {
+                return ResourceManager.GetString("ImplementICloneableCorrectlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement ICloneable correctly.
+        /// </summary>
+        internal static string ImplementICloneableCorrectlyTitle {
+            get {
+                return ResourceManager.GetString("ImplementICloneableCorrectlyTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types that implement IComparable should also override Equals(object) and provide operator overloads ==, !=, &lt;, &gt;..
+        /// </summary>
+        internal static string ImplementIComparableCorrectlyDescription {
+            get {
+                return ResourceManager.GetString("ImplementIComparableCorrectlyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; implements IComparable but does not fully implement or override comparison members: {1}.
+        /// </summary>
+        internal static string ImplementIComparableCorrectlyMessage {
+            get {
+                return ResourceManager.GetString("ImplementIComparableCorrectlyMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Implement IComparable correctly.
+        /// </summary>
+        internal static string ImplementIComparableCorrectlyTitle {
+            get {
+                return ResourceManager.GetString("ImplementIComparableCorrectlyTitle", resourceCulture);
             }
         }
         
@@ -2769,6 +3417,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Namespaces ending with &apos;Internal&apos; or &apos;Impl&apos; should not expose public or protected types to external assemblies..
+        /// </summary>
+        internal static string InternalNamespacesShouldNotExposeTypesDescription {
+            get {
+                return ResourceManager.GetString("InternalNamespacesShouldNotExposeTypesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is publicly visible but in an internal namespace &apos;{1}&apos;..
+        /// </summary>
+        internal static string InternalNamespacesShouldNotExposeTypesMessage {
+            get {
+                return ResourceManager.GetString("InternalNamespacesShouldNotExposeTypesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal namespace should not expose public types.
+        /// </summary>
+        internal static string InternalNamespacesShouldNotExposeTypesTitle {
+            get {
+                return ResourceManager.GetString("InternalNamespacesShouldNotExposeTypesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is better to make the entry point method non-public so that only the CLR can call it..
+        /// </summary>
+        internal static string MainShouldNotBePublicDescription {
+            get {
+                return ResourceManager.GetString("MainShouldNotBePublicDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entry point method &apos;{0}&apos; is publicly visible. Consider changing its accessibility to private or internal..
+        /// </summary>
+        internal static string MainShouldNotBePublicMessage {
+            get {
+                return ResourceManager.GetString("MainShouldNotBePublicMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main method should not be public.
+        /// </summary>
+        internal static string MainShouldNotBePublicTitle {
+            get {
+                return ResourceManager.GetString("MainShouldNotBePublicTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fields of serializable types must be serializable or marked with [NonSerialized]..
         /// </summary>
         internal static string MarkAllNonSerializableFieldsDescription {
@@ -2792,6 +3494,87 @@ namespace Gendarme.Analyzers {
         internal static string MarkAllNonSerializableFieldsTitle {
             get {
                 return ResourceManager.GetString("MarkAllNonSerializableFieldsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assemblies should define an [AssemblyVersion(&quot;x.y.z.w&quot;)] attribute for proper versioning..
+        /// </summary>
+        internal static string MarkAssemblyWithAssemblyVersionDescription {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithAssemblyVersionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assembly &apos;{0}&apos; does not have an [AssemblyVersion] attribute..
+        /// </summary>
+        internal static string MarkAssemblyWithAssemblyVersionMessage {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithAssemblyVersionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark assembly with [AssemblyVersion].
+        /// </summary>
+        internal static string MarkAssemblyWithAssemblyVersionTitle {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithAssemblyVersionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is a good practice to declare assemblies as CLS-compliant unless there&apos;s a reason not to..
+        /// </summary>
+        internal static string MarkAssemblyWithClsCompliantDescription {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithClsCompliantDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assembly &apos;{0}&apos; does not have a [CLSCompliant] attribute..
+        /// </summary>
+        internal static string MarkAssemblyWithClsCompliantMessage {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithClsCompliantMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark assembly with [CLSCompliant].
+        /// </summary>
+        internal static string MarkAssemblyWithClsCompliantTitle {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithClsCompliantTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the assembly is not designed for COM interop, mark it with [ComVisible(false)]..
+        /// </summary>
+        internal static string MarkAssemblyWithComVisibleDescription {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithComVisibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assembly &apos;{0}&apos; does not have a [ComVisible] attribute..
+        /// </summary>
+        internal static string MarkAssemblyWithComVisibleMessage {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithComVisibleMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mark assembly with [ComVisible].
+        /// </summary>
+        internal static string MarkAssemblyWithComVisibleTitle {
+            get {
+                return ResourceManager.GetString("MarkAssemblyWithComVisibleTitle", resourceCulture);
             }
         }
         
@@ -2927,6 +3710,33 @@ namespace Gendarme.Analyzers {
         internal static string MethodCanBeMadeStatic_Title {
             get {
                 return ResourceManager.GetString("MethodCanBeMadeStatic_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Every custom attribute should have an [AttributeUsage(...)] to indicate valid targets..
+        /// </summary>
+        internal static string MissingAttributeUsageOnCustomAttributeDescription {
+            get {
+                return ResourceManager.GetString("MissingAttributeUsageOnCustomAttributeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom attribute &apos;{0}&apos; is not decorated with an [AttributeUsage] attribute..
+        /// </summary>
+        internal static string MissingAttributeUsageOnCustomAttributeMessage {
+            get {
+                return ResourceManager.GetString("MissingAttributeUsageOnCustomAttributeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing [AttributeUsage] on custom attribute.
+        /// </summary>
+        internal static string MissingAttributeUsageOnCustomAttributeTitle {
+            get {
+                return ResourceManager.GetString("MissingAttributeUsageOnCustomAttributeTitle", resourceCulture);
             }
         }
         
@@ -3174,6 +3984,60 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This rule fires if a type overloads operator &apos;+&apos; or &apos;-&apos;, or is a value type that overrides Equals(object), and does not overload ==..
+        /// </summary>
+        internal static string OperatorEqualsShouldBeOverloadedDescription {
+            get {
+                return ResourceManager.GetString("OperatorEqualsShouldBeOverloadedDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overloads &apos;+&apos; or &apos;-&apos;, or is a value type overriding Equals(object), but doesn&apos;t overload &apos;==&apos;..
+        /// </summary>
+        internal static string OperatorEqualsShouldBeOverloadedMessage {
+            get {
+                return ResourceManager.GetString("OperatorEqualsShouldBeOverloadedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator equals (==) should be overloaded.
+        /// </summary>
+        internal static string OperatorEqualsShouldBeOverloadedTitle {
+            get {
+                return ResourceManager.GetString("OperatorEqualsShouldBeOverloadedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When a type overloads the equality operator, it should also override Object.Equals..
+        /// </summary>
+        internal static string OverrideEqualsMethodDescription {
+            get {
+                return ResourceManager.GetString("OverrideEqualsMethodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overloads &apos;==&apos; but does not override Equals(object)..
+        /// </summary>
+        internal static string OverrideEqualsMethodMessage {
+            get {
+                return ResourceManager.GetString("OverrideEqualsMethodMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Override Equals(object) if == is overloaded.
+        /// </summary>
+        internal static string OverrideEqualsMethodTitle {
+            get {
+                return ResourceManager.GetString("OverrideEqualsMethodTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value types should override Equals(object) and GetHashCode() methods to improve performance and correctness. The default implementations use reflection and can be inefficient..
         /// </summary>
         internal static string OverrideValueTypeDefaultsDescription {
@@ -3309,6 +4173,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Methods named like &apos;OnXxx&apos;, &apos;RaiseXxx&apos;, etc. can often be replaced by a real event to follow .NET design guidelines..
+        /// </summary>
+        internal static string PreferEventsOverMethodsDescription {
+            get {
+                return ResourceManager.GetString("PreferEventsOverMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method &apos;{0}&apos; name suggests event-like usage. Consider replacing it with an actual event..
+        /// </summary>
+        internal static string PreferEventsOverMethodsMessage {
+            get {
+                return ResourceManager.GetString("PreferEventsOverMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer events over methods.
+        /// </summary>
+        internal static string PreferEventsOverMethodsTitle {
+            get {
+                return ResourceManager.GetString("PreferEventsOverMethodsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using generics instead of &apos;ref object&apos; provides type safety and a more intuitive API for consumers..
         /// </summary>
         internal static string PreferGenericsOverRefObject_Description {
@@ -3332,6 +4223,33 @@ namespace Gendarme.Analyzers {
         internal static string PreferGenericsOverRefObject_Title {
             get {
                 return ResourceManager.GetString("PreferGenericsOverRefObject_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using types other than int64, int32, or string for indexers can be confusing unless there&apos;s a strong abstraction reason..
+        /// </summary>
+        internal static string PreferIntegerOrStringForIndexersDescription {
+            get {
+                return ResourceManager.GetString("PreferIntegerOrStringForIndexersDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indexer in type &apos;{0}&apos; uses type &apos;{1}&apos; which is unusual. Consider using int, long, or string..
+        /// </summary>
+        internal static string PreferIntegerOrStringForIndexersMessage {
+            get {
+                return ResourceManager.GetString("PreferIntegerOrStringForIndexersMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prefer int/string for indexers.
+        /// </summary>
+        internal static string PreferIntegerOrStringForIndexersTitle {
+            get {
+                return ResourceManager.GetString("PreferIntegerOrStringForIndexersTitle", resourceCulture);
             }
         }
         
@@ -3417,6 +4335,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Using XmlDocument, XPathDocument, or XmlNode in externally visible APIs can limit future changes and consumer languages&apos; usage..
+        /// </summary>
+        internal static string PreferXmlAbstractionsDescription {
+            get {
+                return ResourceManager.GetString("PreferXmlAbstractionsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Member &apos;{0}&apos; uses concrete XML type &apos;{1}&apos;. Consider using abstract types like IXPathNavigable, XmlReader, or XmlWriter..
+        /// </summary>
+        internal static string PreferXmlAbstractionsMessage {
+            get {
+                return ResourceManager.GetString("PreferXmlAbstractionsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use XML abstractions instead of concrete XML implementations.
+        /// </summary>
+        internal static string PreferXmlAbstractionsTitle {
+            get {
+                return ResourceManager.GetString("PreferXmlAbstractionsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event delegates should be checked for null and copied to a local variable to avoid race conditions..
         /// </summary>
         internal static string ProtectCallToEventDelegatesAnalyzer_Description {
@@ -3440,6 +4385,33 @@ namespace Gendarme.Analyzers {
         internal static string ProtectCallToEventDelegatesAnalyzer_Title {
             get {
                 return ResourceManager.GetString("ProtectCallToEventDelegatesAnalyzer_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some languages do not support operator overloading. Provide named methods to ensure full usability across languages..
+        /// </summary>
+        internal static string ProvideAlternativeNamesForOperatorOverloadsDescription {
+            get {
+                return ResourceManager.GetString("ProvideAlternativeNamesForOperatorOverloadsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; overloads operator &apos;{1}&apos; but does not provide a corresponding named method like &apos;{2}&apos;..
+        /// </summary>
+        internal static string ProvideAlternativeNamesForOperatorOverloadsMessage {
+            get {
+                return ResourceManager.GetString("ProvideAlternativeNamesForOperatorOverloadsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide named alternatives for overloaded operators.
+        /// </summary>
+        internal static string ProvideAlternativeNamesForOperatorOverloadsTitle {
+            get {
+                return ResourceManager.GetString("ProvideAlternativeNamesForOperatorOverloadsTitle", resourceCulture);
             }
         }
         
@@ -4065,6 +5037,87 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Defining types in namespaces prevents naming collisions and clarifies your assembly&apos;s API..
+        /// </summary>
+        internal static string TypesShouldBeInsideNamespacesDescription {
+            get {
+                return ResourceManager.GetString("TypesShouldBeInsideNamespacesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Externally visible type &apos;{0}&apos; is declared outside of any namespace..
+        /// </summary>
+        internal static string TypesShouldBeInsideNamespacesMessage {
+            get {
+                return ResourceManager.GetString("TypesShouldBeInsideNamespacesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types should be inside namespaces.
+        /// </summary>
+        internal static string TypesShouldBeInsideNamespacesTitle {
+            get {
+                return ResourceManager.GetString("TypesShouldBeInsideNamespacesTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All fields that implement IDisposable should be disposed. Types holding such fields must implement IDisposable..
+        /// </summary>
+        internal static string TypesWithDisposableFieldsShouldBeDisposableDescription {
+            get {
+                return ResourceManager.GetString("TypesWithDisposableFieldsShouldBeDisposableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; has disposable field &apos;{1}&apos; but does not implement IDisposable or properly dispose its fields..
+        /// </summary>
+        internal static string TypesWithDisposableFieldsShouldBeDisposableMessage {
+            get {
+                return ResourceManager.GetString("TypesWithDisposableFieldsShouldBeDisposableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types with disposable fields should implement IDisposable.
+        /// </summary>
+        internal static string TypesWithDisposableFieldsShouldBeDisposableTitle {
+            get {
+                return ResourceManager.GetString("TypesWithDisposableFieldsShouldBeDisposableTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types that contain IntPtr, UIntPtr, or HandleRef fields must implement IDisposable to properly free them..
+        /// </summary>
+        internal static string TypesWithNativeFieldsShouldBeDisposableDescription {
+            get {
+                return ResourceManager.GetString("TypesWithNativeFieldsShouldBeDisposableDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; contains native field &apos;{1}&apos; but does not implement IDisposable..
+        /// </summary>
+        internal static string TypesWithNativeFieldsShouldBeDisposableMessage {
+            get {
+                return ResourceManager.GetString("TypesWithNativeFieldsShouldBeDisposableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types with native fields should implement IDisposable.
+        /// </summary>
+        internal static string TypesWithNativeFieldsShouldBeDisposableTitle {
+            get {
+                return ResourceManager.GetString("TypesWithNativeFieldsShouldBeDisposableTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identifiers should follow .NET naming conventions for casing to improve readability and maintain consistency..
         /// </summary>
         internal static string UseCorrectCasingDescription {
@@ -4088,6 +5141,33 @@ namespace Gendarme.Analyzers {
         internal static string UseCorrectCasingTitle {
             get {
                 return ResourceManager.GetString("UseCorrectCasingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IDisposable implementation should have a non-virtual public Dispose(), a protected virtual Dispose(bool), and (optionally) a finalizer if unsealed..
+        /// </summary>
+        internal static string UseCorrectDisposeSignaturesDescription {
+            get {
+                return ResourceManager.GetString("UseCorrectDisposeSignaturesDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; does not follow standard Dispose pattern guidelines: {1}.
+        /// </summary>
+        internal static string UseCorrectDisposeSignaturesMessage {
+            get {
+                return ResourceManager.GetString("UseCorrectDisposeSignaturesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use correct dispose signatures.
+        /// </summary>
+        internal static string UseCorrectDisposeSignaturesTitle {
+            get {
+                return ResourceManager.GetString("UseCorrectDisposeSignaturesTitle", resourceCulture);
             }
         }
         
@@ -4169,6 +5249,33 @@ namespace Gendarme.Analyzers {
         internal static string UseCorrectSuffixTitle {
             get {
                 return ResourceManager.GetString("UseCorrectSuffixTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An enum with bits that can be ORed together should declare [Flags] to improve usage and debugging..
+        /// </summary>
+        internal static string UseFlagsAttributeDescription {
+            get {
+                return ResourceManager.GetString("UseFlagsAttributeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enum &apos;{0}&apos; has members that look like bit flags but is not decorated with [Flags]..
+        /// </summary>
+        internal static string UseFlagsAttributeMessage {
+            get {
+                return ResourceManager.GetString("UseFlagsAttributeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Consider [Flags] attribute for bitmask enum.
+        /// </summary>
+        internal static string UseFlagsAttributeTitle {
+            get {
+                return ResourceManager.GetString("UseFlagsAttributeTitle", resourceCulture);
             }
         }
         

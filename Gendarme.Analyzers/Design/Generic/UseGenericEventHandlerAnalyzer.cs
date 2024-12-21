@@ -23,8 +23,7 @@ public class UseGenericEventHandlerAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeDelegateDeclaration(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is DelegateDeclarationSyntax delegateDeclaration
-            && delegateDeclaration.ParameterList.Parameters.Count == 2
+        if (context.Node is DelegateDeclarationSyntax { ParameterList.Parameters.Count: 2 } delegateDeclaration
             && delegateDeclaration.ParameterList.Parameters[0].Type is PredefinedTypeSyntax firstParamType
             && firstParamType.Keyword.IsKind(SyntaxKind.ObjectKeyword)
             && delegateDeclaration.ParameterList.Parameters[1].Type is {} eventArgsType

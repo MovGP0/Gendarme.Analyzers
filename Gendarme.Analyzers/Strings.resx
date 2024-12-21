@@ -1,648 +1,643 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:element name="root" msdata:IsDataSet="true">
-        </xsd:element>
-    </xsd:schema>
-    <resheader name="resmimetype">
-        <value>text/microsoft-resx</value>
-    </resheader>
-    <resheader name="version">
-        <value>1.3</value>
-    </resheader>
-    <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
-        </value>
-    </resheader>
-    <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
-            PublicKeyToken=b77a5c561934e089
-        </value>
-    </resheader>
-    <data name="AssemblyVersionMismatch_Description" xml:space="preserve">
-        <value>All assembly version attributes should be consistent.</value>
-    </data>
-    <data name="AssemblyVersionMismatch_HelpLink" xml:space="preserve">
-        <value>https://www.mono-project.com/docs/tools+libraries/tools/gendarme/rules/bad-practice/#avoidassemblyversionmismatchrule</value>
-    </data>
-    <data name="AssemblyVersionMismatch_Message" xml:space="preserve">
-        <value>Assembly version '{0}' does not match other version attributes</value>
-    </data>
-    <data name="AssemblyVersionMismatch_Title" xml:space="preserve">
-        <value>Assembly version mismatch</value>
-    </data>
-    <data name="AvoidCallingProblematicMethods_Description" xml:space="preserve">
-        <value>Avoid using methods that are known to be problematic due to potential issues such as performance problems or incorrect behavior.</value>
-    </data>
-    <data name="AvoidCallingProblematicMethods_Message" xml:space="preserve">
-        <value>Method '{0}' is considered problematic.</value>
-    </data>
-    <data name="AvoidCallingProblematicMethods_Title" xml:space="preserve">
-        <value>Avoid problematic methods</value>
-    </data>
-    <data name="AvoidVisibleConstantField_Description" xml:space="preserve">
-        <value>Avoid constant fields which are visible outside the current assembly. Use 'static readonly' instead.</value>
-    </data>
-    <data name="AvoidVisibleConstantField_Message" xml:space="preserve">
-        <value>The constant field '{0}' is visible outside the assembly</value>
-    </data>
-    <data name="AvoidVisibleConstantField_Title" xml:space="preserve">
-        <value>Avoid visible constant field</value>
-    </data>
-    <data name="CheckNewExceptionWithoutThrowing_Description" xml:space="preserve">
-        <value>Exception objects should be thrown, returned, or passed to another method as an argument.</value>
-    </data>
-    <data name="CheckNewExceptionWithoutThrowing_Message" xml:space="preserve">
-        <value>The exception '{0}' is created but not thrown, not returned, and not passed to another method</value>
-    </data>
-    <data name="CheckNewExceptionWithoutThrowing_Title" xml:space="preserve">
-        <value>Exception object created but not thrown or used</value>
-    </data>
-    <data name="CheckNewThreadWithoutStart_Description" xml:space="preserve">
-        <value>Thread objects should be started, returned, or passed to another method as an argument.</value>
-    </data>
-    <data name="CheckNewThreadWithoutStart_Message" xml:space="preserve">
-        <value>The thread '{0}' is created but not started, not returned, and not passed to another method</value>
-    </data>
-    <data name="CheckNewThreadWithoutStart_Title" xml:space="preserve">
-        <value>Thread object created but not started or used</value>
-    </data>
-    <data name="CloneMethodShouldNotReturnNull_Description" xml:space="preserve">
-        <value>Clone methods should not return null. They should return a new object instance.</value>
-    </data>
-    <data name="CloneMethodShouldNotReturnNull_Message" xml:space="preserve">
-        <value>The Clone method returns null</value>
-    </data>
-    <data name="CloneMethodShouldNotReturnNull_Title" xml:space="preserve">
-        <value>Clone method should not return null</value>
-    </data>
-    <data name="ConstructorShouldNotCallVirtualMethods_Description" xml:space="preserve">
-        <value>Constructors of non-sealed types should not call virtual methods. This can lead to fragile code if the method is overridden in a derived class.</value>
-    </data>
-    <data name="ConstructorShouldNotCallVirtualMethods_Message" xml:space="preserve">
-        <value>The constructor calls the virtual method '{0}'</value>
-    </data>
-    <data name="ConstructorShouldNotCallVirtualMethods_Title" xml:space="preserve">
-        <value>Constructor should not call virtual methods</value>
-    </data>
-    <data name="DisableDebuggingCode_Description" xml:space="preserve">
-        <value>Non-console applications should not contain calls to Console.WriteLine. Use Debug.WriteLine or Conditional(\"DEBUG\") instead.</value>
-    </data>
-    <data name="DisableDebuggingCode_Message" xml:space="preserve">
-        <value>The method '{0}' contains a call to Console.WriteLine</value>
-    </data>
-    <data name="DisableDebuggingCode_Title" xml:space="preserve">
-        <value>Disable debugging code in non-console applications</value>
-    </data>
-    <data name="DoNotForgetNotImplementedMethods_Description" xml:space="preserve">
-        <value>Methods throwing NotImplementedException should be implemented before release.</value>
-    </data>
-    <data name="DoNotForgetNotImplementedMethods_Message" xml:space="preserve">
-        <value>The method '{0}' throws a NotImplementedException</value>
-    </data>
-    <data name="DoNotForgetNotImplementedMethods_Title" xml:space="preserve">
-        <value>Do not forget NotImplemented methods</value>
-    </data>
-    <data name="DoNotLockOnThisOrTypesAnalyzer_Description" xml:space="preserve">
-        <value>Using 'lock (this)' or 'lock (typeof(...))' can cause deadlocks. Use a private lock object instead.</value>
-    </data>
-    <data name="DoNotLockOnThisOrTypesAnalyzer_Message" xml:space="preserve">
-        <value>Do not lock on 'this' or 'Type' to avoid deadlocks</value>
-    </data>
-    <data name="DoNotLockOnThisOrTypesAnalyzer_Title" xml:space="preserve">
-        <value>Do not lock on 'this' or 'Type'</value>
-    </data>
-    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Description" xml:space="preserve">
-        <value>Locking on objects with weak identity (e.g., strings, exceptions) can cause deadlocks. Use a private lock object instead.</value>
-    </data>
-    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Message" xml:space="preserve">
-        <value>Do not lock on objects with weak identity to avoid deadlocks</value>
-    </data>
-    <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Title" xml:space="preserve">
-        <value>Do not lock on objects with weak identity</value>
-    </data>
-    <data name="DoNotUseEnumIsAssignableFrom_Description" xml:space="preserve">
-        <value>Calls to typeof(Enum).IsAssignableFrom(type) can be simplified to type.IsEnum.</value>
-    </data>
-    <data name="DoNotUseEnumIsAssignableFrom_Message" xml:space="preserve">
-        <value>Replace 'typeof(Enum).IsAssignableFrom({0})' with '{0}.IsEnum'</value>
-    </data>
-    <data name="DoNotUseEnumIsAssignableFrom_Title" xml:space="preserve">
-        <value>Use type.IsEnum instead of typeof(Enum).IsAssignableFrom(type)</value>
-    </data>
-    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Description" xml:space="preserve">
-        <value>Using Monitor.Enter without Monitor.Exit in the same method can lead to deadlocks and is difficult to maintain.</value>
-    </data>
-    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Message" xml:space="preserve">
-        <value>Do not use Monitor.Enter without corresponding Monitor.Exit in the same method</value>
-    </data>
-    <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Title" xml:space="preserve">
-        <value>Do not use locked region outside method</value>
-    </data>
-    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Description" xml:space="preserve">
-        <value>Using MethodImplOptions.Synchronized causes a lock(this) or lock(typeof(...)) which can cause deadlocks. Use a private lock object instead.</value>
-    </data>
-    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Message" xml:space="preserve">
-        <value>Do not use MethodImplOptions.Synchronized on method '{0}'</value>
-    </data>
-    <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Title" xml:space="preserve">
-        <value>Do not use MethodImplOptions.Synchronized</value>
-    </data>
-    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Description" xml:space="preserve">
-        <value>The ThreadStatic attribute can only be applied to static fields. Applying it to instance fields is ineffective.</value>
-    </data>
-    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Message" xml:space="preserve">
-        <value>The field '{0}' is an instance field with the ThreadStatic attribute, which is ineffective</value>
-    </data>
-    <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Title" xml:space="preserve">
-        <value>Do not use ThreadStatic attribute with instance fields</value>
-    </data>
-    <data name="DoubleCheckLockingAnalyzer_Description" xml:space="preserve">
-        <value>Double-check locking can be problematic in older versions of .NET. Ensure it is used correctly.</value>
-    </data>
-    <data name="DoubleCheckLockingAnalyzer_Message" xml:space="preserve">
-        <value>Avoid double-check locking on '{0}'</value>
-    </data>
-    <data name="DoubleCheckLockingAnalyzer_Title" xml:space="preserve">
-        <value>Avoid double-check locking</value>
-    </data>
-    <data name="EqualsShouldHandleNullArg_Description" xml:space="preserve">
-        <value>Equals(object) methods should return false when the object parameter is null.</value>
-    </data>
-    <data name="EqualsShouldHandleNullArg_Message" xml:space="preserve">
-        <value>Equals method does not handle null argument</value>
-    </data>
-    <data name="EqualsShouldHandleNullArg_Title" xml:space="preserve">
-        <value>Equals method should handle null argument</value>
-    </data>
-    <data name="GetEntryAssemblyMayReturnNull_Description" xml:space="preserve">
-        <value>Calls to Assembly.GetEntryAssembly() may return null in libraries or DLLs. Ensure proper null handling.</value>
-    </data>
-    <data name="GetEntryAssemblyMayReturnNull_Message" xml:space="preserve">
-        <value>Assembly.GetEntryAssembly may return null when called from a library or DLL</value>
-    </data>
-    <data name="GetEntryAssemblyMayReturnNull_Title" xml:space="preserve">
-        <value>Assembly.GetEntryAssembly may return null</value>
-    </data>
-    <data name="NonConstantStaticFieldsShouldNotBeVisible_Description" xml:space="preserve">
-        <value>Public static fields should be constant or readonly to avoid synchronization issues.</value>
-    </data>
-    <data name="NonConstantStaticFieldsShouldNotBeVisible_Message" xml:space="preserve">
-        <value>The static field '{0}' should not be publicly visible</value>
-    </data>
-    <data name="NonConstantStaticFieldsShouldNotBeVisible_Title" xml:space="preserve">
-        <value>Non-constant static fields should not be visible</value>
-    </data>
-    <data name="ObsoleteMessagesShouldNotBeEmpty_Description" xml:space="preserve">
-        <value>The Obsolete attribute is more helpful if it includes advice on how to deal with the situation (e.g., the new recommended API to use).</value>
-    </data>
-    <data name="ObsoleteMessagesShouldNotBeEmpty_Message" xml:space="preserve">
-        <value>The Obsolete attribute on '{0}' should include a message providing guidance.</value>
-    </data>
-    <data name="ObsoleteMessagesShouldNotBeEmpty_Title" xml:space="preserve">
-        <value>Obsolete attribute should not be empty</value>
-    </data>
-    <data name="OnlyUseDisposeForIDisposableTypes_Description" xml:space="preserve">
-        <value>Methods named Dispose should be reserved for types that implement IDisposable to avoid confusing developers.</value>
-    </data>
-    <data name="OnlyUseDisposeForIDisposableTypes_Message" xml:space="preserve">
-        <value>The method '{0}' is named Dispose but the containing type does not implement IDisposable</value>
-    </data>
-    <data name="OnlyUseDisposeForIDisposableTypes_Title" xml:space="preserve">
-        <value>Methods named Dispose should be reserved for types that implement IDisposable</value>
-    </data>
-    <data name="PreferEmptyInstanceOverNull_Description" xml:space="preserve">
-        <value>Methods and properties which return a string, an array, a collection, or an enumerable should return an empty instance rather than null.</value>
-    </data>
-    <data name="PreferEmptyInstanceOverNull_Message" xml:space="preserve">
-        <value>The method or property '{0}' returns null; consider returning an empty instance instead</value>
-    </data>
-    <data name="PreferEmptyInstanceOverNull_Title" xml:space="preserve">
-        <value>Prefer returning an empty instance over null</value>
-    </data>
-    <data name="PreferSafeHandle_Description" xml:space="preserve">
-        <value>It is recommended to use SafeHandle instead of IntPtr or UIntPtr for handling unmanaged resources.</value>
-    </data>
-    <data name="PreferSafeHandle_Message" xml:space="preserve">
-        <value>Consider using SafeHandle instead of {0} for better resource management and safety</value>
-    </data>
-    <data name="PreferSafeHandle_Title" xml:space="preserve">
-        <value>Prefer SafeHandle over IntPtr or UIntPtr for unmanaged resources</value>
-    </data>
-    <data name="ProtectCallToEventDelegatesAnalyzer_Description" xml:space="preserve">
-        <value>Event delegates should be checked for null and copied to a local variable to avoid race conditions.</value>
-    </data>
-    <data name="ProtectCallToEventDelegatesAnalyzer_Message" xml:space="preserve">
-        <value>The event '{0}' should be checked for null before invocation</value>
-    </data>
-    <data name="ProtectCallToEventDelegatesAnalyzer_Title" xml:space="preserve">
-        <value>Protect call to event delegates</value>
-    </data>
-    <data name="ReplaceIncompleteOddnessCheck_Description" xml:space="preserve">
-        <value>Using '(x % 2) == 1' to check for odd numbers will fail for negative numbers. Use '(x % 2 != 0)' or '(x &amp; 1 == 1)' instead.</value>
-    </data>
-    <data name="ReplaceIncompleteOddnessCheck_Message" xml:space="preserve">
-        <value>The modulo operation used to check oddness may fail for negative numbers; consider using '(x % 2 != 0)' or '(x &amp; 1 == 1)'</value>
-    </data>
-    <data name="ReplaceIncompleteOddnessCheck_Title" xml:space="preserve">
-        <value>Replace incomplete oddness check</value>
-    </data>
-    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description" xml:space="preserve">
-        <value>Locks should be used only for operations on variables. Consider using Interlocked for atomic operations.</value>
-    </data>
-    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message" xml:space="preserve">
-        <value>The lock on '{0}' should be reviewed to ensure it is necessary</value>
-    </data>
-    <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title" xml:space="preserve">
-        <value>Review lock used only for operations on variables</value>
-    </data>
-    <data name="ToStringShouldNotReturnNull_Description" xml:space="preserve">
-        <value>Overridden ToString() methods should not return null. An appropriately descriptive string, or string.Empty, should be returned instead to make the value more useful.</value>
-    </data>
-    <data name="ToStringShouldNotReturnNull_Message" xml:space="preserve">
-        <value>The ToString() method returns null; consider returning a descriptive string or string.Empty</value>
-    </data>
-    <data name="ToStringShouldNotReturnNull_Title" xml:space="preserve">
-        <value>ToString() should not return null</value>
-    </data>
-    <data name="WriteStaticFieldFromInstanceMethod_Description" xml:space="preserve">
-        <value>Writing to static fields from instance methods can cause issues in multithreaded environments. Consider refactoring to avoid this pattern.</value>
-    </data>
-    <data name="WriteStaticFieldFromInstanceMethod_Message" xml:space="preserve">
-        <value>The instance method '{0}' writes to static field '{1}', which can cause issues in multithreaded environments</value>
-    </data>
-    <data name="WriteStaticFieldFromInstanceMethod_Title" xml:space="preserve">
-        <value>Do not write to static fields from instance methods</value>
-    </data>
-    <data name="AttributeStringLiteralsShouldParseCorrectly_Description" xml:space="preserve">
-        <value>This rule checks attributes with certain types (Version, Guid, Uri) and validates the string value.</value>
-    </data>
-    <data name="AttributeStringLiteralsShouldParseCorrectly_Message" xml:space="preserve">
-        <value>String literal in attribute does not parse correctly: '{0}'</value>
-    </data>
-    <data name="AttributeStringLiteralsShouldParseCorrectly_Title" xml:space="preserve">
-        <value>Attribute string literals should parse correctly</value>
-    </data>
-    <data name="AvoidConstructorsInStaticTypes_Description" xml:space="preserve">
-        <value>This rule checks for types that contain only static members and fires if the type contains a visible instance constructor.</value>
-    </data>
-    <data name="AvoidConstructorsInStaticTypes_Message" xml:space="preserve">
-        <value>Static type '{0}' contains a constructor</value>
-    </data>
-    <data name="AvoidConstructorsInStaticTypes_Title" xml:space="preserve">
-        <value>Avoid constructors in static types</value>
-    </data>
-    <data name="AvoidFloatingPointEquality_Description" xml:space="preserve">
-        <value>In general floating point numbers cannot be usefully compared using the equality and inequality operators.</value>
-    </data>
-    <data name="AvoidFloatingPointEquality_Message" xml:space="preserve">
-        <value>Floating point comparison with equality operator may cause unexpected results</value>
-    </data>
-    <data name="AvoidFloatingPointEquality_Title" xml:space="preserve">
-        <value>Avoid floating point equality comparison</value>
-    </data>
-    <data name="BadRecursiveInvocation_Description" xml:space="preserve">
-        <value>This rule checks for methods that may be infinitely recursive.</value>
-    </data>
-    <data name="BadRecursiveInvocation_Message" xml:space="preserve">
-        <value>Method '{0}' recursively calls itself</value>
-    </data>
-    <data name="BadRecursiveInvocation_Title" xml:space="preserve">
-        <value>Avoid bad recursive invocation</value>
-    </data>
-    <data name="CallingEqualsWithNullArg_Description" xml:space="preserve">
-        <value>This rule checks for methods that call Equals with a null actual parameter.</value>
-    </data>
-    <data name="CallingEqualsWithNullArg_Message" xml:space="preserve">
-        <value>Method '{0}' calls Equals with a null argument</value>
-    </data>
-    <data name="CallingEqualsWithNullArg_Title" xml:space="preserve">
-        <value>Avoid calling Equals with null argument</value>
-    </data>
-    <data name="CheckParametersNullityInVisibleMethods_Description" xml:space="preserve">
-        <value>This rule checks if all nullable parameters of visible methods are compared with null before they get used.</value>
-    </data>
-    <data name="CheckParametersNullityInVisibleMethods_Message" xml:space="preserve">
-        <value>Parameter '{0}' is not checked for null</value>
-    </data>
-    <data name="CheckParametersNullityInVisibleMethods_Title" xml:space="preserve">
-        <value>Check nullable parameters for null before use</value>
-    </data>
-    <data name="DisposableFieldsShouldBeDisposed_Description" xml:space="preserve">
-        <value>The rule inspects all fields for disposable types and checks that the type’s Dispose method calls Dispose on all disposable fields.</value>
-    </data>
-    <data name="DisposableFieldsShouldBeDisposed_Message" xml:space="preserve">
-        <value>Field '{0}' is not disposed</value>
-    </data>
-    <data name="DisposableFieldsShouldBeDisposed_Title" xml:space="preserve">
-        <value>Disposable fields should be disposed</value>
-    </data>
-    <data name="DoNotCompareWithNaN_Description" xml:space="preserve">
-        <value>As defined in IEEE 754 it’s impossible to compare any floating-point value, even another NaN, with NaN.</value>
-    </data>
-    <data name="DoNotCompareWithNaN_Message" xml:space="preserve">
-        <value>Comparison with NaN always returns false</value>
-    </data>
-    <data name="DoNotCompareWithNaN_Title" xml:space="preserve">
-        <value>Do not compare with NaN</value>
-    </data>
-    <data name="DoNotRecurseInEquality_Description" xml:space="preserve">
-        <value>An equality operator (==) orinequality operator (!=) method is calling itself recursively.</value>
-    </data>
-    <data name="DoNotRecurseInEquality_Message" xml:space="preserve">
-        <value>Equality operator calls itself recursively</value>
-    </data>
-    <data name="DoNotRecurseInEquality_Title" xml:space="preserve">
-        <value>Do not recurse in equality operator</value>
-    </data>
-    <data name="DoNotRoundIntegers_Description" xml:space="preserve">
-        <value>This rule checks for attempts to call Round, Ceiling, Floor or Truncate on an integral type.</value>
-    </data>
-    <data name="DoNotRoundIntegers_Message" xml:space="preserve">
-        <value>Rounding operation on an integer is redundant</value>
-    </data>
-    <data name="DoNotRoundIntegers_Title" xml:space="preserve">
-        <value>Do not round integers</value>
-    </data>
-    <data name="EnsureLocalDisposal_Description" xml:space="preserve">
-        <value>This rule checks that disposable locals are always disposed of before the method returns.</value>
-    </data>
-    <data name="EnsureLocalDisposal_Message" xml:space="preserve">
-        <value>Local disposable object '{0}' is not disposed</value>
-    </data>
-    <data name="EnsureLocalDisposal_Title" xml:space="preserve">
-        <value>Ensure local disposal</value>
-    </data>
-    <data name="FinalizersShouldCallBaseClassFinalizer_Description" xml:space="preserve">
-        <value>This rule checks that a finalizer calls the base class finalizer.</value>
-    </data>
-    <data name="FinalizersShouldCallBaseClassFinalizer_Message" xml:space="preserve">
-        <value>Finalizer does not call the base class finalizer</value>
-    </data>
-    <data name="FinalizersShouldCallBaseClassFinalizer_Title" xml:space="preserve">
-        <value>Finalizers should call base class finalizer</value>
-    </data>
-    <data name="MethodCanBeMadeStatic_Description" xml:space="preserve">
-        <value>This rule checks for methods that do not require anything from the current instance and can be converted into static methods.</value>
-    </data>
-    <data name="MethodCanBeMadeStatic_Message" xml:space="preserve">
-        <value>Method '{0}' can be made static</value>
-    </data>
-    <data name="MethodCanBeMadeStatic_Title" xml:space="preserve">
-        <value>Method can be made static</value>
-    </data>
-    <data name="ProvideCorrectArgumentsToFormattingMethods_Description" xml:space="preserve">
-        <value>This rule checks that the format string used with String.Format matches the other parameters used with the method.</value>
-    </data>
-    <data name="ProvideCorrectArgumentsToFormattingMethods_Message" xml:space="preserve">
-        <value>The format string in '{0}' does not match the arguments provided</value>
-    </data>
-    <data name="ProvideCorrectArgumentsToFormattingMethods_Title" xml:space="preserve">
-        <value>Provide correct arguments to formatting methods</value>
-    </data>
-    <data name="ProvideCorrectRegexPattern_Description" xml:space="preserve">
-        <value>This rule verifies that valid regular expression strings are used as arguments.</value>
-    </data>
-    <data name="ProvideCorrectRegexPattern_Message" xml:space="preserve">
-        <value>Invalid regex pattern in '{0}'</value>
-    </data>
-    <data name="ProvideCorrectRegexPattern_Title" xml:space="preserve">
-        <value>Provide correct regex pattern</value>
-    </data>
-    <data name="ProvideValidXmlString_Description" xml:space="preserve">
-        <value>This rule verifies that valid XML string arguments are passed as arguments.</value>
-    </data>
-    <data name="ProvideValidXmlString_Message" xml:space="preserve">
-        <value>Invalid XML string in '{0}'</value>
-    </data>
-    <data name="ProvideValidXmlString_Title" xml:space="preserve">
-        <value>Provide valid XML string</value>
-    </data>
-    <data name="ProvideValidXPathExpression_Description" xml:space="preserve">
-        <value>This rule verifies that valid XPath expression strings are passed as arguments.</value>
-    </data>
-    <data name="ProvideValidXPathExpression_Message" xml:space="preserve">
-        <value>Invalid XPath expression in '{0}'</value>
-    </data>
-    <data name="ProvideValidXPathExpression_Title" xml:space="preserve">
-        <value>Provide valid XPath expression</value>
-    </data>
-    <data name="ReviewCastOnIntegerDivision_Description" xml:space="preserve">
-        <value>This rule checks for integral divisions where the result is cast to a floating point type.</value>
-    </data>
-    <data name="ReviewCastOnIntegerDivision_Message" xml:space="preserve">
-        <value>Cast on integer division may cause truncation</value>
-    </data>
-    <data name="ReviewCastOnIntegerDivision_Title" xml:space="preserve">
-        <value>Review cast on integer division</value>
-    </data>
-    <data name="ReviewCastOnIntegerMultiplication_Description" xml:space="preserve">
-        <value>This rule checks for integral multiply operations where the result is cast to a larger integral type.</value>
-    </data>
-    <data name="ReviewCastOnIntegerMultiplication_Message" xml:space="preserve">
-        <value>Cast on integer multiplication may cause overflow</value>
-    </data>
-    <data name="ReviewCastOnIntegerMultiplication_Title" xml:space="preserve">
-        <value>Review cast on integer multiplication</value>
-    </data>
-    <data name="ReviewDoubleAssignment_Description" xml:space="preserve">
-        <value>This rule checks for variables or fields that are assigned multiple times using the same value.</value>
-    </data>
-    <data name="ReviewDoubleAssignment_Message" xml:space="preserve">
-        <value>Variable '{0}' is assigned twice with the same value</value>
-    </data>
-    <data name="ReviewDoubleAssignment_Title" xml:space="preserve">
-        <value>Review double assignment</value>
-    </data>
-    <data name="ReviewInconsistentIdentity_Description" xml:space="preserve">
-        <value>This rule checks to see if a type manages its identity in a consistent way.</value>
-    </data>
-    <data name="ReviewInconsistentIdentity_Message" xml:space="preserve">
-        <value>Identity management for '{0}' is inconsistent</value>
-    </data>
-    <data name="ReviewInconsistentIdentity_Title" xml:space="preserve">
-        <value>Review inconsistent identity management</value>
-    </data>
-    <data name="ReviewSelfAssignment_Description" xml:space="preserve">
-        <value>This rule checks for variables or fields that are assigned to themselves.</value>
-    </data>
-    <data name="ReviewSelfAssignment_Message" xml:space="preserve">
-        <value>Variable '{0}' is assigned to itself</value>
-    </data>
-    <data name="ReviewSelfAssignment_Title" xml:space="preserve">
-        <value>Review self-assignment</value>
-    </data>
-    <data name="ReviewUselessControlFlow_Description" xml:space="preserve">
-        <value>This rule checks for empty blocks that produce useless control flow inside IL.</value>
-    </data>
-    <data name="ReviewUselessControlFlow_Message" xml:space="preserve">
-        <value>Useless control flow detected</value>
-    </data>
-    <data name="ReviewUselessControlFlow_Title" xml:space="preserve">
-        <value>Review useless control flow</value>
-    </data>
-    <data name="ReviewUseOfInt64BitsToDouble_Description" xml:space="preserve">
-        <value>This rule checks for invalid integer to double conversion using BitConverter.Int64BitsToDouble method.</value>
-    </data>
-    <data name="ReviewUseOfInt64BitsToDouble_Message" xml:space="preserve">
-        <value>Invalid use of BitConverter.Int64BitsToDouble</value>
-    </data>
-    <data name="ReviewUseOfInt64BitsToDouble_Title" xml:space="preserve">
-        <value>Review use of Int64BitsToDouble</value>
-    </data>
-    <data name="ReviewUseOfModuloOneOnIntegers_Description" xml:space="preserve">
-        <value>This rule checks for a modulo one operation on an integral type.</value>
-    </data>
-    <data name="ReviewUseOfModuloOneOnIntegers_Message" xml:space="preserve">
-        <value>Modulo one operation on an integer is likely a typo</value>
-    </data>
-    <data name="ReviewUseOfModuloOneOnIntegers_Title" xml:space="preserve">
-        <value>Review use of modulo one on integers</value>
-    </data>
-    <data name="UseValueInPropertySetter_Description" xml:space="preserve">
-        <value>Use value in property setter</value>
-    </data>
-    <data name="UseValueInPropertySetter_Message" xml:space="preserve">
-        <value>Property setter does not use 'value'</value>
-    </data>
-    <data name="UseValueInPropertySetter_Title" xml:space="preserve">
-        <value>This rule ensures all setter properties uses the value argument passed to the property.</value>
-    </data>
-    <data name="AvoidExtensionMethodOnSystemObject_Title" xml:space="preserve">
-        <value>Avoid extension method on System.Object</value>
-    </data>
-    <data name="AvoidExtensionMethodOnSystemObject_Message" xml:space="preserve">
-        <value>Extension method '{0}' should not be defined on System.Object</value>
-    </data>
-    <data name="AvoidExtensionMethodOnSystemObject_Description" xml:space="preserve">
-        <value>Extension methods should not be used to extend System.Object. Such extension methods cannot be consumed by some languages, like VB.NET, which use late-binding on System.Object instances.</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericType_Title" xml:space="preserve">
-        <value>Avoid Method with unused generic-type parameter</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericType_Message" xml:space="preserve">
-        <value>Generic type parameter '{0}' is not used in method parameters</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericType_Description" xml:space="preserve">
-        <value>Unused generic type parameters can be removed</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Title" xml:space="preserve">
-        <value>Avoid Method with Unused Generic Type Parameter</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Message" xml:space="preserve">
-        <value>Generic type parameter '{0}' is not used in method parameters</value>
-    </data>
-    <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Description" xml:space="preserve">
-        <value>Unused generic types should be utilized in method parameters or removed to improve code clarity.</value>
-    </data>
-    <data name="DoNotExposeNestedGenericSignatures_Title" xml:space="preserve">
-        <value>Do Not Expose Nested Generic Signatures</value>
-    </data>
-    <data name="DoNotExposeNestedGenericSignatures_Message" xml:space="preserve">
-        <value>Method '{0}' exposes a nested generic signature</value>
-    </data>
-    <data name="DoNotExposeNestedGenericSignatures_Description" xml:space="preserve">
-        <value>Nested generic signatures should be avoided for publicly exposed methods, as they can be difficult to construct and understand.</value>
-    </data>
-    <data name="ImplementGenericCollectionInterfaces_Title" xml:space="preserve">
-        <value>Implement Generic Collection Interfaces</value>
-    </data>
-    <data name="ImplementGenericCollectionInterfaces_Message" xml:space="preserve">
-        <value>Consider implementing 'IEnumerable&lt;T&gt;' instead of 'IEnumerable' for type safety and improved usability</value>
-    </data>
-    <data name="ImplementGenericCollectionInterfaces_Description" xml:space="preserve">
-        <value>Implementing 'IEnumerable&lt;T&gt;' helps avoid type casting and ensures type safety during iteration.</value>
-    </data>
-    <data name="PreferGenericsOverRefObject_Title" xml:space="preserve">
-        <value>Prefer Generics Over Ref Object</value>
-    </data>
-    <data name="PreferGenericsOverRefObject_Message" xml:space="preserve">
-        <value>Avoid using 'ref object', prefer using generics for type safety</value>
-    </data>
-    <data name="PreferGenericsOverRefObject_Description" xml:space="preserve">
-        <value>Using generics instead of 'ref object' provides type safety and a more intuitive API for consumers.</value>
-    </data>
-    <data name="UseGenericEventHandler_Title" xml:space="preserve">
-        <value>Use Generic EventHandler&lt;TEventArgs&gt;</value>
-    </data>
-    <data name="UseGenericEventHandler_Message" xml:space="preserve">
-        <value>Use 'EventHandler&lt;TEventArgs&gt;' instead of custom delegate types</value>
-    </data>
-    <data name="UseGenericEventHandler_Description" xml:space="preserve">
-        <value>Replacing custom delegate types with 'EventHandler&lt;TEventArgs&gt;' improves consistency and leverages built-in .NET patterns.</value>
-    </data>
-    <data name="AvoidArgumentExceptionDefaultConstructorTitle" xml:space="preserve">
-        <value>Avoid using default constructor for {0}</value>
-    </data>
-    <data name="AvoidArgumentExceptionDefaultConstructorMessage" xml:space="preserve">
-        <value>Use of default constructor for {0} is discouraged; provide parameter name and message</value>
-    </data>
-    <data name="AvoidArgumentExceptionDefaultConstructorDescription" xml:space="preserve">
-        <value>Ensure that exceptions derived from ArgumentException provide meaningful parameter names and messages</value>
-    </data>
-    <data name="DoNotDestroyStackTraceTitle" xml:space="preserve">
-        <value>Do not destroy stack trace when rethrowing exceptions</value>
-    </data>
-    <data name="DoNotDestroyStackTraceMessage" xml:space="preserve">
-        <value>Use 'throw;' instead of 'throw ex;' to preserve stack trace</value>
-    </data>
-    <data name="DoNotDestroyStackTraceDescription" xml:space="preserve">
-        <value>Rethrowing exceptions using 'throw ex;' resets the stack trace. Use 'throw;' to preserve it.</value>
-    </data>
-    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsTitle" xml:space="preserve">
-        <value>Avoid swallowing exceptions by catching non-specific exceptions</value>
-    </data>
-    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsMessage" xml:space="preserve">
-        <value>Catching non-specific exceptions without rethrowing can swallow errors</value>
-    </data>
-    <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsDescription" xml:space="preserve">
-        <value>Catch specific exceptions or rethrow to avoid swallowing errors</value>
-    </data>
-    <data name="DoNotThrowReservedExceptionTitle" xml:space="preserve">
-        <value>Avoid throwing reserved exceptions</value>
-    </data>
-    <data name="DoNotThrowReservedExceptionMessage" xml:space="preserve">
-        <value>Do not throw '{0}'; it is reserved for use by the runtime</value>
-    </data>
-    <data name="DoNotThrowReservedExceptionDescription" xml:space="preserve">
-        <value>Throwing reserved exceptions can cause unexpected behavior; use appropriate exception types</value>
-    </data>
-    <data name="ExceptionShouldBeVisibleTitle" xml:space="preserve">
-        <value>Exception types should be public</value>
-    </data>
-    <data name="ExceptionShouldBeVisibleMessage" xml:space="preserve">
-        <value>Exception type '{0}' should be public to be meaningful to API consumers</value>
-    </data>
-    <data name="ExceptionShouldBeVisibleDescription" xml:space="preserve">
-        <value>Non-public exception types derived directly from basic exceptions do not provide sufficient information to consumers</value>
-    </data>
-    <data name="InstantiateArgumentExceptionCorrectlyTitle" xml:space="preserve">
-        <value>Instantiate argument exceptions correctly</value>
-    </data>
-    <data name="InstantiateArgumentExceptionCorrectlyMessage" xml:space="preserve">
-        <value>Parameters to '{0}' constructor are in the wrong order</value>
-    </data>
-    <data name="InstantiateArgumentExceptionCorrectlyDescription" xml:space="preserve">
-        <value>Ensure that the parameter name and message are provided in the correct order when throwing argument exceptions.</value>
-    </data>
-    <data name="UseObjectDisposedExceptionTitle" xml:space="preserve">
-        <value>Throw ObjectDisposedException when disposed object is accessed</value>
-    </data>
-    <data name="UseObjectDisposedExceptionMessage" xml:space="preserve">
-        <value>Method '{0}' should throw ObjectDisposedException if object is disposed</value>
-    </data>
-    <data name="UseObjectDisposedExceptionDescription" xml:space="preserve">
-        <value>Public methods should check if the object is disposed and throw ObjectDisposedException if it is</value>
-    </data>
-    <data name="AvoidThrowingBasicExceptionsTitle" xml:space="preserve">
-        <value>Avoid throwing basic exceptions</value>
-      </data>
-    <data name="AvoidThrowingBasicExceptionsMessage" xml:space="preserve">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssemblyVersionMismatch_Description" xml:space="preserve">
+    <value>All assembly version attributes should be consistent.</value>
+  </data>
+  <data name="AssemblyVersionMismatch_HelpLink" xml:space="preserve">
+    <value>https://www.mono-project.com/docs/tools+libraries/tools/gendarme/rules/bad-practice/#avoidassemblyversionmismatchrule</value>
+  </data>
+  <data name="AssemblyVersionMismatch_Message" xml:space="preserve">
+    <value>Assembly version '{0}' does not match other version attributes</value>
+  </data>
+  <data name="AssemblyVersionMismatch_Title" xml:space="preserve">
+    <value>Assembly version mismatch</value>
+  </data>
+  <data name="AvoidCallingProblematicMethods_Description" xml:space="preserve">
+    <value>Avoid using methods that are known to be problematic due to potential issues such as performance problems or incorrect behavior.</value>
+  </data>
+  <data name="AvoidCallingProblematicMethods_Message" xml:space="preserve">
+    <value>Method '{0}' is considered problematic.</value>
+  </data>
+  <data name="AvoidCallingProblematicMethods_Title" xml:space="preserve">
+    <value>Avoid problematic methods</value>
+  </data>
+  <data name="AvoidVisibleConstantField_Description" xml:space="preserve">
+    <value>Avoid constant fields which are visible outside the current assembly. Use 'static readonly' instead.</value>
+  </data>
+  <data name="AvoidVisibleConstantField_Message" xml:space="preserve">
+    <value>The constant field '{0}' is visible outside the assembly</value>
+  </data>
+  <data name="AvoidVisibleConstantField_Title" xml:space="preserve">
+    <value>Avoid visible constant field</value>
+  </data>
+  <data name="CheckNewExceptionWithoutThrowing_Description" xml:space="preserve">
+    <value>Exception objects should be thrown, returned, or passed to another method as an argument.</value>
+  </data>
+  <data name="CheckNewExceptionWithoutThrowing_Message" xml:space="preserve">
+    <value>The exception '{0}' is created but not thrown, not returned, and not passed to another method</value>
+  </data>
+  <data name="CheckNewExceptionWithoutThrowing_Title" xml:space="preserve">
+    <value>Exception object created but not thrown or used</value>
+  </data>
+  <data name="CheckNewThreadWithoutStart_Description" xml:space="preserve">
+    <value>Thread objects should be started, returned, or passed to another method as an argument.</value>
+  </data>
+  <data name="CheckNewThreadWithoutStart_Message" xml:space="preserve">
+    <value>The thread '{0}' is created but not started, not returned, and not passed to another method</value>
+  </data>
+  <data name="CheckNewThreadWithoutStart_Title" xml:space="preserve">
+    <value>Thread object created but not started or used</value>
+  </data>
+  <data name="CloneMethodShouldNotReturnNull_Description" xml:space="preserve">
+    <value>Clone methods should not return null. They should return a new object instance.</value>
+  </data>
+  <data name="CloneMethodShouldNotReturnNull_Message" xml:space="preserve">
+    <value>The Clone method returns null</value>
+  </data>
+  <data name="CloneMethodShouldNotReturnNull_Title" xml:space="preserve">
+    <value>Clone method should not return null</value>
+  </data>
+  <data name="ConstructorShouldNotCallVirtualMethods_Description" xml:space="preserve">
+    <value>Constructors of non-sealed types should not call virtual methods. This can lead to fragile code if the method is overridden in a derived class.</value>
+  </data>
+  <data name="ConstructorShouldNotCallVirtualMethods_Message" xml:space="preserve">
+    <value>The constructor calls the virtual method '{0}'</value>
+  </data>
+  <data name="ConstructorShouldNotCallVirtualMethods_Title" xml:space="preserve">
+    <value>Constructor should not call virtual methods</value>
+  </data>
+  <data name="DisableDebuggingCode_Description" xml:space="preserve">
+    <value>Non-console applications should not contain calls to Console.WriteLine. Use Debug.WriteLine or Conditional(\"DEBUG\") instead.</value>
+  </data>
+  <data name="DisableDebuggingCode_Message" xml:space="preserve">
+    <value>The method '{0}' contains a call to Console.WriteLine</value>
+  </data>
+  <data name="DisableDebuggingCode_Title" xml:space="preserve">
+    <value>Disable debugging code in non-console applications</value>
+  </data>
+  <data name="DoNotForgetNotImplementedMethods_Description" xml:space="preserve">
+    <value>Methods throwing NotImplementedException should be implemented before release.</value>
+  </data>
+  <data name="DoNotForgetNotImplementedMethods_Message" xml:space="preserve">
+    <value>The method '{0}' throws a NotImplementedException</value>
+  </data>
+  <data name="DoNotForgetNotImplementedMethods_Title" xml:space="preserve">
+    <value>Do not forget NotImplemented methods</value>
+  </data>
+  <data name="DoNotLockOnThisOrTypesAnalyzer_Description" xml:space="preserve">
+    <value>Using 'lock (this)' or 'lock (typeof(...))' can cause deadlocks. Use a private lock object instead.</value>
+  </data>
+  <data name="DoNotLockOnThisOrTypesAnalyzer_Message" xml:space="preserve">
+    <value>Do not lock on 'this' or 'Type' to avoid deadlocks</value>
+  </data>
+  <data name="DoNotLockOnThisOrTypesAnalyzer_Title" xml:space="preserve">
+    <value>Do not lock on 'this' or 'Type'</value>
+  </data>
+  <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Description" xml:space="preserve">
+    <value>Locking on objects with weak identity (e.g., strings, exceptions) can cause deadlocks. Use a private lock object instead.</value>
+  </data>
+  <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Message" xml:space="preserve">
+    <value>Do not lock on objects with weak identity to avoid deadlocks</value>
+  </data>
+  <data name="DoNotLockOnWeakIdentityObjectsAnalyzer_Title" xml:space="preserve">
+    <value>Do not lock on objects with weak identity</value>
+  </data>
+  <data name="DoNotUseEnumIsAssignableFrom_Description" xml:space="preserve">
+    <value>Calls to typeof(Enum).IsAssignableFrom(type) can be simplified to type.IsEnum.</value>
+  </data>
+  <data name="DoNotUseEnumIsAssignableFrom_Message" xml:space="preserve">
+    <value>Replace 'typeof(Enum).IsAssignableFrom({0})' with '{0}.IsEnum'</value>
+  </data>
+  <data name="DoNotUseEnumIsAssignableFrom_Title" xml:space="preserve">
+    <value>Use type.IsEnum instead of typeof(Enum).IsAssignableFrom(type)</value>
+  </data>
+  <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Description" xml:space="preserve">
+    <value>Using Monitor.Enter without Monitor.Exit in the same method can lead to deadlocks and is difficult to maintain.</value>
+  </data>
+  <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Message" xml:space="preserve">
+    <value>Do not use Monitor.Enter without corresponding Monitor.Exit in the same method</value>
+  </data>
+  <data name="DoNotUseLockedRegionOutsideMethodAnalyzer_Title" xml:space="preserve">
+    <value>Do not use locked region outside method</value>
+  </data>
+  <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Description" xml:space="preserve">
+    <value>Using MethodImplOptions.Synchronized causes a lock(this) or lock(typeof(...)) which can cause deadlocks. Use a private lock object instead.</value>
+  </data>
+  <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Message" xml:space="preserve">
+    <value>Do not use MethodImplOptions.Synchronized on method '{0}'</value>
+  </data>
+  <data name="DoNotUseMethodImplOptionsSynchronizedAnalyzer_Title" xml:space="preserve">
+    <value>Do not use MethodImplOptions.Synchronized</value>
+  </data>
+  <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Description" xml:space="preserve">
+    <value>The ThreadStatic attribute can only be applied to static fields. Applying it to instance fields is ineffective.</value>
+  </data>
+  <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Message" xml:space="preserve">
+    <value>The field '{0}' is an instance field with the ThreadStatic attribute, which is ineffective</value>
+  </data>
+  <data name="DoNotUseThreadStaticWithInstanceFieldsAnalyzer_Title" xml:space="preserve">
+    <value>Do not use ThreadStatic attribute with instance fields</value>
+  </data>
+  <data name="DoubleCheckLockingAnalyzer_Description" xml:space="preserve">
+    <value>Double-check locking can be problematic in older versions of .NET. Ensure it is used correctly.</value>
+  </data>
+  <data name="DoubleCheckLockingAnalyzer_Message" xml:space="preserve">
+    <value>Avoid double-check locking on '{0}'</value>
+  </data>
+  <data name="DoubleCheckLockingAnalyzer_Title" xml:space="preserve">
+    <value>Avoid double-check locking</value>
+  </data>
+  <data name="EqualsShouldHandleNullArg_Description" xml:space="preserve">
+    <value>Equals(object) methods should return false when the object parameter is null.</value>
+  </data>
+  <data name="EqualsShouldHandleNullArg_Message" xml:space="preserve">
+    <value>Equals method does not handle null argument</value>
+  </data>
+  <data name="EqualsShouldHandleNullArg_Title" xml:space="preserve">
+    <value>Equals method should handle null argument</value>
+  </data>
+  <data name="GetEntryAssemblyMayReturnNull_Description" xml:space="preserve">
+    <value>Calls to Assembly.GetEntryAssembly() may return null in libraries or DLLs. Ensure proper null handling.</value>
+  </data>
+  <data name="GetEntryAssemblyMayReturnNull_Message" xml:space="preserve">
+    <value>Assembly.GetEntryAssembly may return null when called from a library or DLL</value>
+  </data>
+  <data name="GetEntryAssemblyMayReturnNull_Title" xml:space="preserve">
+    <value>Assembly.GetEntryAssembly may return null</value>
+  </data>
+  <data name="NonConstantStaticFieldsShouldNotBeVisible_Description" xml:space="preserve">
+    <value>Public static fields should be constant or readonly to avoid synchronization issues.</value>
+  </data>
+  <data name="NonConstantStaticFieldsShouldNotBeVisible_Message" xml:space="preserve">
+    <value>The static field '{0}' should not be publicly visible</value>
+  </data>
+  <data name="NonConstantStaticFieldsShouldNotBeVisible_Title" xml:space="preserve">
+    <value>Non-constant static fields should not be visible</value>
+  </data>
+  <data name="ObsoleteMessagesShouldNotBeEmpty_Description" xml:space="preserve">
+    <value>The Obsolete attribute is more helpful if it includes advice on how to deal with the situation (e.g., the new recommended API to use).</value>
+  </data>
+  <data name="ObsoleteMessagesShouldNotBeEmpty_Message" xml:space="preserve">
+    <value>The Obsolete attribute on '{0}' should include a message providing guidance.</value>
+  </data>
+  <data name="ObsoleteMessagesShouldNotBeEmpty_Title" xml:space="preserve">
+    <value>Obsolete attribute should not be empty</value>
+  </data>
+  <data name="OnlyUseDisposeForIDisposableTypes_Description" xml:space="preserve">
+    <value>Methods named Dispose should be reserved for types that implement IDisposable to avoid confusing developers.</value>
+  </data>
+  <data name="OnlyUseDisposeForIDisposableTypes_Message" xml:space="preserve">
+    <value>The method '{0}' is named Dispose but the containing type does not implement IDisposable</value>
+  </data>
+  <data name="OnlyUseDisposeForIDisposableTypes_Title" xml:space="preserve">
+    <value>Methods named Dispose should be reserved for types that implement IDisposable</value>
+  </data>
+  <data name="PreferEmptyInstanceOverNull_Description" xml:space="preserve">
+    <value>Methods and properties which return a string, an array, a collection, or an enumerable should return an empty instance rather than null.</value>
+  </data>
+  <data name="PreferEmptyInstanceOverNull_Message" xml:space="preserve">
+    <value>The method or property '{0}' returns null; consider returning an empty instance instead</value>
+  </data>
+  <data name="PreferEmptyInstanceOverNull_Title" xml:space="preserve">
+    <value>Prefer returning an empty instance over null</value>
+  </data>
+  <data name="PreferSafeHandle_Description" xml:space="preserve">
+    <value>It is recommended to use SafeHandle instead of IntPtr or UIntPtr for handling unmanaged resources.</value>
+  </data>
+  <data name="PreferSafeHandle_Message" xml:space="preserve">
+    <value>Consider using SafeHandle instead of {0} for better resource management and safety</value>
+  </data>
+  <data name="PreferSafeHandle_Title" xml:space="preserve">
+    <value>Prefer SafeHandle over IntPtr or UIntPtr for unmanaged resources</value>
+  </data>
+  <data name="ProtectCallToEventDelegatesAnalyzer_Description" xml:space="preserve">
+    <value>Event delegates should be checked for null and copied to a local variable to avoid race conditions.</value>
+  </data>
+  <data name="ProtectCallToEventDelegatesAnalyzer_Message" xml:space="preserve">
+    <value>The event '{0}' should be checked for null before invocation</value>
+  </data>
+  <data name="ProtectCallToEventDelegatesAnalyzer_Title" xml:space="preserve">
+    <value>Protect call to event delegates</value>
+  </data>
+  <data name="ReplaceIncompleteOddnessCheck_Description" xml:space="preserve">
+    <value>Using '(x % 2) == 1' to check for odd numbers will fail for negative numbers. Use '(x % 2 != 0)' or '(x &amp; 1 == 1)' instead.</value>
+  </data>
+  <data name="ReplaceIncompleteOddnessCheck_Message" xml:space="preserve">
+    <value>The modulo operation used to check oddness may fail for negative numbers; consider using '(x % 2 != 0)' or '(x &amp; 1 == 1)'</value>
+  </data>
+  <data name="ReplaceIncompleteOddnessCheck_Title" xml:space="preserve">
+    <value>Replace incomplete oddness check</value>
+  </data>
+  <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description" xml:space="preserve">
+    <value>Locks should be used only for operations on variables. Consider using Interlocked for atomic operations.</value>
+  </data>
+  <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message" xml:space="preserve">
+    <value>The lock on '{0}' should be reviewed to ensure it is necessary</value>
+  </data>
+  <data name="ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title" xml:space="preserve">
+    <value>Review lock used only for operations on variables</value>
+  </data>
+  <data name="ToStringShouldNotReturnNull_Description" xml:space="preserve">
+    <value>Overridden ToString() methods should not return null. An appropriately descriptive string, or string.Empty, should be returned instead to make the value more useful.</value>
+  </data>
+  <data name="ToStringShouldNotReturnNull_Message" xml:space="preserve">
+    <value>The ToString() method returns null; consider returning a descriptive string or string.Empty</value>
+  </data>
+  <data name="ToStringShouldNotReturnNull_Title" xml:space="preserve">
+    <value>ToString() should not return null</value>
+  </data>
+  <data name="WriteStaticFieldFromInstanceMethod_Description" xml:space="preserve">
+    <value>Writing to static fields from instance methods can cause issues in multithreaded environments. Consider refactoring to avoid this pattern.</value>
+  </data>
+  <data name="WriteStaticFieldFromInstanceMethod_Message" xml:space="preserve">
+    <value>The instance method '{0}' writes to static field '{1}', which can cause issues in multithreaded environments</value>
+  </data>
+  <data name="WriteStaticFieldFromInstanceMethod_Title" xml:space="preserve">
+    <value>Do not write to static fields from instance methods</value>
+  </data>
+  <data name="AttributeStringLiteralsShouldParseCorrectly_Description" xml:space="preserve">
+    <value>This rule checks attributes with certain types (Version, Guid, Uri) and validates the string value.</value>
+  </data>
+  <data name="AttributeStringLiteralsShouldParseCorrectly_Message" xml:space="preserve">
+    <value>String literal in attribute does not parse correctly: '{0}'</value>
+  </data>
+  <data name="AttributeStringLiteralsShouldParseCorrectly_Title" xml:space="preserve">
+    <value>Attribute string literals should parse correctly</value>
+  </data>
+  <data name="AvoidConstructorsInStaticTypes_Description" xml:space="preserve">
+    <value>This rule checks for types that contain only static members and fires if the type contains a visible instance constructor.</value>
+  </data>
+  <data name="AvoidConstructorsInStaticTypes_Message" xml:space="preserve">
+    <value>Static type '{0}' contains a constructor</value>
+  </data>
+  <data name="AvoidConstructorsInStaticTypes_Title" xml:space="preserve">
+    <value>Avoid constructors in static types</value>
+  </data>
+  <data name="AvoidFloatingPointEquality_Description" xml:space="preserve">
+    <value>In general floating point numbers cannot be usefully compared using the equality and inequality operators.</value>
+  </data>
+  <data name="AvoidFloatingPointEquality_Message" xml:space="preserve">
+    <value>Floating point comparison with equality operator may cause unexpected results</value>
+  </data>
+  <data name="AvoidFloatingPointEquality_Title" xml:space="preserve">
+    <value>Avoid floating point equality comparison</value>
+  </data>
+  <data name="BadRecursiveInvocation_Description" xml:space="preserve">
+    <value>This rule checks for methods that may be infinitely recursive.</value>
+  </data>
+  <data name="BadRecursiveInvocation_Message" xml:space="preserve">
+    <value>Method '{0}' recursively calls itself</value>
+  </data>
+  <data name="BadRecursiveInvocation_Title" xml:space="preserve">
+    <value>Avoid bad recursive invocation</value>
+  </data>
+  <data name="CallingEqualsWithNullArg_Description" xml:space="preserve">
+    <value>This rule checks for methods that call Equals with a null actual parameter.</value>
+  </data>
+  <data name="CallingEqualsWithNullArg_Message" xml:space="preserve">
+    <value>Method '{0}' calls Equals with a null argument</value>
+  </data>
+  <data name="CallingEqualsWithNullArg_Title" xml:space="preserve">
+    <value>Avoid calling Equals with null argument</value>
+  </data>
+  <data name="CheckParametersNullityInVisibleMethods_Description" xml:space="preserve">
+    <value>This rule checks if all nullable parameters of visible methods are compared with null before they get used.</value>
+  </data>
+  <data name="CheckParametersNullityInVisibleMethods_Message" xml:space="preserve">
+    <value>Parameter '{0}' is not checked for null</value>
+  </data>
+  <data name="CheckParametersNullityInVisibleMethods_Title" xml:space="preserve">
+    <value>Check nullable parameters for null before use</value>
+  </data>
+  <data name="DisposableFieldsShouldBeDisposed_Description" xml:space="preserve">
+    <value>The rule inspects all fields for disposable types and checks that the type’s Dispose method calls Dispose on all disposable fields.</value>
+  </data>
+  <data name="DisposableFieldsShouldBeDisposed_Message" xml:space="preserve">
+    <value>Field '{0}' is not disposed</value>
+  </data>
+  <data name="DisposableFieldsShouldBeDisposed_Title" xml:space="preserve">
+    <value>Disposable fields should be disposed</value>
+  </data>
+  <data name="DoNotCompareWithNaN_Description" xml:space="preserve">
+    <value>As defined in IEEE 754 it’s impossible to compare any floating-point value, even another NaN, with NaN.</value>
+  </data>
+  <data name="DoNotCompareWithNaN_Message" xml:space="preserve">
+    <value>Comparison with NaN always returns false</value>
+  </data>
+  <data name="DoNotCompareWithNaN_Title" xml:space="preserve">
+    <value>Do not compare with NaN</value>
+  </data>
+  <data name="DoNotRecurseInEquality_Description" xml:space="preserve">
+    <value>An equality operator (==) orinequality operator (!=) method is calling itself recursively.</value>
+  </data>
+  <data name="DoNotRecurseInEquality_Message" xml:space="preserve">
+    <value>Equality operator calls itself recursively</value>
+  </data>
+  <data name="DoNotRecurseInEquality_Title" xml:space="preserve">
+    <value>Do not recurse in equality operator</value>
+  </data>
+  <data name="DoNotRoundIntegers_Description" xml:space="preserve">
+    <value>This rule checks for attempts to call Round, Ceiling, Floor or Truncate on an integral type.</value>
+  </data>
+  <data name="DoNotRoundIntegers_Message" xml:space="preserve">
+    <value>Rounding operation on an integer is redundant</value>
+  </data>
+  <data name="DoNotRoundIntegers_Title" xml:space="preserve">
+    <value>Do not round integers</value>
+  </data>
+  <data name="EnsureLocalDisposal_Description" xml:space="preserve">
+    <value>This rule checks that disposable locals are always disposed of before the method returns.</value>
+  </data>
+  <data name="EnsureLocalDisposal_Message" xml:space="preserve">
+    <value>Local disposable object '{0}' is not disposed</value>
+  </data>
+  <data name="EnsureLocalDisposal_Title" xml:space="preserve">
+    <value>Ensure local disposal</value>
+  </data>
+  <data name="FinalizersShouldCallBaseClassFinalizer_Description" xml:space="preserve">
+    <value>This rule checks that a finalizer calls the base class finalizer.</value>
+  </data>
+  <data name="FinalizersShouldCallBaseClassFinalizer_Message" xml:space="preserve">
+    <value>Finalizer does not call the base class finalizer</value>
+  </data>
+  <data name="FinalizersShouldCallBaseClassFinalizer_Title" xml:space="preserve">
+    <value>Finalizers should call base class finalizer</value>
+  </data>
+  <data name="MethodCanBeMadeStatic_Description" xml:space="preserve">
+    <value>This rule checks for methods that do not require anything from the current instance and can be converted into static methods.</value>
+  </data>
+  <data name="MethodCanBeMadeStatic_Message" xml:space="preserve">
+    <value>Method '{0}' can be made static</value>
+  </data>
+  <data name="MethodCanBeMadeStatic_Title" xml:space="preserve">
+    <value>Method can be made static</value>
+  </data>
+  <data name="ProvideCorrectArgumentsToFormattingMethods_Description" xml:space="preserve">
+    <value>This rule checks that the format string used with String.Format matches the other parameters used with the method.</value>
+  </data>
+  <data name="ProvideCorrectArgumentsToFormattingMethods_Message" xml:space="preserve">
+    <value>The format string in '{0}' does not match the arguments provided</value>
+  </data>
+  <data name="ProvideCorrectArgumentsToFormattingMethods_Title" xml:space="preserve">
+    <value>Provide correct arguments to formatting methods</value>
+  </data>
+  <data name="ProvideCorrectRegexPattern_Description" xml:space="preserve">
+    <value>This rule verifies that valid regular expression strings are used as arguments.</value>
+  </data>
+  <data name="ProvideCorrectRegexPattern_Message" xml:space="preserve">
+    <value>Invalid regex pattern in '{0}'</value>
+  </data>
+  <data name="ProvideCorrectRegexPattern_Title" xml:space="preserve">
+    <value>Provide correct regex pattern</value>
+  </data>
+  <data name="ProvideValidXmlString_Description" xml:space="preserve">
+    <value>This rule verifies that valid XML string arguments are passed as arguments.</value>
+  </data>
+  <data name="ProvideValidXmlString_Message" xml:space="preserve">
+    <value>Invalid XML string in '{0}'</value>
+  </data>
+  <data name="ProvideValidXmlString_Title" xml:space="preserve">
+    <value>Provide valid XML string</value>
+  </data>
+  <data name="ProvideValidXPathExpression_Description" xml:space="preserve">
+    <value>This rule verifies that valid XPath expression strings are passed as arguments.</value>
+  </data>
+  <data name="ProvideValidXPathExpression_Message" xml:space="preserve">
+    <value>Invalid XPath expression in '{0}'</value>
+  </data>
+  <data name="ProvideValidXPathExpression_Title" xml:space="preserve">
+    <value>Provide valid XPath expression</value>
+  </data>
+  <data name="ReviewCastOnIntegerDivision_Description" xml:space="preserve">
+    <value>This rule checks for integral divisions where the result is cast to a floating point type.</value>
+  </data>
+  <data name="ReviewCastOnIntegerDivision_Message" xml:space="preserve">
+    <value>Cast on integer division may cause truncation</value>
+  </data>
+  <data name="ReviewCastOnIntegerDivision_Title" xml:space="preserve">
+    <value>Review cast on integer division</value>
+  </data>
+  <data name="ReviewCastOnIntegerMultiplication_Description" xml:space="preserve">
+    <value>This rule checks for integral multiply operations where the result is cast to a larger integral type.</value>
+  </data>
+  <data name="ReviewCastOnIntegerMultiplication_Message" xml:space="preserve">
+    <value>Cast on integer multiplication may cause overflow</value>
+  </data>
+  <data name="ReviewCastOnIntegerMultiplication_Title" xml:space="preserve">
+    <value>Review cast on integer multiplication</value>
+  </data>
+  <data name="ReviewDoubleAssignment_Description" xml:space="preserve">
+    <value>This rule checks for variables or fields that are assigned multiple times using the same value.</value>
+  </data>
+  <data name="ReviewDoubleAssignment_Message" xml:space="preserve">
+    <value>Variable '{0}' is assigned twice with the same value</value>
+  </data>
+  <data name="ReviewDoubleAssignment_Title" xml:space="preserve">
+    <value>Review double assignment</value>
+  </data>
+  <data name="ReviewInconsistentIdentity_Description" xml:space="preserve">
+    <value>This rule checks to see if a type manages its identity in a consistent way.</value>
+  </data>
+  <data name="ReviewInconsistentIdentity_Message" xml:space="preserve">
+    <value>Identity management for '{0}' is inconsistent</value>
+  </data>
+  <data name="ReviewInconsistentIdentity_Title" xml:space="preserve">
+    <value>Review inconsistent identity management</value>
+  </data>
+  <data name="ReviewSelfAssignment_Description" xml:space="preserve">
+    <value>This rule checks for variables or fields that are assigned to themselves.</value>
+  </data>
+  <data name="ReviewSelfAssignment_Message" xml:space="preserve">
+    <value>Variable '{0}' is assigned to itself</value>
+  </data>
+  <data name="ReviewSelfAssignment_Title" xml:space="preserve">
+    <value>Review self-assignment</value>
+  </data>
+  <data name="ReviewUselessControlFlow_Description" xml:space="preserve">
+    <value>This rule checks for empty blocks that produce useless control flow inside IL.</value>
+  </data>
+  <data name="ReviewUselessControlFlow_Message" xml:space="preserve">
+    <value>Useless control flow detected</value>
+  </data>
+  <data name="ReviewUselessControlFlow_Title" xml:space="preserve">
+    <value>Review useless control flow</value>
+  </data>
+  <data name="ReviewUseOfInt64BitsToDouble_Description" xml:space="preserve">
+    <value>This rule checks for invalid integer to double conversion using BitConverter.Int64BitsToDouble method.</value>
+  </data>
+  <data name="ReviewUseOfInt64BitsToDouble_Message" xml:space="preserve">
+    <value>Invalid use of BitConverter.Int64BitsToDouble</value>
+  </data>
+  <data name="ReviewUseOfInt64BitsToDouble_Title" xml:space="preserve">
+    <value>Review use of Int64BitsToDouble</value>
+  </data>
+  <data name="ReviewUseOfModuloOneOnIntegers_Description" xml:space="preserve">
+    <value>This rule checks for a modulo one operation on an integral type.</value>
+  </data>
+  <data name="ReviewUseOfModuloOneOnIntegers_Message" xml:space="preserve">
+    <value>Modulo one operation on an integer is likely a typo</value>
+  </data>
+  <data name="ReviewUseOfModuloOneOnIntegers_Title" xml:space="preserve">
+    <value>Review use of modulo one on integers</value>
+  </data>
+  <data name="UseValueInPropertySetter_Description" xml:space="preserve">
+    <value>Use value in property setter</value>
+  </data>
+  <data name="UseValueInPropertySetter_Message" xml:space="preserve">
+    <value>Property setter does not use 'value'</value>
+  </data>
+  <data name="UseValueInPropertySetter_Title" xml:space="preserve">
+    <value>This rule ensures all setter properties uses the value argument passed to the property.</value>
+  </data>
+  <data name="AvoidExtensionMethodOnSystemObject_Title" xml:space="preserve">
+    <value>Avoid extension method on System.Object</value>
+  </data>
+  <data name="AvoidExtensionMethodOnSystemObject_Message" xml:space="preserve">
+    <value>Extension method '{0}' should not be defined on System.Object</value>
+  </data>
+  <data name="AvoidExtensionMethodOnSystemObject_Description" xml:space="preserve">
+    <value>Extension methods should not be used to extend System.Object. Such extension methods cannot be consumed by some languages, like VB.NET, which use late-binding on System.Object instances.</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericType_Title" xml:space="preserve">
+    <value>Avoid Method with unused generic-type parameter</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericType_Message" xml:space="preserve">
+    <value>Generic type parameter '{0}' is not used in method parameters</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericType_Description" xml:space="preserve">
+    <value>Unused generic type parameters can be removed</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Title" xml:space="preserve">
+    <value>Avoid Method with Unused Generic Type Parameter</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Message" xml:space="preserve">
+    <value>Generic type parameter '{0}' is not used in method parameters</value>
+  </data>
+  <data name="AvoidMethodWithUnusedGenericTypeAnalyzer_Description" xml:space="preserve">
+    <value>Unused generic types should be utilized in method parameters or removed to improve code clarity.</value>
+  </data>
+  <data name="DoNotExposeNestedGenericSignatures_Title" xml:space="preserve">
+    <value>Do Not Expose Nested Generic Signatures</value>
+  </data>
+  <data name="DoNotExposeNestedGenericSignatures_Message" xml:space="preserve">
+    <value>Method '{0}' exposes a nested generic signature</value>
+  </data>
+  <data name="DoNotExposeNestedGenericSignatures_Description" xml:space="preserve">
+    <value>Nested generic signatures should be avoided for publicly exposed methods, as they can be difficult to construct and understand.</value>
+  </data>
+  <data name="ImplementGenericCollectionInterfaces_Title" xml:space="preserve">
+    <value>Implement Generic Collection Interfaces</value>
+  </data>
+  <data name="ImplementGenericCollectionInterfaces_Message" xml:space="preserve">
+    <value>Consider implementing 'IEnumerable&lt;T&gt;' instead of 'IEnumerable' for type safety and improved usability</value>
+  </data>
+  <data name="ImplementGenericCollectionInterfaces_Description" xml:space="preserve">
+    <value>Implementing 'IEnumerable&lt;T&gt;' helps avoid type casting and ensures type safety during iteration.</value>
+  </data>
+  <data name="PreferGenericsOverRefObject_Title" xml:space="preserve">
+    <value>Prefer Generics Over Ref Object</value>
+  </data>
+  <data name="PreferGenericsOverRefObject_Message" xml:space="preserve">
+    <value>Avoid using 'ref object', prefer using generics for type safety</value>
+  </data>
+  <data name="PreferGenericsOverRefObject_Description" xml:space="preserve">
+    <value>Using generics instead of 'ref object' provides type safety and a more intuitive API for consumers.</value>
+  </data>
+  <data name="UseGenericEventHandler_Title" xml:space="preserve">
+    <value>Use Generic EventHandler&lt;TEventArgs&gt;</value>
+  </data>
+  <data name="UseGenericEventHandler_Message" xml:space="preserve">
+    <value>Use 'EventHandler&lt;TEventArgs&gt;' instead of custom delegate types</value>
+  </data>
+  <data name="UseGenericEventHandler_Description" xml:space="preserve">
+    <value>Replacing custom delegate types with 'EventHandler&lt;TEventArgs&gt;' improves consistency and leverages built-in .NET patterns.</value>
+  </data>
+  <data name="AvoidArgumentExceptionDefaultConstructorTitle" xml:space="preserve">
+    <value>Avoid using default constructor for {0}</value>
+  </data>
+  <data name="AvoidArgumentExceptionDefaultConstructorMessage" xml:space="preserve">
+    <value>Use of default constructor for {0} is discouraged; provide parameter name and message</value>
+  </data>
+  <data name="AvoidArgumentExceptionDefaultConstructorDescription" xml:space="preserve">
+    <value>Ensure that exceptions derived from ArgumentException provide meaningful parameter names and messages</value>
+  </data>
+  <data name="DoNotDestroyStackTraceTitle" xml:space="preserve">
+    <value>Do not destroy stack trace when rethrowing exceptions</value>
+  </data>
+  <data name="DoNotDestroyStackTraceMessage" xml:space="preserve">
+    <value>Use 'throw;' instead of 'throw ex;' to preserve stack trace</value>
+  </data>
+  <data name="DoNotDestroyStackTraceDescription" xml:space="preserve">
+    <value>Rethrowing exceptions using 'throw ex;' resets the stack trace. Use 'throw;' to preserve it.</value>
+  </data>
+  <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsTitle" xml:space="preserve">
+    <value>Avoid swallowing exceptions by catching non-specific exceptions</value>
+  </data>
+  <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsMessage" xml:space="preserve">
+    <value>Catching non-specific exceptions without rethrowing can swallow errors</value>
+  </data>
+  <data name="DoNotSwallowErrorsCatchingNonSpecificExceptionsDescription" xml:space="preserve">
+    <value>Catch specific exceptions or rethrow to avoid swallowing errors</value>
+  </data>
+  <data name="DoNotThrowReservedExceptionTitle" xml:space="preserve">
+    <value>Avoid throwing reserved exceptions</value>
+  </data>
+  <data name="DoNotThrowReservedExceptionMessage" xml:space="preserve">
+    <value>Do not throw '{0}'; it is reserved for use by the runtime</value>
+  </data>
+  <data name="DoNotThrowReservedExceptionDescription" xml:space="preserve">
+    <value>Throwing reserved exceptions can cause unexpected behavior; use appropriate exception types</value>
+  </data>
+  <data name="ExceptionShouldBeVisibleTitle" xml:space="preserve">
+    <value>Exception types should be public</value>
+  </data>
+  <data name="ExceptionShouldBeVisibleMessage" xml:space="preserve">
+    <value>Exception type '{0}' should be public to be meaningful to API consumers</value>
+  </data>
+  <data name="ExceptionShouldBeVisibleDescription" xml:space="preserve">
+    <value>Non-public exception types derived directly from basic exceptions do not provide sufficient information to consumers</value>
+  </data>
+  <data name="InstantiateArgumentExceptionCorrectlyTitle" xml:space="preserve">
+    <value>Instantiate argument exceptions correctly</value>
+  </data>
+  <data name="InstantiateArgumentExceptionCorrectlyMessage" xml:space="preserve">
+    <value>Parameters to '{0}' constructor are in the wrong order</value>
+  </data>
+  <data name="InstantiateArgumentExceptionCorrectlyDescription" xml:space="preserve">
+    <value>Ensure that the parameter name and message are provided in the correct order when throwing argument exceptions.</value>
+  </data>
+  <data name="UseObjectDisposedExceptionTitle" xml:space="preserve">
+    <value>Throw ObjectDisposedException when disposed object is accessed</value>
+  </data>
+  <data name="UseObjectDisposedExceptionMessage" xml:space="preserve">
+    <value>Method '{0}' should throw ObjectDisposedException if object is disposed</value>
+  </data>
+  <data name="UseObjectDisposedExceptionDescription" xml:space="preserve">
+    <value>Public methods should check if the object is disposed and throw ObjectDisposedException if it is</value>
+  </data>
+  <data name="AvoidThrowingBasicExceptionsTitle" xml:space="preserve">
+    <value>Avoid throwing basic exceptions</value>
+    </data>
+  <data name="AvoidThrowingBasicExceptionsMessage" xml:space="preserve">
     <value>Avoid throwing basic exception type '{0}'; throw a more specific exception instead</value>
   </data>
-    <data name="AvoidThrowingBasicExceptionsDescription" xml:space="preserve">
+  <data name="AvoidThrowingBasicExceptionsDescription" xml:space="preserve">
     <value>Throwing basic exceptions like System.Exception, System.ApplicationException, or System.SystemException does not provide enough information about the error to be helpful to the consumer of the library</value>
   </data>
   <data name="MissingExceptionConstructorsTitle" xml:space="preserve">
@@ -672,7 +667,7 @@
   <data name="AbstractTypesShouldNotHavePublicConstructorsDescription" xml:space="preserve">
     <value>Abstract types should not expose public constructors as they can only be instantiated by derived types. A protected constructor is more appropriate for these cases.</value>
   </data>
-    <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle" xml:space="preserve">
+  <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingTitle" xml:space="preserve">
     <value>Delegate passed to native code must include exception handling</value>
   </data>
   <data name="DelegatesPassedToNativeCodeMustIncludeExceptionHandlingMessage" xml:space="preserve">
@@ -735,834 +730,1156 @@
   <data name="UseManagedAlternativesToPInvokeDescription" xml:space="preserve">
     <value>Using managed alternatives improves portability and maintainability of code.</value>
   </data>
-    <data name="AvoidAlwaysNullFieldTitle" xml:space="preserve">
+  <data name="AvoidAlwaysNullFieldTitle" xml:space="preserve">
     <value>Avoid fields that are always null</value>
   </data>
-    <data name="AvoidAlwaysNullFieldMessage" xml:space="preserve">
+  <data name="AvoidAlwaysNullFieldMessage" xml:space="preserve">
     <value>Field '{0}' is always null and is never assigned a value</value>
   </data>
-    <data name="AvoidAlwaysNullFieldDescription" xml:space="preserve">
+  <data name="AvoidAlwaysNullFieldDescription" xml:space="preserve">
     <value>Fields that are never assigned a value and remain null can lead to NullReferenceExceptions and should be initialized or removed if unnecessary</value>
   </data>
-    <data name="AvoidComplexMethodsTitle" xml:space="preserve">
+  <data name="AvoidComplexMethodsTitle" xml:space="preserve">
     <value>Avoid complex methods</value>
   </data>
-    <data name="AvoidComplexMethodsMessage" xml:space="preserve">
+  <data name="AvoidComplexMethodsMessage" xml:space="preserve">
     <value>Method '{0}' has a cyclomatic complexity of {1}, which is higher than the allowed threshold</value>
   </data>
-    <data name="AvoidComplexMethodsDescription" xml:space="preserve">
+  <data name="AvoidComplexMethodsDescription" xml:space="preserve">
     <value>Methods with high cyclomatic complexity are difficult to understand and maintain. Consider refactoring to reduce complexity.</value>
   </data>
-    <data name="AvoidDeepInheritanceTreeTitle" xml:space="preserve">
+  <data name="AvoidDeepInheritanceTreeTitle" xml:space="preserve">
     <value>Avoid deep inheritance trees</value>
   </data>
-    <data name="AvoidDeepInheritanceTreeMessage" xml:space="preserve">
+  <data name="AvoidDeepInheritanceTreeMessage" xml:space="preserve">
     <value>Type '{0}' has an inheritance depth of {1}, which exceeds the maximum allowed depth</value>
   </data>
-    <data name="AvoidDeepInheritanceTreeDescription" xml:space="preserve">
+  <data name="AvoidDeepInheritanceTreeDescription" xml:space="preserve">
     <value>Deep inheritance hierarchies can make code difficult to understand and maintain. Consider refactoring to reduce inheritance depth.</value>
   </data>
-    <data name="AvoidLackOfCohesionOfMethodsTitle" xml:space="preserve">
+  <data name="AvoidLackOfCohesionOfMethodsTitle" xml:space="preserve">
     <value>Avoid types with low cohesion</value>
   </data>
-    <data name="AvoidLackOfCohesionOfMethodsMessage" xml:space="preserve">
+  <data name="AvoidLackOfCohesionOfMethodsMessage" xml:space="preserve">
     <value>Type '{0}' has a lack of cohesion value of {1}, indicating low cohesion</value>
   </data>
-    <data name="AvoidLackOfCohesionOfMethodsDescription" xml:space="preserve">
+  <data name="AvoidLackOfCohesionOfMethodsDescription" xml:space="preserve">
     <value>Types with low cohesion are often doing too many unrelated things, making them hard to understand and maintain. Consider refactoring.</value>
   </data>
-    <data name="AvoidUnnecessarySpecializationTitle" xml:space="preserve">
+  <data name="AvoidUnnecessarySpecializationTitle" xml:space="preserve">
     <value>Avoid unnecessary specialization in method parameters</value>
   </data>
-    <data name="AvoidUnnecessarySpecializationMessage" xml:space="preserve">
+  <data name="AvoidUnnecessarySpecializationMessage" xml:space="preserve">
     <value>Parameter '{0}' can be of a more general type '{1}'</value>
   </data>
-    <data name="AvoidUnnecessarySpecializationDescription" xml:space="preserve">
+  <data name="AvoidUnnecessarySpecializationDescription" xml:space="preserve">
     <value>Using unnecessarily specialized parameter types reduces method reusability. Consider using more general types or interfaces.</value>
   </data>
-    <data name="ConsiderUsingStopwatchTitle" xml:space="preserve">
+  <data name="ConsiderUsingStopwatchTitle" xml:space="preserve">
     <value>Consider using Stopwatch instead of DateTime for timing</value>
   </data>
-    <data name="ConsiderUsingStopwatchMessage" xml:space="preserve">
+  <data name="ConsiderUsingStopwatchMessage" xml:space="preserve">
     <value>Consider using System.Diagnostics.Stopwatch instead of DateTime.Now for measuring elapsed time</value>
   </data>
-    <data name="ConsiderUsingStopwatchDescription" xml:space="preserve">
+  <data name="ConsiderUsingStopwatchDescription" xml:space="preserve">
     <value>Stopwatch provides more accurate timing and better expresses the intent of measuring elapsed time.</value>
   </data>
-    <data name="PreferStringIsNullOrEmptyTitle" xml:space="preserve">
+  <data name="PreferStringIsNullOrEmptyTitle" xml:space="preserve">
     <value>Prefer String.IsNullOrEmpty over manual checks</value>
   </data>
-    <data name="PreferStringIsNullOrEmptyMessage" xml:space="preserve">
+  <data name="PreferStringIsNullOrEmptyMessage" xml:space="preserve">
     <value>Use String.IsNullOrEmpty instead of separate null and length checks</value>
   </data>
-    <data name="PreferStringIsNullOrEmptyDescription" xml:space="preserve">
+  <data name="PreferStringIsNullOrEmptyDescription" xml:space="preserve">
     <value>Using String.IsNullOrEmpty improves code readability and clarity over manual null and length checks.</value>
   </data>
-    <data name="AvoidDeepNamespaceHierarchyTitle" xml:space="preserve">
-  <value>Avoid deep namespace hierarchy</value>
-</data>
-    <data name="AvoidDeepNamespaceHierarchyMessage" xml:space="preserve">
-  <value>Namespace '{0}' has a depth of {1}, which exceeds the maximum allowed depth</value>
-</data>
-    <data name="AvoidDeepNamespaceHierarchyDescription" xml:space="preserve">
-  <value>Deeply nested namespaces can make code harder to read and maintain. Consider refactoring to reduce the namespace depth.</value>
-</data>
-    <data name="AvoidNonAlphanumericIdentifierTitle" xml:space="preserve">
-  <value>Avoid non-alphanumeric characters in identifiers</value>
-</data>
-    <data name="AvoidNonAlphanumericIdentifierMessage" xml:space="preserve">
-  <value>Identifier '{0}' contains non-alphanumeric characters</value>
-</data>
-    <data name="AvoidNonAlphanumericIdentifierDescription" xml:space="preserve">
-  <value>Identifiers should only contain alphanumeric characters to improve readability and maintain coding standards.</value>
-</data>
-    <data name="AvoidRedundancyInMethodNameTitle" xml:space="preserve">
-  <value>Avoid redundancy in method names</value>
-</data>
-    <data name="AvoidRedundancyInMethodNameMessage" xml:space="preserve">
-  <value>Method '{0}' embeds the type name of its first parameter '{1}'</value>
-</data>
-    <data name="AvoidRedundancyInMethodNameDescription" xml:space="preserve">
-  <value>Removing the type name from the method name makes the API less verbose and easier to use.</value>
-</data>
-    <data name="AvoidRedundancyInTypeNameTitle" xml:space="preserve">
-  <value>Avoid redundancy in type names</value>
-</data>
-    <data name="AvoidRedundancyInTypeNameMessage" xml:space="preserve">
-  <value>Type '{0}' is prefixed with its namespace name '{1}'</value>
-</data>
-    <data name="AvoidRedundancyInTypeNameDescription" xml:space="preserve">
-  <value>Removing redundant namespace prefixes from type names makes them less verbose and easier to use.</value>
-</data>
-    <data name="AvoidTypeInterfaceInconsistencyTitle" xml:space="preserve">
-  <value>Avoid type/interface inconsistency</value>
-</data>
-    <data name="AvoidTypeInterfaceInconsistencyMessage" xml:space="preserve">
-  <value>Type '{0}' does not implement the interface '{1}' with the same base name</value>
-</data>
-    <data name="AvoidTypeInterfaceInconsistencyDescription" xml:space="preserve">
-  <value>If a type and an interface share the same base name, the type should implement the interface to meet expectations.</value>
-</data>
-    <data name="DoNotPrefixEventsWithAfterOrBeforeTitle" xml:space="preserve">
-  <value>Do not prefix events with 'After' or 'Before'</value>
-</data>
-    <data name="DoNotPrefixEventsWithAfterOrBeforeMessage" xml:space="preserve">
-  <value>Event '{0}' is prefixed with 'After' or 'Before'</value>
-</data>
-    <data name="DoNotPrefixEventsWithAfterOrBeforeDescription" xml:space="preserve">
-  <value>Event names should use verbs in the present or past tense, not prefixes like 'After' or 'Before'.</value>
-</data>
-    <data name="DoNotPrefixValuesWithEnumNameTitle" xml:space="preserve">
-  <value>Do not prefix enum values with enum type name</value>
-</data>
-    <data name="DoNotPrefixValuesWithEnumNameMessage" xml:space="preserve">
-  <value>Enum value '{0}' is prefixed with its enum type name '{1}'</value>
-</data>
-    <data name="DoNotPrefixValuesWithEnumNameDescription" xml:space="preserve">
-  <value>Enum values should not include the enum type name as a prefix to avoid redundancy.</value>
-</data>
-    <data name="DoNotUseReservedInEnumValueNamesTitle" xml:space="preserve">
-  <value>Do not use 'Reserved' in enum value names</value>
-</data>
-    <data name="DoNotUseReservedInEnumValueNamesMessage" xml:space="preserve">
-  <value>Enum '{1}' contains a value named '{0}', which should be avoided</value>
-</data>
-    <data name="DoNotUseReservedInEnumValueNamesDescription" xml:space="preserve">
-  <value>Using 'Reserved' in enum values can lead to breaking changes when modifying the enum. It's better to add new meaningful values as needed.</value>
-</data>
-    <data name="ParameterNamesShouldMatchOverriddenMethodTitle" xml:space="preserve">
-  <value>Parameter names should match overridden method</value>
-</data>
-    <data name="ParameterNamesShouldMatchOverriddenMethodMessage" xml:space="preserve">
-  <value>Method '{0}' parameter '{1}' does not match parameter name '{2}' in overridden method</value>
-</data>
-    <data name="ParameterNamesShouldMatchOverriddenMethodDescription" xml:space="preserve">
-  <value>Parameter names in overridden methods should match those in the base method to improve code clarity and usability.</value>
-</data>
-    <data name="UseCorrectCasingTitle" xml:space="preserve">
-  <value>Use correct casing in identifiers</value>
-</data>
-    <data name="UseCorrectCasingMessage" xml:space="preserve">
-  <value>{0} '{1}' does not follow correct casing convention</value>
-</data>
-    <data name="UseCorrectCasingDescription" xml:space="preserve">
-  <value>Identifiers should follow .NET naming conventions for casing to improve readability and maintain consistency.</value>
-</data>
-    <data name="UseSingularNameInEnumsUnlessAreFlagsTitle" xml:space="preserve">
-  <value>Use singular name in enums unless they are marked with [Flags]</value>
-</data>
-    <data name="UseSingularNameInEnumsUnlessAreFlagsMessage" xml:space="preserve">
-  <value>Enum '{0}' should have a {1} name</value>
-</data>
-    <data name="UseSingularNameInEnumsUnlessAreFlagsDescription" xml:space="preserve">
-  <value>Enums not marked with [Flags] should have singular names, while enums with [Flags] should have plural names.</value>
-</data>
-    <data name="UsePreferredTermsTitle" xml:space="preserve">
-  <value>Use preferred terms in identifiers</value>
-</data>
-    <data name="UsePreferredTermsMessage" xml:space="preserve">
-  <value>Identifier '{0}' contains '{1}', consider using '{2}' instead</value>
-</data>
-    <data name="UsePreferredTermsDescription" xml:space="preserve">
-  <value>Use terms that are consistent with .NET Framework guidelines to improve code clarity and consistency.</value>
-</data>
-    <data name="UsePluralNameInEnumFlagsTitle" xml:space="preserve">
-  <value>Use plural name for enums marked with [Flags]</value>
-</data>
-    <data name="UsePluralNameInEnumFlagsMessage" xml:space="preserve">
-  <value>Enum '{0}' is marked with [Flags] but its name is not plural</value>
-</data>
-    <data name="UsePluralNameInEnumFlagsDescription" xml:space="preserve">
-  <value>Enumerations decorated with [Flags] should have plural names to indicate that multiple values can be combined.</value>
-</data>
-    <data name="UseCorrectSuffixTitle" xml:space="preserve">
-  <value>Use correct suffix in type names</value>
-</data>
-    <data name="UseCorrectSuffixMessage" xml:space="preserve">
-  <value>{0}</value>
-</data>
-    <data name="UseCorrectSuffixDescription" xml:space="preserve">
-  <value>Ensure that types have the correct suffix based on the base types or interfaces they inherit from or implement.</value>
-</data>
-    <data name="UseCorrectPrefixTitle" xml:space="preserve">
-  <value>Use correct prefix in type names</value>
-</data>
-    <data name="UseCorrectPrefixMessage" xml:space="preserve">
-  <value>{0} '{1}' {2}</value>
-</data>
-    <data name="UseCorrectPrefixDescription" xml:space="preserve">
-  <value>Ensure that interfaces are prefixed with 'I', types are not prefixed with 'C', and generic parameters are correctly prefixed.</value>
-</data>
-    <data name="DoNotHardcodePathsTitle" xml:space="preserve">
-  <value>Do not hardcode paths</value>
-</data>
-    <data name="DoNotHardcodePathsMessage" xml:space="preserve">
-  <value>Avoid hardcoding paths in code; use Path.Combine or Environment.GetFolderPath instead</value>
-</data>
-    <data name="DoNotHardcodePathsDescription" xml:space="preserve">
-  <value>Strings containing hardcoded paths are not portable across operating systems. Use Path.Combine and/or Environment.GetFolderPath to ensure cross-platform functionality.</value>
-</data>
-
-    <data name="ExitCodeIsLimitedOnUnixTitle" xml:space="preserve">
-  <value>Limit exit codes to 0-255 on Unix</value>
-</data>
-    <data name="ExitCodeIsLimitedOnUnixMessage" xml:space="preserve">
-  <value>Process exit codes must be between 0 and 255 on Unix systems</value>
-</data>
-    <data name="ExitCodeIsLimitedOnUnixDescription" xml:space="preserve">
-  <value>On Unix systems, process exit codes must be between 0 and 255. Ensure that returned values and Environment.ExitCode are within this range.</value>
-</data>
-
-    <data name="FeatureRequiresRootPrivilegeOnUnixTitle" xml:space="preserve">
-  <value>Feature requires root privilege on Unix</value>
-</data>
-    <data name="FeatureRequiresRootPrivilegeOnUnixMessage" xml:space="preserve">
-  <value>This feature requires root privilege on Unix systems</value>
-</data>
-    <data name="FeatureRequiresRootPrivilegeOnUnixDescription" xml:space="preserve">
-  <value>Certain features require root privilege on Unix systems. Ensure that code using such features handles privilege requirements appropriately.</value>
-</data>
-
-    <data name="MonoCompatibilityReviewTitle" xml:space="preserve">
-  <value>Review Mono compatibility</value>
-</data>
-    <data name="MonoCompatibilityReviewMessage" xml:space="preserve">
-  <value>This code may not be compatible with Mono</value>
-</data>
-    <data name="MonoCompatibilityReviewDescription" xml:space="preserve">
-  <value>This code calls methods that are not fully implemented in Mono. Consider reviewing for Mono compatibility.</value>
-</data>
-
-    <data name="NewLineLiteralTitle" xml:space="preserve">
-  <value>Do not use new line literals</value>
-</data>
-    <data name="NewLineLiteralMessage" xml:space="preserve">
-  <value>Use Environment.NewLine instead of new line literals</value>
-</data>
-    <data name="NewLineLiteralDescription" xml:space="preserve">
-  <value>Using literal '\n' or '\r' for new lines is not portable across operating systems. Use Environment.NewLine instead.</value>
-</data>
-    <data name="GtkSharpExecutableTargetTitle" xml:space="preserve">
-  <value>Executable referencing GtkSharp should use Windows subsystem</value>
-</data>
-    <data name="GtkSharpExecutableTargetMessage" xml:space="preserve">
-  <value>Executable assembly references GtkSharp but is not compiled with -target:winexe</value>
-</data>
-    <data name="GtkSharpExecutableTargetDescription" xml:space="preserve">
-  <value>An executable assembly referencing GtkSharp should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
-</data>
-
-    <data name="SystemWindowsFormsExecutableTargetTitle" xml:space="preserve">
-  <value>Executable referencing System.Windows.Forms should use Windows subsystem</value>
-</data>
-    <data name="SystemWindowsFormsExecutableTargetMessage" xml:space="preserve">
-  <value>Executable assembly references System.Windows.Forms but is not compiled with -target:winexe</value>
-</data>
-    <data name="SystemWindowsFormsExecutableTargetDescription" xml:space="preserve">
-  <value>An executable assembly referencing System.Windows.Forms should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
-</data>
-
-    <data name="UseSTAThreadAttributeOnSWFEntryPointsTitle" xml:space="preserve">
-  <value>Use [STAThread] on Windows Forms entry points</value>
-</data>
-    <data name="UseSTAThreadAttributeOnSWFEntryPointsMessage" xml:space="preserve">
-  <value>Entry point of Windows Forms application should be marked with [STAThread] attribute</value>
-</data>
-    <data name="UseSTAThreadAttributeOnSWFEntryPointsDescription" xml:space="preserve">
-  <value>Windows Forms applications require the entry point method to be marked with [STAThread] attribute to function properly.</value>
-</data>
-    <data name="AvoidCodeDuplicatedInSameClassTitle" xml:space="preserve">
-  <value>Avoid code duplication in the same class</value>
-</data>
-    <data name="AvoidCodeDuplicatedInSameClassMessage" xml:space="preserve">
-  <value>Code is duplicated within the same class</value>
-</data>
-    <data name="AvoidCodeDuplicatedInSameClassDescription" xml:space="preserve">
-  <value>Duplicated code within a class makes maintenance harder. Extract common code into methods to improve reusability and readability.</value>
-</data>
-
-    <data name="AvoidCodeDuplicatedInSiblingClassesTitle" xml:space="preserve">
-  <value>Avoid code duplication in sibling classes</value>
-</data>
-    <data name="AvoidCodeDuplicatedInSiblingClassesMessage" xml:space="preserve">
-  <value>Code is duplicated across sibling classes</value>
-</data>
-    <data name="AvoidCodeDuplicatedInSiblingClassesDescription" xml:space="preserve">
-  <value>Duplicated code across sibling classes can lead to maintenance issues. Consider moving common code to a base class or utility class.</value>
-</data>
-
-    <data name="AvoidLargeClassesTitle" xml:space="preserve">
-  <value>Avoid large classes</value>
-</data>
-    <data name="AvoidLargeClassesMessage" xml:space="preserve">
-  <value>Class '{0}' is too large</value>
-</data>
-    <data name="AvoidLargeClassesDescription" xml:space="preserve">
-  <value>Classes that are too large are harder to maintain. Consider splitting this class into smaller, more focused classes.</value>
-</data>
-
-    <data name="AvoidLongMethodsTitle" xml:space="preserve">
-  <value>Avoid long methods</value>
-</data>
-    <data name="AvoidLongMethodsMessage" xml:space="preserve">
-  <value>Method '{0}' is too long</value>
-</data>
-    <data name="AvoidLongMethodsDescription" xml:space="preserve">
-  <value>Methods that are too long are harder to understand and maintain. Consider refactoring this method into smaller methods.</value>
-</data>
-
-    <data name="AvoidLongParameterListsTitle" xml:space="preserve">
-  <value>Avoid long parameter lists</value>
-</data>
-    <data name="AvoidLongParameterListsMessage" xml:space="preserve">
-  <value>Method '{0}' has too many parameters</value>
-</data>
-    <data name="AvoidLongParameterListsDescription" xml:space="preserve">
-  <value>Methods with long parameter lists can be hard to use and maintain. Consider refactoring to reduce the number of parameters.</value>
-</data>
-
-    <data name="AvoidMessageChainsTitle" xml:space="preserve">
-  <value>Avoid message chains</value>
-</data>
-    <data name="AvoidMessageChainsMessage" xml:space="preserve">
-  <value>Message chain detected in method '{0}'</value>
-</data>
-    <data name="AvoidMessageChainsDescription" xml:space="preserve">
-  <value>Long message chains indicate tight coupling to object navigation structures. Consider refactoring to reduce dependencies.</value>
-</data>
-
-    <data name="AvoidSpeculativeGeneralityTitle" xml:space="preserve">
-  <value>Avoid speculative generality</value>
-</data>
-    <data name="AvoidSpeculativeGeneralityMessage" xml:space="preserve">
-  <value>Speculative generality detected in '{0}'</value>
-</data>
-    <data name="AvoidSpeculativeGeneralityDescription" xml:space="preserve">
-  <value>Unused abstractions or parameters may indicate speculative generality. Remove unnecessary code to improve clarity.</value>
-</data>
-
-    <data name="AvoidSwitchStatementsTitle" xml:space="preserve">
-  <value>Avoid switch statements</value>
-</data>
-    <data name="AvoidSwitchStatementsMessage" xml:space="preserve">
-  <value>Switch statement detected in method '{0}'</value>
-</data>
-    <data name="AvoidSwitchStatementsDescription" xml:space="preserve">
-  <value>Switch statements can lead to duplicated code. Consider using polymorphism to achieve the same behavior.</value>
-</data>
-
-    <data name="CallBaseMethodsOnISerializableTypesTitle" xml:space="preserve">
-  <value>Call base methods in ISerializable types</value>
-</data>
-    <data name="CallBaseMethodsOnISerializableTypesMessage" xml:space="preserve">
-  <value>ISerializable type '{0}' does not call base {1} method</value>
-</data>
-    <data name="CallBaseMethodsOnISerializableTypesDescription" xml:space="preserve">
-  <value>Types implementing ISerializable should call their base type's serialization constructor and GetObjectData method to ensure proper serialization.</value>
-</data>
-
-    <data name="DeserializeOptionalFieldTitle" xml:space="preserve">
-  <value>Handle [OptionalField] during deserialization</value>
-</data>
-    <data name="DeserializeOptionalFieldMessage" xml:space="preserve">
-  <value>Type '{0}' has [OptionalField] but no [OnDeserialized] or [OnDeserializing] method</value>
-</data>
-    <data name="DeserializeOptionalFieldDescription" xml:space="preserve">
-  <value>Types with [OptionalField] should have methods decorated with [OnDeserialized] or [OnDeserializing] to properly initialize those fields during deserialization.</value>
-</data>
-
-    <data name="ImplementISerializableCorrectlyTitle" xml:space="preserve">
-  <value>Implement ISerializable correctly</value>
-</data>
-    <data name="ImplementISerializableCorrectlyMessage" xml:space="preserve">
-  <value>Type '{0}' does not implement ISerializable correctly</value>
-</data>
-    <data name="ImplementISerializableCorrectlyDescription" xml:space="preserve">
-  <value>Types implementing ISerializable should serialize all instance fields not marked with [NonSerialized], and GetObjectData should be virtual if the type is not sealed.</value>
-</data>
-
-    <data name="MarkAllNonSerializableFieldsTitle" xml:space="preserve">
-  <value>Mark all non-serializable fields with [NonSerialized]</value>
-</data>
-    <data name="MarkAllNonSerializableFieldsMessage" xml:space="preserve">
-  <value>Field '{0}' in serializable type '{1}' is not serializable</value>
-</data>
-    <data name="MarkAllNonSerializableFieldsDescription" xml:space="preserve">
-  <value>Fields of serializable types must be serializable or marked with [NonSerialized].</value>
-</data>
-
-    <data name="MarkEnumerationsAsSerializableTitle" xml:space="preserve">
-  <value>Mark enumerations as [Serializable]</value>
-</data>
-    <data name="MarkEnumerationsAsSerializableMessage" xml:space="preserve">
-  <value>Enum '{0}' is not marked as [Serializable]</value>
-</data>
-    <data name="MarkEnumerationsAsSerializableDescription" xml:space="preserve">
-  <value>Even though enums are serializable by default, marking them with [Serializable] improves code readability.</value>
-</data>
-
-    <data name="MissingSerializableAttributeOnISerializableTypeTitle" xml:space="preserve">
-  <value>Missing [Serializable] attribute on ISerializable type</value>
-</data>
-    <data name="MissingSerializableAttributeOnISerializableTypeMessage" xml:space="preserve">
-  <value>Type '{0}' implements ISerializable but is not marked as [Serializable]</value>
-</data>
-    <data name="MissingSerializableAttributeOnISerializableTypeDescription" xml:space="preserve">
-  <value>Types implementing ISerializable must be marked with the [Serializable] attribute to be serializable by the runtime.</value>
-</data>
-
-    <data name="MissingSerializationConstructorTitle" xml:space="preserve">
-  <value>Missing serialization constructor</value>
-</data>
-    <data name="MissingSerializationConstructorMessage" xml:space="preserve">
-  <value>Type '{0}' implements ISerializable but lacks the required serialization constructor</value>
-</data>
-    <data name="MissingSerializationConstructorDescription" xml:space="preserve">
-  <value>Types implementing ISerializable must provide a serialization constructor with the correct signature.</value>
-</data>
-
-    <data name="UseCorrectSignatureForSerializationMethodsTitle" xml:space="preserve">
-  <value>Use correct signature for serialization methods</value>
-</data>
-    <data name="UseCorrectSignatureForSerializationMethodsMessage" xml:space="preserve">
-  <value>Method '{0}' has an incorrect signature for a serialization callback</value>
-</data>
-    <data name="UseCorrectSignatureForSerializationMethodsDescription" xml:space="preserve">
-  <value>Methods decorated with serialization attributes should be private, return void, and have a single parameter of type StreamingContext.</value>
-</data>
-    <data name="ArrayFieldsShouldNotBeReadOnlyTitle" xml:space="preserve">
-  <value>Array fields should not be public and readonly</value>
-</data>
-    <data name="ArrayFieldsShouldNotBeReadOnlyMessage" xml:space="preserve">
-  <value>Public readonly array field '{0}' can be modified externally</value>
-</data>
-    <data name="ArrayFieldsShouldNotBeReadOnlyDescription" xml:space="preserve">
-  <value>Marking a public array field as readonly only prevents the field from being assigned a different array instance. The array elements can still be modified. This can lead to unexpected behavior and security issues.</value>
-</data>
-
-    <data name="DoNotShortCircuitCertificateCheckTitle" xml:space="preserve">
-  <value>Do not short-circuit certificate checks</value>
-</data>
-    <data name="DoNotShortCircuitCertificateCheckMessage" xml:space="preserve">
-  <value>Certificate validation callback '{0}' should not unconditionally accept certificates</value>
-</data>
-    <data name="DoNotShortCircuitCertificateCheckDescription" xml:space="preserve">
-  <value>Overriding certificate validation to accept all certificates disables critical security checks, making the application vulnerable to man-in-the-middle attacks.</value>
-</data>
-
-    <data name="NativeFieldsShouldNotBeVisibleTitle" xml:space="preserve">
-  <value>Native fields should not be publicly visible</value>
-</data>
-    <data name="NativeFieldsShouldNotBeVisibleMessage" xml:space="preserve">
-  <value>Field '{0}' is a publicly visible native field of type '{1}'</value>
-</data>
-    <data name="NativeFieldsShouldNotBeVisibleDescription" xml:space="preserve">
-  <value>Exposing native fields publicly can lead to security and stability issues, as external code can modify or misuse these fields.</value>
-</data>
-
-    <data name="StaticConstructorsShouldBePrivateTitle" xml:space="preserve">
-  <value>Static constructors should be private</value>
-</data>
-    <data name="StaticConstructorsShouldBePrivateMessage" xml:space="preserve">
-  <value>Static constructor for type '{0}' is not private</value>
-</data>
-    <data name="StaticConstructorsShouldBePrivateDescription" xml:space="preserve">
-  <value>Static constructors should be private to prevent external code from invoking them, which could lead to security vulnerabilities or unexpected behavior.</value>
-</data>
-    <data name="AddMissingTypeInheritanceDemandTitle" xml:space="preserve">
-  <value>Add missing InheritanceDemand for unsealed types with LinkDemand</value>
-</data>
-    <data name="AddMissingTypeInheritanceDemandMessage" xml:space="preserve">
-  <value>Type '{0}' is not sealed and has a LinkDemand but lacks an InheritanceDemand</value>
-</data>
-    <data name="AddMissingTypeInheritanceDemandDescription" xml:space="preserve">
-  <value>Types that are not sealed and have a LinkDemand should also have an InheritanceDemand for the same permissions to prevent security issues arising from subclassing.</value>
-</data>
-
-    <data name="DoNotExposeFieldsInSecuredTypeTitle" xml:space="preserve">
-  <value>Do not expose fields in secured types</value>
-</data>
-    <data name="DoNotExposeFieldsInSecuredTypeMessage" xml:space="preserve">
-  <value>Type '{0}' has security demands but exposes public fields: {1}</value>
-</data>
-    <data name="DoNotExposeFieldsInSecuredTypeDescription" xml:space="preserve">
-  <value>Types secured by demands should not expose public fields, as access to these fields is not covered by the declarative demands, potentially leading to security vulnerabilities.</value>
-</data>
-
-    <data name="DoNotExposeMethodsProtectedByLinkDemandTitle" xml:space="preserve">
-  <value>Do not expose methods that bypass security by calling methods with stricter demands</value>
-</data>
-    <data name="DoNotExposeMethodsProtectedByLinkDemandMessage" xml:space="preserve">
-  <value>Method '{0}' exposes a method protected by a LinkDemand with stricter permissions</value>
-</data>
-    <data name="DoNotExposeMethodsProtectedByLinkDemandDescription" xml:space="preserve">
-  <value>Visible methods should not be less protected than the methods they call if the called methods are protected by a LinkDemand. This could allow bypassing security checks.</value>
-</data>
-
-    <data name="DoNotReduceTypeSecurityOnMethodsTitle" xml:space="preserve">
-  <value>Do not reduce type security on methods</value>
-</data>
-    <data name="DoNotReduceTypeSecurityOnMethodsMessage" xml:space="preserve">
-  <value>Method '{0}' has security demands that are not a subset of the type's demands</value>
-</data>
-    <data name="DoNotReduceTypeSecurityOnMethodsDescription" xml:space="preserve">
-  <value>Methods in a secured type should not have security permissions that are not a subset of the type's permissions, as this can create security vulnerabilities.</value>
-</data>
-
-    <data name="ReviewSealedTypeWithInheritanceDemandTitle" xml:space="preserve">
-  <value>Review sealed type with InheritanceDemand</value>
-</data>
-    <data name="ReviewSealedTypeWithInheritanceDemandMessage" xml:space="preserve">
-  <value>Sealed type '{0}' has an InheritanceDemand which will never be enforced</value>
-</data>
-    <data name="ReviewSealedTypeWithInheritanceDemandDescription" xml:space="preserve">
-  <value>Sealed types cannot be inherited from, so any InheritanceDemand on them will never be executed. Check if the permission is required and adjust accordingly.</value>
-</data>
-
-    <data name="ReviewSuppressUnmanagedCodeSecurityUsageTitle" xml:space="preserve">
-  <value>Review usage of [SuppressUnmanagedCodeSecurity]</value>
-</data>
-    <data name="ReviewSuppressUnmanagedCodeSecurityUsageMessage" xml:space="preserve">
-  <value>Type or method '{0}' is decorated with [SuppressUnmanagedCodeSecurity]</value>
-</data>
-    <data name="ReviewSuppressUnmanagedCodeSecurityUsageDescription" xml:space="preserve">
-  <value>The [SuppressUnmanagedCodeSecurity] attribute reduces security checks when executing unmanaged code. Its usage should be reviewed to ensure no security holes are introduced.</value>
-</data>
-
-    <data name="SecureGetObjectDataOverridesTitle" xml:space="preserve">
-  <value>Secure GetObjectData overrides</value>
-</data>
-    <data name="SecureGetObjectDataOverridesMessage" xml:space="preserve">
-  <value>GetObjectData method in type '{0}' is not protected with a security demand</value>
-</data>
-    <data name="SecureGetObjectDataOverridesDescription" xml:space="preserve">
-  <value>Types implementing ISerializable should protect their GetObjectData method with a demand or link demand for SerializationFormatter permission to prevent unauthorized access.</value>
-</data>
-    <data name="AvoidLargeNumberOfLocalVariablesTitle" xml:space="preserve">
-  <value>Avoid methods with a large number of local variables</value>
-</data>
-    <data name="AvoidLargeNumberOfLocalVariablesMessage" xml:space="preserve">
-  <value>Method '{0}' contains {1} local variables, exceeding the maximum allowed ({2})</value>
-</data>
-    <data name="AvoidLargeNumberOfLocalVariablesDescription" xml:space="preserve">
-  <value>Methods with too many local variables can be hard to understand and maintain. Consider refactoring to reduce the number of local variables.</value>
-</data>
-
-    <data name="AvoidLargeStructureTitle" xml:space="preserve">
-  <value>Avoid large structures (value types)</value>
-</data>
-    <data name="AvoidLargeStructureMessage" xml:space="preserve">
-  <value>Structure '{0}' is larger than {1} bytes</value>
-</data>
-    <data name="AvoidLargeStructureDescription" xml:space="preserve">
-  <value>Large value types can negatively impact performance due to copying overhead. Consider converting to a reference type or reducing its size.</value>
-</data>
-
-    <data name="AvoidRepetitiveCastsTitle" xml:space="preserve">
-  <value>Avoid repetitive casts on the same value</value>
-</data>
-    <data name="AvoidRepetitiveCastsMessage" xml:space="preserve">
-  <value>Value '{0}' is cast to '{1}' multiple times</value>
-</data>
-    <data name="AvoidRepetitiveCastsDescription" xml:space="preserve">
-  <value>Casting the same value multiple times is inefficient. Consider caching the casted value in a variable.</value>
-</data>
-
-    <data name="AvoidReturningArraysOnPropertiesTitle" xml:space="preserve">
-  <value>Avoid returning arrays from properties</value>
-</data>
-    <data name="AvoidReturningArraysOnPropertiesMessage" xml:space="preserve">
-  <value>Property '{0}' returns an array</value>
-</data>
-    <data name="AvoidReturningArraysOnPropertiesDescription" xml:space="preserve">
-  <value>Returning arrays from properties can expose internal state. Use methods to return copies or return a read-only collection instead.</value>
-</data>
-
-    <data name="AvoidTypeGetTypeForConstantStringsTitle" xml:space="preserve">
-  <value>Avoid using Type.GetType with constant strings</value>
-</data>
-    <data name="AvoidTypeGetTypeForConstantStringsMessage" xml:space="preserve">
-  <value>Use 'typeof({0})' instead of 'Type.GetType("{1}")'</value>
-</data>
-    <data name="AvoidTypeGetTypeForConstantStringsDescription" xml:space="preserve">
-  <value>Using Type.GetType with constant strings is less efficient and can fail at runtime. Use the 'typeof' operator instead.</value>
-</data>
-
-    <data name="AvoidUncalledPrivateCodeTitle" xml:space="preserve">
-  <value>Avoid uncalled private code</value>
-</data>
-    <data name="AvoidUncalledPrivateCodeMessage" xml:space="preserve">
-  <value>Private method '{0}' is never called</value>
-</data>
-    <data name="AvoidUncalledPrivateCodeDescription" xml:space="preserve">
-  <value>Private methods that are never called can be removed to reduce code clutter and potential confusion.</value>
-</data>
-
-    <data name="AvoidUninstantiatedInternalClassesTitle" xml:space="preserve">
-  <value>Avoid uninstantiated internal classes</value>
-</data>
-    <data name="AvoidUninstantiatedInternalClassesMessage" xml:space="preserve">
-  <value>Internal class '{0}' is never instantiated</value>
-</data>
-    <data name="AvoidUninstantiatedInternalClassesDescription" xml:space="preserve">
-  <value>Internal classes that are never instantiated may be unused code and can be removed or made abstract if intended for inheritance.</value>
-</data>
-
-    <data name="AvoidUnneededCallsOnStringTitle" xml:space="preserve">
-  <value>Avoid unnecessary method calls on string instances</value>
-</data>
-    <data name="AvoidUnneededCallsOnStringMessage" xml:space="preserve">
-  <value>Method '{0}' called on string instance '{1}' is unnecessary</value>
-</data>
-    <data name="AvoidUnneededCallsOnStringDescription" xml:space="preserve">
-  <value>Methods like 'ToString' on string instances return the original string and are redundant. They can be safely removed.</value>
-</data>
-
-    <data name="AvoidUnneededFieldInitializationTitle" xml:space="preserve">
-  <value>Avoid unnecessary field initialization</value>
-</data>
-    <data name="AvoidUnneededFieldInitializationMessage" xml:space="preserve">
-  <value>Field '{0}' is initialized to its default value</value>
-</data>
-    <data name="AvoidUnneededFieldInitializationDescription" xml:space="preserve">
-  <value>Fields are automatically initialized to their default values. Explicitly assigning default values is redundant and can be removed.</value>
-</data>
-
-    <data name="AvoidUnneededUnboxingTitle" xml:space="preserve">
-  <value>Avoid unnecessary unboxing</value>
-</data>
-    <data name="AvoidUnneededUnboxingMessage" xml:space="preserve">
-  <value>Value type '{0}' is unboxed multiple times</value>
-</data>
-    <data name="AvoidUnneededUnboxingDescription" xml:space="preserve">
-  <value>Unboxing a value type multiple times is inefficient. Consider caching the unboxed value in a variable.</value>
-</data>
-    <data name="AvoidUnsealedConcreteAttributesTitle" xml:space="preserve">
-  <value>Avoid unsealed concrete attribute classes</value>
-</data>
-    <data name="AvoidUnsealedConcreteAttributesMessage" xml:space="preserve">
-  <value>Attribute class '{0}' is concrete and unsealed</value>
-</data>
-    <data name="AvoidUnsealedConcreteAttributesDescription" xml:space="preserve">
-  <value>Concrete attribute classes should be sealed to improve performance. Alternatively, make the attribute class abstract.</value>
-</data>
-
-    <data name="AvoidUnsealedUninheritedInternalTypeTitle" xml:space="preserve">
-  <value>Avoid unsealed internal classes that are not inherited</value>
-</data>
-    <data name="AvoidUnsealedUninheritedInternalTypeMessage" xml:space="preserve">
-  <value>Internal class '{0}' is unsealed and not inherited</value>
-</data>
-    <data name="AvoidUnsealedUninheritedInternalTypeDescription" xml:space="preserve">
-  <value>Sealing internal classes that are not inherited allows for compiler optimizations and clarifies the type hierarchy.</value>
-</data>
-
-    <data name="AvoidUnusedParametersTitle" xml:space="preserve">
-  <value>Avoid unused parameters</value>
-</data>
-    <data name="AvoidUnusedParametersMessage" xml:space="preserve">
-  <value>Parameter '{0}' of method '{1}' is not used</value>
-</data>
-    <data name="AvoidUnusedParametersDescription" xml:space="preserve">
-  <value>All parameters in a method should be used to avoid confusion and potential errors. Remove unused parameters or use them appropriately.</value>
-</data>
-
-    <data name="AvoidUnusedPrivateFieldsTitle" xml:space="preserve">
-  <value>Avoid unused private fields</value>
-</data>
-    <data name="AvoidUnusedPrivateFieldsMessage" xml:space="preserve">
-  <value>Private field '{0}' is never used</value>
-</data>
-    <data name="AvoidUnusedPrivateFieldsDescription" xml:space="preserve">
-  <value>Unused private fields increase code clutter and can lead to confusion. Remove unused fields to improve code clarity.</value>
-</data>
-
-    <data name="CompareWithEmptyStringEfficientlyTitle" xml:space="preserve">
-  <value>Compare strings with empty string efficiently</value>
-</data>
-    <data name="CompareWithEmptyStringEfficientlyMessage" xml:space="preserve">
-  <value>Use 'string.Length == 0' instead of comparing to '{0}'</value>
-</data>
-    <data name="CompareWithEmptyStringEfficientlyDescription" xml:space="preserve">
-  <value>Comparing string length is more efficient than comparing to empty strings or String.Empty. Consider using 'string.IsNullOrEmpty' when appropriate.</value>
-</data>
-
-    <data name="ConsiderCustomAccessorsForNonVisibleEventsTitle" xml:space="preserve">
-  <value>Consider custom accessors for non-visible events</value>
-</data>
-    <data name="ConsiderCustomAccessorsForNonVisibleEventsMessage" xml:space="preserve">
-  <value>Non-visible event '{0}' uses default synchronized accessors</value>
-</data>
-    <data name="ConsiderCustomAccessorsForNonVisibleEventsDescription" xml:space="preserve">
-  <value>Default event accessors are synchronized, which can impact performance. For non-visible events, consider custom accessors without synchronization if thread safety is managed elsewhere.</value>
-</data>
-
-    <data name="DoNotIgnoreMethodResultTitle" xml:space="preserve">
-  <value>Do not ignore method results</value>
-</data>
-    <data name="DoNotIgnoreMethodResultMessage" xml:space="preserve">
-  <value>The result of method '{0}' is ignored</value>
-</data>
-    <data name="DoNotIgnoreMethodResultDescription" xml:space="preserve">
-  <value>Ignoring the result of certain methods can lead to wasted resources and potential logic errors. Ensure that method results are used appropriately.</value>
-</data>
-
-    <data name="ImplementEqualsTypeTitle" xml:space="preserve">
-  <value>Implement type-specific Equals method and IEquatable&lt;T&gt;</value>
-</data>
-    <data name="ImplementEqualsTypeMessage" xml:space="preserve">
-  <value>Type '{0}' overrides Equals(object) but does not implement Equals({0}) or IEquatable&lt;{0}&gt;</value>
-</data>
-    <data name="ImplementEqualsTypeDescription" xml:space="preserve">
-  <value>Implementing a type-specific Equals method and IEquatable&lt;T&gt; improves performance and usability, especially for value types.</value>
-</data>
-
-    <data name="MathMinMaxCandidateTitle" xml:space="preserve">
-  <value>Use Math.Min and Math.Max methods</value>
-</data>
-    <data name="MathMinMaxCandidateMessage" xml:space="preserve">
-  <value>Expression can be simplified using 'Math.{0}'</value>
-</data>
-    <data name="MathMinMaxCandidateDescription" xml:space="preserve">
-  <value>Using Math.Min or Math.Max can lead to better performance and clearer code compared to custom implementations.</value>
-</data>
-    <data name="OverrideValueTypeDefaultsTitle" xml:space="preserve">
-  <value>Override default implementations of Equals and GetHashCode for value types</value>
-</data>
-    <data name="OverrideValueTypeDefaultsMessage" xml:space="preserve">
-  <value>Value type '{0}' does not override Equals(object) and GetHashCode()</value>
-</data>
-    <data name="OverrideValueTypeDefaultsDescription" xml:space="preserve">
-  <value>Value types should override Equals(object) and GetHashCode() methods to improve performance and correctness. The default implementations use reflection and can be inefficient.</value>
-</data>
-
-    <data name="PreferCharOverloadTitle" xml:space="preserve">
-  <value>Prefer char overloads over string overloads when possible</value>
-</data>
-    <data name="PreferCharOverloadMessage" xml:space="preserve">
-  <value>Use '{0}' overload of '{1}' instead of string overload for better performance</value>
-</data>
-    <data name="PreferCharOverloadDescription" xml:space="preserve">
-  <value>Using char overloads of string methods is more efficient than using string overloads when working with single characters.</value>
-</data>
-
-    <data name="PreferLiteralOverInitOnlyFieldsTitle" xml:space="preserve">
-  <value>Prefer const over static readonly for compile-time constants</value>
-</data>
-    <data name="PreferLiteralOverInitOnlyFieldsMessage" xml:space="preserve">
-  <value>Field '{0}' can be made const</value>
-</data>
-    <data name="PreferLiteralOverInitOnlyFieldsDescription" xml:space="preserve">
-  <value>Fields initialized with compile-time constants can be declared as const to improve performance and reduce code size.</value>
-</data>
-
-    <data name="RemoveUnneededFinalizerTitle" xml:space="preserve">
-  <value>Remove unneeded finalizer</value>
-</data>
-    <data name="RemoveUnneededFinalizerMessage" xml:space="preserve">
-  <value>Finalizer in class '{0}' is empty or only sets fields to null</value>
-</data>
-    <data name="RemoveUnneededFinalizerDescription" xml:space="preserve">
-  <value>Empty finalizers or those that only set fields to null are unnecessary and can negatively impact garbage collection performance.</value>
-</data>
-
-    <data name="RemoveUnusedLocalVariablesTitle" xml:space="preserve">
-  <value>Remove unused local variables</value>
-</data>
-    <data name="RemoveUnusedLocalVariablesMessage" xml:space="preserve">
-  <value>Local variable '{0}' is declared but never used</value>
-</data>
-    <data name="RemoveUnusedLocalVariablesDescription" xml:space="preserve">
-  <value>Unused local variables can be removed to reduce code clutter and potential confusion.</value>
-</data>
-
-    <data name="ReviewLinqMethodTitle" xml:space="preserve">
-  <value>Review LINQ method usage for potential performance improvements</value>
-</data>
-    <data name="ReviewLinqMethodMessage" xml:space="preserve">
-  <value>Consider replacing '{0}' with a more efficient alternative</value>
-</data>
-    <data name="ReviewLinqMethodDescription" xml:space="preserve">
-  <value>Some LINQ methods may have suboptimal performance in certain contexts. Review usage to see if a more efficient method or approach can be used.</value>
-</data>
-
-    <data name="UseIsOperatorTitle" xml:space="preserve">
-  <value>Use 'is' operator instead of complex cast checks</value>
-</data>
-    <data name="UseIsOperatorMessage" xml:space="preserve">
-  <value>Expression '{0}' can be simplified using the 'is' operator</value>
-</data>
-    <data name="UseIsOperatorDescription" xml:space="preserve">
-  <value>Using the 'is' operator simplifies code and can improve performance over using 'as' followed by a null check.</value>
-</data>
-
-    <data name="UseStringEmptyTitle" xml:space="preserve">
-  <value>Use 'string.Empty' instead of empty string literal</value>
-</data>
-    <data name="UseStringEmptyMessage" xml:space="preserve">
-  <value>Use 'string.Empty' instead of empty string literal</value>
-</data>
-    <data name="UseStringEmptyDescription" xml:space="preserve">
-  <value>Using 'string.Empty' can improve readability and consistency over using empty string literals.</value>
-</data>
-
-    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerTitle" xml:space="preserve">
-  <value>Call GC.SuppressFinalize in Dispose method</value>
-</data>
-    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerMessage" xml:space="preserve">
-  <value>Type '{0}' implements IDisposable and has a finalizer but does not call GC.SuppressFinalize(this) in Dispose()</value>
-</data>
-    <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerDescription" xml:space="preserve">
-  <value>Calling GC.SuppressFinalize prevents unnecessary finalization and improves performance when the Dispose method has already cleaned up resources.</value>
-</data>
-
-    <data name="UseTypeEmptyTypesTitle" xml:space="preserve">
-  <value>Use 'Type.EmptyTypes' instead of 'new Type[0]'</value>
-</data>
-    <data name="UseTypeEmptyTypesMessage" xml:space="preserve">
-  <value>Use 'Type.EmptyTypes' instead of creating a new empty Type array</value>
-</data>
-    <data name="UseTypeEmptyTypesDescription" xml:space="preserve">
-  <value>Using 'Type.EmptyTypes' avoids unnecessary allocations and improves performance.</value>
-</data>
+  <data name="AvoidDeepNamespaceHierarchyTitle" xml:space="preserve">
+    <value>Avoid deep namespace hierarchy</value>
+  </data>
+  <data name="AvoidDeepNamespaceHierarchyMessage" xml:space="preserve">
+    <value>Namespace '{0}' has a depth of {1}, which exceeds the maximum allowed depth</value>
+  </data>
+  <data name="AvoidDeepNamespaceHierarchyDescription" xml:space="preserve">
+    <value>Deeply nested namespaces can make code harder to read and maintain. Consider refactoring to reduce the namespace depth.</value>
+  </data>
+  <data name="AvoidNonAlphanumericIdentifierTitle" xml:space="preserve">
+    <value>Avoid non-alphanumeric characters in identifiers</value>
+  </data>
+  <data name="AvoidNonAlphanumericIdentifierMessage" xml:space="preserve">
+    <value>Identifier '{0}' contains non-alphanumeric characters</value>
+  </data>
+  <data name="AvoidNonAlphanumericIdentifierDescription" xml:space="preserve">
+    <value>Identifiers should only contain alphanumeric characters to improve readability and maintain coding standards.</value>
+  </data>
+  <data name="AvoidRedundancyInMethodNameTitle" xml:space="preserve">
+    <value>Avoid redundancy in method names</value>
+  </data>
+  <data name="AvoidRedundancyInMethodNameMessage" xml:space="preserve">
+    <value>Method '{0}' embeds the type name of its first parameter '{1}'</value>
+  </data>
+  <data name="AvoidRedundancyInMethodNameDescription" xml:space="preserve">
+    <value>Removing the type name from the method name makes the API less verbose and easier to use.</value>
+  </data>
+  <data name="AvoidRedundancyInTypeNameTitle" xml:space="preserve">
+    <value>Avoid redundancy in type names</value>
+  </data>
+  <data name="AvoidRedundancyInTypeNameMessage" xml:space="preserve">
+    <value>Type '{0}' is prefixed with its namespace name '{1}'</value>
+  </data>
+  <data name="AvoidRedundancyInTypeNameDescription" xml:space="preserve">
+    <value>Removing redundant namespace prefixes from type names makes them less verbose and easier to use.</value>
+  </data>
+  <data name="AvoidTypeInterfaceInconsistencyTitle" xml:space="preserve">
+    <value>Avoid type/interface inconsistency</value>
+  </data>
+  <data name="AvoidTypeInterfaceInconsistencyMessage" xml:space="preserve">
+    <value>Type '{0}' does not implement the interface '{1}' with the same base name</value>
+  </data>
+  <data name="AvoidTypeInterfaceInconsistencyDescription" xml:space="preserve">
+    <value>If a type and an interface share the same base name, the type should implement the interface to meet expectations.</value>
+  </data>
+  <data name="DoNotPrefixEventsWithAfterOrBeforeTitle" xml:space="preserve">
+    <value>Do not prefix events with 'After' or 'Before'</value>
+  </data>
+  <data name="DoNotPrefixEventsWithAfterOrBeforeMessage" xml:space="preserve">
+    <value>Event '{0}' is prefixed with 'After' or 'Before'</value>
+  </data>
+  <data name="DoNotPrefixEventsWithAfterOrBeforeDescription" xml:space="preserve">
+    <value>Event names should use verbs in the present or past tense, not prefixes like 'After' or 'Before'.</value>
+  </data>
+  <data name="DoNotPrefixValuesWithEnumNameTitle" xml:space="preserve">
+    <value>Do not prefix enum values with enum type name</value>
+  </data>
+  <data name="DoNotPrefixValuesWithEnumNameMessage" xml:space="preserve">
+    <value>Enum value '{0}' is prefixed with its enum type name '{1}'</value>
+  </data>
+  <data name="DoNotPrefixValuesWithEnumNameDescription" xml:space="preserve">
+    <value>Enum values should not include the enum type name as a prefix to avoid redundancy.</value>
+  </data>
+  <data name="DoNotUseReservedInEnumValueNamesTitle" xml:space="preserve">
+    <value>Do not use 'Reserved' in enum value names</value>
+  </data>
+  <data name="DoNotUseReservedInEnumValueNamesMessage" xml:space="preserve">
+    <value>Enum '{1}' contains a value named '{0}', which should be avoided</value>
+  </data>
+  <data name="DoNotUseReservedInEnumValueNamesDescription" xml:space="preserve">
+    <value>Using 'Reserved' in enum values can lead to breaking changes when modifying the enum. It's better to add new meaningful values as needed.</value>
+  </data>
+  <data name="ParameterNamesShouldMatchOverriddenMethodTitle" xml:space="preserve">
+    <value>Parameter names should match overridden method</value>
+  </data>
+  <data name="ParameterNamesShouldMatchOverriddenMethodMessage" xml:space="preserve">
+    <value>Method '{0}' parameter '{1}' does not match parameter name '{2}' in overridden method</value>
+  </data>
+  <data name="ParameterNamesShouldMatchOverriddenMethodDescription" xml:space="preserve">
+    <value>Parameter names in overridden methods should match those in the base method to improve code clarity and usability.</value>
+  </data>
+  <data name="UseCorrectCasingTitle" xml:space="preserve">
+    <value>Use correct casing in identifiers</value>
+  </data>
+  <data name="UseCorrectCasingMessage" xml:space="preserve">
+    <value>{0} '{1}' does not follow correct casing convention</value>
+  </data>
+  <data name="UseCorrectCasingDescription" xml:space="preserve">
+    <value>Identifiers should follow .NET naming conventions for casing to improve readability and maintain consistency.</value>
+  </data>
+  <data name="UseSingularNameInEnumsUnlessAreFlagsTitle" xml:space="preserve">
+    <value>Use singular name in enums unless they are marked with [Flags]</value>
+  </data>
+  <data name="UseSingularNameInEnumsUnlessAreFlagsMessage" xml:space="preserve">
+    <value>Enum '{0}' should have a {1} name</value>
+  </data>
+  <data name="UseSingularNameInEnumsUnlessAreFlagsDescription" xml:space="preserve">
+    <value>Enums not marked with [Flags] should have singular names, while enums with [Flags] should have plural names.</value>
+  </data>
+  <data name="UsePreferredTermsTitle" xml:space="preserve">
+    <value>Use preferred terms in identifiers</value>
+  </data>
+  <data name="UsePreferredTermsMessage" xml:space="preserve">
+    <value>Identifier '{0}' contains '{1}', consider using '{2}' instead</value>
+  </data>
+  <data name="UsePreferredTermsDescription" xml:space="preserve">
+    <value>Use terms that are consistent with .NET Framework guidelines to improve code clarity and consistency.</value>
+  </data>
+  <data name="UsePluralNameInEnumFlagsTitle" xml:space="preserve">
+    <value>Use plural name for enums marked with [Flags]</value>
+  </data>
+  <data name="UsePluralNameInEnumFlagsMessage" xml:space="preserve">
+    <value>Enum '{0}' is marked with [Flags] but its name is not plural</value>
+  </data>
+  <data name="UsePluralNameInEnumFlagsDescription" xml:space="preserve">
+    <value>Enumerations decorated with [Flags] should have plural names to indicate that multiple values can be combined.</value>
+  </data>
+  <data name="UseCorrectSuffixTitle" xml:space="preserve">
+    <value>Use correct suffix in type names</value>
+  </data>
+  <data name="UseCorrectSuffixMessage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="UseCorrectSuffixDescription" xml:space="preserve">
+    <value>Ensure that types have the correct suffix based on the base types or interfaces they inherit from or implement.</value>
+  </data>
+  <data name="UseCorrectPrefixTitle" xml:space="preserve">
+    <value>Use correct prefix in type names</value>
+  </data>
+  <data name="UseCorrectPrefixMessage" xml:space="preserve">
+    <value>{0} '{1}' {2}</value>
+  </data>
+  <data name="UseCorrectPrefixDescription" xml:space="preserve">
+    <value>Ensure that interfaces are prefixed with 'I', types are not prefixed with 'C', and generic parameters are correctly prefixed.</value>
+  </data>
+  <data name="DoNotHardcodePathsTitle" xml:space="preserve">
+    <value>Do not hardcode paths</value>
+  </data>
+  <data name="DoNotHardcodePathsMessage" xml:space="preserve">
+    <value>Avoid hardcoding paths in code; use Path.Combine or Environment.GetFolderPath instead</value>
+  </data>
+  <data name="DoNotHardcodePathsDescription" xml:space="preserve">
+    <value>Strings containing hardcoded paths are not portable across operating systems. Use Path.Combine and/or Environment.GetFolderPath to ensure cross-platform functionality.</value>
+  </data>
+  <data name="ExitCodeIsLimitedOnUnixTitle" xml:space="preserve">
+    <value>Limit exit codes to 0-255 on Unix</value>
+  </data>
+  <data name="ExitCodeIsLimitedOnUnixMessage" xml:space="preserve">
+    <value>Process exit codes must be between 0 and 255 on Unix systems</value>
+  </data>
+  <data name="ExitCodeIsLimitedOnUnixDescription" xml:space="preserve">
+    <value>On Unix systems, process exit codes must be between 0 and 255. Ensure that returned values and Environment.ExitCode are within this range.</value>
+  </data>
+  <data name="FeatureRequiresRootPrivilegeOnUnixTitle" xml:space="preserve">
+    <value>Feature requires root privilege on Unix</value>
+  </data>
+  <data name="FeatureRequiresRootPrivilegeOnUnixMessage" xml:space="preserve">
+    <value>This feature requires root privilege on Unix systems</value>
+  </data>
+  <data name="FeatureRequiresRootPrivilegeOnUnixDescription" xml:space="preserve">
+    <value>Certain features require root privilege on Unix systems. Ensure that code using such features handles privilege requirements appropriately.</value>
+  </data>
+  <data name="MonoCompatibilityReviewTitle" xml:space="preserve">
+    <value>Review Mono compatibility</value>
+  </data>
+  <data name="MonoCompatibilityReviewMessage" xml:space="preserve">
+    <value>This code may not be compatible with Mono</value>
+  </data>
+  <data name="MonoCompatibilityReviewDescription" xml:space="preserve">
+    <value>This code calls methods that are not fully implemented in Mono. Consider reviewing for Mono compatibility.</value>
+  </data>
+  <data name="NewLineLiteralTitle" xml:space="preserve">
+    <value>Do not use new line literals</value>
+  </data>
+  <data name="NewLineLiteralMessage" xml:space="preserve">
+    <value>Use Environment.NewLine instead of new line literals</value>
+  </data>
+  <data name="NewLineLiteralDescription" xml:space="preserve">
+    <value>Using literal '\n' or '\r' for new lines is not portable across operating systems. Use Environment.NewLine instead.</value>
+  </data>
+  <data name="GtkSharpExecutableTargetTitle" xml:space="preserve">
+    <value>Executable referencing GtkSharp should use Windows subsystem</value>
+  </data>
+  <data name="GtkSharpExecutableTargetMessage" xml:space="preserve">
+    <value>Executable assembly references GtkSharp but is not compiled with -target:winexe</value>
+  </data>
+  <data name="GtkSharpExecutableTargetDescription" xml:space="preserve">
+    <value>An executable assembly referencing GtkSharp should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
+  </data>
+  <data name="SystemWindowsFormsExecutableTargetTitle" xml:space="preserve">
+    <value>Executable referencing System.Windows.Forms should use Windows subsystem</value>
+  </data>
+  <data name="SystemWindowsFormsExecutableTargetMessage" xml:space="preserve">
+    <value>Executable assembly references System.Windows.Forms but is not compiled with -target:winexe</value>
+  </data>
+  <data name="SystemWindowsFormsExecutableTargetDescription" xml:space="preserve">
+    <value>An executable assembly referencing System.Windows.Forms should be compiled with -target:winexe to prevent a console window from appearing under Windows.</value>
+  </data>
+  <data name="UseSTAThreadAttributeOnSWFEntryPointsTitle" xml:space="preserve">
+    <value>Use [STAThread] on Windows Forms entry points</value>
+  </data>
+  <data name="UseSTAThreadAttributeOnSWFEntryPointsMessage" xml:space="preserve">
+    <value>Entry point of Windows Forms application should be marked with [STAThread] attribute</value>
+  </data>
+  <data name="UseSTAThreadAttributeOnSWFEntryPointsDescription" xml:space="preserve">
+    <value>Windows Forms applications require the entry point method to be marked with [STAThread] attribute to function properly.</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSameClassTitle" xml:space="preserve">
+    <value>Avoid code duplication in the same class</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSameClassMessage" xml:space="preserve">
+    <value>Code is duplicated within the same class</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSameClassDescription" xml:space="preserve">
+    <value>Duplicated code within a class makes maintenance harder. Extract common code into methods to improve reusability and readability.</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSiblingClassesTitle" xml:space="preserve">
+    <value>Avoid code duplication in sibling classes</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSiblingClassesMessage" xml:space="preserve">
+    <value>Code is duplicated across sibling classes</value>
+  </data>
+  <data name="AvoidCodeDuplicatedInSiblingClassesDescription" xml:space="preserve">
+    <value>Duplicated code across sibling classes can lead to maintenance issues. Consider moving common code to a base class or utility class.</value>
+  </data>
+  <data name="AvoidLargeClassesTitle" xml:space="preserve">
+    <value>Avoid large classes</value>
+  </data>
+  <data name="AvoidLargeClassesMessage" xml:space="preserve">
+    <value>Class '{0}' is too large</value>
+  </data>
+  <data name="AvoidLargeClassesDescription" xml:space="preserve">
+    <value>Classes that are too large are harder to maintain. Consider splitting this class into smaller, more focused classes.</value>
+  </data>
+  <data name="AvoidLongMethodsTitle" xml:space="preserve">
+    <value>Avoid long methods</value>
+  </data>
+  <data name="AvoidLongMethodsMessage" xml:space="preserve">
+    <value>Method '{0}' is too long</value>
+  </data>
+  <data name="AvoidLongMethodsDescription" xml:space="preserve">
+    <value>Methods that are too long are harder to understand and maintain. Consider refactoring this method into smaller methods.</value>
+  </data>
+  <data name="AvoidLongParameterListsTitle" xml:space="preserve">
+    <value>Avoid long parameter lists</value>
+  </data>
+  <data name="AvoidLongParameterListsMessage" xml:space="preserve">
+    <value>Method '{0}' has too many parameters</value>
+  </data>
+  <data name="AvoidLongParameterListsDescription" xml:space="preserve">
+    <value>Methods with long parameter lists can be hard to use and maintain. Consider refactoring to reduce the number of parameters.</value>
+  </data>
+  <data name="AvoidMessageChainsTitle" xml:space="preserve">
+    <value>Avoid message chains</value>
+  </data>
+  <data name="AvoidMessageChainsMessage" xml:space="preserve">
+    <value>Message chain detected in method '{0}'</value>
+  </data>
+  <data name="AvoidMessageChainsDescription" xml:space="preserve">
+    <value>Long message chains indicate tight coupling to object navigation structures. Consider refactoring to reduce dependencies.</value>
+  </data>
+  <data name="AvoidSpeculativeGeneralityTitle" xml:space="preserve">
+    <value>Avoid speculative generality</value>
+  </data>
+  <data name="AvoidSpeculativeGeneralityMessage" xml:space="preserve">
+    <value>Speculative generality detected in '{0}'</value>
+  </data>
+  <data name="AvoidSpeculativeGeneralityDescription" xml:space="preserve">
+    <value>Unused abstractions or parameters may indicate speculative generality. Remove unnecessary code to improve clarity.</value>
+  </data>
+  <data name="AvoidSwitchStatementsTitle" xml:space="preserve">
+    <value>Avoid switch statements</value>
+  </data>
+  <data name="AvoidSwitchStatementsMessage" xml:space="preserve">
+    <value>Switch statement detected in method '{0}'</value>
+  </data>
+  <data name="AvoidSwitchStatementsDescription" xml:space="preserve">
+    <value>Switch statements can lead to duplicated code. Consider using polymorphism to achieve the same behavior.</value>
+  </data>
+  <data name="CallBaseMethodsOnISerializableTypesTitle" xml:space="preserve">
+    <value>Call base methods in ISerializable types</value>
+  </data>
+  <data name="CallBaseMethodsOnISerializableTypesMessage" xml:space="preserve">
+    <value>ISerializable type '{0}' does not call base {1} method</value>
+  </data>
+  <data name="CallBaseMethodsOnISerializableTypesDescription" xml:space="preserve">
+    <value>Types implementing ISerializable should call their base type's serialization constructor and GetObjectData method to ensure proper serialization.</value>
+  </data>
+  <data name="DeserializeOptionalFieldTitle" xml:space="preserve">
+    <value>Handle [OptionalField] during deserialization</value>
+  </data>
+  <data name="DeserializeOptionalFieldMessage" xml:space="preserve">
+    <value>Type '{0}' has [OptionalField] but no [OnDeserialized] or [OnDeserializing] method</value>
+  </data>
+  <data name="DeserializeOptionalFieldDescription" xml:space="preserve">
+    <value>Types with [OptionalField] should have methods decorated with [OnDeserialized] or [OnDeserializing] to properly initialize those fields during deserialization.</value>
+  </data>
+  <data name="ImplementISerializableCorrectlyTitle" xml:space="preserve">
+    <value>Implement ISerializable correctly</value>
+  </data>
+  <data name="ImplementISerializableCorrectlyMessage" xml:space="preserve">
+    <value>Type '{0}' does not implement ISerializable correctly</value>
+  </data>
+  <data name="ImplementISerializableCorrectlyDescription" xml:space="preserve">
+    <value>Types implementing ISerializable should serialize all instance fields not marked with [NonSerialized], and GetObjectData should be virtual if the type is not sealed.</value>
+  </data>
+  <data name="MarkAllNonSerializableFieldsTitle" xml:space="preserve">
+    <value>Mark all non-serializable fields with [NonSerialized]</value>
+  </data>
+  <data name="MarkAllNonSerializableFieldsMessage" xml:space="preserve">
+    <value>Field '{0}' in serializable type '{1}' is not serializable</value>
+  </data>
+  <data name="MarkAllNonSerializableFieldsDescription" xml:space="preserve">
+    <value>Fields of serializable types must be serializable or marked with [NonSerialized].</value>
+  </data>
+  <data name="MarkEnumerationsAsSerializableTitle" xml:space="preserve">
+    <value>Mark enumerations as [Serializable]</value>
+  </data>
+  <data name="MarkEnumerationsAsSerializableMessage" xml:space="preserve">
+    <value>Enum '{0}' is not marked as [Serializable]</value>
+  </data>
+  <data name="MarkEnumerationsAsSerializableDescription" xml:space="preserve">
+    <value>Even though enums are serializable by default, marking them with [Serializable] improves code readability.</value>
+  </data>
+  <data name="MissingSerializableAttributeOnISerializableTypeTitle" xml:space="preserve">
+    <value>Missing [Serializable] attribute on ISerializable type</value>
+  </data>
+  <data name="MissingSerializableAttributeOnISerializableTypeMessage" xml:space="preserve">
+    <value>Type '{0}' implements ISerializable but is not marked as [Serializable]</value>
+  </data>
+  <data name="MissingSerializableAttributeOnISerializableTypeDescription" xml:space="preserve">
+    <value>Types implementing ISerializable must be marked with the [Serializable] attribute to be serializable by the runtime.</value>
+  </data>
+  <data name="MissingSerializationConstructorTitle" xml:space="preserve">
+    <value>Missing serialization constructor</value>
+  </data>
+  <data name="MissingSerializationConstructorMessage" xml:space="preserve">
+    <value>Type '{0}' implements ISerializable but lacks the required serialization constructor</value>
+  </data>
+  <data name="MissingSerializationConstructorDescription" xml:space="preserve">
+    <value>Types implementing ISerializable must provide a serialization constructor with the correct signature.</value>
+  </data>
+  <data name="UseCorrectSignatureForSerializationMethodsTitle" xml:space="preserve">
+    <value>Use correct signature for serialization methods</value>
+  </data>
+  <data name="UseCorrectSignatureForSerializationMethodsMessage" xml:space="preserve">
+    <value>Method '{0}' has an incorrect signature for a serialization callback</value>
+  </data>
+  <data name="UseCorrectSignatureForSerializationMethodsDescription" xml:space="preserve">
+    <value>Methods decorated with serialization attributes should be private, return void, and have a single parameter of type StreamingContext.</value>
+  </data>
+  <data name="ArrayFieldsShouldNotBeReadOnlyTitle" xml:space="preserve">
+    <value>Array fields should not be public and readonly</value>
+  </data>
+  <data name="ArrayFieldsShouldNotBeReadOnlyMessage" xml:space="preserve">
+    <value>Public readonly array field '{0}' can be modified externally</value>
+  </data>
+  <data name="ArrayFieldsShouldNotBeReadOnlyDescription" xml:space="preserve">
+    <value>Marking a public array field as readonly only prevents the field from being assigned a different array instance. The array elements can still be modified. This can lead to unexpected behavior and security issues.</value>
+  </data>
+  <data name="DoNotShortCircuitCertificateCheckTitle" xml:space="preserve">
+    <value>Do not short-circuit certificate checks</value>
+  </data>
+  <data name="DoNotShortCircuitCertificateCheckMessage" xml:space="preserve">
+    <value>Certificate validation callback '{0}' should not unconditionally accept certificates</value>
+  </data>
+  <data name="DoNotShortCircuitCertificateCheckDescription" xml:space="preserve">
+    <value>Overriding certificate validation to accept all certificates disables critical security checks, making the application vulnerable to man-in-the-middle attacks.</value>
+  </data>
+  <data name="NativeFieldsShouldNotBeVisibleTitle" xml:space="preserve">
+    <value>Native fields should not be publicly visible</value>
+  </data>
+  <data name="NativeFieldsShouldNotBeVisibleMessage" xml:space="preserve">
+    <value>Field '{0}' is a publicly visible native field of type '{1}'</value>
+  </data>
+  <data name="NativeFieldsShouldNotBeVisibleDescription" xml:space="preserve">
+    <value>Exposing native fields publicly can lead to security and stability issues, as external code can modify or misuse these fields.</value>
+  </data>
+  <data name="StaticConstructorsShouldBePrivateTitle" xml:space="preserve">
+    <value>Static constructors should be private</value>
+  </data>
+  <data name="StaticConstructorsShouldBePrivateMessage" xml:space="preserve">
+    <value>Static constructor for type '{0}' is not private</value>
+  </data>
+  <data name="StaticConstructorsShouldBePrivateDescription" xml:space="preserve">
+    <value>Static constructors should be private to prevent external code from invoking them, which could lead to security vulnerabilities or unexpected behavior.</value>
+  </data>
+  <data name="AddMissingTypeInheritanceDemandTitle" xml:space="preserve">
+    <value>Add missing InheritanceDemand for unsealed types with LinkDemand</value>
+  </data>
+  <data name="AddMissingTypeInheritanceDemandMessage" xml:space="preserve">
+    <value>Type '{0}' is not sealed and has a LinkDemand but lacks an InheritanceDemand</value>
+  </data>
+  <data name="AddMissingTypeInheritanceDemandDescription" xml:space="preserve">
+    <value>Types that are not sealed and have a LinkDemand should also have an InheritanceDemand for the same permissions to prevent security issues arising from subclassing.</value>
+  </data>
+  <data name="DoNotExposeFieldsInSecuredTypeTitle" xml:space="preserve">
+    <value>Do not expose fields in secured types</value>
+  </data>
+  <data name="DoNotExposeFieldsInSecuredTypeMessage" xml:space="preserve">
+    <value>Type '{0}' has security demands but exposes public fields: {1}</value>
+  </data>
+  <data name="DoNotExposeFieldsInSecuredTypeDescription" xml:space="preserve">
+    <value>Types secured by demands should not expose public fields, as access to these fields is not covered by the declarative demands, potentially leading to security vulnerabilities.</value>
+  </data>
+  <data name="DoNotExposeMethodsProtectedByLinkDemandTitle" xml:space="preserve">
+    <value>Do not expose methods that bypass security by calling methods with stricter demands</value>
+  </data>
+  <data name="DoNotExposeMethodsProtectedByLinkDemandMessage" xml:space="preserve">
+    <value>Method '{0}' exposes a method protected by a LinkDemand with stricter permissions</value>
+  </data>
+  <data name="DoNotExposeMethodsProtectedByLinkDemandDescription" xml:space="preserve">
+    <value>Visible methods should not be less protected than the methods they call if the called methods are protected by a LinkDemand. This could allow bypassing security checks.</value>
+  </data>
+  <data name="DoNotReduceTypeSecurityOnMethodsTitle" xml:space="preserve">
+    <value>Do not reduce type security on methods</value>
+  </data>
+  <data name="DoNotReduceTypeSecurityOnMethodsMessage" xml:space="preserve">
+    <value>Method '{0}' has security demands that are not a subset of the type's demands</value>
+  </data>
+  <data name="DoNotReduceTypeSecurityOnMethodsDescription" xml:space="preserve">
+    <value>Methods in a secured type should not have security permissions that are not a subset of the type's permissions, as this can create security vulnerabilities.</value>
+  </data>
+  <data name="ReviewSealedTypeWithInheritanceDemandTitle" xml:space="preserve">
+    <value>Review sealed type with InheritanceDemand</value>
+  </data>
+  <data name="ReviewSealedTypeWithInheritanceDemandMessage" xml:space="preserve">
+    <value>Sealed type '{0}' has an InheritanceDemand which will never be enforced</value>
+  </data>
+  <data name="ReviewSealedTypeWithInheritanceDemandDescription" xml:space="preserve">
+    <value>Sealed types cannot be inherited from, so any InheritanceDemand on them will never be executed. Check if the permission is required and adjust accordingly.</value>
+  </data>
+  <data name="ReviewSuppressUnmanagedCodeSecurityUsageTitle" xml:space="preserve">
+    <value>Review usage of [SuppressUnmanagedCodeSecurity]</value>
+  </data>
+  <data name="ReviewSuppressUnmanagedCodeSecurityUsageMessage" xml:space="preserve">
+    <value>Type or method '{0}' is decorated with [SuppressUnmanagedCodeSecurity]</value>
+  </data>
+  <data name="ReviewSuppressUnmanagedCodeSecurityUsageDescription" xml:space="preserve">
+    <value>The [SuppressUnmanagedCodeSecurity] attribute reduces security checks when executing unmanaged code. Its usage should be reviewed to ensure no security holes are introduced.</value>
+  </data>
+  <data name="SecureGetObjectDataOverridesTitle" xml:space="preserve">
+    <value>Secure GetObjectData overrides</value>
+  </data>
+  <data name="SecureGetObjectDataOverridesMessage" xml:space="preserve">
+    <value>GetObjectData method in type '{0}' is not protected with a security demand</value>
+  </data>
+  <data name="SecureGetObjectDataOverridesDescription" xml:space="preserve">
+    <value>Types implementing ISerializable should protect their GetObjectData method with a demand or link demand for SerializationFormatter permission to prevent unauthorized access.</value>
+  </data>
+  <data name="AvoidLargeNumberOfLocalVariablesTitle" xml:space="preserve">
+    <value>Avoid methods with a large number of local variables</value>
+  </data>
+  <data name="AvoidLargeNumberOfLocalVariablesMessage" xml:space="preserve">
+    <value>Method '{0}' contains {1} local variables, exceeding the maximum allowed ({2})</value>
+  </data>
+  <data name="AvoidLargeNumberOfLocalVariablesDescription" xml:space="preserve">
+    <value>Methods with too many local variables can be hard to understand and maintain. Consider refactoring to reduce the number of local variables.</value>
+  </data>
+  <data name="AvoidLargeStructureTitle" xml:space="preserve">
+    <value>Avoid large structures (value types)</value>
+  </data>
+  <data name="AvoidLargeStructureMessage" xml:space="preserve">
+    <value>Structure '{0}' is larger than {1} bytes</value>
+  </data>
+  <data name="AvoidLargeStructureDescription" xml:space="preserve">
+    <value>Large value types can negatively impact performance due to copying overhead. Consider converting to a reference type or reducing its size.</value>
+  </data>
+  <data name="AvoidRepetitiveCastsTitle" xml:space="preserve">
+    <value>Avoid repetitive casts on the same value</value>
+  </data>
+  <data name="AvoidRepetitiveCastsMessage" xml:space="preserve">
+    <value>Value '{0}' is cast to '{1}' multiple times</value>
+  </data>
+  <data name="AvoidRepetitiveCastsDescription" xml:space="preserve">
+    <value>Casting the same value multiple times is inefficient. Consider caching the casted value in a variable.</value>
+  </data>
+  <data name="AvoidReturningArraysOnPropertiesTitle" xml:space="preserve">
+    <value>Avoid returning arrays from properties</value>
+  </data>
+  <data name="AvoidReturningArraysOnPropertiesMessage" xml:space="preserve">
+    <value>Property '{0}' returns an array</value>
+  </data>
+  <data name="AvoidReturningArraysOnPropertiesDescription" xml:space="preserve">
+    <value>Returning arrays from properties can expose internal state. Use methods to return copies or return a read-only collection instead.</value>
+  </data>
+  <data name="AvoidTypeGetTypeForConstantStringsTitle" xml:space="preserve">
+    <value>Avoid using Type.GetType with constant strings</value>
+  </data>
+  <data name="AvoidTypeGetTypeForConstantStringsMessage" xml:space="preserve">
+    <value>Use 'typeof({0})' instead of 'Type.GetType("{1}")'</value>
+  </data>
+  <data name="AvoidTypeGetTypeForConstantStringsDescription" xml:space="preserve">
+    <value>Using Type.GetType with constant strings is less efficient and can fail at runtime. Use the 'typeof' operator instead.</value>
+  </data>
+  <data name="AvoidUncalledPrivateCodeTitle" xml:space="preserve">
+    <value>Avoid uncalled private code</value>
+  </data>
+  <data name="AvoidUncalledPrivateCodeMessage" xml:space="preserve">
+    <value>Private method '{0}' is never called</value>
+  </data>
+  <data name="AvoidUncalledPrivateCodeDescription" xml:space="preserve">
+    <value>Private methods that are never called can be removed to reduce code clutter and potential confusion.</value>
+  </data>
+  <data name="AvoidUninstantiatedInternalClassesTitle" xml:space="preserve">
+    <value>Avoid uninstantiated internal classes</value>
+  </data>
+  <data name="AvoidUninstantiatedInternalClassesMessage" xml:space="preserve">
+    <value>Internal class '{0}' is never instantiated</value>
+  </data>
+  <data name="AvoidUninstantiatedInternalClassesDescription" xml:space="preserve">
+    <value>Internal classes that are never instantiated may be unused code and can be removed or made abstract if intended for inheritance.</value>
+  </data>
+  <data name="AvoidUnneededCallsOnStringTitle" xml:space="preserve">
+    <value>Avoid unnecessary method calls on string instances</value>
+  </data>
+  <data name="AvoidUnneededCallsOnStringMessage" xml:space="preserve">
+    <value>Method '{0}' called on string instance '{1}' is unnecessary</value>
+  </data>
+  <data name="AvoidUnneededCallsOnStringDescription" xml:space="preserve">
+    <value>Methods like 'ToString' on string instances return the original string and are redundant. They can be safely removed.</value>
+  </data>
+  <data name="AvoidUnneededFieldInitializationTitle" xml:space="preserve">
+    <value>Avoid unnecessary field initialization</value>
+  </data>
+  <data name="AvoidUnneededFieldInitializationMessage" xml:space="preserve">
+    <value>Field '{0}' is initialized to its default value</value>
+  </data>
+  <data name="AvoidUnneededFieldInitializationDescription" xml:space="preserve">
+    <value>Fields are automatically initialized to their default values. Explicitly assigning default values is redundant and can be removed.</value>
+  </data>
+  <data name="AvoidUnneededUnboxingTitle" xml:space="preserve">
+    <value>Avoid unnecessary unboxing</value>
+  </data>
+  <data name="AvoidUnneededUnboxingMessage" xml:space="preserve">
+    <value>Value type '{0}' is unboxed multiple times</value>
+  </data>
+  <data name="AvoidUnneededUnboxingDescription" xml:space="preserve">
+    <value>Unboxing a value type multiple times is inefficient. Consider caching the unboxed value in a variable.</value>
+  </data>
+  <data name="AvoidUnsealedConcreteAttributesTitle" xml:space="preserve">
+    <value>Avoid unsealed concrete attribute classes</value>
+  </data>
+  <data name="AvoidUnsealedConcreteAttributesMessage" xml:space="preserve">
+    <value>Attribute class '{0}' is concrete and unsealed</value>
+  </data>
+  <data name="AvoidUnsealedConcreteAttributesDescription" xml:space="preserve">
+    <value>Concrete attribute classes should be sealed to improve performance. Alternatively, make the attribute class abstract.</value>
+  </data>
+  <data name="AvoidUnsealedUninheritedInternalTypeTitle" xml:space="preserve">
+    <value>Avoid unsealed internal classes that are not inherited</value>
+  </data>
+  <data name="AvoidUnsealedUninheritedInternalTypeMessage" xml:space="preserve">
+    <value>Internal class '{0}' is unsealed and not inherited</value>
+  </data>
+  <data name="AvoidUnsealedUninheritedInternalTypeDescription" xml:space="preserve">
+    <value>Sealing internal classes that are not inherited allows for compiler optimizations and clarifies the type hierarchy.</value>
+  </data>
+  <data name="AvoidUnusedParametersTitle" xml:space="preserve">
+    <value>Avoid unused parameters</value>
+  </data>
+  <data name="AvoidUnusedParametersMessage" xml:space="preserve">
+    <value>Parameter '{0}' of method '{1}' is not used</value>
+  </data>
+  <data name="AvoidUnusedParametersDescription" xml:space="preserve">
+    <value>All parameters in a method should be used to avoid confusion and potential errors. Remove unused parameters or use them appropriately.</value>
+  </data>
+  <data name="AvoidUnusedPrivateFieldsTitle" xml:space="preserve">
+    <value>Avoid unused private fields</value>
+  </data>
+  <data name="AvoidUnusedPrivateFieldsMessage" xml:space="preserve">
+    <value>Private field '{0}' is never used</value>
+  </data>
+  <data name="AvoidUnusedPrivateFieldsDescription" xml:space="preserve">
+    <value>Unused private fields increase code clutter and can lead to confusion. Remove unused fields to improve code clarity.</value>
+  </data>
+  <data name="CompareWithEmptyStringEfficientlyTitle" xml:space="preserve">
+    <value>Compare strings with empty string efficiently</value>
+  </data>
+  <data name="CompareWithEmptyStringEfficientlyMessage" xml:space="preserve">
+    <value>Use 'string.Length == 0' instead of comparing to '{0}'</value>
+  </data>
+  <data name="CompareWithEmptyStringEfficientlyDescription" xml:space="preserve">
+    <value>Comparing string length is more efficient than comparing to empty strings or String.Empty. Consider using 'string.IsNullOrEmpty' when appropriate.</value>
+  </data>
+  <data name="ConsiderCustomAccessorsForNonVisibleEventsTitle" xml:space="preserve">
+    <value>Consider custom accessors for non-visible events</value>
+  </data>
+  <data name="ConsiderCustomAccessorsForNonVisibleEventsMessage" xml:space="preserve">
+    <value>Non-visible event '{0}' uses default synchronized accessors</value>
+  </data>
+  <data name="ConsiderCustomAccessorsForNonVisibleEventsDescription" xml:space="preserve">
+    <value>Default event accessors are synchronized, which can impact performance. For non-visible events, consider custom accessors without synchronization if thread safety is managed elsewhere.</value>
+  </data>
+  <data name="DoNotIgnoreMethodResultTitle" xml:space="preserve">
+    <value>Do not ignore method results</value>
+  </data>
+  <data name="DoNotIgnoreMethodResultMessage" xml:space="preserve">
+    <value>The result of method '{0}' is ignored</value>
+  </data>
+  <data name="DoNotIgnoreMethodResultDescription" xml:space="preserve">
+    <value>Ignoring the result of certain methods can lead to wasted resources and potential logic errors. Ensure that method results are used appropriately.</value>
+  </data>
+  <data name="ImplementEqualsTypeTitle" xml:space="preserve">
+    <value>Implement type-specific Equals method and IEquatable&lt;T&gt;</value>
+  </data>
+  <data name="ImplementEqualsTypeMessage" xml:space="preserve">
+    <value>Type '{0}' overrides Equals(object) but does not implement Equals({0}) or IEquatable&lt;{0}&gt;</value>
+  </data>
+  <data name="ImplementEqualsTypeDescription" xml:space="preserve">
+    <value>Implementing a type-specific Equals method and IEquatable&lt;T&gt; improves performance and usability, especially for value types.</value>
+  </data>
+  <data name="MathMinMaxCandidateTitle" xml:space="preserve">
+    <value>Use Math.Min and Math.Max methods</value>
+  </data>
+  <data name="MathMinMaxCandidateMessage" xml:space="preserve">
+    <value>Expression can be simplified using 'Math.{0}'</value>
+  </data>
+  <data name="MathMinMaxCandidateDescription" xml:space="preserve">
+    <value>Using Math.Min or Math.Max can lead to better performance and clearer code compared to custom implementations.</value>
+  </data>
+  <data name="OverrideValueTypeDefaultsTitle" xml:space="preserve">
+    <value>Override default implementations of Equals and GetHashCode for value types</value>
+  </data>
+  <data name="OverrideValueTypeDefaultsMessage" xml:space="preserve">
+    <value>Value type '{0}' does not override Equals(object) and GetHashCode()</value>
+  </data>
+  <data name="OverrideValueTypeDefaultsDescription" xml:space="preserve">
+    <value>Value types should override Equals(object) and GetHashCode() methods to improve performance and correctness. The default implementations use reflection and can be inefficient.</value>
+  </data>
+  <data name="PreferCharOverloadTitle" xml:space="preserve">
+    <value>Prefer char overloads over string overloads when possible</value>
+  </data>
+  <data name="PreferCharOverloadMessage" xml:space="preserve">
+    <value>Use '{0}' overload of '{1}' instead of string overload for better performance</value>
+  </data>
+  <data name="PreferCharOverloadDescription" xml:space="preserve">
+    <value>Using char overloads of string methods is more efficient than using string overloads when working with single characters.</value>
+  </data>
+  <data name="PreferLiteralOverInitOnlyFieldsTitle" xml:space="preserve">
+    <value>Prefer const over static readonly for compile-time constants</value>
+  </data>
+  <data name="PreferLiteralOverInitOnlyFieldsMessage" xml:space="preserve">
+    <value>Field '{0}' can be made const</value>
+  </data>
+  <data name="PreferLiteralOverInitOnlyFieldsDescription" xml:space="preserve">
+    <value>Fields initialized with compile-time constants can be declared as const to improve performance and reduce code size.</value>
+  </data>
+  <data name="RemoveUnneededFinalizerTitle" xml:space="preserve">
+    <value>Remove unneeded finalizer</value>
+  </data>
+  <data name="RemoveUnneededFinalizerMessage" xml:space="preserve">
+    <value>Finalizer in class '{0}' is empty or only sets fields to null</value>
+  </data>
+  <data name="RemoveUnneededFinalizerDescription" xml:space="preserve">
+    <value>Empty finalizers or those that only set fields to null are unnecessary and can negatively impact garbage collection performance.</value>
+  </data>
+  <data name="RemoveUnusedLocalVariablesTitle" xml:space="preserve">
+    <value>Remove unused local variables</value>
+  </data>
+  <data name="RemoveUnusedLocalVariablesMessage" xml:space="preserve">
+    <value>Local variable '{0}' is declared but never used</value>
+  </data>
+  <data name="RemoveUnusedLocalVariablesDescription" xml:space="preserve">
+    <value>Unused local variables can be removed to reduce code clutter and potential confusion.</value>
+  </data>
+  <data name="ReviewLinqMethodTitle" xml:space="preserve">
+    <value>Review LINQ method usage for potential performance improvements</value>
+  </data>
+  <data name="ReviewLinqMethodMessage" xml:space="preserve">
+    <value>Consider replacing '{0}' with a more efficient alternative</value>
+  </data>
+  <data name="ReviewLinqMethodDescription" xml:space="preserve">
+    <value>Some LINQ methods may have suboptimal performance in certain contexts. Review usage to see if a more efficient method or approach can be used.</value>
+  </data>
+  <data name="UseIsOperatorTitle" xml:space="preserve">
+    <value>Use 'is' operator instead of complex cast checks</value>
+  </data>
+  <data name="UseIsOperatorMessage" xml:space="preserve">
+    <value>Expression '{0}' can be simplified using the 'is' operator</value>
+  </data>
+  <data name="UseIsOperatorDescription" xml:space="preserve">
+    <value>Using the 'is' operator simplifies code and can improve performance over using 'as' followed by a null check.</value>
+  </data>
+  <data name="UseStringEmptyTitle" xml:space="preserve">
+    <value>Use 'string.Empty' instead of empty string literal</value>
+  </data>
+  <data name="UseStringEmptyMessage" xml:space="preserve">
+    <value>Use 'string.Empty' instead of empty string literal</value>
+  </data>
+  <data name="UseStringEmptyDescription" xml:space="preserve">
+    <value>Using 'string.Empty' can improve readability and consistency over using empty string literals.</value>
+  </data>
+  <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerTitle" xml:space="preserve">
+    <value>Call GC.SuppressFinalize in Dispose method</value>
+  </data>
+  <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerMessage" xml:space="preserve">
+    <value>Type '{0}' implements IDisposable and has a finalizer but does not call GC.SuppressFinalize(this) in Dispose()</value>
+  </data>
+  <data name="UseSuppressFinalizeOnIDisposableTypeWithFinalizerDescription" xml:space="preserve">
+    <value>Calling GC.SuppressFinalize prevents unnecessary finalization and improves performance when the Dispose method has already cleaned up resources.</value>
+  </data>
+  <data name="UseTypeEmptyTypesTitle" xml:space="preserve">
+    <value>Use 'Type.EmptyTypes' instead of 'new Type[0]'</value>
+  </data>
+  <data name="UseTypeEmptyTypesMessage" xml:space="preserve">
+    <value>Use 'Type.EmptyTypes' instead of creating a new empty Type array</value>
+  </data>
+  <data name="UseTypeEmptyTypesDescription" xml:space="preserve">
+    <value>Using 'Type.EmptyTypes' avoids unnecessary allocations and improves performance.</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsTitle" xml:space="preserve">
+    <value>Abstract types should not have public constructors</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsMessage" xml:space="preserve">
+    <value>Abstract type '{0}' has a public constructor. Consider changing it to protected to clarify the type's intended usage.</value>
+  </data>
+  <data name="AbstractTypesShouldNotHavePublicConstructorsDescription" xml:space="preserve">
+    <value>Abstract types should not expose public constructors as they can only be instantiated by derived types. A protected constructor is more appropriate for these cases.</value>
+  </data>
+  <data name="AttributeArgumentsShouldHaveAccessorsTitle" xml:space="preserve">
+    <value>Attribute arguments should be exposed via properties</value>
+  </data>
+  <data name="AttributeArgumentsShouldHaveAccessorsMessage" xml:space="preserve">
+    <value>Attribute '{0}' constructor parameter '{1}' is not exposed by a property. Consider adding a property named '{1}' (Pascal-cased).</value>
+  </data>
+  <data name="AttributeArgumentsShouldHaveAccessorsDescription" xml:space="preserve">
+    <value>It is generally not useful to set state in an attribute without providing a way to retrieve it. Provide appropriately cased properties for constructor parameters.</value>
+  </data>
+  <data name="AvoidEmptyInterfaceTitle" xml:space="preserve">
+    <value>Avoid empty interfaces</value>
+  </data>
+  <data name="AvoidEmptyInterfaceMessage" xml:space="preserve">
+    <value>Interface '{0}' is empty. Consider removing it or using an attribute for marker semantics.</value>
+  </data>
+  <data name="AvoidEmptyInterfaceDescription" xml:space="preserve">
+    <value>Empty interfaces are generally not useful except as markers; use attributes instead to categorize or mark types.</value>
+  </data>
+  <data name="AvoidMultidimensionalIndexerTitle" xml:space="preserve">
+    <value>Avoid multidimensional indexers</value>
+  </data>
+  <data name="AvoidMultidimensionalIndexerMessage" xml:space="preserve">
+    <value>Type '{0}' has an indexer with multiple parameters. Consider using methods instead to avoid confusion and improve usability.</value>
+  </data>
+  <data name="AvoidMultidimensionalIndexerDescription" xml:space="preserve">
+    <value>Indexers with multiple parameters can be confusing. IDE auto-complete doesn’t always handle them well. A method is often clearer for multi-parameter access.</value>
+  </data>
+  <data name="AvoidPropertiesWithoutGetAccessorTitle" xml:space="preserve">
+    <value>Avoid properties without a get accessor</value>
+  </data>
+  <data name="AvoidPropertiesWithoutGetAccessorMessage" xml:space="preserve">
+    <value>Property '{0}' is externally visible but lacks a get accessor. Add a getter or convert the property to a method.</value>
+  </data>
+  <data name="AvoidPropertiesWithoutGetAccessorDescription" xml:space="preserve">
+    <value>Properties with only a set accessor can be confusing to consumers. Generally, either provide both get and set accessors, or use a method to set the value.</value>
+  </data>
+  <data name="AvoidRefAndOutParametersTitle" xml:space="preserve">
+    <value>Avoid ref and out parameters</value>
+  </data>
+  <data name="AvoidRefAndOutParametersMessage" xml:space="preserve">
+    <value>Method '{0}' uses '{1}' parameter. These can create confusion in public APIs. Consider alternative designs or use the bool Try*(out) pattern only.</value>
+  </data>
+  <data name="AvoidRefAndOutParametersDescription" xml:space="preserve">
+    <value>Using ref/out parameters complicates method signatures and can be misused. Where possible, return values or use the bool Try*(out T) pattern. Provide simpler alternatives for most use cases.</value>
+  </data>
+  <data name="AvoidSmallNamespaceTitle" xml:space="preserve">
+    <value>Avoid small namespaces</value>
+  </data>
+  <data name="AvoidSmallNamespaceMessage" xml:space="preserve">
+    <value>Namespace '{0}' contains only {1} externally visible type(s). At least {2} are recommended for clarity and organization.</value>
+  </data>
+  <data name="AvoidSmallNamespaceDescription" xml:space="preserve">
+    <value>Namespaces with few types can create unnecessary fragmentation. Consider combining small namespaces or organizing related types together.</value>
+  </data>
+  <data name="AvoidVisibleFieldsTitle" xml:space="preserve">
+    <value>Avoid externally visible fields</value>
+  </data>
+  <data name="AvoidVisibleFieldsMessage" xml:space="preserve">
+    <value>Field '{0}' is externally visible. Prefer using a property instead to preserve binary compatibility if the implementation changes.</value>
+  </data>
+  <data name="AvoidVisibleFieldsDescription" xml:space="preserve">
+    <value>Exposing fields directly ties callers to the field’s storage and prevents future internal changes. Use properties (getters and setters) to provide a stable API.</value>
+  </data>
+  <data name="AvoidVisibleNestedTypesTitle" xml:space="preserve">
+    <value>Avoid externally visible nested types</value>
+  </data>
+  <data name="AvoidVisibleNestedTypesMessage" xml:space="preserve">
+    <value>Nested type '{0}' is externally visible. Nesting can confuse usage and documentation; consider making it private or top-level.</value>
+  </data>
+  <data name="AvoidVisibleNestedTypesDescription" xml:space="preserve">
+    <value>Publicly nested types can cause confusion because they appear as members rather than namespaced types. Consider scoping them within a namespace or marking them private.</value>
+  </data>
+  <data name="ConsiderAddingInterfaceTitle" xml:space="preserve">
+    <value>Consider adding an interface for common members</value>
+  </data>
+  <data name="ConsiderAddingInterfaceMessage" xml:space="preserve">
+    <value>Type '{0}' implements members that appear to match an interface, but does not explicitly implement that interface.</value>
+  </data>
+  <data name="ConsiderAddingInterfaceDescription" xml:space="preserve">
+    <value>Implementing an interface clarifies semantics and increases reusability. If a type already implements common interface members, explicitly implement that interface for clarity.</value>
+  </data>
+  <data name="ConsiderConvertingFieldToNullableTitle" xml:space="preserve">
+    <value>Consider converting field to nullable</value>
+  </data>
+  <data name="ConsiderConvertingFieldToNullableMessage" xml:space="preserve">
+    <value>Type '{0}' has fields that could be combined into a nullable field.</value>
+  </data>
+  <data name="ConsiderConvertingFieldToNullableDescription" xml:space="preserve">
+    <value>This rule checks for pairs of fields which seem to provide the same functionality as a single nullable field.</value>
+  </data>
+  <data name="ConsiderConvertingMethodToPropertyTitle" xml:space="preserve">
+    <value>Consider converting method to property</value>
+  </data>
+  <data name="ConsiderConvertingMethodToPropertyMessage" xml:space="preserve">
+    <value>Method '{0}' appears to be a candidate for a property.</value>
+  </data>
+  <data name="ConsiderConvertingMethodToPropertyDescription" xml:space="preserve">
+    <value>Checks for methods whose definition looks similar to a property (e.g. name starts with 'Get' or 'Is', has no parameters, etc.).</value>
+  </data>
+  <data name="ConsiderUsingStaticTypeTitle" xml:space="preserve">
+    <value>Consider using static type</value>
+  </data>
+  <data name="ConsiderUsingStaticTypeMessage" xml:space="preserve">
+    <value>Type '{0}' contains only static members and can be declared static.</value>
+  </data>
+  <data name="ConsiderUsingStaticTypeDescription" xml:space="preserve">
+    <value>This rule checks for types that contain only static members and suggests that the type be made static.</value>
+  </data>
+  <data name="DeclareEventHandlersCorrectlyTitle" xml:space="preserve">
+    <value>Declare event handlers correctly</value>
+  </data>
+  <data name="DeclareEventHandlersCorrectlyMessage" xml:space="preserve">
+    <value>Event '{0}' does not match .NET event handler guidelines.</value>
+  </data>
+  <data name="DeclareEventHandlersCorrectlyDescription" xml:space="preserve">
+    <value>Events should have a void return type and take two parameters: object sender and EventArgs e (or derived).</value>
+  </data>
+  <data name="DisposableTypesShouldHaveFinalizerTitle" xml:space="preserve">
+    <value>Disposable types should have a finalizer</value>
+  </data>
+  <data name="DisposableTypesShouldHaveFinalizerMessage" xml:space="preserve">
+    <value>Type '{0}' implements IDisposable, has native resources, but does not define a finalizer.</value>
+  </data>
+  <data name="DisposableTypesShouldHaveFinalizerDescription" xml:space="preserve">
+    <value>This rule fires for types that implement IDisposable and contain native fields but have no finalizer.</value>
+  </data>
+  <data name="DoNotDeclareProtectedMembersInSealedTypeTitle" xml:space="preserve">
+    <value>Do not declare protected members in sealed types</value>
+  </data>
+  <data name="DoNotDeclareProtectedMembersInSealedTypeMessage" xml:space="preserve">
+    <value>Sealed type '{0}' has protected member '{1}'.</value>
+  </data>
+  <data name="DoNotDeclareProtectedMembersInSealedTypeDescription" xml:space="preserve">
+    <value>Sealed types cannot be inherited from, so protected members are misleading and should be private.</value>
+  </data>
+  <data name="DoNotDeclareVirtualMethodsInSealedTypeTitle" xml:space="preserve">
+    <value>Do not declare virtual methods in sealed types</value>
+  </data>
+  <data name="DoNotDeclareVirtualMethodsInSealedTypeMessage" xml:space="preserve">
+    <value>Sealed type '{0}' has a virtual method '{1}'.</value>
+  </data>
+  <data name="DoNotDeclareVirtualMethodsInSealedTypeDescription" xml:space="preserve">
+    <value>Virtual methods make sense only in types that can be inherited from.</value>
+  </data>
+  <data name="EnsureSymmetryForOverloadedOperatorsTitle" xml:space="preserve">
+    <value>Ensure symmetry for overloaded operators</value>
+  </data>
+  <data name="EnsureSymmetryForOverloadedOperatorsMessage" xml:space="preserve">
+    <value>Type '{0}' overloads operator '{1}' but not the complementary operator.</value>
+  </data>
+  <data name="EnsureSymmetryForOverloadedOperatorsDescription" xml:space="preserve">
+    <value>This rule checks for operators that are not overloaded in pairs (e.g. '+' without '-').</value>
+  </data>
+  <data name="EnumsShouldDefineAZeroValueTitle" xml:space="preserve">
+    <value>Enums should define a zero value</value>
+  </data>
+  <data name="EnumsShouldDefineAZeroValueMessage" xml:space="preserve">
+    <value>Enum '{0}' does not define a zero value.</value>
+  </data>
+  <data name="EnumsShouldDefineAZeroValueDescription" xml:space="preserve">
+    <value>This rule checks that every non-flags enum has a zero value for proper default initialization.</value>
+  </data>
+  <data name="EnumsShouldUseInt32Title" xml:space="preserve">
+    <value>Enums should use Int32 by default</value>
+  </data>
+  <data name="EnumsShouldUseInt32Message" xml:space="preserve">
+    <value>Enum '{0}' uses a non-Int32 underlying type. Consider using int unless there's a compelling interoperability reason.</value>
+  </data>
+  <data name="EnumsShouldUseInt32Description" xml:space="preserve">
+    <value>Enumaration types should avoid specifying a non-default storage type unless it is required for interoperability.</value>
+  </data>
+  <data name="FinalizersShouldBeProtectedTitle" xml:space="preserve">
+    <value>Finalizers should be protected</value>
+  </data>
+  <data name="FinalizersShouldBeProtectedMessage" xml:space="preserve">
+    <value>Type '{0}' has a finalizer with non-family accessibility.</value>
+  </data>
+  <data name="FinalizersShouldBeProtectedDescription" xml:space="preserve">
+    <value>Finalizers must be accessible only to the type’s family (protected in C#).</value>
+  </data>
+  <data name="FlagsShouldNotDefineAZeroValueTitle" xml:space="preserve">
+    <value>Flags enum should not define a zero value</value>
+  </data>
+  <data name="FlagsShouldNotDefineAZeroValueMessage" xml:space="preserve">
+    <value>Enum '{0}' is marked with [Flags] but defines a zero value, which is not recommended.</value>
+  </data>
+  <data name="FlagsShouldNotDefineAZeroValueDescription" xml:space="preserve">
+    <value>Enumerations decorated with [Flags] should not define a zero value. This value would not be usable with bitwise operators.</value>
+  </data>
+  <data name="ImplementEqualsAndGetHashCodeInPairTitle" xml:space="preserve">
+    <value>Implement Equals and GetHashCode in pairs</value>
+  </data>
+  <data name="ImplementEqualsAndGetHashCodeInPairMessage" xml:space="preserve">
+    <value>Type '{0}' overrides '{1}' but not '{2}'. Both should be overridden together.</value>
+  </data>
+  <data name="ImplementEqualsAndGetHashCodeInPairDescription" xml:space="preserve">
+    <value>This rule checks that if a type overrides Equals(object), it also overrides GetHashCode(), and vice versa.</value>
+  </data>
+  <data name="ImplementICloneableCorrectlyTitle" xml:space="preserve">
+    <value>Implement ICloneable correctly</value>
+  </data>
+  <data name="ImplementICloneableCorrectlyMessage" xml:space="preserve">
+    <value>Type '{0}' declares a 'Clone()' method returning System.Object but does not implement ICloneable.</value>
+  </data>
+  <data name="ImplementICloneableCorrectlyDescription" xml:space="preserve">
+    <value>If a method named 'Clone()' returns object, it should implement System.ICloneable; or else return a strongly typed value.</value>
+  </data>
+  <data name="ImplementIComparableCorrectlyTitle" xml:space="preserve">
+    <value>Implement IComparable correctly</value>
+  </data>
+  <data name="ImplementIComparableCorrectlyMessage" xml:space="preserve">
+    <value>Type '{0}' implements IComparable but does not fully implement or override comparison members: {1}</value>
+  </data>
+  <data name="ImplementIComparableCorrectlyDescription" xml:space="preserve">
+    <value>Types that implement IComparable should also override Equals(object) and provide operator overloads ==, !=, &lt;, &gt;.</value>
+  </data>
+  <data name="InternalNamespacesShouldNotExposeTypesTitle" xml:space="preserve">
+    <value>Internal namespace should not expose public types</value>
+  </data>
+  <data name="InternalNamespacesShouldNotExposeTypesMessage" xml:space="preserve">
+    <value>Type '{0}' is publicly visible but in an internal namespace '{1}'.</value>
+  </data>
+  <data name="InternalNamespacesShouldNotExposeTypesDescription" xml:space="preserve">
+    <value>Namespaces ending with 'Internal' or 'Impl' should not expose public or protected types to external assemblies.</value>
+  </data>
+  <data name="MainShouldNotBePublicTitle" xml:space="preserve">
+    <value>Main method should not be public</value>
+  </data>
+  <data name="MainShouldNotBePublicMessage" xml:space="preserve">
+    <value>Entry point method '{0}' is publicly visible. Consider changing its accessibility to private or internal.</value>
+  </data>
+  <data name="MainShouldNotBePublicDescription" xml:space="preserve">
+    <value>It is better to make the entry point method non-public so that only the CLR can call it.</value>
+  </data>
+  <data name="MarkAssemblyWithAssemblyVersionTitle" xml:space="preserve">
+    <value>Mark assembly with [AssemblyVersion]</value>
+  </data>
+  <data name="MarkAssemblyWithAssemblyVersionMessage" xml:space="preserve">
+    <value>Assembly '{0}' does not have an [AssemblyVersion] attribute.</value>
+  </data>
+  <data name="MarkAssemblyWithAssemblyVersionDescription" xml:space="preserve">
+    <value>Assemblies should define an [AssemblyVersion("x.y.z.w")] attribute for proper versioning.</value>
+  </data>
+  <data name="MarkAssemblyWithClsCompliantTitle" xml:space="preserve">
+    <value>Mark assembly with [CLSCompliant]</value>
+  </data>
+  <data name="MarkAssemblyWithClsCompliantMessage" xml:space="preserve">
+    <value>Assembly '{0}' does not have a [CLSCompliant] attribute.</value>
+  </data>
+  <data name="MarkAssemblyWithClsCompliantDescription" xml:space="preserve">
+    <value>It is a good practice to declare assemblies as CLS-compliant unless there's a reason not to.</value>
+  </data>
+  <data name="MarkAssemblyWithComVisibleTitle" xml:space="preserve">
+    <value>Mark assembly with [ComVisible]</value>
+  </data>
+  <data name="MarkAssemblyWithComVisibleMessage" xml:space="preserve">
+    <value>Assembly '{0}' does not have a [ComVisible] attribute.</value>
+  </data>
+  <data name="MarkAssemblyWithComVisibleDescription" xml:space="preserve">
+    <value>If the assembly is not designed for COM interop, mark it with [ComVisible(false)].</value>
+  </data>
+  <data name="MissingAttributeUsageOnCustomAttributeTitle" xml:space="preserve">
+    <value>Missing [AttributeUsage] on custom attribute</value>
+  </data>
+  <data name="MissingAttributeUsageOnCustomAttributeMessage" xml:space="preserve">
+    <value>Custom attribute '{0}' is not decorated with an [AttributeUsage] attribute.</value>
+  </data>
+  <data name="MissingAttributeUsageOnCustomAttributeDescription" xml:space="preserve">
+    <value>Every custom attribute should have an [AttributeUsage(...)] to indicate valid targets.</value>
+  </data>
+  <data name="OperatorEqualsShouldBeOverloadedTitle" xml:space="preserve">
+    <value>Operator equals (==) should be overloaded</value>
+  </data>
+  <data name="OperatorEqualsShouldBeOverloadedMessage" xml:space="preserve">
+    <value>Type '{0}' overloads '+' or '-', or is a value type overriding Equals(object), but doesn't overload '=='.</value>
+  </data>
+  <data name="OperatorEqualsShouldBeOverloadedDescription" xml:space="preserve">
+    <value>This rule fires if a type overloads operator '+' or '-', or is a value type that overrides Equals(object), and does not overload ==.</value>
+  </data>
+  <data name="OverrideEqualsMethodTitle" xml:space="preserve">
+    <value>Override Equals(object) if == is overloaded</value>
+  </data>
+  <data name="OverrideEqualsMethodMessage" xml:space="preserve">
+    <value>Type '{0}' overloads '==' but does not override Equals(object).</value>
+  </data>
+  <data name="OverrideEqualsMethodDescription" xml:space="preserve">
+    <value>When a type overloads the equality operator, it should also override Object.Equals.</value>
+  </data>
+  <data name="PreferEventsOverMethodsTitle" xml:space="preserve">
+    <value>Prefer events over methods</value>
+  </data>
+  <data name="PreferEventsOverMethodsMessage" xml:space="preserve">
+    <value>Method '{0}' name suggests event-like usage. Consider replacing it with an actual event.</value>
+  </data>
+  <data name="PreferEventsOverMethodsDescription" xml:space="preserve">
+    <value>Methods named like 'OnXxx', 'RaiseXxx', etc. can often be replaced by a real event to follow .NET design guidelines.</value>
+  </data>
+  <data name="PreferIntegerOrStringForIndexersTitle" xml:space="preserve">
+    <value>Prefer int/string for indexers</value>
+  </data>
+  <data name="PreferIntegerOrStringForIndexersMessage" xml:space="preserve">
+    <value>Indexer in type '{0}' uses type '{1}' which is unusual. Consider using int, long, or string.</value>
+  </data>
+  <data name="PreferIntegerOrStringForIndexersDescription" xml:space="preserve">
+    <value>Using types other than int64, int32, or string for indexers can be confusing unless there's a strong abstraction reason.</value>
+  </data>
+  <data name="PreferXmlAbstractionsTitle" xml:space="preserve">
+    <value>Use XML abstractions instead of concrete XML implementations</value>
+  </data>
+  <data name="PreferXmlAbstractionsMessage" xml:space="preserve">
+    <value>Member '{0}' uses concrete XML type '{1}'. Consider using abstract types like IXPathNavigable, XmlReader, or XmlWriter.</value>
+  </data>
+  <data name="PreferXmlAbstractionsDescription" xml:space="preserve">
+    <value>Using XmlDocument, XPathDocument, or XmlNode in externally visible APIs can limit future changes and consumer languages' usage.</value>
+  </data>
+  <data name="ProvideAlternativeNamesForOperatorOverloadsTitle" xml:space="preserve">
+    <value>Provide named alternatives for overloaded operators</value>
+  </data>
+  <data name="ProvideAlternativeNamesForOperatorOverloadsMessage" xml:space="preserve">
+    <value>Type '{0}' overloads operator '{1}' but does not provide a corresponding named method like '{2}'.</value>
+  </data>
+  <data name="ProvideAlternativeNamesForOperatorOverloadsDescription" xml:space="preserve">
+    <value>Some languages do not support operator overloading. Provide named methods to ensure full usability across languages.</value>
+  </data>
+  <data name="TypesShouldBeInsideNamespacesTitle" xml:space="preserve">
+    <value>Types should be inside namespaces</value>
+  </data>
+  <data name="TypesShouldBeInsideNamespacesMessage" xml:space="preserve">
+    <value>Externally visible type '{0}' is declared outside of any namespace.</value>
+  </data>
+  <data name="TypesShouldBeInsideNamespacesDescription" xml:space="preserve">
+    <value>Defining types in namespaces prevents naming collisions and clarifies your assembly's API.</value>
+  </data>
+  <data name="TypesWithDisposableFieldsShouldBeDisposableTitle" xml:space="preserve">
+    <value>Types with disposable fields should implement IDisposable</value>
+  </data>
+  <data name="TypesWithDisposableFieldsShouldBeDisposableMessage" xml:space="preserve">
+    <value>Type '{0}' has disposable field '{1}' but does not implement IDisposable or properly dispose its fields.</value>
+  </data>
+  <data name="TypesWithDisposableFieldsShouldBeDisposableDescription" xml:space="preserve">
+    <value>All fields that implement IDisposable should be disposed. Types holding such fields must implement IDisposable.</value>
+  </data>
+  <data name="TypesWithNativeFieldsShouldBeDisposableTitle" xml:space="preserve">
+    <value>Types with native fields should implement IDisposable</value>
+  </data>
+  <data name="TypesWithNativeFieldsShouldBeDisposableMessage" xml:space="preserve">
+    <value>Type '{0}' contains native field '{1}' but does not implement IDisposable.</value>
+  </data>
+  <data name="TypesWithNativeFieldsShouldBeDisposableDescription" xml:space="preserve">
+    <value>Types that contain IntPtr, UIntPtr, or HandleRef fields must implement IDisposable to properly free them.</value>
+  </data>
+  <data name="UseCorrectDisposeSignaturesTitle" xml:space="preserve">
+    <value>Use correct dispose signatures</value>
+  </data>
+  <data name="UseCorrectDisposeSignaturesMessage" xml:space="preserve">
+    <value>Type '{0}' does not follow standard Dispose pattern guidelines: {1}</value>
+  </data>
+  <data name="UseCorrectDisposeSignaturesDescription" xml:space="preserve">
+    <value>IDisposable implementation should have a non-virtual public Dispose(), a protected virtual Dispose(bool), and (optionally) a finalizer if unsealed.</value>
+  </data>
+  <data name="UseFlagsAttributeTitle" xml:space="preserve">
+    <value>Consider [Flags] attribute for bitmask enum</value>
+  </data>
+  <data name="UseFlagsAttributeMessage" xml:space="preserve">
+    <value>Enum '{0}' has members that look like bit flags but is not decorated with [Flags].</value>
+  </data>
+  <data name="UseFlagsAttributeDescription" xml:space="preserve">
+    <value>An enum with bits that can be ORed together should declare [Flags] to improve usage and debugging.</value>
+  </data>
 </root>

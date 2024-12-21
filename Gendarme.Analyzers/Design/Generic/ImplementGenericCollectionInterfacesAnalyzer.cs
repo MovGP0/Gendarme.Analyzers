@@ -7,7 +7,7 @@ public class ImplementGenericCollectionInterfacesAnalyzer : DiagnosticAnalyzer
         id: DiagnosticId.ImplementGenericCollectionInterfaces,
         title: "Implement Generic Collection Interfaces",
         messageFormat: "Consider implementing 'IEnumerable<T>' instead of 'IEnumerable' for type safety",
-        category: "Design",
+        category: Category.Design,
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true);
 

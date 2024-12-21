@@ -1,4 +1,4 @@
-using Gendarme.Analyzers;
+namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AbstractTypesShouldNotHavePublicConstructorsAnalyzer : DiagnosticAnalyzer
