@@ -1,6 +1,4 @@
 using Gendarme.Analyzers.Portability;
-using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Portability;
 

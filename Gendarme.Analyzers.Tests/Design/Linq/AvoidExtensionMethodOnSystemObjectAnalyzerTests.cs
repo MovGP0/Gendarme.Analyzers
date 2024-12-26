@@ -1,6 +1,4 @@
 using Gendarme.Analyzers.Design.Linq;
-using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Design.Linq;
 
