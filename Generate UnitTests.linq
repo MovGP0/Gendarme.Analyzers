@@ -19,7 +19,7 @@ public async Task Main()
     var rootDirectory = @"D:\Gendarme.Analyzers\Gendarme.Analyzers";
 
     // 2) Find all *.cs code files in the directory (recursive)
-    var codeFiles = Directory.GetFiles(rootDirectory, "*.cs", SearchOption.AllDirectories);
+    var codeFiles = Directory.GetFiles(rootDirectory, "*Analyzer.cs", SearchOption.AllDirectories);
 
     // 3) Build the Kernel / agent
     //    Note: We assume the OpenAI API key is stored in your environment variable "OPENAI_API_KEY".
@@ -132,7 +132,7 @@ using System.Reflection;
             kernel: kernel,
             cancellationToken: cancellationToken))
         {
-            if (chatMessage.Content != null)
+            if (chatMessage?.Content != null)
             {
                 Console.Write(chatMessage.Content);
                 responseBuilder.Append(chatMessage.Content);
