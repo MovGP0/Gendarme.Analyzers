@@ -1,0 +1,1 @@
+// NOTE: this analyzer is obsolete, since it is now checked by the compiler

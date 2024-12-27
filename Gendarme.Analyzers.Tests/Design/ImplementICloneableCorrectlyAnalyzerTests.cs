@@ -1,13 +1,63 @@
 using Gendarme.Analyzers.Design;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Xunit;
 
 namespace Gendarme.Analyzers.Tests.Design;
 
 [TestOf(typeof(ImplementICloneableCorrectlyAnalyzer))]
 public sealed class ImplementICloneableCorrectlyAnalyzerTests
 {
-    [Fact(Skip = "not implemented")]
-    public async Task Foo()
+    [Fact]
+    public async Task TestClassMissingICloneable()
     {
-        throw new NotImplementedException();
+        const string testCode = @"
+public class MyClass 
+{
+    public object Clone() 
+    {
+        return new MyClass();
+    }
+}
+";
+
+        var context = new CSharpAnalyzerTest<ImplementICloneableCorrectlyAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.ImplementICloneableCorrectly)
+            .WithSpan(3, 1, 6, 1) // Update this span according to your code structure
+            .WithArguments("MyClass");
+
+        context.ExpectedDiagnostics.Add(expected);
+
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestClassImplementingICloneableCorrectly()
+    {
+        const string testCode = @"
+using System;
+
+public class MyCloneableClass : ICloneable
+{
+    public object Clone()
+    {
+        return new MyCloneableClass();
+    }
+}
+";
+
+        var context = new CSharpAnalyzerTest<ImplementICloneableCorrectlyAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        // No expected diagnostics since it implements ICloneable correctly
+        await context.RunAsync();
     }
 }

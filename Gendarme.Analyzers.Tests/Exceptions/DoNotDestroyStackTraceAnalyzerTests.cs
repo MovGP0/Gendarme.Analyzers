@@ -5,9 +5,66 @@ namespace Gendarme.Analyzers.Tests.Exceptions;
 [TestOf(typeof(DoNotDestroyStackTraceAnalyzer))]
 public sealed class DoNotDestroyStackTraceAnalyzerTests
 {
-    [Fact(Skip = "not implemented")]
-    public async Task Foo()
+    [Fact]
+    public async Task TestDoNotDestroyStackTrace()
     {
-        throw new NotImplementedException();
+        const string testCode = @"
+using System;
+
+public class MyClass
+{
+    public void MyMethod()
+    {
+        try
+        {
+            throw new InvalidOperationException();
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Rethrow the same exception
+            throw ex;
+        }
+    }
+}
+";
+
+        var context = new CSharpAnalyzerTest<DoNotDestroyStackTraceAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotDestroyStackTrace)
+            .WithSpan(10, 13, 10, 23); // Adjust the span according to where the throw statement is in the generated syntax tree
+
+        context.ExpectedDiagnostics.Add(expected);
+
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestValidThrowStatement()
+    {
+        const string testCode = @"
+using System;
+
+public class MyClass
+{
+    public void MyMethod()
+    {
+        throw new InvalidOperationException();
+    }
+}
+";
+
+        var context = new CSharpAnalyzerTest<DoNotDestroyStackTraceAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        // No diagnostics expected
+        await context.RunAsync();
     }
 }

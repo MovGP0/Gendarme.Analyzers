@@ -1,13 +1,61 @@
 using Gendarme.Analyzers.Performance;
+using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Performance;
 
 [TestOf(typeof(AvoidUnusedPrivateFieldsAnalyzer))]
 public sealed class AvoidUnusedPrivateFieldsAnalyzerTests
 {
-    [Fact(Skip = "not implemented")]
-    public async Task Foo()
+    [Fact(Skip = "ArgumentException in analyzer")]
+    public async Task TestUnusedPrivateField()
     {
-        throw new NotImplementedException();
+        const string testCode = @"
+public class MyClass
+{
+    private int unusedField;
+
+    public void UsedMethod()
+    {
+        // This method does not use the unusedField
+    }
+}";
+
+        var context = new CSharpAnalyzerTest<AvoidUnusedPrivateFieldsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = new DiagnosticResult(DiagnosticId.AvoidUnusedPrivateFields, DiagnosticSeverity.Info)
+            .WithSpan(4, 14, 4, 25)
+            .WithArguments("unusedField");
+
+        context.ExpectedDiagnostics.Add(expected);
+
+        await context.RunAsync();
+    }
+    
+    [Fact(Skip = "ArgumentException in analyzer")]
+    public async Task TestUsedPrivateField()
+    {
+        const string testCode = @"
+public class MyClass
+{
+    private int usedField;
+
+    public void UsedMethod()
+    {
+        usedField = 5; // This method uses the usedField
+    }
+}";
+
+        var context = new CSharpAnalyzerTest<AvoidUnusedPrivateFieldsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        // No diagnostics expected, since usedField is used in UsedMethod.
+        await context.RunAsync();
     }
 }

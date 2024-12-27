@@ -5,9 +5,63 @@ namespace Gendarme.Analyzers.Tests.Design;
 [TestOf(typeof(TypesShouldBeInsideNamespacesAnalyzer))]
 public sealed class TypesShouldBeInsideNamespacesAnalyzerTests
 {
-    [Fact(Skip = "not implemented")]
-    public async Task Foo()
+    [Fact]
+    public async Task TestTypeNotInNamespace()
     {
-        throw new NotImplementedException();
+        const string testCode = @"
+public class MyClass { }
+";
+
+        var context = new CSharpAnalyzerTest<TypesShouldBeInsideNamespacesAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.TypesShouldBeInsideNamespaces)
+            .WithSpan(2, 7, 2, 14)
+            .WithArguments("MyClass");
+
+        context.ExpectedDiagnostics.Add(expected);
+
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestTypeInNamespace()
+    {
+        const string testCode = @"
+namespace MyNamespace
+{
+    public class MyClass { }
+}
+";
+
+        var context = new CSharpAnalyzerTest<TypesShouldBeInsideNamespacesAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        // No diagnostics expected in this case
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestNonPublicTypeNotInNamespace()
+    {
+        const string testCode = @"
+class MyClass { }
+";
+
+        var context = new CSharpAnalyzerTest<TypesShouldBeInsideNamespacesAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        // No diagnostics expected for non-public types
+        await context.RunAsync();
     }
 }

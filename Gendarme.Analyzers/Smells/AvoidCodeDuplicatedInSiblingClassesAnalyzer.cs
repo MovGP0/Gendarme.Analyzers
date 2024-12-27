@@ -54,6 +54,11 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
             foreach (var kvp in baseClassToMethods)
             {
                 var methods = kvp.Value;
+                if (methods is null)
+                {
+                    continue;
+                }
+
                 var duplicates = FindDuplicates(methods.Select(m => m.Item2).ToList());
 
                 foreach (var method in duplicates)

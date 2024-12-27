@@ -55,7 +55,7 @@ public sealed class AvoidComplexMethodsAnalyzer : DiagnosticAnalyzer
     {
         int complexity = 1;
 
-        var descendants = node.DescendantNodes();
+        var descendants = node.DescendantNodes().ToArray();
 
         complexity += descendants.OfType<IfStatementSyntax>().Count();
         complexity += descendants.OfType<WhileStatementSyntax>().Count();

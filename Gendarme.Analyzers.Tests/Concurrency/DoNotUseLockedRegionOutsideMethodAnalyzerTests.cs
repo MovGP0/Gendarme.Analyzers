@@ -1,6 +1,6 @@
-using Gendarme.Analyzers;
 using Gendarme.Analyzers.Concurrency;
-using Gendarme.Analyzers.Tests;
+
+namespace Gendarme.Analyzers.Tests.Concurrency;
 
 [TestOf(typeof(DoNotUseLockedRegionOutsideMethodAnalyzer))]
 public sealed class DoNotUseLockedRegionOutsideMethodAnalyzerTests

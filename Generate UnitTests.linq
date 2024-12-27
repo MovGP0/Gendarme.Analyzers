@@ -12,7 +12,7 @@
 #nullable enable
 public async Task Main()
 {
-    using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(10));
+    using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(30));
     var cancellationToken = cts.Token;
 
     // 1) Set the root folder where your analyzer code lives
@@ -52,7 +52,7 @@ Output only the code in triple-backtick fences, like:
 
     var testTemplateInstructions = @"
 Here is a template how the tests should be structured:
-    
+
 ```csharp
 [TestOf(typeof(AvoidAssemblyVersionMismatchAnalyzer))]
 public sealed class AvoidAssemblyVersionMismatchAnalyzerTests
@@ -68,7 +68,6 @@ using System.Reflection;
 
     public class MyClass { }
 "";
-
 
         var context = new CSharpAnalyzerTest<AvoidAssemblyVersionMismatchAnalyzer, DefaultVerifier>
         {
@@ -86,7 +85,23 @@ using System.Reflection;
         await context.RunAsync();
     }
 }
-```";
+```
+
+### Notes
+
+Note that there are different methods to create a DiagnosticResult:
+```csharp
+// only for warnings and errors
+DiagnosticResult.CompilerWarning(DiagnosticId.AssemblyVersionMismatch)
+DiagnosticResult.CompilerError(DiagnosticId.AssemblyVersionMismatch)
+
+// for info and hidden warnings
+new DiagnosticResult(DiagnosticId.AssemblyVersionMismatch, DiagnosticSeverity.Info)
+new DiagnosticResult(DiagnosticId.AssemblyVersionMismatch, DiagnosticSeverity.Hidden)
+```
+
+Note that if there is no diagnostics expected, do not add anything to the `context.ExpectedDiagnostics` collection.
+";
 
     // 5) Loop through each discovered code file
     foreach (var codeFilePath in codeFiles)

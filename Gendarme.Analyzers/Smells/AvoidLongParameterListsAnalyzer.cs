@@ -32,7 +32,7 @@ public sealed class AvoidLongParameterListsAnalyzer : DiagnosticAnalyzer
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
 
-        if (methodSymbol.Parameters.Length >= MaxParameterCount)
+        if (methodSymbol.Parameters.Length > MaxParameterCount)
         {
             // Check for overloads with fewer parameters
             var overloads = methodSymbol.ContainingType.GetMembers()
