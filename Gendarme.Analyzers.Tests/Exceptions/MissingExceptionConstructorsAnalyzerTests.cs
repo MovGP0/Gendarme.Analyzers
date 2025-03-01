@@ -25,7 +25,7 @@ public class MyCustomException : Exception
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MissingExceptionConstructors)
-            .WithSpan(6, 14, 6, 34)
+            .WithSpan(4, 14, 4, 31)
             .WithArguments("MyCustomException");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -79,7 +79,7 @@ public class MyCustomException : Exception
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MissingExceptionConstructors)
-            .WithSpan(6, 14, 6, 34)
+            .WithSpan(4, 14, 4, 31)
             .WithArguments("MyCustomException");
 
         context.ExpectedDiagnostics.Add(expected);

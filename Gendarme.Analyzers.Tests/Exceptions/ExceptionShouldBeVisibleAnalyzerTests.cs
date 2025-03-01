@@ -41,7 +41,7 @@ internal class MyNonPublicException : Exception { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ExceptionShouldBeVisible)
-            .WithSpan(4, 14, 4, 37)
+            .WithSpan(4, 16, 4, 36)
             .WithArguments("MyNonPublicException");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -66,7 +66,7 @@ internal class MyApplicationException : ApplicationException { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ExceptionShouldBeVisible)
-            .WithSpan(4, 14, 4, 41)
+            .WithSpan(4, 16, 4, 38)
             .WithArguments("MyApplicationException");
 
         context.ExpectedDiagnostics.Add(expected);

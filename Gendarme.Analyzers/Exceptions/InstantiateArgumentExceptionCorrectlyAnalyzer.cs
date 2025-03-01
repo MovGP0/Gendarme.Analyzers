@@ -47,12 +47,36 @@ public sealed class InstantiateArgumentExceptionCorrectlyAnalyzer : DiagnosticAn
         }
 
         var expectedPosition = ParameterPositions[typeName];
-        if (constructorSymbol.Parameters.Length <= expectedPosition)
+        var arguments = objectCreation.ArgumentList.Arguments;
+
+        // Scenario 1: Not enough arguments to include the parameter name
+        if (arguments.Count <= expectedPosition)
         {
+            // Report diagnostic - parameter name is missing because not enough arguments
+            var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation(), typeSymbol.Name);
+            context.ReportDiagnostic(diagnostic);
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation(), typeSymbol.Name);
-        context.ReportDiagnostic(diagnostic);
+        // Scenario 2: The argument at the expected parameter name position
+        var argumentAtParamNamePosition = arguments[expectedPosition];
+        var paramNameArgument = context.SemanticModel.GetTypeInfo(argumentAtParamNamePosition.Expression).Type;
+        
+        // If the argument at the parameter name position is not a string, report diagnostic
+        if (paramNameArgument?.SpecialType != SpecialType.System_String)
+        {
+            var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation(), typeSymbol.Name);
+            context.ReportDiagnostic(diagnostic);
+            return;
+        }
+
+        // For ArgumentException, check if we have either null or empty string as paramName
+        if (typeName == "System.ArgumentException" && 
+            argumentAtParamNamePosition.Expression is LiteralExpressionSyntax literal &&
+            (literal.Token.ValueText == string.Empty || literal.Kind() == SyntaxKind.NullLiteralExpression))
+        {
+            var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation(), typeSymbol.Name);
+            context.ReportDiagnostic(diagnostic);
+        }
     }
 }

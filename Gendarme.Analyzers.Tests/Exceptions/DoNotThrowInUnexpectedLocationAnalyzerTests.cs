@@ -9,6 +9,8 @@ public sealed class DoNotThrowInUnexpectedLocationAnalyzerTests
     public async Task TestThrowInEqualsMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
     public override bool Equals(object obj)
@@ -26,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowInUnexpectedLocation)
-            .WithSpan(5, 9, 5, 15)
+            .WithSpan(8, 9, 8, 31)
             .WithArguments("Equals");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -38,6 +40,8 @@ public class MyClass
     public async Task TestThrowInGetHashCodeMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
     public override int GetHashCode()
@@ -55,7 +59,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowInUnexpectedLocation)
-            .WithSpan(5, 9, 5, 21)
+            .WithSpan(8, 9, 8, 31)
             .WithArguments("GetHashCode");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -67,6 +71,8 @@ public class MyClass
     public async Task TestThrowInToStringMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
     public override string ToString()
@@ -84,7 +90,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowInUnexpectedLocation)
-            .WithSpan(5, 9, 5, 19)
+            .WithSpan(8, 9, 8, 31)
             .WithArguments("ToString");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -96,6 +102,8 @@ public class MyClass
     public async Task TestThrowInFinalizeMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
     ~MyClass()
@@ -113,7 +121,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowInUnexpectedLocation)
-            .WithSpan(5, 9, 5, 15)
+            .WithSpan(8, 9, 8, 31)
             .WithArguments("Finalize");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -125,6 +133,8 @@ public class MyClass
     public async Task TestThrowInDisposeMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass : IDisposable
 {
     public void Dispose()
@@ -142,7 +152,7 @@ public class MyClass : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowInUnexpectedLocation)
-            .WithSpan(5, 9, 5, 15)
+            .WithSpan(8, 9, 8, 31)
             .WithArguments("Dispose");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -154,6 +164,8 @@ public class MyClass : IDisposable
     public async Task TestValidThrowLocations()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
     public void SomeMethod()

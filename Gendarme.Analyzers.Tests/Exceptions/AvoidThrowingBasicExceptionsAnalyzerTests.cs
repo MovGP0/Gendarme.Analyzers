@@ -28,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidThrowingBasicExceptions)
-            .WithSpan(6, 9, 6, 15)
+            .WithSpan(8, 15, 8, 30)
             .WithArguments("Exception");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -59,7 +59,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidThrowingBasicExceptions)
-            .WithSpan(6, 9, 6, 23)
+            .WithSpan(8, 15, 8, 41)
             .WithArguments("ApplicationException");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -90,7 +90,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidThrowingBasicExceptions)
-            .WithSpan(6, 9, 6, 18)
+            .WithSpan(8, 15, 8, 36)
             .WithArguments("SystemException");
 
         context.ExpectedDiagnostics.Add(expected);

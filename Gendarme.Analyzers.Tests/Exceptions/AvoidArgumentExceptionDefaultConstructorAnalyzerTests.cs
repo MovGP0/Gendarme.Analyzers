@@ -28,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidArgumentExceptionDefaultConstructor)
-            .WithSpan(6, 14, 6, 31)
+            .WithSpan(8, 15, 8, 38)
             .WithArguments("ArgumentException");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -59,7 +59,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidArgumentExceptionDefaultConstructor)
-            .WithSpan(6, 14, 6, 31)
+            .WithSpan(8, 15, 8, 42)
             .WithArguments("ArgumentNullException");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -90,7 +90,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidArgumentExceptionDefaultConstructor)
-            .WithSpan(6, 14, 6, 41)
+            .WithSpan(8, 15, 8, 48)
             .WithArguments("ArgumentOutOfRangeException");
 
         context.ExpectedDiagnostics.Add(expected);

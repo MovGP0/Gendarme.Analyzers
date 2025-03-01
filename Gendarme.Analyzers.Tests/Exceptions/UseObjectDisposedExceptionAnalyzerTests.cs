@@ -9,6 +9,8 @@ public sealed class UseObjectDisposedExceptionAnalyzerTests
     public async Task TestMissingDisposedCheckInMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass : IDisposable
 {
     private bool disposed = false;
@@ -44,6 +46,8 @@ public class MyClass : IDisposable
     public async Task TestCorrectDisposedCheckInMethod()
     {
         const string testCode = @"
+using System;
+
 public class MyClass : IDisposable
 {
     private bool disposed = false;

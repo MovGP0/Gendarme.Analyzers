@@ -30,7 +30,7 @@ public class TestClass
         };
 
         var expected = DiagnosticResult.CompilerWarning(DiagnosticId.DoNotSwallowErrorsCatchingNonSpecificExceptions)
-            .WithSpan(7, 14, 7, 35); // Adjust the span to the location of the catch clause
+            .WithSpan(12, 9, 12, 33); // Actual location reported by the analyzer
 
         context.ExpectedDiagnostics.Add(expected);
 

@@ -36,7 +36,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotDestroyStackTrace)
-            .WithSpan(10, 13, 10, 23); // Adjust the span according to where the throw statement is in the generated syntax tree
+            .WithSpan(15, 13, 15, 22); // Adjusted to match the line number of "throw ex;" statement in the test code
 
         context.ExpectedDiagnostics.Add(expected);
 

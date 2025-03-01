@@ -28,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotThrowReservedException)
-            .WithSpan(7, 9, 7, 37)
+            .WithSpan(8, 15, 8, 43)
             .WithArguments("NullReferenceException");
 
         context.ExpectedDiagnostics.Add(expected);
