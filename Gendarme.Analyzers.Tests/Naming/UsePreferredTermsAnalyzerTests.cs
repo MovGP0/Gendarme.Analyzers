@@ -1,4 +1,5 @@
 using Gendarme.Analyzers.Naming;
+using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Naming;
 
@@ -20,10 +21,9 @@ public class TestClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.UsePreferredTerms)
-            .WithSpan(4, 19, 4, 26)
-            .WithArguments("Cancelled", "Canceled");
+        var expected = new DiagnosticResult(DiagnosticId.UsePreferredTerms, DiagnosticSeverity.Info)
+            .WithSpan(4, 17, 4, 32)
+            .WithArguments("CancelledMethod", "Cancelled", "Canceled");
 
         context.ExpectedDiagnostics.Add(expected);
         await context.RunAsync();
@@ -54,7 +54,7 @@ public class TestClass
         const string testCode = @"
 public class TestClass
 {
-    public void WereNotMethod() { }
+    public void WerentMethod() { }
 }";
 
         var context = new CSharpAnalyzerTest<UsePreferredTermsAnalyzer, DefaultVerifier>
@@ -63,10 +63,9 @@ public class TestClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.UsePreferredTerms)
-            .WithSpan(4, 19, 4, 27)
-            .WithArguments("WereNot", "WereNot");
+        var expected = new DiagnosticResult(DiagnosticId.UsePreferredTerms, DiagnosticSeverity.Info)
+            .WithSpan(4, 17, 4, 29)
+            .WithArguments("WerentMethod", "Werent", "WereNot");
 
         context.ExpectedDiagnostics.Add(expected);
         await context.RunAsync();

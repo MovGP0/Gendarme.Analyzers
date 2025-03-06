@@ -23,7 +23,7 @@ enum MyEnum
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotUseReservedInEnumValueNames)
-            .WithSpan(3, 5, 3, 12)
+            .WithSpan(4, 5, 4, 13)
             .WithArguments("Reserved", "MyEnum");
 
         context.ExpectedDiagnostics.Add(expected);

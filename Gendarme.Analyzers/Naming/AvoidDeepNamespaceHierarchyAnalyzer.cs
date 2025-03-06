@@ -34,6 +34,13 @@ public sealed class AvoidDeepNamespaceHierarchyAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeNamespace(SymbolAnalysisContext context)
     {
         var namespaceSymbol = (INamespaceSymbol)context.Symbol;
+
+        if (!namespaceSymbol.GetTypeMembers().Any())
+        {
+            // ignore empty namespaces
+            return;
+        }
+
         var namespaceName = namespaceSymbol.ToDisplayString();
 
         var parts = namespaceName.Split('.');

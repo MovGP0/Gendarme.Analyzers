@@ -1,4 +1,5 @@
 using Gendarme.Analyzers.Naming;
+using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Naming;
 
@@ -24,14 +25,12 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected1 = DiagnosticResult
-            .CompilerWarning(DiagnosticId.DoNotPrefixEventsWithAfterOrBefore)
-            .WithSpan(6, 21, 6, 43) // Assumed location for AfterSomeEvent
+        var expected1 = new DiagnosticResult(DiagnosticId.DoNotPrefixEventsWithAfterOrBefore, DiagnosticSeverity.Info)
+            .WithSpan(6, 31, 6, 45) // Assumed location for AfterSomeEvent
             .WithArguments("AfterSomeEvent");
 
-        var expected2 = DiagnosticResult
-            .CompilerWarning(DiagnosticId.DoNotPrefixEventsWithAfterOrBefore)
-            .WithSpan(7, 21, 7, 42) // Assumed location for BeforeAnotherEvent
+        var expected2 = new DiagnosticResult(DiagnosticId.DoNotPrefixEventsWithAfterOrBefore, DiagnosticSeverity.Info)
+            .WithSpan(7, 31, 7, 49) // Assumed location for BeforeAnotherEvent
             .WithArguments("BeforeAnotherEvent");
 
         context.ExpectedDiagnostics.Add(expected1);

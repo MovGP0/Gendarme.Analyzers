@@ -23,7 +23,7 @@ namespace MyNamespace
         };
 
         var expected = new DiagnosticResult(DiagnosticId.AvoidRedundancyInTypeName, DiagnosticSeverity.Info)
-            .WithSpan(5, 14, 5, 32)
+            .WithSpan(4, 18, 4, 34)
             .WithArguments("MyNamespaceClass", "MyNamespace");
 
         context.ExpectedDiagnostics.Add(expected);

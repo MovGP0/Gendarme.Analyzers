@@ -49,7 +49,7 @@ public enum MyEnum
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UsePluralNameInEnumFlags)
-            .WithSpan(6, 14, 6, 20)
+            .WithSpan(5, 13, 5, 19)
             .WithArguments("MyEnum");
 
         context.ExpectedDiagnostics.Add(expected);

@@ -24,11 +24,11 @@ public enum MyEnum
         };
 
         var expected1 = new DiagnosticResult(DiagnosticId.DoNotPrefixValuesWithEnumName, DiagnosticSeverity.Info)
-            .WithSpan(6, 5, 6, 20)
+            .WithSpan(4, 5, 4, 17)
             .WithArguments("MyEnumValue1", "MyEnum");
 
         var expected2 = new DiagnosticResult(DiagnosticId.DoNotPrefixValuesWithEnumName, DiagnosticSeverity.Info)
-            .WithSpan(7, 5, 7, 20)
+            .WithSpan(5, 5, 5, 17)
             .WithArguments("MyEnumValue2", "MyEnum");
 
         context.ExpectedDiagnostics.Add(expected1);

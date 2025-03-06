@@ -24,7 +24,7 @@ public enum MyEnums
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseSingularNameInEnumsUnlessAreFlags)
-            .WithSpan(3, 6, 3, 14)
+            .WithSpan(2, 13, 2, 20)
             .WithArguments("MyEnums");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -36,6 +36,8 @@ public enum MyEnums
     public async Task TestEnumNameIsSingularWithFlags()
     {
         const string testCode = @"
+using System;
+
 [Flags]
 public enum MyEnum
 {

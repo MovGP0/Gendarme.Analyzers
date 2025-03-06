@@ -22,7 +22,7 @@ namespace invalid_namespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectCasing)
-            .WithSpan(2, 1, 2, 18)
+            .WithSpan(2, 11, 2, 28)
             .WithArguments("Namespace", "invalid_namespace");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -47,7 +47,7 @@ namespace ValidNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectCasing)
-            .WithSpan(4, 7, 4, 18)
+            .WithSpan(4, 11, 4, 23)
             .WithArguments("Type", "invalidClass");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -75,7 +75,7 @@ namespace ValidNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectCasing)
-            .WithSpan(6, 10, 6, 22)
+            .WithSpan(6, 14, 6, 27)
             .WithArguments("Method", "invalidMethod");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -103,7 +103,7 @@ namespace ValidNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectCasing)
-            .WithSpan(6, 24, 6, 39)
+            .WithSpan(6, 27, 6, 43)
             .WithArguments("Parameter", "InvalidParameter");
 
         context.ExpectedDiagnostics.Add(expected);

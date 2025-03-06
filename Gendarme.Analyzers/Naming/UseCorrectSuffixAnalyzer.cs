@@ -59,12 +59,12 @@ public sealed class UseCorrectSuffixAnalyzer : DiagnosticAnalyzer
 
             if (inheritsOrImplements && !nameHasCorrectSuffix)
             {
-                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], $"Type '{name}' should end with '{string.Join("' or '", rule.Value)}' because it inherits from or implements '{baseTypeOrInterface.Name}'");
+                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], name, string.Join("' or '", rule.Value), baseTypeOrInterface.Name);
                 context.ReportDiagnostic(diagnostic);
             }
             else if (!inheritsOrImplements && nameHasCorrectSuffix)
             {
-                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], $"Type '{name}' should not end with '{string.Join("' or '", rule.Value)}' because it does not inherit from or implement '{baseTypeOrInterface.Name}'");
+                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], name, string.Join("' or '", rule.Value), baseTypeOrInterface.Name);
                 context.ReportDiagnostic(diagnostic);
             }
         }

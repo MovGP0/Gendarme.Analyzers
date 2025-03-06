@@ -1,4 +1,5 @@
 using Gendarme.Analyzers.Naming;
+using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Naming;
 
@@ -21,10 +22,9 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.AvoidRedundancyInMethodName)
-            .WithSpan(4, 14, 4, 25)
-            .WithArguments("StringMethod", "string");
+        var expected = new DiagnosticResult(DiagnosticId.AvoidRedundancyInMethodName, DiagnosticSeverity.Info)
+            .WithSpan(4, 17, 4, 29)
+            .WithArguments("StringMethod", "String");
 
         context.ExpectedDiagnostics.Add(expected);
 

@@ -9,7 +9,7 @@ public sealed class UseCorrectPrefixAnalyzerTests
     public async Task TestInterfaceNamingConvention()
     {
         const string testCode = @"
-            public interface IMyInterface { }
+            public interface MyInterface { }
         ";
 
         var context = new CSharpAnalyzerTest<UseCorrectPrefixAnalyzer, DefaultVerifier>
@@ -20,8 +20,8 @@ public sealed class UseCorrectPrefixAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(2, 15, 2, 32)
-            .WithArguments("Interface", "IMyInterface", "should be prefixed with 'I'");
+            .WithSpan(2, 30, 2, 41)
+            .WithArguments("Interface", "MyInterface", "should be prefixed with 'I'");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -43,7 +43,7 @@ public sealed class UseCorrectPrefixAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(2, 15, 2, 25)
+            .WithSpan(2, 26, 2, 34)
             .WithArguments("Type", "CMyClass", "should not be prefixed with 'C'");
 
         context.ExpectedDiagnostics.Add(expected);

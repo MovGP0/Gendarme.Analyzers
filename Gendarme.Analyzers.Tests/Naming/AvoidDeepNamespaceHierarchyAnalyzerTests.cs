@@ -22,8 +22,8 @@ namespace Gendarme.Analyzers.Naming.Deep.Deep.Deep.Namespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidDeepNamespaceHierarchy)
-            .WithSpan(2, 17, 2, 50)
-            .WithArguments("Gendarme.Analyzers.Naming.Deep.Deep.Deep.Namespace", 5);
+            .WithSpan(2, 52, 2, 61)
+            .WithArguments("Gendarme.Analyzers.Naming.Deep.Deep.Deep.Namespace", 7);
 
         context.ExpectedDiagnostics.Add(expected);
 

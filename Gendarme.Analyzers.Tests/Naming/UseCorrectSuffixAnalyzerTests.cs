@@ -12,9 +12,9 @@ public sealed class UseCorrectSuffixAnalyzerTests
 using System;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class MyCustomAttribute { }
+public class MyCustomAttribute: Attribute { }
 
-public class MyCustomAttributeAttribute : MyCustomAttribute { }
+public class MyCustomClass : MyCustomAttribute { }
 ";
 
         var context = new CSharpAnalyzerTest<UseCorrectSuffixAnalyzer, DefaultVerifier>
@@ -25,8 +25,8 @@ public class MyCustomAttributeAttribute : MyCustomAttribute { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectSuffix)
-            .WithSpan(7, 14, 7, 41)
-            .WithArguments("MyCustomAttributeAttribute", "Attribute");
+            .WithSpan(7, 14, 7, 27)
+            .WithArguments("MyCustomClass", "Attribute", "Attribute");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -39,7 +39,7 @@ public class MyCustomAttributeAttribute : MyCustomAttribute { }
         const string testCode = @"
 using System;
 
-public class MyEventArgs : EventArgs { }
+public class MyEvent : EventArgs { }
 ";
 
         var context = new CSharpAnalyzerTest<UseCorrectSuffixAnalyzer, DefaultVerifier>
@@ -50,8 +50,8 @@ public class MyEventArgs : EventArgs { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectSuffix)
-            .WithSpan(5, 14, 5, 28)
-            .WithArguments("MyEventArgs", "EventArgs");
+            .WithSpan(4, 14, 4, 21)
+            .WithArguments("MyEvent", "EventArgs", "EventArgs");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -62,9 +62,9 @@ public class MyEventArgs : EventArgs { }
     public async Task TestNoSuffixIssueForWellNamedClass()
     {
         const string testCode = @"
-using System;
+using System.IO;
 
-public class MyStream : Stream { }
+public abstract class MyStream : Stream { }
 ";
 
         var context = new CSharpAnalyzerTest<UseCorrectSuffixAnalyzer, DefaultVerifier>

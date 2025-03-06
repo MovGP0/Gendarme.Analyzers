@@ -25,12 +25,18 @@ public class DerivedClass : BaseClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
+        var expected1 = DiagnosticResult
             .CompilerWarning(DiagnosticId.ParameterNamesShouldMatchOverriddenMethod)
-            .WithSpan(8, 5, 8, 24) // Adjust the position as per the line in your code 
+            .WithSpan(9, 38, 9, 39)
             .WithArguments("MethodA", "a", "x");
 
-        context.ExpectedDiagnostics.Add(expected);
+        var expected2 = DiagnosticResult
+            .CompilerWarning(DiagnosticId.ParameterNamesShouldMatchOverriddenMethod)
+            .WithSpan(9, 48, 9, 49)
+            .WithArguments("MethodA", "b", "y");
+
+        context.ExpectedDiagnostics.Add(expected1);
+        context.ExpectedDiagnostics.Add(expected2);
 
         await context.RunAsync();
     }

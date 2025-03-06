@@ -8,10 +8,10 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzerTests
     [Fact]
     public async Task TestNonAlphanumericIdentifier()
     {
-        const string testCode = @"
-class MyClass@ {}
-";
-        
+        const string testCode = """
+class MyClass_ {}
+""";
+
         var context = new CSharpAnalyzerTest<AvoidNonAlphanumericIdentifierAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
@@ -20,8 +20,8 @@ class MyClass@ {}
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidNonAlphanumericIdentifier)
-            .WithSpan(1, 6, 1, 12)
-            .WithArguments("MyClass@");
+            .WithSpan(1, 7, 1, 15)
+            .WithArguments("MyClass_");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -31,9 +31,9 @@ class MyClass@ {}
     [Fact]
     public async Task TestValidIdentifier()
     {
-        const string testCode = @"
+        const string testCode = """
 class MyClass {}
-";
+""";
 
         var context = new CSharpAnalyzerTest<AvoidNonAlphanumericIdentifierAnalyzer, DefaultVerifier>
         {
@@ -48,9 +48,9 @@ class MyClass {}
     [Fact]
     public async Task TestNonAlphanumericNamespace()
     {
-        const string testCode = @"
-namespace MyNamespace$ {}
-";
+        const string testCode = """
+namespace MyNamespace_ {}
+""";
 
         var context = new CSharpAnalyzerTest<AvoidNonAlphanumericIdentifierAnalyzer, DefaultVerifier>
         {
@@ -60,8 +60,8 @@ namespace MyNamespace$ {}
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidNonAlphanumericIdentifier)
-            .WithSpan(1, 11, 1, 20)
-            .WithArguments("MyNamespace$");
+            .WithSpan(1, 11, 1, 23)
+            .WithArguments("MyNamespace_");
 
         context.ExpectedDiagnostics.Add(expected);
 
