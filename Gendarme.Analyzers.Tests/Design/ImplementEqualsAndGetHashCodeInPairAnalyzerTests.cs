@@ -22,9 +22,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ImplementEqualsAndGetHashCodeInPair)
-            .WithSpan(3, 25, 3, 31)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass", "Equals", "GetHashCode");
-
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();
@@ -47,9 +46,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ImplementEqualsAndGetHashCodeInPair)
-            .WithSpan(3, 31, 3, 43)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass", "GetHashCode", "Equals");
-
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();

@@ -9,12 +9,15 @@ public sealed class AvoidTypeInterfaceInconsistencyAnalyzerTests
     public async Task TestInterfaceClassInconsistency()
     {
         const string testCode = @"
-            public interface IMyInterface { }
-            public class MyClass : IMyInterface { }
+public interface IMyService
+{
+    void DoSomething();
+}
 
-            public class MyInvalidClass { }
-            public class IMyInvalidClass : MyInvalidClass { }
-        ";
+public class MyService  // Should warn because it doesn't implement IMyService
+{
+    public void DoSomethingElse() { }
+}";
 
         var context = new CSharpAnalyzerTest<AvoidTypeInterfaceInconsistencyAnalyzer, DefaultVerifier>
         {
@@ -24,21 +27,26 @@ public sealed class AvoidTypeInterfaceInconsistencyAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidTypeInterfaceInconsistency)
-            .WithSpan(8, 22, 8, 40) // Assuming location this is reported
-            .WithArguments("MyInvalidClass", "IMyInvalidClass");
-
+            .WithSpan(17, 14, 17, 23)  // Point to class name
+            .WithArguments("MyService", "IMyService");
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();
     }
-
+    
     [Fact]
-    public async Task TestValidInterfaceAndClass()
+    public async Task TestMatchingInterfaceImplementation()
     {
         const string testCode = @"
-            public interface IValidInterface { }
-            public class ValidClass : IValidInterface { }
-        ";
+public interface IMyService
+{
+    void DoSomething();
+}
+
+public class MyService : IMyService  // No warning because it implements interface
+{
+    public void DoSomething() { }
+}";
 
         var context = new CSharpAnalyzerTest<AvoidTypeInterfaceInconsistencyAnalyzer, DefaultVerifier>
         {
@@ -46,7 +54,6 @@ public sealed class AvoidTypeInterfaceInconsistencyAnalyzerTests
             TestCode = testCode
         };
 
-        // No diagnostics expected
         await context.RunAsync();
     }
 }

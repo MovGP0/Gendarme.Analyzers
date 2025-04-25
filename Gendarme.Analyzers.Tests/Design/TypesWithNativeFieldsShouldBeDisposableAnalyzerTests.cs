@@ -1,4 +1,6 @@
 using Gendarme.Analyzers.Design;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Design;
 
@@ -9,21 +11,30 @@ public sealed class TypesWithNativeFieldsShouldBeDisposableAnalyzerTests
     public async Task TestNonDisposableTypeWithNativeField()
     {
         const string testCode = @"
-public class MyClass 
+using System;
+using System.Runtime.InteropServices;
+
+public class MyClass
 {
-    private IntPtr handle; // Native field
-}
-";
+    private System.IntPtr handle;  // Use fully qualified name
+}";
 
         var context = new CSharpAnalyzerTest<TypesWithNativeFieldsShouldBeDisposableAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = 
+            {
+                AdditionalReferences = 
+                {
+                    MetadataReference.CreateFromFile(typeof(System.IntPtr).Assembly.Location)
+                }
+            }
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.TypesWithNativeFieldsShouldBeDisposable)
-            .WithSpan(4, 10, 4, 21)
+            .WithSpan(17, 13, 17, 19)  // points to "handle" in the field declaration
             .WithArguments("MyClass", "handle");
 
         context.ExpectedDiagnostics.Add(expected);

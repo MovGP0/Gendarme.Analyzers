@@ -42,7 +42,7 @@ public enum MyEnum : System.Byte
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.EnumsShouldUseInt32)
-            .WithSpan(1, 15, 1, 22)
+            .WithSpan(2, 13, 2, 19)
             .WithArguments("MyEnum");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -68,7 +68,7 @@ public enum MyEnum : System.Int64
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.EnumsShouldUseInt32)
-            .WithSpan(1, 15, 1, 22)
+            .WithSpan(2, 13, 2, 19)
             .WithArguments("MyEnum");
 
         context.ExpectedDiagnostics.Add(expected);

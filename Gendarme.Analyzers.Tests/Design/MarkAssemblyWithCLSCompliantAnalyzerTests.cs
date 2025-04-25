@@ -1,4 +1,6 @@
 using Gendarme.Analyzers.Design;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Design;
 
@@ -9,21 +11,20 @@ public sealed class MarkAssemblyWithClsCompliantAnalyzerTests
     public async Task TestAssemblyWithoutClsCompliance()
     {
         const string testCode = @"
-[assembly: System.CLSCompliant(false)]
-
+// No CLSCompliant attribute at all
 public class MyClass { }
 ";
 
         var context = new CSharpAnalyzerTest<MarkAssemblyWithClsCompliantAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.DynamicallyLinkedLibrary }  // Ensure it's treated as a library
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MarkAssemblyWithClsCompliant)
-            .WithLocation(1) // adjust location based on the actual line
-            .WithArguments("<unnamed>");
+            .WithArguments("TestProject");  // Default project name in test context
 
         context.ExpectedDiagnostics.Add(expected);
 

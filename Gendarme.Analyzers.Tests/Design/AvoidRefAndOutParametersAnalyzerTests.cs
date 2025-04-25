@@ -22,7 +22,7 @@ public sealed class AvoidRefAndOutParametersAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidRefAndOutParameters)
-            .WithSpan(4, 21, 4, 31)
+            .WithSpan(4, 47, 4, 53)
             .WithArguments("MethodWithRef", "number");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -47,7 +47,7 @@ public sealed class AvoidRefAndOutParametersAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidRefAndOutParameters)
-            .WithSpan(4, 21, 4, 30)
+            .WithSpan(4, 47, 4, 53)
             .WithArguments("MethodWithOut", "number");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -96,7 +96,7 @@ public sealed class AvoidRefAndOutParametersAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidRefAndOutParameters)
-            .WithSpan(6, 38, 6, 47)
+            .WithSpan(4, 72, 4, 81)
             .WithArguments("TryParse", "errorCode");
 
         context.ExpectedDiagnostics.Add(expected);

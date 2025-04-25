@@ -26,9 +26,8 @@ public class Program
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MainShouldNotBePublic)
-            .WithSpan(6, 28, 6, 32)
+            .WithSpan(6, 24, 6, 28)
             .WithArguments("Main");
-
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();

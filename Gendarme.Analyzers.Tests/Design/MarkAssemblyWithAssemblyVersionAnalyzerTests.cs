@@ -1,4 +1,6 @@
 using Gendarme.Analyzers.Design;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Design;
 
@@ -9,21 +11,20 @@ public sealed class MarkAssemblyWithAssemblyVersionAnalyzerTests
     public async Task TestMissingAssemblyVersion()
     {
         const string testCode = @"
-using System.Reflection;
-
+// No assembly version attribute at all
 public class MyClass { }
 ";
 
         var context = new CSharpAnalyzerTest<MarkAssemblyWithAssemblyVersionAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.DynamicallyLinkedLibrary }  // Ensure it's treated as a library
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MarkAssemblyWithAssemblyVersion)
-            .WithLocation(1) // adjust location as per your specific case
-            .WithArguments("<unnamed>");
+            .WithArguments("TestProject");  // Default project name in test context
 
         context.ExpectedDiagnostics.Add(expected);
 

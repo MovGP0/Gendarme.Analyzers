@@ -24,7 +24,7 @@ public class MyClass
         };
 
         var expected = new DiagnosticResult(DiagnosticId.ConsiderUsingStaticType, DiagnosticSeverity.Info)
-            .WithSpan(2, 6, 2, 12)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -85,7 +85,7 @@ public class MyEmptyClass { }
         };
 
         var expected = new DiagnosticResult(DiagnosticId.ConsiderUsingStaticType, DiagnosticSeverity.Info)
-            .WithSpan(2, 6, 2, 20)
+            .WithSpan(2, 14, 2, 26)
             .WithArguments("MyEmptyClass");
 
         context.ExpectedDiagnostics.Add(expected);

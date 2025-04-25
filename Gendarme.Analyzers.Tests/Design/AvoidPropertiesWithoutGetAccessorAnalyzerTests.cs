@@ -11,7 +11,7 @@ public sealed class AvoidPropertiesWithoutGetAccessorAnalyzerTests
         const string testCode = @"
 public class MyClass
 {
-    public string MyProperty { set; private get; }
+    public int MyProperty { set { } }
 }";
 
         var context = new CSharpAnalyzerTest<AvoidPropertiesWithoutGetAccessorAnalyzer, DefaultVerifier>
@@ -22,9 +22,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidPropertiesWithoutGetAccessor)
-            .WithSpan(4, 22, 4, 36)
+            .WithSpan(4, 16, 4, 26)
             .WithArguments("MyProperty");
-
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();
@@ -52,9 +51,9 @@ public class MyClass
     public async Task TestPrivatePropertyWithSetOnly()
     {
         const string testCode = @"
-class MyClass
+public class MyClass
 {
-    public string MyProperty { set; private get; }
+    private string MyProperty { set { } }
 }";
 
         var context = new CSharpAnalyzerTest<AvoidPropertiesWithoutGetAccessorAnalyzer, DefaultVerifier>
@@ -72,7 +71,7 @@ class MyClass
         const string testCode = @"
 internal class MyClass
 {
-    internal string MyProperty { set; private get; }
+    internal string MyProperty { set { } }
 }";
 
         var context = new CSharpAnalyzerTest<AvoidPropertiesWithoutGetAccessorAnalyzer, DefaultVerifier>

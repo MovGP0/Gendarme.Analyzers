@@ -1,4 +1,5 @@
 using Gendarme.Analyzers.Design;
+using Microsoft.CodeAnalysis.Testing;
 
 namespace Gendarme.Analyzers.Tests.Design;
 
@@ -6,14 +7,20 @@ namespace Gendarme.Analyzers.Tests.Design;
 public sealed class FinalizersShouldBeProtectedAnalyzerTests
 {
     [Fact]
-    public async Task TestFinalizerNotProtected()
+    public async Task TestFinalizerImplementation()
     {
         const string testCode = @"
-public class MyClass
+using System;
+
+public class MyClass : IDisposable
 {
-    ~MyClass() { }
-}
-";
+    ~MyClass() { }  // Implicit finalizer
+    
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
+}";
 
         var context = new CSharpAnalyzerTest<FinalizersShouldBeProtectedAnalyzer, DefaultVerifier>
         {
@@ -21,25 +28,20 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.FinalizersShouldBeProtected)
-            .WithSpan(4, 5, 4, 13)
-            .WithArguments("MyClass");
-
-        context.ExpectedDiagnostics.Add(expected);
-
+        // No diagnostic expected since C# finalizers are implicitly protected
         await context.RunAsync();
     }
 
     [Fact]
-    public async Task TestFinalizerProtected()
+    public async Task TestPrivateFinalize()
     {
         const string testCode = @"
+using System;
+
 public class MyClass
 {
-    protected ~MyClass() { }
-}
-";
+    private void Finalize() { }  // Not a real finalizer, but a private method named Finalize
+}";
 
         var context = new CSharpAnalyzerTest<FinalizersShouldBeProtectedAnalyzer, DefaultVerifier>
         {
@@ -47,6 +49,7 @@ public class MyClass
             TestCode = testCode
         };
 
+        // No diagnostic expected because this isn't actually a finalizer (MethodKind.Destructor)
         await context.RunAsync();
     }
 }

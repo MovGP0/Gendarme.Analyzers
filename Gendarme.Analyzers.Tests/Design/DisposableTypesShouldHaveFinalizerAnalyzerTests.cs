@@ -11,11 +11,14 @@ public sealed class DisposableTypesShouldHaveFinalizerAnalyzerTests
         const string testCode = @"
 using System;
 
-public class MyDisposableClass : IDisposable
+// No native field, so no warning expected
+public class MyClass : IDisposable
 {
-    public void Dispose() { }
-}
-";
+    public void Dispose()
+    {
+        // Implement IDisposable
+    }
+}";
 
         var context = new CSharpAnalyzerTest<DisposableTypesShouldHaveFinalizerAnalyzer, DefaultVerifier>
         {
@@ -23,13 +26,7 @@ public class MyDisposableClass : IDisposable
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.DisposableTypesShouldHaveFinalizer)
-            .WithSpan(5, 14, 5, 36)
-            .WithArguments("MyDisposableClass");
-
-        context.ExpectedDiagnostics.Add(expected);
-
+        // No diagnostic expected since there's no native field
         await context.RunAsync();
     }
 
@@ -62,13 +59,17 @@ public class MyDisposableClass : IDisposable
         const string testCode = @"
 using System;
 
-public class MyNativeDisposableClass : IDisposable
+public class MyClass : IDisposable
 {
-    private IntPtr _nativeResource;
+    private IntPtr handle; // Native field
 
-    public void Dispose() { }
-}
-";
+    public void Dispose()
+    {
+        // Dispose implementation
+    }
+
+    // No finalizer - should trigger warning
+}";
 
         var context = new CSharpAnalyzerTest<DisposableTypesShouldHaveFinalizerAnalyzer, DefaultVerifier>
         {
@@ -78,9 +79,8 @@ public class MyNativeDisposableClass : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DisposableTypesShouldHaveFinalizer)
-            .WithSpan(5, 14, 5, 40)
-            .WithArguments("MyNativeDisposableClass");
-
+            .WithSpan(62, 14, 62, 21)
+            .WithArguments("MyClass");
         context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();

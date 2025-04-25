@@ -19,13 +19,19 @@ sealed class SealedClass
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = testCode
         };
+        // Expect the compiler error about virtual members in sealed types
+        var compilerError = DiagnosticResult
+            .CompilerError("CS0549")
+            .WithSpan(4, 25, 4, 33)
+            .WithArguments("SealedClass.MyMethod()", "SealedClass");
+        context.ExpectedDiagnostics.Add(compilerError);
 
-        var expected = DiagnosticResult
+        // Expect our analyzer warning
+        var analyzerWarning = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotDeclareVirtualMethodsInSealedType)
-            .WithSpan(3, 17, 3, 27)
+            .WithSpan(4, 25, 4, 33)
             .WithArguments("SealedClass", "MyMethod");
-
-        context.ExpectedDiagnostics.Add(expected);
+        context.ExpectedDiagnostics.Add(analyzerWarning);
 
         await context.RunAsync();
     }

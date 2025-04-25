@@ -18,7 +18,7 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex GenericParameterRegex = new Regex(@"^T[A-Z].*$", RegexOptions.Compiled);
+    private static readonly Regex GenericParameterRegex = new Regex(@"^T[A-Z][a-zA-Z]*$", RegexOptions.Compiled);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
