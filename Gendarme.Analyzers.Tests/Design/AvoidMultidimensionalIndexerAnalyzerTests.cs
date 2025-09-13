@@ -11,7 +11,11 @@ public sealed class AvoidMultidimensionalIndexerAnalyzerTests
         const string testCode = @"
 public class MyClass
 {
-    public int this[int x, int y] { get; set; }
+    public int this[int x, int y]
+    {
+        get => 0;
+        set { }
+    }
 }
 ";
 
@@ -23,7 +27,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidMultidimensionalIndexer)
-            .WithSpan(4, 10, 4, 13)
+            .WithSpan(4, 16, 4, 20)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -37,7 +41,11 @@ public class MyClass
         const string testCode = @"
 public class MyClass
 {
-    public int this[int x] { get; set; }
+    public int this[int x]
+    {
+        get => 0;
+        set { }
+    }
 }
 ";
 

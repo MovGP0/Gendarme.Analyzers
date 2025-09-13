@@ -9,6 +9,7 @@ public sealed class PreferXmlAbstractionsAnalyzerTests
     public async Task TestPublicMethodWithXmlDocumentParameter()
     {
         const string testCode = @"
+using System.Xml;
 public class MyXmlClass
 {
     public void ProcessXml(XmlDocument doc) { }
@@ -35,6 +36,7 @@ public class MyXmlClass
     public async Task TestPublicPropertyWithXmlNodeType()
     {
         const string testCode = @"
+using System.Xml;
 public class MyXmlNodeClass
 {
     public XmlNode MyNode { get; set; }
@@ -61,6 +63,7 @@ public class MyXmlNodeClass
     public async Task TestProtectedMethodWithXmlElementReturnType()
     {
         const string testCode = @"
+using System.Xml;
 public class MyXmlElementClass
 {
     protected XmlElement CreateElement() 
@@ -90,6 +93,7 @@ public class MyXmlElementClass
     public async Task TestNoDiagnosticsForInternalAccess()
     {
         const string testCode = @"
+using System.Xml;
 class MyInternalXmlClass
 {
     public void ProcessXml(XmlDocument doc) { }

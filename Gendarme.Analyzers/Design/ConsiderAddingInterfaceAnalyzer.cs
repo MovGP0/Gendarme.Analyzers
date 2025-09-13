@@ -30,9 +30,9 @@ public sealed class ConsiderAddingInterfaceAnalyzer : DiagnosticAnalyzer
     {
         var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
 
-        // Example: If a type implements members from an interface but doesn't declare that interface
-        // For brevity, let's check if there's any method "Do()" that matches IDoable.Do() pattern
-        // Real logic would be more complex, but here's a simplified approach:
+        // Only analyze classes
+        if (namedTypeSymbol.TypeKind != TypeKind.Class)
+            return;
 
         // 1) Check if the type has a method "Do()"
         var hasMethodDo = namedTypeSymbol.GetMembers()

@@ -22,7 +22,7 @@ namespace Gendarme.Analyzers.Internal
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.InternalNamespacesShouldNotExposeTypes)
-            .WithSpan(4, 14, 4, 21)
+            .WithSpan(4, 18, 4, 25)
             .WithArguments("MyClass", "Gendarme.Analyzers.Internal");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -66,7 +66,7 @@ namespace Gendarme.Analyzers.Impl
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.InternalNamespacesShouldNotExposeTypes)
-            .WithSpan(4, 14, 4, 21)
+            .WithSpan(4, 18, 4, 25)
             .WithArguments("MyClass", "Gendarme.Analyzers.Impl");
 
         context.ExpectedDiagnostics.Add(expected);

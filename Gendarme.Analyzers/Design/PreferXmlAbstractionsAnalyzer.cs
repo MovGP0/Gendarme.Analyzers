@@ -53,6 +53,10 @@ public sealed class PreferXmlAbstractionsAnalyzer : DiagnosticAnalyzer
             {
                 if (member is IMethodSymbol method)
                 {
+                    // Skip property accessors to avoid duplicate diagnostics (property itself is handled separately)
+                    if (method.MethodKind is MethodKind.PropertyGet or MethodKind.PropertySet)
+                        continue;
+
                     // Check parameters
                     foreach (var param in method.Parameters)
                     {

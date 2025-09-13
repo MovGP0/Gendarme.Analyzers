@@ -28,7 +28,7 @@ public enum MyFlags
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.FlagsShouldNotDefineAZeroValue)
-            .WithSpan(6, 14, 6, 20)
+            .WithSpan(5, 13, 5, 20)
             .WithArguments("MyFlags");
 
         context.ExpectedDiagnostics.Add(expected);

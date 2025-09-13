@@ -54,9 +54,11 @@ public sealed class FlagsShouldNotDefineAZeroValueAnalyzer : DiagnosticAnalyzer
 
         if (zeroField != null)
         {
+            // Report on the enum identifier to match expectations
+            var location = namedType.Locations.FirstOrDefault();
             var diagnostic = Diagnostic.Create(
                 Rule,
-                zeroField.Locations.FirstOrDefault(),
+                location,
                 namedType.Name);
             context.ReportDiagnostic(diagnostic);
         }

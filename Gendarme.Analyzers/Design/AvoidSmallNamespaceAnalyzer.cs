@@ -70,10 +70,15 @@ public sealed class AvoidSmallNamespaceAnalyzer : DiagnosticAnalyzer
                 // Check if the count is less than the threshold
                 if (typesInNamespace.Count < DefaultMinimumTypes)
                 {
-                    // For each type, we can report a diagnostic or just one for the namespace
-                    foreach (var typeSymbol in typesInNamespace)
+                    // Report a single diagnostic per namespace, attached to the first type declaration location
+                    var firstType = typesInNamespace
+                        .OrderBy(t => t.Locations.FirstOrDefault()?.GetLineSpan().StartLinePosition.Line ?? int.MaxValue)
+                        .FirstOrDefault();
+
+                    var location = firstType?.Locations.FirstOrDefault();
+                    if (location is not null)
                     {
-                        var diag = Diagnostic.Create(Rule, typeSymbol.Locations[0],
+                        var diag = Diagnostic.Create(Rule, location,
                             namespaceName, typesInNamespace.Count, DefaultMinimumTypes);
                         context.ReportDiagnostic(diag);
                     }

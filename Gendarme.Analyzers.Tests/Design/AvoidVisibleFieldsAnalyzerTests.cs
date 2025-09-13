@@ -23,7 +23,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidVisibleFields)
-            .WithSpan(4, 5, 4, 19)
+            .WithSpan(4, 16, 4, 28)
             .WithArguments("VisibleField");
 
         context.ExpectedDiagnostics.Add(expected);
