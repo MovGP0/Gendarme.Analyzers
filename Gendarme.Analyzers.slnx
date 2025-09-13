@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path="Analyzers.props" />
+    <File Path="TestAnalyzers.props" />
+    <File Path="Readme.md" />
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+  </Folder>
+  <Project Path="Gendarme.Analyzers.Tests\Gendarme.Analyzers.Tests.csproj" Type="Classic C#" />
+  <Project Path="Gendarme.Analyzers\Gendarme.Analyzers.csproj" Type="Classic C#" />
+</Solution>
