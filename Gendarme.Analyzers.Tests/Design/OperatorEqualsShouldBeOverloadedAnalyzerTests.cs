@@ -28,7 +28,7 @@ public struct MyStruct
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.OperatorEqualsShouldBeOverloaded)
-            .WithSpan(3, 1, 6, 1)
+            .WithSpan(2, 15, 2, 23)
             .WithArguments("MyStruct");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -106,7 +106,7 @@ public struct MyStruct
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.OperatorEqualsShouldBeOverloaded)
-            .WithSpan(3, 1, 8, 1)
+            .WithSpan(2, 15, 2, 23)
             .WithArguments("MyStruct");
 
         context.ExpectedDiagnostics.Add(expected);

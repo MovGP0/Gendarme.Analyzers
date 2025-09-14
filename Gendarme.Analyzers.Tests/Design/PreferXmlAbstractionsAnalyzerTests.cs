@@ -22,9 +22,8 @@ public class MyXmlClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.PreferXmlAbstractions)
-            .WithSpan(4, 18, 4, 31)
+        var expected = new DiagnosticResult(DiagnosticId.PreferXmlAbstractions, DiagnosticSeverity.Info)
+            .WithSpan(5, 17, 5, 27)
             .WithArguments("ProcessXml", "XmlDocument");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -49,9 +48,8 @@ public class MyXmlNodeClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.PreferXmlAbstractions)
-            .WithSpan(4, 16, 4, 25)
+        var expected = new DiagnosticResult(DiagnosticId.PreferXmlAbstractions, DiagnosticSeverity.Info)
+            .WithSpan(5, 20, 5, 26)
             .WithArguments("MyNode", "XmlNode");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -79,9 +77,8 @@ public class MyXmlElementClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.PreferXmlAbstractions)
-            .WithSpan(4, 17, 4, 31)
+        var expected = new DiagnosticResult(DiagnosticId.PreferXmlAbstractions, DiagnosticSeverity.Info)
+            .WithSpan(5, 26, 5, 39)
             .WithArguments("CreateElement", "XmlElement");
 
         context.ExpectedDiagnostics.Add(expected);

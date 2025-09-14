@@ -1,8 +1,4 @@
-using System.Threading.Tasks;
 using Gendarme.Analyzers.Performance;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Testing;
-using Xunit;
 
 namespace Gendarme.Analyzers.Tests.Performance;
 

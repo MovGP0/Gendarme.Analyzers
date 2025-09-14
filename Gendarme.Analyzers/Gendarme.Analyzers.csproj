@@ -13,6 +13,9 @@
   </ItemGroup>
   <Import Project="..\Analyzers.props" />
   <ItemGroup>
+    <Using Include="System.Collections.Concurrent" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Update="Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>

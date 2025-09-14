@@ -1,6 +1,4 @@
 using Gendarme.Analyzers.Design;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Xunit;
 
 namespace Gendarme.Analyzers.Tests.Design;
 

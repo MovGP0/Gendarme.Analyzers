@@ -28,44 +28,55 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
-        context.RegisterSymbolAction(AnalyzeTypeParameter, SymbolKind.TypeParameter);
+        // Analyze interface and class declarations via syntax for precise spans
+        context.RegisterSyntaxNodeAction(AnalyzeInterfaceDeclaration, SyntaxKind.InterfaceDeclaration);
+        context.RegisterSyntaxNodeAction(AnalyzeClassDeclaration, SyntaxKind.ClassDeclaration);
+        
+        // Analyze generic type parameters via syntax to ensure broad support
+        context.RegisterSyntaxNodeAction(AnalyzeTypeParameterSyntax, SyntaxKind.TypeParameter);
     }
 
-    private static void AnalyzeNamedType(SymbolAnalysisContext context)
+    private static void AnalyzeInterfaceDeclaration(SyntaxNodeAnalysisContext context)
     {
-        var typeSymbol = (INamedTypeSymbol)context.Symbol;
-        var name = typeSymbol.Name;
+        var node = (InterfaceDeclarationSyntax)context.Node;
+        var identifier = node.Identifier;
+        var name = identifier.ValueText;
 
-        if (typeSymbol.TypeKind == TypeKind.Interface)
+        // Interfaces should start with 'I' followed by uppercase
+        if (!name.StartsWith("I") || name.Length == 1 || !char.IsUpper(name[1]))
         {
-            // Interfaces should start with 'I'
-            if (!name.StartsWith("I") || name.Length == 1 || !char.IsUpper(name[1]))
-            {
-                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], "Interface", name, "should be prefixed with 'I'");
-                context.ReportDiagnostic(diagnostic);
-            }
-        }
-        else
-        {
-            // Types should not start with 'C'
-            if (name.StartsWith("C") && name.Length > 1 && char.IsUpper(name[1]))
-            {
-                var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], "Type", name, "should not be prefixed with 'C'");
-                context.ReportDiagnostic(diagnostic);
-            }
+            var diagnostic = Diagnostic.Create(Rule, identifier.GetLocation(), "Interface", name, "should be prefixed with 'I'");
+            context.ReportDiagnostic(diagnostic);
         }
     }
 
-    private static void AnalyzeTypeParameter(SymbolAnalysisContext context)
+    private static void AnalyzeClassDeclaration(SyntaxNodeAnalysisContext context)
     {
-        var typeParameter = (ITypeParameterSymbol)context.Symbol;
-        var name = typeParameter.Name;
+        var node = (ClassDeclarationSyntax)context.Node;
+        var identifier = node.Identifier;
+        var name = identifier.ValueText;
+
+        // Types should not start with 'C' followed by uppercase
+        if (name.Length > 1 && name[0] == 'C' && char.IsUpper(name[1]))
+        {
+            var diagnostic = Diagnostic.Create(Rule, identifier.GetLocation(), "Type", name, "should not be prefixed with 'C'");
+            context.ReportDiagnostic(diagnostic);
+        }
+    }
+
+    private static void AnalyzeTypeParameterSyntax(SyntaxNodeAnalysisContext context)
+    {
+        var node = (TypeParameterSyntax)context.Node;
+        var identifier = node.Identifier;
+        var name = identifier.ValueText;
 
         // Generic parameters should be a single uppercase letter or prefixed with 'T'
-        if (!(name.Length == 1 && char.IsUpper(name[0])) && !GenericParameterRegex.IsMatch(name))
+        var isSingleUpper = name.Length == 1 && name[0] >= 'A' && name[0] <= 'Z';
+        var matchesTPrefix = GenericParameterRegex.IsMatch(name);
+
+        if (!isSingleUpper && !matchesTPrefix)
         {
-            var diagnostic = Diagnostic.Create(Rule, typeParameter.Locations[0], "Generic parameter", name, "should be a single uppercase letter or prefixed with 'T'");
+            var diagnostic = Diagnostic.Create(Rule, identifier.GetLocation(), "Generic parameter", name, "should be a single uppercase letter or prefixed with 'T'");
             context.ReportDiagnostic(diagnostic);
         }
     }

@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Serialization;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Serialization;
 

@@ -22,7 +22,7 @@ public class MyClass { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MarkAssemblyWithComVisible)
-            .WithSpan(3, 14, 3, 31)
+            .WithSpan(2, 44, 2, 58)
             .WithArguments("TestAssembly");
 
         context.ExpectedDiagnostics.Add(expected);

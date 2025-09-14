@@ -24,7 +24,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.OverrideEqualsMethod)
-            .WithSpan(4, 5, 4, 11) // Adjust line/column based on your actual code
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);

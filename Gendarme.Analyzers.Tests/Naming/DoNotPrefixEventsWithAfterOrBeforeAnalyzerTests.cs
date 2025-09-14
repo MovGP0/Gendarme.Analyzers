@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Naming;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Naming;
 

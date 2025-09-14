@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Maintainability;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Maintainability;
 

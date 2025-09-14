@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Correctness;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Correctness;
 

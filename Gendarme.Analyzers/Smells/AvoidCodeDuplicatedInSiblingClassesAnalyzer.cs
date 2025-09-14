@@ -20,7 +20,6 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze class declarations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterCompilationStartAction(AnalyzeCompilationStart);
@@ -28,39 +27,39 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
 
     private void AnalyzeCompilationStart(CompilationStartAnalysisContext context)
     {
-        var baseClassToMethods = new Dictionary<INamedTypeSymbol, List<(INamedTypeSymbol, MethodDeclarationSyntax)>>();
+        // Thread-safe aggregation across concurrent analysis callbacks
+        var baseClassToMethods = new ConcurrentDictionary<INamedTypeSymbol, ConcurrentBag<MethodDeclarationSyntax>>(SymbolEqualityComparer.Default);
 
-        context.RegisterSymbolAction(symbolContext =>
+        context.RegisterSyntaxNodeAction(syntaxContext =>
         {
-            var classSymbol = (INamedTypeSymbol)symbolContext.Symbol;
+            var classDecl = (ClassDeclarationSyntax)syntaxContext.Node;
+            var classSymbol = syntaxContext.SemanticModel.GetDeclaredSymbol(classDecl, syntaxContext.CancellationToken) as INamedTypeSymbol;
+            if (classSymbol is null)
+                return;
 
-            if (classSymbol.BaseType != null && classSymbol.BaseType.SpecialType != SpecialType.System_Object)
+            var baseType = classSymbol.BaseType;
+            if (baseType is null || baseType.SpecialType == SpecialType.System_Object)
+                return;
+
+            var bag = baseClassToMethods.GetOrAdd(baseType, _ => new ConcurrentBag<MethodDeclarationSyntax>());
+
+            foreach (var method in classDecl.Members.OfType<MethodDeclarationSyntax>())
             {
-                if (!baseClassToMethods.ContainsKey(classSymbol.BaseType))
-                {
-                    baseClassToMethods[classSymbol.BaseType] = [];
-                }
-
-                var methods = classSymbol.GetMembers().OfType<IMethodSymbol>()
-                    .Where(m => m.DeclaringSyntaxReferences.Length > 0 && !m.IsAbstract)
-                    .Select(m => (classSymbol, m.DeclaringSyntaxReferences[0].GetSyntax() as MethodDeclarationSyntax));
-
-                baseClassToMethods[classSymbol.BaseType].AddRange(methods);
+                if (method.Body is null && method.ExpressionBody is null)
+                    continue;
+                bag.Add(method);
             }
-        }, SymbolKind.NamedType);
+        }, SyntaxKind.ClassDeclaration);
 
         context.RegisterCompilationEndAction(compilationContext =>
         {
             foreach (var kvp in baseClassToMethods)
             {
-                var methods = kvp.Value;
-                if (methods is null)
-                {
+                var methods = kvp.Value.ToList();
+                if (methods.Count < 2)
                     continue;
-                }
 
-                var duplicates = FindDuplicates(methods.Select(m => m.Item2).ToList());
-
+                var duplicates = FindDuplicates(methods);
                 foreach (var method in duplicates)
                 {
                     var diagnostic = Diagnostic.Create(Rule, method.Identifier.GetLocation());
@@ -74,14 +73,26 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
     {
         var duplicates = new List<MethodDeclarationSyntax>();
 
+        static string GetBodyKey(MethodDeclarationSyntax m)
+        {
+            if (m.ExpressionBody is not null)
+            {
+                return m.ExpressionBody.Expression.NormalizeWhitespace().ToFullString();
+            }
+            if (m.Body is not null)
+            {
+                return m.Body.NormalizeWhitespace().ToFullString();
+            }
+            return string.Empty;
+        }
+
         for (int i = 0; i < methods.Count; i++)
         {
+            var key1 = GetBodyKey(methods[i]);
             for (int j = i + 1; j < methods.Count; j++)
             {
-                var body1 = methods[i].Body?.ToString() ?? methods[i].ExpressionBody?.Expression.ToString();
-                var body2 = methods[j].Body?.ToString() ?? methods[j].ExpressionBody?.Expression.ToString();
-
-                if (body1 != null && body1 == body2)
+                var key2 = GetBodyKey(methods[j]);
+                if (key1.Length > 0 && key1 == key2)
                 {
                     duplicates.Add(methods[i]);
                     duplicates.Add(methods[j]);

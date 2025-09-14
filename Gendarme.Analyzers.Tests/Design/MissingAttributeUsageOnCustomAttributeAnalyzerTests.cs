@@ -11,7 +11,6 @@ public sealed class MissingAttributeUsageOnCustomAttributeAnalyzerTests
         const string testCode = @"
 using System;
 
-[AttributeUsage(AttributeTargets.Class)]
 public class MyCustomAttribute : Attribute { }
 
 public class MyClass { }
@@ -25,7 +24,7 @@ public class MyClass { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.MissingAttributeUsageOnCustomAttribute)
-            .WithSpan(7, 14, 7, 27) // assuming MyCustomAttribute declaration is at line 7
+            .WithSpan(4, 14, 4, 31)
             .WithArguments("MyCustomAttribute");
 
         context.ExpectedDiagnostics.Add(expected);

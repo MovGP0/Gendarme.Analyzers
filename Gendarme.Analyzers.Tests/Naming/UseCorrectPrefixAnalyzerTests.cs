@@ -20,7 +20,7 @@ public interface MyInterface { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(2, 17, 2, 28)  // Span covers "MyInterface"
+            .WithSpan(2, 18, 2, 29)  // Span covers "MyInterface" (exclusive end)
             .WithArguments("Interface", "MyInterface", "should be prefixed with 'I'");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -43,7 +43,7 @@ public class CMyClass { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(2, 14, 2, 22)  // Start after "public class "
+            .WithSpan(2, 14, 2, 22)  // Start after "public class " and cover "CMyClass" (exclusive end)
             .WithArguments("Type", "CMyClass", "should not be prefixed with 'C'");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -84,7 +84,7 @@ public class Container<wrong>  // incorrect name for type parameter
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(2, 24, 2, 29)  // Just the type parameter name "wrong"
+            .WithSpan(2, 24, 2, 29)  // Just the type parameter name "wrong" (exclusive end)
             .WithArguments("Generic parameter", "wrong", "should be a single uppercase letter or prefixed with 'T'");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -138,22 +138,22 @@ public class EdgeCases<
 
         var expected1 = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(3, 5, 3, 6)   // 't'
+            .WithSpan(3, 5, 3, 6)   // 't' (exclusive end)
             .WithArguments("Generic parameter", "t", "should be a single uppercase letter or prefixed with 'T'");
 
         var expected2 = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(4, 5, 4, 7)   // 'T1'
+            .WithSpan(4, 5, 4, 7)   // 'T1' (exclusive end)
             .WithArguments("Generic parameter", "T1", "should be a single uppercase letter or prefixed with 'T'");
 
         var expected3 = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(5, 5, 5, 9)   // 'Tfoo'
+            .WithSpan(5, 5, 5, 9)   // 'Tfoo' (exclusive end)
             .WithArguments("Generic parameter", "Tfoo", "should be a single uppercase letter or prefixed with 'T'");
 
         var expected4 = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(8, 5, 8, 6)   // 'k'
+            .WithSpan(8, 5, 8, 6)   // 'k' (exclusive end)
             .WithArguments("Generic parameter", "k", "should be a single uppercase letter or prefixed with 'T'");
 
         context.ExpectedDiagnostics.Add(expected1);
@@ -186,7 +186,7 @@ public class Complex<
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectPrefix)
-            .WithSpan(4, 5, 4, 13)   // 'TResult1'
+            .WithSpan(5, 5, 5, 13)   // 'TResult1' (exclusive end)
             .WithArguments("Generic parameter", "TResult1", "should be a single uppercase letter or prefixed with 'T'");
 
         context.ExpectedDiagnostics.Add(expected);

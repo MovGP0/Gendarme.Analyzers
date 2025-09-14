@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Performance;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Performance;
 

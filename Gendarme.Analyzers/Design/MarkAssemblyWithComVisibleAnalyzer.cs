@@ -43,10 +43,31 @@ public sealed class MarkAssemblyWithComVisibleAnalyzer : DiagnosticAnalyzer
 
         if (!hasComVisible)
         {
+            // Try to grab the assembly title (if present) for the diagnostic argument
+            // and report the diagnostic at a meaningful source location (prefer the title string literal).
+            var titleAttr = compilation.Assembly.GetAttributes().FirstOrDefault(a =>
+                a.AttributeClass?.ToDisplayString() == "System.Reflection.AssemblyTitleAttribute");
+
+            string assemblyDisplayName = titleAttr is not null && titleAttr.ConstructorArguments.Length > 0
+                ? titleAttr.ConstructorArguments[0].Value as string ?? (compilation.AssemblyName ?? "<unnamed>")
+                : (compilation.AssemblyName ?? "<unnamed>");
+
+            Location? location = null;
+            var syntaxRef = titleAttr?.ApplicationSyntaxReference;
+            if (syntaxRef is not null)
+            {
+                if (syntaxRef.GetSyntax(context.CancellationToken) is AttributeSyntax attributeSyntax)
+                {
+                    var firstArg = attributeSyntax.ArgumentList?.Arguments.FirstOrDefault();
+                    var expr = firstArg?.Expression;
+                    location = expr != null ? expr.GetLocation() : attributeSyntax.GetLocation();
+                }
+            }
+
             var diag = Diagnostic.Create(
                 Rule,
-                Location.None,
-                compilation.AssemblyName ?? "<unnamed>");
+                location ?? Location.None,
+                assemblyDisplayName);
             context.ReportDiagnostic(diag);
         }
     }

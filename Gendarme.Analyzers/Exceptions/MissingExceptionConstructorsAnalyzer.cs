@@ -1,10 +1,4 @@
 using Gendarme.Analyzers.Extensions;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using System.Collections.Immutable;
-using System.Diagnostics;
-using System.Linq;
 
 namespace Gendarme.Analyzers.Exceptions;
 

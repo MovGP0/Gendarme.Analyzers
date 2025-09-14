@@ -20,6 +20,8 @@
   <Import Project="..\TestAnalyzers.props" />
   <ItemGroup>
     <Using Include="Xunit"/>
+    <Using Include="Microsoft.CodeAnalysis" />
+    <Using Include="Microsoft.CodeAnalysis.Testing" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gendarme.Analyzers\Gendarme.Analyzers.csproj" />

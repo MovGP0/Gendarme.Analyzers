@@ -27,7 +27,7 @@ public class MyService  // Should warn because it doesn't implement IMyService
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidTypeInterfaceInconsistency)
-            .WithSpan(17, 14, 17, 23)  // Point to class name
+            .WithSpan(7, 14, 7, 23)  // Point to class name
             .WithArguments("MyService", "IMyService");
         context.ExpectedDiagnostics.Add(expected);
 

@@ -1,5 +1,4 @@
 using Gendarme.Analyzers.Security.Cas;
-using Microsoft.CodeAnalysis;
 
 namespace Gendarme.Analyzers.Tests.Security.Cas;
 

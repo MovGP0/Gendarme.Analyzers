@@ -21,10 +21,9 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.PreferIntegerOrStringForIndexers)
-            .WithSpan(4, 21, 4, 26)
-            .WithArguments("MyClass", "System.Single");
+        var expected = new DiagnosticResult(DiagnosticId.PreferIntegerOrStringForIndexers, DiagnosticSeverity.Info)
+            .WithSpan(4, 16, 4, 20)
+            .WithArguments("MyClass", "Single");
 
         context.ExpectedDiagnostics.Add(expected);
 

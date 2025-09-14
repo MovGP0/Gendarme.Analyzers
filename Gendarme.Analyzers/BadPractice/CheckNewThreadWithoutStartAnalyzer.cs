@@ -1,5 +1,3 @@
-using Gendarme.Analyzers;
-
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
 {
