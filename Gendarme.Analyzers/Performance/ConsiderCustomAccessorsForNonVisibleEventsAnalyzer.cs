@@ -20,25 +20,42 @@ public sealed class ConsiderCustomAccessorsForNonVisibleEventsAnalyzer : Diagnos
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze event symbols
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeEventSymbol, SymbolKind.Event);
     }
 
-    private void AnalyzeEventSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeEventSymbol(SymbolAnalysisContext context)
     {
-        var eventSymbol = (IEventSymbol)context.Symbol;
-
-        // Skip visible events
-        if (eventSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
-            return;
-
-        // Check if the add/remove methods are compiler-generated (synchronized)
-        if (eventSymbol.AddMethod.IsImplicitlyDeclared && eventSymbol.RemoveMethod.IsImplicitlyDeclared)
+        if (context.Symbol is not IEventSymbol eventSymbol)
         {
-            var diagnostic = Diagnostic.Create(Rule, eventSymbol.Locations[0], eventSymbol.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        if (eventSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
+        {
+            return;
+        }
+
+        var addMethod = eventSymbol.AddMethod;
+        var removeMethod = eventSymbol.RemoveMethod;
+        if (addMethod is null || removeMethod is null)
+        {
+            return;
+        }
+
+        if (!addMethod.IsImplicitlyDeclared || !removeMethod.IsImplicitlyDeclared)
+        {
+            return;
+        }
+
+        var location = eventSymbol.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, eventSymbol.Name);
+        context.ReportDiagnostic(diagnostic);
     }
 }

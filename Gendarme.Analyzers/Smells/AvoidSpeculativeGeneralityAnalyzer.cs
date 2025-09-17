@@ -20,34 +20,28 @@ public sealed class AvoidSpeculativeGeneralityAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
     {
         var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
 
-        // Check for abstract classes with only one subclass
-        if (namedTypeSymbol is { TypeKind: TypeKind.Class, IsAbstract: true })
+        if (namedTypeSymbol.TypeKind != TypeKind.Class || !namedTypeSymbol.IsAbstract)
         {
-            context.Compilation.GetTypeByMetadataName(namedTypeSymbol.ToDisplayString())
-                .AllInterfaces.SelectMany(i => i.AllInterfaces)
-                .Distinct();
-
-            var implementations = context.Compilation.GlobalNamespace.GetTypeMembers()
-                .SelectMany(t => t.GetTypeMembers())
-                .Where(t => t.BaseType?.Equals(namedTypeSymbol) == true);
-
-            if (implementations.Count() == 1)
-            {
-                var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
-                context.ReportDiagnostic(diagnostic);
-            }
+            return;
         }
 
-        // TODO: Further analysis for unnecessary delegation and unused parameters requires more complex analysis.
+        var implementationsCount = context.Compilation.GlobalNamespace.GetTypeMembers()
+            .SelectMany(type => type.GetTypeMembers())
+            .Count(type => SymbolEqualityComparer.Default.Equals(type.BaseType, namedTypeSymbol));
+
+        if (implementationsCount == 1 && namedTypeSymbol.Locations.Length > 0)
+        {
+            var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+            context.ReportDiagnostic(diagnostic);
+        }
     }
 }

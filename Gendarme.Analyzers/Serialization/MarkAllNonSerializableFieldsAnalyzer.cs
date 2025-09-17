@@ -30,7 +30,7 @@ public sealed class MarkAllNonSerializableFieldsAnalyzer : DiagnosticAnalyzer
     {
         var namedType = (INamedTypeSymbol)context.Symbol;
 
-        if (!namedType.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.SerializableAttribute"))
+        if (!namedType.GetAttributes().Any(attr => attr.AttributeClass != null && attr.AttributeClass.ToDisplayString() == "System.SerializableAttribute"))
             return;
 
         var fields = namedType.GetMembers().OfType<IFieldSymbol>()
@@ -38,14 +38,17 @@ public sealed class MarkAllNonSerializableFieldsAnalyzer : DiagnosticAnalyzer
 
         foreach (var field in fields)
         {
-            if (field.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.NonSerializedAttribute"))
+            if (field.GetAttributes().Any(attr => attr.AttributeClass != null && attr.AttributeClass.ToDisplayString() == "System.NonSerializedAttribute"))
                 continue;
 
             if (IsSerializable(field.Type))
                 continue;
 
-            var diagnostic = Diagnostic.Create(Rule, field.Locations[0], field.Name, namedType.Name);
-            context.ReportDiagnostic(diagnostic);
+            if (field.Locations.Length > 0)
+            {
+                var diagnostic = Diagnostic.Create(Rule, field.Locations[0], field.Name, namedType.Name);
+                context.ReportDiagnostic(diagnostic);
+            }
         }
     }
 

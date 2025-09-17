@@ -22,7 +22,6 @@ public sealed class FeatureRequiresRootPrivilegeOnUnixAnalyzer : DiagnosticAnaly
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze object creations and assignments
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 
@@ -34,7 +33,8 @@ public sealed class FeatureRequiresRootPrivilegeOnUnixAnalyzer : DiagnosticAnaly
     {
         var objectCreation = (IObjectCreationOperation)context.Operation;
 
-        if (objectCreation.Type.Name == "Ping" && objectCreation.Type.ContainingNamespace.ToDisplayString() == "System.Net.NetworkInformation")
+        if (objectCreation.Type is { Name: "Ping", ContainingNamespace: { } namespaceSymbol } &&
+            namespaceSymbol.ToDisplayString() == "System.Net.NetworkInformation")
         {
             var diagnostic = Diagnostic.Create(Rule, objectCreation.Syntax.GetLocation());
             context.ReportDiagnostic(diagnostic);
@@ -45,33 +45,46 @@ public sealed class FeatureRequiresRootPrivilegeOnUnixAnalyzer : DiagnosticAnaly
     {
         var assignment = (ISimpleAssignmentOperation)context.Operation;
 
-        if (assignment.Target is IPropertyReferenceOperation propertyReference)
+        if (assignment.Target is not IPropertyReferenceOperation { Property: { } property })
         {
-            if (propertyReference.Property.Name == "PriorityClass" && propertyReference.Property.ContainingType.Name == "Process")
-            {
-                var assignedValue = assignment.Value;
+            return;
+        }
 
-                if (assignedValue != null)
-                {
-                    var constantValue = assignedValue.ConstantValue;
-                    if (constantValue is { HasValue: true, Value: int intValue })
-                    {
-                        if (intValue != (int)System.Diagnostics.ProcessPriorityClass.Normal)
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, assignment.Syntax.GetLocation());
-                            context.ReportDiagnostic(diagnostic);
-                        }
-                    }
-                    else if (assignedValue is IFieldReferenceOperation fieldReference)
-                    {
-                        if (fieldReference.Field.Name != "Normal" && fieldReference.Field.ContainingType.Name == "ProcessPriorityClass")
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, assignment.Syntax.GetLocation());
-                            context.ReportDiagnostic(diagnostic);
-                        }
-                    }
-                }
+        if (property.Name != "PriorityClass")
+        {
+            return;
+        }
+
+        var containingType = property.ContainingType;
+        if (containingType is null || containingType.Name != "Process")
+        {
+            return;
+        }
+
+        var assignedValue = assignment.Value;
+        if (assignedValue is null)
+        {
+            return;
+        }
+
+        var constantValue = assignedValue.ConstantValue;
+        if (constantValue is { HasValue: true, Value: int intValue })
+        {
+            if (intValue != (int)System.Diagnostics.ProcessPriorityClass.Normal)
+            {
+                var diagnostic = Diagnostic.Create(Rule, assignment.Syntax.GetLocation());
+                context.ReportDiagnostic(diagnostic);
             }
+
+            return;
+        }
+
+        if (assignedValue is IFieldReferenceOperation { Field: { } field } &&
+            field.Name != "Normal" &&
+            field.ContainingType?.Name == "ProcessPriorityClass")
+        {
+            var diagnostic = Diagnostic.Create(Rule, assignment.Syntax.GetLocation());
+            context.ReportDiagnostic(diagnostic);
         }
     }
 }

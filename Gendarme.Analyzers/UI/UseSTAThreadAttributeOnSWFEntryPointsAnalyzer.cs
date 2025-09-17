@@ -50,11 +50,11 @@ public sealed class UseStaThreadAttributeOnSwfEntryPointsAnalyzer : DiagnosticAn
         var attributes = entryPoint.GetAttributes();
 
         var hasSTAThreadAttribute = attributes
-            .Any(attr => attr.AttributeClass.Name == "STAThreadAttribute" &&
+            .Any(attr => attr.AttributeClass is { Name: "STAThreadAttribute" } &&
                          attr.AttributeClass.ContainingNamespace.ToDisplayString() == "System");
 
         var hasMTAThreadAttribute = attributes
-            .Any(attr => attr.AttributeClass.Name == "MTAThreadAttribute" &&
+            .Any(attr => attr.AttributeClass is { Name: "MTAThreadAttribute" } &&
                          attr.AttributeClass.ContainingNamespace.ToDisplayString() == "System");
 
         // If not decorated with [STAThread] or decorated with [MTAThread], report diagnostic

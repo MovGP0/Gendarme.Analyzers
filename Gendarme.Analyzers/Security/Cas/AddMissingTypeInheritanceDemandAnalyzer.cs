@@ -16,72 +16,96 @@ public sealed class AddMissingTypeInheritanceDemandAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
+    private const string CodeAccessSecurityAttributeName = "System.Security.Permissions.CodeAccessSecurityAttribute";
+    private const string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedType(SymbolAnalysisContext context)
+    private static void AnalyzeNamedType(SymbolAnalysisContext context)
     {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        // Only consider classes
-        if (namedType.TypeKind != TypeKind.Class)
-            return;
-
-        // Skip sealed types
-        if (namedType.IsSealed)
-            return;
-
-        // Get security attributes
-        var securityAttributes = namedType.GetAttributes()
-            .Where(attr => IsSecurityAttribute(attr));
-
-        // Check if it has a LinkDemand
-        var hasLinkDemand = securityAttributes.Any(attr => GetSecurityAction(attr) == SecurityAction.LinkDemand);
-
-        if (!hasLinkDemand)
-            return;
-
-        // Check if it has an InheritanceDemand
-        var hasInheritanceDemand = securityAttributes.Any(attr => GetSecurityAction(attr) == SecurityAction.InheritanceDemand);
-
-        if (!hasInheritanceDemand)
+        if (context.Symbol is not INamedTypeSymbol namedType)
         {
-            var diagnostic = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        if (namedType.TypeKind != TypeKind.Class || namedType.IsSealed)
+        {
+            return;
+        }
+
+        var codeAccessSecurityAttributeType = context.Compilation.GetTypeByMetadataName(CodeAccessSecurityAttributeName);
+        var securityActionType = context.Compilation.GetTypeByMetadataName(SecurityActionTypeName);
+        if (codeAccessSecurityAttributeType is null || securityActionType is null)
+        {
+            return;
+        }
+
+        var securityAttributes = namedType.GetAttributes()
+            .Where(attribute => IsSecurityAttribute(attribute, codeAccessSecurityAttributeType));
+
+        var hasLinkDemand = securityAttributes
+            .Any(attribute => GetSecurityAction(attribute, securityActionType) == SecurityAction.LinkDemand);
+        if (!hasLinkDemand)
+        {
+            return;
+        }
+
+        var hasInheritanceDemand = securityAttributes
+            .Any(attribute => GetSecurityAction(attribute, securityActionType) == SecurityAction.InheritanceDemand);
+
+        if (hasInheritanceDemand)
+        {
+            return;
+        }
+
+        var location = namedType.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, namedType.Name);
+        context.ReportDiagnostic(diagnostic);
     }
 
-    private bool IsSecurityAttribute(AttributeData attribute)
+    private static bool IsSecurityAttribute(AttributeData attribute, INamedTypeSymbol codeAccessSecurityAttributeType)
     {
-        var baseType = attribute.AttributeClass;
-        while (baseType != null)
+        var current = attribute.AttributeClass;
+        while (current is not null)
         {
-            if (baseType.ToDisplayString() == "System.Security.Permissions.CodeAccessSecurityAttribute")
+            if (SymbolEqualityComparer.Default.Equals(current, codeAccessSecurityAttributeType))
+            {
                 return true;
-            baseType = baseType.BaseType;
+            }
+
+            current = current.BaseType;
         }
+
         return false;
     }
 
-    private SecurityAction? GetSecurityAction(AttributeData attribute)
+    private static SecurityAction? GetSecurityAction(AttributeData attribute, INamedTypeSymbol securityActionType)
     {
-        if (attribute.ConstructorArguments.Length > 0)
+        if (attribute.ConstructorArguments.Length == 0)
         {
-            var arg = attribute.ConstructorArguments[0];
-            if (arg.Type.Name == "SecurityAction" && arg.Value != null)
-            {
-                return (SecurityAction)(int)arg.Value;
-            }
+            return null;
         }
+
+        var argument = attribute.ConstructorArguments[0];
+        if (argument.Type is not null &&
+            SymbolEqualityComparer.Default.Equals(argument.Type, securityActionType) &&
+            argument.Value is int value)
+        {
+            return (SecurityAction)value;
+        }
+
         return null;
     }
 }

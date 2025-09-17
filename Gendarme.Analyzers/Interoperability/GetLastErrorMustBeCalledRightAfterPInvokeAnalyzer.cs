@@ -18,13 +18,12 @@ public sealed class GetLastErrorMustBeCalledRightAfterPInvokeAnalyzer : Diagnost
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly string GetLastWin32ErrorMethodName = "System.Runtime.InteropServices.Marshal.GetLastWin32Error";
+    private const string GetLastWin32ErrorMethodName = "System.Runtime.InteropServices.Marshal.GetLastWin32Error";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
@@ -33,34 +32,50 @@ public sealed class GetLastErrorMustBeCalledRightAfterPInvokeAnalyzer : Diagnost
 
     private static void AnalyzeGetLastWin32ErrorCall(SyntaxNodeAnalysisContext context)
     {
+        if (context.SemanticModel is null)
+        {
+            return;
+        }
+
         var invocationExpression = (InvocationExpressionSyntax)context.Node;
-
-        if (context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol is not IMethodSymbol symbol || symbol.ToString() != GetLastWin32ErrorMethodName)
+        var symbolInfo = context.SemanticModel.GetSymbolInfo(invocationExpression, context.CancellationToken).Symbol as IMethodSymbol;
+        if (symbolInfo is null || !string.Equals(symbolInfo.ToString(), GetLastWin32ErrorMethodName, StringComparison.Ordinal))
+        {
             return;
+        }
 
-        // Find the previous statement
         var statement = invocationExpression.Ancestors().OfType<StatementSyntax>().FirstOrDefault();
-        if (statement == null)
+        if (statement is null)
+        {
             return;
+        }
 
         var previousStatement = statement.GetPreviousStatement();
-        if (previousStatement == null)
-            return;
-
-        // Check if the previous statement contains a P/Invoke call
-        var invocation = previousStatement.DescendantNodes().OfType<InvocationExpressionSyntax>().FirstOrDefault();
-        if (invocation == null)
-            return;
-
-        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol methodSymbol)
-            return;
-
-        // Identify P/Invoke by checking for the DllImportAttribute
-        var hasDllImport = methodSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.DllImportAttribute");
-        if (!hasDllImport)
+        if (previousStatement is null)
         {
-            var diagnostic = Diagnostic.Create(Rule, invocationExpression.GetLocation());
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var invocation = previousStatement.DescendantNodes().OfType<InvocationExpressionSyntax>().FirstOrDefault();
+        if (invocation is null)
+        {
+            return;
+        }
+
+        if (context.SemanticModel.GetSymbolInfo(invocation, context.CancellationToken).Symbol is not IMethodSymbol methodSymbol)
+        {
+            return;
+        }
+
+        var hasDllImport = methodSymbol.GetAttributes()
+            .Any(attribute => attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.DllImportAttribute");
+
+        if (hasDllImport)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, invocationExpression.GetLocation());
+        context.ReportDiagnostic(diagnostic);
     }
 }

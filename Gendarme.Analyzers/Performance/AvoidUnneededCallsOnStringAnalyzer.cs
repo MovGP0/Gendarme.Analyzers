@@ -18,40 +18,49 @@ public sealed class AvoidUnneededCallsOnStringAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly ImmutableHashSet<string> UnneededMethods = ImmutableHashSet.Create("ToString", "Clone", "Substring");
+    private static readonly ImmutableHashSet<string> UnneededMethods = ImmutableHashSet.Create(StringComparer.Ordinal, "ToString", "Clone", "Substring");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method invocations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
     }
 
-    private void AnalyzeInvocation(OperationAnalysisContext context)
+    private static void AnalyzeInvocation(OperationAnalysisContext context)
     {
         var invocation = (IInvocationOperation)context.Operation;
-
-        if (invocation.Instance != null &&
-            invocation.Instance.Type.SpecialType == SpecialType.System_String &&
-            UnneededMethods.Contains(invocation.TargetMethod.Name))
+        var instance = invocation.Instance;
+        if (instance is not { Type.SpecialType: SpecialType.System_String })
         {
-            // Special handling for Substring(0)
-            if (invocation.TargetMethod.Name == "Substring")
-            {
-                if (invocation.Arguments is [{ Value.ConstantValue: { HasValue: true, Value: int and 0 } }])
-                {
-                    var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), invocation.TargetMethod.Name, invocation.Instance.Syntax.ToString());
-                    context.ReportDiagnostic(diagnostic);
-                }
-            }
-            else
-            {
-                var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), invocation.TargetMethod.Name, invocation.Instance.Syntax.ToString());
-                context.ReportDiagnostic(diagnostic);
-            }
+            return;
         }
+
+        var targetMethod = invocation.TargetMethod;
+        if (targetMethod is null || !UnneededMethods.Contains(targetMethod.Name))
+        {
+            return;
+        }
+
+        var syntax = instance.Syntax;
+        if (syntax is null)
+        {
+            return;
+        }
+
+        if (targetMethod.Name == "Substring")
+        {
+            if (invocation.Arguments is [{ Value.ConstantValue: { HasValue: true, Value: int and 0 } }])
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), targetMethod.Name, syntax.ToString()));
+            }
+
+            return;
+        }
+
+        context.ReportDiagnostic(Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), targetMethod.Name, syntax.ToString()));
     }
 }
+

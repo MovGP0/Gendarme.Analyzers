@@ -23,39 +23,48 @@ public sealed class AvoidUnneededUnboxingAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze methods
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterOperationBlockStartAction(OnOperationBlockStart);
     }
 
-    private void OnOperationBlockStart(OperationBlockStartAnalysisContext context)
+    private static void OnOperationBlockStart(OperationBlockStartAnalysisContext context)
     {
-        var unboxedValues = new Dictionary<ILocalSymbol, int>();
+        var unboxedValues = new Dictionary<ILocalSymbol, int>(SymbolEqualityComparer.Default);
 
         context.RegisterOperationAction(operationContext =>
         {
             var unboxing = (IConversionOperation)operationContext.Operation;
 
-            if (unboxing.Operand.Type.SpecialType == SpecialType.System_Object
-                && unboxing.Type.IsValueType
-                && unboxing.OperatorMethod == null
-                && unboxing.IsUnboxingConversion()
-                && unboxing.Operand.Type?.IsValueType == false
-                && unboxing.Type?.IsValueType == true)
+            if (unboxing.Operand.Type is not { } operandType ||
+                unboxing.Type is not { } targetType ||
+                operandType.SpecialType != SpecialType.System_Object ||
+                !targetType.IsValueType ||
+                operandType.IsValueType ||
+                unboxing.OperatorMethod is not null ||
+                !unboxing.IsUnboxingConversion())
             {
-                if (unboxing.Operand is ILocalReferenceOperation local)
-                {
-                    if (!unboxedValues.TryAdd(local.Local, 1))
-                    {
-                        unboxedValues[local.Local]++;
-                        if (unboxedValues[local.Local] == 2)
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, unboxing.Syntax.GetLocation(), unboxing.Type.ToDisplayString());
-                            operationContext.ReportDiagnostic(diagnostic);
-                        }
-                    }
-                }
+                return;
+            }
+
+            if (unboxing.Operand is not ILocalReferenceOperation { Local: { } localSymbol })
+            {
+                return;
+            }
+
+            if (!unboxedValues.TryGetValue(localSymbol, out var count))
+            {
+                unboxedValues[localSymbol] = 1;
+                return;
+            }
+
+            count++;
+            unboxedValues[localSymbol] = count;
+
+            if (count == 2)
+            {
+                var diagnostic = Diagnostic.Create(Rule, unboxing.Syntax.GetLocation(), targetType.ToDisplayString());
+                operationContext.ReportDiagnostic(diagnostic);
             }
         }, OperationKind.Conversion);
     }

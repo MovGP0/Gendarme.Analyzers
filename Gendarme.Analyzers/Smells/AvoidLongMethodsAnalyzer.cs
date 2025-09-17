@@ -65,6 +65,10 @@ public sealed class AvoidLongMethodsAnalyzer : DiagnosticAnalyzer
     {
         var semanticModel = context.SemanticModel;
         var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
+        if (classSymbol == null)
+        {
+            return new List<string>();
+        }
         var baseType = classSymbol.BaseType;
         var baseTypeNames = new List<string>();
 

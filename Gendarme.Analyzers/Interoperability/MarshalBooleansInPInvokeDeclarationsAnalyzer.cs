@@ -20,7 +20,6 @@ public sealed class MarshalBooleansInPInvokeDeclarationsAnalyzer : DiagnosticAna
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
         context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
@@ -28,44 +27,74 @@ public sealed class MarshalBooleansInPInvokeDeclarationsAnalyzer : DiagnosticAna
 
     private static void AnalyzeMethodSymbol(SymbolAnalysisContext context)
     {
-        var methodSymbol = (IMethodSymbol)context.Symbol;
-
-        // Check if the method is a P/Invoke method by verifying the DllImportAttribute
-        var hasDllImport = methodSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.DllImportAttribute");
-        if (!hasDllImport)
+        if (context.Symbol is not IMethodSymbol methodSymbol)
+        {
             return;
+        }
 
-        // Check parameters for boolean types without MarshalAs attribute
+        var dllImportAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices.DllImportAttribute");
+        var marshalAsAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices.MarshalAsAttribute");
+        if (dllImportAttributeType is null)
+        {
+            return;
+        }
+
+        var hasDllImport = methodSymbol.GetAttributes()
+            .Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, dllImportAttributeType));
+        if (!hasDllImport)
+        {
+            return;
+        }
+
         foreach (var parameter in methodSymbol.Parameters)
         {
-            if (parameter.Type.SpecialType == SpecialType.System_Boolean)
+            if (parameter.Type?.SpecialType != SpecialType.System_Boolean)
             {
-                var hasMarshalAs = parameter.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.MarshalAsAttribute");
-                if (!hasMarshalAs)
-                {
-                    var location = parameter.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax().GetLocation();
-                    if (location != null)
-                    {
-                        var diagnostic = Diagnostic.Create(Rule, location, parameter.Name);
-                        context.ReportDiagnostic(diagnostic);
-                    }
-                }
+                continue;
             }
+
+            var hasMarshalAs = parameter.GetAttributes().Any(attribute =>
+                marshalAsAttributeType is not null
+                    ? SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, marshalAsAttributeType)
+                    : attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.MarshalAsAttribute");
+
+            if (hasMarshalAs)
+            {
+                continue;
+            }
+
+            var location = parameter.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax(context.CancellationToken)?.GetLocation();
+            if (location is null)
+            {
+                continue;
+            }
+
+            var diagnostic = Diagnostic.Create(Rule, location, parameter.Name);
+            context.ReportDiagnostic(diagnostic);
         }
 
-        // Check return type if it's a boolean without MarshalAs attribute
-        if (methodSymbol.ReturnType.SpecialType == SpecialType.System_Boolean)
+        if (methodSymbol.ReturnType?.SpecialType != SpecialType.System_Boolean)
         {
-            var hasMarshalAs = methodSymbol.GetReturnTypeAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.MarshalAsAttribute");
-            if (!hasMarshalAs)
-            {
-                var location = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax().GetLocation();
-                if (location != null)
-                {
-                    var diagnostic = Diagnostic.Create(Rule, location, "return value");
-                    context.ReportDiagnostic(diagnostic);
-                }
-            }
+            return;
         }
+
+        var returnHasMarshalAs = methodSymbol.GetReturnTypeAttributes().Any(attribute =>
+            marshalAsAttributeType is not null
+                ? SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, marshalAsAttributeType)
+                : attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.MarshalAsAttribute");
+
+        if (returnHasMarshalAs)
+        {
+            return;
+        }
+
+        var methodLocation = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax(context.CancellationToken)?.GetLocation();
+        if (methodLocation is null)
+        {
+            return;
+        }
+
+        var returnDiagnostic = Diagnostic.Create(Rule, methodLocation, "return value");
+        context.ReportDiagnostic(returnDiagnostic);
     }
 }

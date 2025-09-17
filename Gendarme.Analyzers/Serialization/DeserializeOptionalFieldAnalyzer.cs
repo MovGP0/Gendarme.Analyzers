@@ -20,34 +20,63 @@ public sealed class DeserializeOptionalFieldAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
     {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        if (!namedType.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.SerializableAttribute"))
+        if (context.Symbol is not INamedTypeSymbol namedType)
+        {
             return;
+        }
+
+        var serializableAttributeType = context.Compilation.GetTypeByMetadataName("System.SerializableAttribute");
+        var optionalFieldAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.OptionalFieldAttribute");
+        var onDeserializedAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.OnDeserializedAttribute");
+        var onDeserializingAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.OnDeserializingAttribute");
+
+        if (serializableAttributeType is null || optionalFieldAttributeType is null)
+        {
+            return;
+        }
+
+        if (!HasAttribute(namedType, serializableAttributeType))
+        {
+            return;
+        }
 
         var hasOptionalField = namedType.GetMembers().OfType<IFieldSymbol>()
-            .Any(f => f.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.Runtime.Serialization.OptionalFieldAttribute"));
+            .Any(field => HasAttribute(field, optionalFieldAttributeType));
 
         if (!hasOptionalField)
+        {
             return;
+        }
 
         var hasDeserializationMethod = namedType.GetMembers().OfType<IMethodSymbol>()
-            .Any(m => m.GetAttributes().Any(attr =>
-                attr.AttributeClass.ToDisplayString() == "System.Runtime.Serialization.OnDeserializedAttribute" ||
-                attr.AttributeClass.ToDisplayString() == "System.Runtime.Serialization.OnDeserializingAttribute"));
+            .Any(method =>
+                (onDeserializedAttributeType is not null && HasAttribute(method, onDeserializedAttributeType)) ||
+                (onDeserializingAttributeType is not null && HasAttribute(method, onDeserializingAttributeType)));
 
-        if (!hasDeserializationMethod)
+        if (hasDeserializationMethod)
         {
-            var diagnostic = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var location = namedType.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, namedType.Name);
+        context.ReportDiagnostic(diagnostic);
+    }
+
+    private static bool HasAttribute(ISymbol symbol, INamedTypeSymbol attributeType)
+    {
+        return symbol.GetAttributes().Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, attributeType));
     }
 }

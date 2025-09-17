@@ -16,75 +16,111 @@ public sealed class DoNotReduceTypeSecurityOnMethodsAnalyzer : DiagnosticAnalyze
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
+    private const string CodeAccessSecurityAttributeName = "System.Security.Permissions.CodeAccessSecurityAttribute";
+    private const string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze methods
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
     }
 
-    private void AnalyzeMethodSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeMethodSymbol(SymbolAnalysisContext context)
     {
-        var method = (IMethodSymbol)context.Symbol;
-
-        var containingType = method.ContainingType;
-
-        // Get type's security actions
-        var typeSecurityActions = GetSecurityActions(containingType.GetAttributes());
-
-        // Get method's security actions
-        var methodSecurityActions = GetSecurityActions(method.GetAttributes());
-
-        // If method's security actions are not a subset of type's, report diagnostic
-        if (!IsSubset(methodSecurityActions, typeSecurityActions))
+        if (context.Symbol is not IMethodSymbol method || method.ContainingType is null)
         {
-            var diagnostic = Diagnostic.Create(Rule, method.Locations[0], method.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
-    }
 
-    private ImmutableHashSet<SecurityAction> GetSecurityActions(ImmutableArray<AttributeData> attributes)
-    {
-        return attributes
-            .Where(attr => IsSecurityAttribute(attr))
-            .Select(attr => GetSecurityAction(attr))
-            .Where(sa => sa.HasValue)
-            .Select(sa => sa.Value)
-            .ToImmutableHashSet();
-    }
-
-    private bool IsSubset(ImmutableHashSet<SecurityAction> subset, ImmutableHashSet<SecurityAction> superset)
-    {
-        return subset.All(sa => superset.Contains(sa));
-    }
-
-    private bool IsSecurityAttribute(AttributeData attribute)
-    {
-        var baseType = attribute.AttributeClass;
-        while (baseType != null)
+        var codeAccessSecurityAttributeType = context.Compilation.GetTypeByMetadataName(CodeAccessSecurityAttributeName);
+        var securityActionType = context.Compilation.GetTypeByMetadataName(SecurityActionTypeName);
+        if (codeAccessSecurityAttributeType is null || securityActionType is null)
         {
-            if (baseType.ToDisplayString() == "System.Security.Permissions.CodeAccessSecurityAttribute")
+            return;
+        }
+
+        var typeSecurityActions = GetSecurityActions(method.ContainingType.GetAttributes(), codeAccessSecurityAttributeType, securityActionType);
+        var methodSecurityActions = GetSecurityActions(method.GetAttributes(), codeAccessSecurityAttributeType, securityActionType);
+
+        if (methodSecurityActions.Count == 0 || IsSubset(methodSecurityActions, typeSecurityActions))
+        {
+            return;
+        }
+
+        var location = method.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, method.Name);
+        context.ReportDiagnostic(diagnostic);
+    }
+
+    private static ImmutableHashSet<SecurityAction> GetSecurityActions(
+        ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol codeAccessSecurityAttributeType,
+        INamedTypeSymbol securityActionType)
+    {
+        var builder = ImmutableHashSet.CreateBuilder<SecurityAction>();
+
+        foreach (var attribute in attributes)
+        {
+            if (!IsSecurityAttribute(attribute, codeAccessSecurityAttributeType))
+            {
+                continue;
+            }
+
+            var securityAction = GetSecurityAction(attribute, securityActionType);
+            if (securityAction.HasValue)
+            {
+                builder.Add(securityAction.Value);
+            }
+        }
+
+        return builder.ToImmutable();
+    }
+
+    private static bool IsSubset(ImmutableHashSet<SecurityAction> subset, ImmutableHashSet<SecurityAction> superset)
+    {
+        return subset.All(superset.Contains);
+    }
+
+    private static bool IsSecurityAttribute(AttributeData attribute, INamedTypeSymbol codeAccessSecurityAttributeType)
+    {
+        var current = attribute.AttributeClass;
+        while (current is not null)
+        {
+            if (SymbolEqualityComparer.Default.Equals(current, codeAccessSecurityAttributeType))
+            {
                 return true;
-            baseType = baseType.BaseType;
+            }
+
+            current = current.BaseType;
         }
+
         return false;
     }
 
-    private SecurityAction? GetSecurityAction(AttributeData attribute)
+    private static SecurityAction? GetSecurityAction(AttributeData attribute, INamedTypeSymbol securityActionType)
     {
-        if (attribute.ConstructorArguments.Length > 0)
+        if (attribute.ConstructorArguments.Length == 0)
         {
-            var arg = attribute.ConstructorArguments[0];
-            if (arg.Type.Name == "SecurityAction" && arg.Value != null)
-            {
-                return (SecurityAction)(int)arg.Value;
-            }
+            return null;
         }
+
+        var argument = attribute.ConstructorArguments[0];
+        if (argument.Type is not null &&
+            SymbolEqualityComparer.Default.Equals(argument.Type, securityActionType) &&
+            argument.Value is int value)
+        {
+            return (SecurityAction)value;
+        }
+
         return null;
     }
 }
+

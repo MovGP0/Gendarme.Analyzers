@@ -20,7 +20,6 @@ public sealed class MarshalStringsInPInvokeDeclarationsAnalyzer : DiagnosticAnal
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
@@ -31,37 +30,62 @@ public sealed class MarshalStringsInPInvokeDeclarationsAnalyzer : DiagnosticAnal
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
 
-        // Check if the method is a P/Invoke method by verifying the DllImportAttribute
-        var dllImportAttribute = methodSymbol.GetAttributes().FirstOrDefault(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.DllImportAttribute");
-        if (dllImportAttribute == null)
+        var dllImportAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices.DllImportAttribute");
+        if (dllImportAttributeType is null)
+        {
             return;
+        }
+
+        var marshalAsAttributeType = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices.MarshalAsAttribute");
+        var stringBuilderType = context.Compilation.GetTypeByMetadataName("System.Text.StringBuilder");
+
+        var dllImportAttribute = methodSymbol.GetAttributes()
+            .FirstOrDefault(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, dllImportAttributeType));
+        if (dllImportAttribute is null)
+        {
+            return;
+        }
 
         var hasCharSet = dllImportAttribute.NamedArguments.Any(arg => arg.Key == "CharSet");
-        var hasStringParameters = methodSymbol.Parameters.Any(p => IsStringType(p.Type));
+        var hasStringParameters = methodSymbol.Parameters
+            .Any(parameter => IsStringType(parameter.Type, stringBuilderType));
 
-        if (!hasCharSet && hasStringParameters)
+        if (hasCharSet || !hasStringParameters)
         {
-            foreach (var parameter in methodSymbol.Parameters)
+            return;
+        }
+
+        foreach (var parameter in methodSymbol.Parameters)
+        {
+            if (!IsStringType(parameter.Type, stringBuilderType))
             {
-                if (IsStringType(parameter.Type))
-                {
-                    var hasMarshalAs = parameter.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.MarshalAsAttribute");
-                    if (!hasMarshalAs)
-                    {
-                        var location = parameter.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax().GetLocation();
-                        if (location != null)
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, location, parameter.Name);
-                            context.ReportDiagnostic(diagnostic);
-                        }
-                    }
-                }
+                continue;
+            }
+
+            var hasMarshalAs = parameter.GetAttributes().Any(attribute =>
+                marshalAsAttributeType is not null
+                    ? SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, marshalAsAttributeType)
+                    : attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.MarshalAsAttribute");
+
+            if (hasMarshalAs)
+            {
+                continue;
+            }
+
+            var location = parameter.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax(context.CancellationToken)?.GetLocation();
+            if (location is not null)
+            {
+                var diagnostic = Diagnostic.Create(Rule, location, parameter.Name);
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }
 
-    private static bool IsStringType(ITypeSymbol type)
+    private static bool IsStringType(ITypeSymbol? type, INamedTypeSymbol? stringBuilderType)
     {
-        return type.SpecialType == SpecialType.System_String || type.ToString() == "System.Text.StringBuilder";
+        return type is not null &&
+               (type.SpecialType == SpecialType.System_String ||
+                (stringBuilderType is not null && SymbolEqualityComparer.Default.Equals(type, stringBuilderType)) ||
+                type.ToDisplayString() == "System.Text.StringBuilder");
     }
 }

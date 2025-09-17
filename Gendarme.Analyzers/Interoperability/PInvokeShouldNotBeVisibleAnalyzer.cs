@@ -20,7 +20,6 @@ public sealed class PInvokeShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
@@ -31,16 +30,23 @@ public sealed class PInvokeShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
 
-        // Check for the presence of the DllImportAttribute to identify P/Invoke methods
-        var hasDllImport = methodSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.DllImportAttribute");
-        if (!hasDllImport)
+        var dllImportAttribute = context.Compilation.GetTypeByMetadataName("System.Runtime.InteropServices.DllImportAttribute");
+        if (dllImportAttribute is null)
+        {
             return;
+        }
 
-        // Check if the method's visibility is public or protected
+        var hasDllImport = methodSymbol.GetAttributes()
+            .Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, dllImportAttribute));
+        if (!hasDllImport)
+        {
+            return;
+        }
+
         if (methodSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal)
         {
             var location = methodSymbol.Locations.FirstOrDefault();
-            if (location != null)
+            if (location is not null)
             {
                 var diagnostic = Diagnostic.Create(Rule, location, methodSymbol.Name);
                 context.ReportDiagnostic(diagnostic);

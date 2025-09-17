@@ -16,49 +16,61 @@ public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private const int MinimumFieldCount = 5; // Configurable
-    private const int MinimumMethodCount = 5; // Configurable
-    private const double SuccessLowerLimit = 0.5; // Configurable
+    private const int MinimumFieldCount = 5;
+    private const int MinimumMethodCount = 5;
+    private const double SuccessLowerLimit = 0.5;
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
         context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
     {
-        var typeSymbol = (INamedTypeSymbol)context.Symbol;
+        if (context.Symbol is not INamedTypeSymbol typeSymbol)
+        {
+            return;
+        }
 
         if (typeSymbol.TypeKind != TypeKind.Class)
+        {
             return;
+        }
 
-        var fields = typeSymbol.GetMembers().OfType<IFieldSymbol>().Where(f => !f.IsStatic).ToList();
-        var methods = typeSymbol.GetMembers().OfType<IMethodSymbol>().Where(m => m is { IsStatic: false, MethodKind: MethodKind.Ordinary }).ToList();
+        var fields = typeSymbol.GetMembers().OfType<IFieldSymbol>().Where(field => !field.IsStatic).ToList();
+        var methods = typeSymbol.GetMembers().OfType<IMethodSymbol>()
+            .Where(method => method is { IsStatic: false, MethodKind: MethodKind.Ordinary })
+            .ToList();
 
         if (fields.Count < MinimumFieldCount || methods.Count < MinimumMethodCount)
-            return;
-
-        // Use the semantic model from the context's compilation
-        var semanticModel = context.Compilation.GetSemanticModel(context.Symbol.DeclaringSyntaxReferences.First().SyntaxTree);
-
-        // Calculate the lack of cohesion of methods (LCOM) metric
-        int methodPairs = 0;
-        int disjointMethodPairs = 0;
-
-        for (int i = 0; i < methods.Count; i++)
         {
-            for (int j = i + 1; j < methods.Count; j++)
+            return;
+        }
+
+        var location = typeSymbol.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var methodPairs = 0;
+        var disjointMethodPairs = 0;
+
+        for (var i = 0; i < methods.Count; i++)
+        {
+            for (var j = i + 1; j < methods.Count; j++)
             {
+                context.CancellationToken.ThrowIfCancellationRequested();
+
                 methodPairs++;
 
-                var fieldsUsedByMethod1 = GetFieldsUsedByMethod(methods[i], semanticModel);
-                var fieldsUsedByMethod2 = GetFieldsUsedByMethod(methods[j], semanticModel);
+                var fieldsUsedByMethod1 = GetFieldsUsedByMethod(methods[i], context.Compilation, context.CancellationToken);
+                var fieldsUsedByMethod2 = GetFieldsUsedByMethod(methods[j], context.Compilation, context.CancellationToken);
 
                 if (!fieldsUsedByMethod1.Intersect(fieldsUsedByMethod2).Any())
                 {
@@ -68,37 +80,45 @@ public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
         }
 
         if (methodPairs == 0)
+        {
             return;
+        }
 
-        double levelOfComplexity = (double)disjointMethodPairs / methodPairs;
+        var levelOfComplexity = (double)disjointMethodPairs / methodPairs;
 
         if (levelOfComplexity > SuccessLowerLimit)
         {
-            var diagnostic = Diagnostic.Create(Rule, typeSymbol.Locations[0], typeSymbol.Name, levelOfComplexity.ToString("F2"));
+            var diagnostic = Diagnostic.Create(Rule, location, typeSymbol.Name, levelOfComplexity.ToString("F2"));
             context.ReportDiagnostic(diagnostic);
         }
     }
 
-    private static ImmutableHashSet<string> GetFieldsUsedByMethod(IMethodSymbol methodSymbol, SemanticModel semanticModel)
+    private static ImmutableHashSet<string> GetFieldsUsedByMethod(IMethodSymbol methodSymbol, Compilation compilation, CancellationToken cancellationToken)
     {
-        var fieldsUsed = ImmutableHashSet.CreateBuilder<string>();
+        var builder = ImmutableHashSet.CreateBuilder<string>(StringComparer.Ordinal);
 
-        foreach (var syntaxRef in methodSymbol.DeclaringSyntaxReferences)
+        foreach (var syntaxReference in methodSymbol.DeclaringSyntaxReferences)
         {
-            if (syntaxRef.GetSyntax() is not MethodDeclarationSyntax methodSyntax)
-                continue;
+            cancellationToken.ThrowIfCancellationRequested();
 
-            var fieldAccesses = methodSyntax.DescendantNodes()
-                .OfType<IdentifierNameSyntax>()
-                .Select(id => semanticModel.GetSymbolInfo(id).Symbol as IFieldSymbol)
-                .Where(field => field is { IsStatic: false } && field.ContainingType.Equals(methodSymbol.ContainingType));
-
-            foreach (var field in fieldAccesses)
+            if (syntaxReference.GetSyntax(cancellationToken) is not MethodDeclarationSyntax methodSyntax)
             {
-                fieldsUsed.Add(field.Name);
+                continue;
+            }
+
+            var semanticModel = compilation.GetSemanticModel(methodSyntax.SyntaxTree);
+
+            foreach (var identifier in methodSyntax.DescendantNodes().OfType<IdentifierNameSyntax>())
+            {
+                var symbol = semanticModel.GetSymbolInfo(identifier, cancellationToken).Symbol as IFieldSymbol;
+                if (symbol is { IsStatic: false } field &&
+                    SymbolEqualityComparer.Default.Equals(field.ContainingType, methodSymbol.ContainingType))
+                {
+                    builder.Add(field.Name);
+                }
             }
         }
 
-        return fieldsUsed.ToImmutable();
+        return builder.ToImmutable();
     }
 }

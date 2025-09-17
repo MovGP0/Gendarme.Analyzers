@@ -18,35 +18,50 @@ public sealed class DoNotExposeMethodsProtectedByLinkDemandAnalyzer : Diagnostic
         isEnabledByDefault: true,
         description: Description);
 
+    private const string CodeAccessSecurityAttributeName = "System.Security.Permissions.CodeAccessSecurityAttribute";
+    private const string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method bodies
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
     }
 
-    private void AnalyzeInvocation(OperationAnalysisContext context)
+    private static void AnalyzeInvocation(OperationAnalysisContext context)
     {
-        var invocation = (IInvocationOperation)context.Operation;
+        if (context.Operation is not IInvocationOperation invocation)
+        {
+            return;
+        }
 
         var targetMethod = invocation.TargetMethod;
-        var callerMethod = invocation.SemanticModel.GetEnclosingSymbol(invocation.Syntax.SpanStart) as IMethodSymbol;
-
-        if (targetMethod == null || callerMethod == null)
+        if (targetMethod is null)
+        {
             return;
+        }
 
-        // Check if the target method is protected by a LinkDemand
-        var targetHasLinkDemand = HasLinkDemand(targetMethod.GetAttributes());
-
-        if (!targetHasLinkDemand)
+        if (context.ContainingSymbol is not IMethodSymbol callerMethod)
+        {
             return;
+        }
 
-        // Check if the caller method has weaker security
-        var callerSecurityLevel = GetSecurityLevel(callerMethod.GetAttributes());
-        var targetSecurityLevel = GetSecurityLevel(targetMethod.GetAttributes());
+        var codeAccessSecurityAttributeType = context.Compilation.GetTypeByMetadataName(CodeAccessSecurityAttributeName);
+        var securityActionType = context.Compilation.GetTypeByMetadataName(SecurityActionTypeName);
+        if (codeAccessSecurityAttributeType is null || securityActionType is null)
+        {
+            return;
+        }
+
+        if (!HasLinkDemand(targetMethod.GetAttributes(), codeAccessSecurityAttributeType, securityActionType))
+        {
+            return;
+        }
+
+        var callerSecurityLevel = GetSecurityLevel(callerMethod.GetAttributes(), codeAccessSecurityAttributeType, securityActionType);
+        var targetSecurityLevel = GetSecurityLevel(targetMethod.GetAttributes(), codeAccessSecurityAttributeType, securityActionType);
 
         if (callerSecurityLevel < targetSecurityLevel)
         {
@@ -55,42 +70,55 @@ public sealed class DoNotExposeMethodsProtectedByLinkDemandAnalyzer : Diagnostic
         }
     }
 
-    private bool HasLinkDemand(ImmutableArray<AttributeData> attributes)
+    private static bool HasLinkDemand(
+        ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol codeAccessSecurityAttributeType,
+        INamedTypeSymbol securityActionType)
     {
-        return attributes.Any(attr => IsSecurityAttribute(attr) && GetSecurityAction(attr) == SecurityAction.LinkDemand);
+        return attributes.Any(attribute =>
+            IsSecurityAttribute(attribute, codeAccessSecurityAttributeType) &&
+            GetSecurityAction(attribute, securityActionType) == SecurityAction.LinkDemand);
     }
 
-    private int GetSecurityLevel(ImmutableArray<AttributeData> attributes)
+    private static int GetSecurityLevel(
+        ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol codeAccessSecurityAttributeType,
+        INamedTypeSymbol securityActionType)
     {
-        // Simplified security level determination
-        if (attributes.Any(attr => IsSecurityAttribute(attr) && GetSecurityAction(attr) == SecurityAction.LinkDemand))
-            return 2; // Higher security
-        else
-            return 1; // Lower security
+        return HasLinkDemand(attributes, codeAccessSecurityAttributeType, securityActionType) ? 2 : 1;
     }
 
-    private bool IsSecurityAttribute(AttributeData attribute)
+    private static bool IsSecurityAttribute(AttributeData attribute, INamedTypeSymbol codeAccessSecurityAttributeType)
     {
-        var baseType = attribute.AttributeClass;
-        while (baseType != null)
+        var current = attribute.AttributeClass;
+        while (current is not null)
         {
-            if (baseType.ToDisplayString() == "System.Security.Permissions.CodeAccessSecurityAttribute")
+            if (SymbolEqualityComparer.Default.Equals(current, codeAccessSecurityAttributeType))
+            {
                 return true;
-            baseType = baseType.BaseType;
+            }
+
+            current = current.BaseType;
         }
+
         return false;
     }
 
-    private SecurityAction? GetSecurityAction(AttributeData attribute)
+    private static SecurityAction? GetSecurityAction(AttributeData attribute, INamedTypeSymbol securityActionType)
     {
-        if (attribute.ConstructorArguments.Length > 0)
+        if (attribute.ConstructorArguments.Length == 0)
         {
-            var arg = attribute.ConstructorArguments[0];
-            if (arg.Type.Name == "SecurityAction" && arg.Value != null)
-            {
-                return (SecurityAction)(int)arg.Value;
-            }
+            return null;
         }
+
+        var argument = attribute.ConstructorArguments[0];
+        if (argument.Type is not null &&
+            SymbolEqualityComparer.Default.Equals(argument.Type, securityActionType) &&
+            argument.Value is int value)
+        {
+            return (SecurityAction)value;
+        }
+
         return null;
     }
 }

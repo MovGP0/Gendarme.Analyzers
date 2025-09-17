@@ -20,38 +20,52 @@ public sealed class ImplementISerializableCorrectlyAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
     {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        if (!namedType.AllInterfaces.Any(i => i.ToDisplayString() == "System.Runtime.Serialization.ISerializable"))
-            return;
-
-        // Check if GetObjectData is virtual if the type is not sealed
-        var getObjectDataMethod = namedType.GetMembers("GetObjectData").OfType<IMethodSymbol>().FirstOrDefault();
-
-        if (getObjectDataMethod != null)
+        if (context.Symbol is not INamedTypeSymbol namedType)
         {
-            if (!namedType.IsSealed && !getObjectDataMethod.IsVirtual)
-            {
-                var diagnostic = Diagnostic.Create(Rule, getObjectDataMethod.Locations[0], namedType.Name);
-                context.ReportDiagnostic(diagnostic);
-            }
+            return;
         }
 
-        // Check if all instance fields are serialized
-        namedType.GetMembers().OfType<IFieldSymbol>()
-            .Where(f => f is { IsStatic: false, IsImplicitlyDeclared: false, IsConst: false } &&
-                        !f.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.NonSerializedAttribute"));
+        var iSerializableType = context.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.ISerializable");
+        if (iSerializableType is null)
+        {
+            return;
+        }
 
-        // Assume that the GetObjectData method serializes all fields (complex to verify)
-        // For the purpose of this analyzer, we can warn if any fields are not serialized
-        // In a real analyzer, data flow analysis would be needed
+        var implementsISerializable = namedType.AllInterfaces
+            .Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, iSerializableType));
+        if (!implementsISerializable)
+        {
+            return;
+        }
+
+        var getObjectDataMethods = namedType.GetMembers("GetObjectData").OfType<IMethodSymbol>().ToList();
+        if (getObjectDataMethods.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var method in getObjectDataMethods)
+        {
+            if (namedType.IsSealed || method.IsVirtual)
+            {
+                continue;
+            }
+
+            var location = method.Locations.FirstOrDefault();
+            if (location is null)
+            {
+                continue;
+            }
+
+            var diagnostic = Diagnostic.Create(Rule, location, namedType.Name);
+            context.ReportDiagnostic(diagnostic);
+        }
     }
 }

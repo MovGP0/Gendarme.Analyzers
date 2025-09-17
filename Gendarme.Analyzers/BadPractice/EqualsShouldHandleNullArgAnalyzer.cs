@@ -29,15 +29,24 @@ public sealed class EqualsShouldHandleNullArgAnalyzer : DiagnosticAnalyzer
     {
         var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-        // Check if the method is named 'Equals' and has one parameter of type 'object'
         if (methodDeclaration.Identifier.Text != "Equals" ||
-            methodDeclaration.ParameterList.Parameters.Count != 1 ||
-            !methodDeclaration.ParameterList.Parameters[0].Type.ToString().Equals("object", StringComparison.Ordinal))
+            methodDeclaration.ParameterList.Parameters.Count != 1)
         {
             return;
         }
 
-        // Check if the method returns bool
+        var parameter = methodDeclaration.ParameterList.Parameters[0];
+        if (parameter.Type is null)
+        {
+            return;
+        }
+
+        var parameterType = context.SemanticModel.GetTypeInfo(parameter.Type).Type;
+        if (parameterType is not { SpecialType: SpecialType.System_Object })
+        {
+            return;
+        }
+
         var returnType = context.SemanticModel.GetTypeInfo(methodDeclaration.ReturnType).Type;
         if (returnType is not { SpecialType: SpecialType.System_Boolean }
             || methodDeclaration.Body is not { } body)
@@ -45,14 +54,13 @@ public sealed class EqualsShouldHandleNullArgAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if the method contains a null check for the parameter
         foreach (var statement in body.Statements)
         {
             if (statement is IfStatementSyntax { Condition: BinaryExpressionSyntax binaryExpression } &&
                 binaryExpression.IsKind(SyntaxKind.EqualsExpression) &&
                 binaryExpression.Right.IsKind(SyntaxKind.NullLiteralExpression) &&
                 binaryExpression.Left is IdentifierNameSyntax identifier &&
-                identifier.Identifier.Text == methodDeclaration.ParameterList.Parameters[0].Identifier.Text)
+                identifier.Identifier.Text == parameter.Identifier.Text)
             {
                 return;
             }

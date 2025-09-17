@@ -18,7 +18,7 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex NonAlphanumericRegex = new Regex(
+    private static readonly Regex NonAlphanumericRegex = new(
         "[^a-zA-Z0-9]",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
@@ -26,7 +26,6 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Standard Roslyn analyzer initialization
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
@@ -38,21 +37,30 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
         var symbol = context.Symbol;
         var name = symbol.Name;
 
-        // Ignore if the symbol is an interface used for COM interop
         if (symbol is INamedTypeSymbol { TypeKind: TypeKind.Interface } namedTypeSymbol)
         {
-            var hasInterfaceType = namedTypeSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.InterfaceTypeAttribute");
-            var hasGuid = namedTypeSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.GuidAttribute");
+            var hasInterfaceType = namedTypeSymbol.GetAttributes()
+                .Any(attribute => attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.InterfaceTypeAttribute");
+            var hasGuid = namedTypeSymbol.GetAttributes()
+                .Any(attribute => attribute.AttributeClass?.ToDisplayString() == "System.Runtime.InteropServices.GuidAttribute");
             if (hasInterfaceType && hasGuid)
             {
                 return;
             }
         }
 
-        if (NonAlphanumericRegex.IsMatch(name))
+        if (!NonAlphanumericRegex.IsMatch(name))
         {
-            var diagnostic = Diagnostic.Create(Rule, symbol.Locations[0], name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var location = symbol.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, name);
+        context.ReportDiagnostic(diagnostic);
     }
 }

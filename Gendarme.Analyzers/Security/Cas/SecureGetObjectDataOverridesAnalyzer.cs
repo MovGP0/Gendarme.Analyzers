@@ -17,55 +17,70 @@ public sealed class SecureGetObjectDataOverridesAnalyzer : DiagnosticAnalyzer
         description: Description);
 
     private const string ISerializableTypeName = "System.Runtime.Serialization.ISerializable";
+    private const string SecurityPermissionAttributeName = "System.Security.Permissions.SecurityPermissionAttribute";
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze methods
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
     }
 
-    private void AnalyzeMethodSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeMethodSymbol(SymbolAnalysisContext context)
     {
-        var method = (IMethodSymbol)context.Symbol;
-
-        if (method.Name != "GetObjectData")
-            return;
-
-        if (method.Parameters.Length != 2)
-            return;
-
-        if (!method.ContainingType.AllInterfaces.Any(i => i.ToDisplayString() == ISerializableTypeName))
-            return;
-
-        // Check if method is protected with SerializationFormatter permission
-        var hasSecurityAttribute = method.GetAttributes()
-            .Any(attr => IsSecurityAttribute(attr) && HasSerializationFormatterPermission(attr));
-
-        if (!hasSecurityAttribute)
+        if (context.Symbol is not IMethodSymbol method || method.ContainingType is null)
         {
-            var diagnostic = Diagnostic.Create(Rule, method.Locations[0], method.ContainingType.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
-    }
 
-    private bool IsSecurityAttribute(AttributeData attribute)
-    {
-        var attrName = attribute.AttributeClass.ToDisplayString();
-        return attrName == "System.Security.Permissions.SecurityPermissionAttribute";
-    }
-
-    private bool HasSerializationFormatterPermission(AttributeData attribute)
-    {
-        var namedArgs = attribute.NamedArguments;
-        foreach (var arg in namedArgs)
+        if (!string.Equals(method.Name, "GetObjectData", StringComparison.Ordinal) || method.Parameters.Length != 2)
         {
-            if (arg is { Key: "SerializationFormatter", Value.Value: bool and true })
+            return;
+        }
+
+        var iSerializableType = context.Compilation.GetTypeByMetadataName(ISerializableTypeName);
+        var securityPermissionAttributeType = context.Compilation.GetTypeByMetadataName(SecurityPermissionAttributeName);
+        if (iSerializableType is null || securityPermissionAttributeType is null)
+        {
+            return;
+        }
+
+        if (!method.ContainingType.AllInterfaces.Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, iSerializableType)))
+        {
+            return;
+        }
+
+        var hasRequiredSecurityAttribute = method.GetAttributes().Any(attribute =>
+            SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, securityPermissionAttributeType) &&
+            HasSerializationFormatterPermission(attribute));
+
+        if (hasRequiredSecurityAttribute)
+        {
+            return;
+        }
+
+        var location = method.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, method.ContainingType.Name);
+        context.ReportDiagnostic(diagnostic);
+    }
+
+    private static bool HasSerializationFormatterPermission(AttributeData attribute)
+    {
+        foreach (var argument in attribute.NamedArguments)
+        {
+            if (argument is { Key: "SerializationFormatter", Value.Value: true })
+            {
                 return true;
+            }
         }
+
         return false;
     }
 }

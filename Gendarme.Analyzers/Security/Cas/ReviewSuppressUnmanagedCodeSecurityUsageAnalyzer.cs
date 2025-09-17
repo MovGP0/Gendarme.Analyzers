@@ -22,23 +22,35 @@ public sealed class ReviewSuppressUnmanagedCodeSecurityUsageAnalyzer : Diagnosti
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types and methods
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType, SymbolKind.Method);
     }
 
-    private void AnalyzeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeSymbol(SymbolAnalysisContext context)
     {
-        var symbol = context.Symbol;
-
-        var hasSuppressAttribute = symbol.GetAttributes()
-            .Any(attr => attr.AttributeClass.ToDisplayString() == SuppressUnmanagedCodeSecurityAttributeName);
-
-        if (hasSuppressAttribute)
+        var suppressAttributeType = context.Compilation.GetTypeByMetadataName(SuppressUnmanagedCodeSecurityAttributeName);
+        if (suppressAttributeType is null)
         {
-            var diagnostic = Diagnostic.Create(Rule, symbol.Locations[0], symbol.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var symbol = context.Symbol;
+        var hasSuppressAttribute = symbol.GetAttributes()
+            .Any(attribute => SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, suppressAttributeType));
+
+        if (!hasSuppressAttribute)
+        {
+            return;
+        }
+
+        var location = symbol.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, symbol.Name);
+        context.ReportDiagnostic(diagnostic);
     }
 }

@@ -17,39 +17,58 @@ public sealed class UseCorrectSignatureForSerializationMethodsAnalyzer : Diagnos
         description: Description);
 
     private static readonly ImmutableHashSet<string> SerializationAttributes = ImmutableHashSet.Create(
+        StringComparer.Ordinal,
         "System.Runtime.Serialization.OnSerializingAttribute",
         "System.Runtime.Serialization.OnSerializedAttribute",
         "System.Runtime.Serialization.OnDeserializingAttribute",
-        "System.Runtime.Serialization.OnDeserializedAttribute"
-    );
+        "System.Runtime.Serialization.OnDeserializedAttribute");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze methods
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
     }
 
-    private void AnalyzeMethodSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeMethodSymbol(SymbolAnalysisContext context)
     {
-        var method = (IMethodSymbol)context.Symbol;
+        if (context.Symbol is not IMethodSymbol method)
+        {
+            return;
+        }
 
         var hasSerializationAttribute = method.GetAttributes()
-            .Any(attr => SerializationAttributes.Contains(attr.AttributeClass.ToDisplayString()));
+            .Any(attribute => attribute.AttributeClass is not null &&
+                               SerializationAttributes.Contains(attribute.AttributeClass.ToDisplayString()));
 
         if (!hasSerializationAttribute)
-            return;
-
-        if (method.DeclaredAccessibility != Accessibility.Private ||
-            method.ReturnType.SpecialType != SpecialType.System_Void ||
-            method.Parameters.Length != 1 ||
-            method.Parameters[0].Type.ToDisplayString() != "System.Runtime.Serialization.StreamingContext")
         {
-            var diagnostic = Diagnostic.Create(Rule, method.Locations[0], method.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var streamingContextType = context.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.StreamingContext");
+        var parameterType = method.Parameters.Length == 1 ? method.Parameters[0].Type : null;
+
+        var isValidSignature = method.DeclaredAccessibility == Accessibility.Private &&
+                               method.ReturnType.SpecialType == SpecialType.System_Void &&
+                               method.Parameters.Length == 1 &&
+                               parameterType is not null &&
+                               (streamingContextType is null || SymbolEqualityComparer.Default.Equals(parameterType, streamingContextType));
+
+        if (isValidSignature)
+        {
+            return;
+        }
+
+        var location = method.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, method.Name);
+        context.ReportDiagnostic(diagnostic);
     }
 }

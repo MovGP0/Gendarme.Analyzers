@@ -19,50 +19,65 @@ public sealed class PreferCharOverloadAnalyzer : DiagnosticAnalyzer
         description: Description);
 
     private static readonly ImmutableHashSet<string> TargetMethods = ImmutableHashSet.Create(
+        StringComparer.Ordinal,
         "IndexOf",
         "LastIndexOf",
         "StartsWith",
         "EndsWith",
         "Contains",
         "Split",
-        "Replace"
-    );
+        "Replace");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method invocations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
     }
 
-    private void AnalyzeInvocation(OperationAnalysisContext context)
+    private static void AnalyzeInvocation(OperationAnalysisContext context)
     {
-        var invocation = (IInvocationOperation)context.Operation;
-
-        if (invocation.Instance == null || invocation.Instance.Type.SpecialType != SpecialType.System_String)
-            return;
-
-        var methodName = invocation.TargetMethod.Name;
-
-        if (!TargetMethods.Contains(methodName))
-            return;
-
-        if (invocation.Arguments.Length == 1)
+        if (context.Operation is not IInvocationOperation invocation)
         {
-            var argument = invocation.Arguments[0];
-            if (argument.Value.ConstantValue.HasValue && argument.Value.Type.SpecialType == SpecialType.System_String)
-            {
-                var value = argument.Value.ConstantValue.Value as string;
-                if (!string.IsNullOrEmpty(value) && value.Length == 1)
-                {
-                    // Suggest using char overload
-                    var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), methodName, "string");
-                    context.ReportDiagnostic(diagnostic);
-                }
-            }
+            return;
         }
+
+        if (invocation.Instance is not { Type.SpecialType: SpecialType.System_String })
+        {
+            return;
+        }
+
+        var targetMethod = invocation.TargetMethod;
+        if (targetMethod is null || !TargetMethods.Contains(targetMethod.Name))
+        {
+            return;
+        }
+
+        if (invocation.Arguments.Length != 1)
+        {
+            return;
+        }
+
+        var argument = invocation.Arguments[0];
+        var argumentValue = argument.Value;
+        if (argumentValue is null || argumentValue.Type?.SpecialType != SpecialType.System_String)
+        {
+            return;
+        }
+
+        if (argumentValue.ConstantValue is not { HasValue: true, Value: string stringValue })
+        {
+            return;
+        }
+
+        if (stringValue.Length != 1)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), targetMethod.Name, "string");
+        context.ReportDiagnostic(diagnostic);
     }
 }

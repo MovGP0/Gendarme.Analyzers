@@ -28,12 +28,24 @@ public class AvoidMethodWithUnusedGenericTypeAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
         var methodDeclaration = (MethodDeclarationSyntax)context.Node;
-        if (!methodDeclaration.TypeParameterList?.Parameters.Any() ?? true) return;
 
-        foreach (var typeParam in methodDeclaration.TypeParameterList.Parameters)
+        var typeParameterList = methodDeclaration.TypeParameterList;
+        if (typeParameterList is null || typeParameterList.Parameters.Count == 0)
         {
-            var isUsedInParameters = methodDeclaration.ParameterList.Parameters
-                .Any(p => p.Type?.ToString().Contains(typeParam.Identifier.Text) ?? false);
+            return;
+        }
+
+        var parameterList = methodDeclaration.ParameterList;
+        if (parameterList is null)
+        {
+            return;
+        }
+
+        foreach (var typeParam in typeParameterList.Parameters)
+        {
+            var isUsedInParameters = parameterList.Parameters
+                .Any(parameter => parameter.Type is { } parameterType &&
+                                   parameterType.ToString().IndexOf(typeParam.Identifier.Text, StringComparison.Ordinal) >= 0);
 
             if (!isUsedInParameters)
             {
@@ -43,3 +55,4 @@ public class AvoidMethodWithUnusedGenericTypeAnalyzer : DiagnosticAnalyzer
         }
     }
 }
+

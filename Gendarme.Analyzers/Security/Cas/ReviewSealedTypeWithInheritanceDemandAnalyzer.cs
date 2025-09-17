@@ -64,7 +64,7 @@ public sealed class ReviewSealedTypeWithInheritanceDemandAnalyzer : DiagnosticAn
         if (attribute.ConstructorArguments.Length > 0)
         {
             var arg = attribute.ConstructorArguments[0];
-            if (arg.Type.Name == "SecurityAction" && arg.Value != null)
+            if (arg is { Type.Name: "SecurityAction", Value: not null })
             {
                 return (SecurityAction)(int)arg.Value;
             }

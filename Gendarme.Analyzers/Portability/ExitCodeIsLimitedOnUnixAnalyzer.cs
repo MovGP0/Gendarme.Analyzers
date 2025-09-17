@@ -22,7 +22,6 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method returns, assignments, and invocations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 
@@ -33,17 +32,17 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeReturnStatement(OperationAnalysisContext context)
     {
-        var returnOperation = (IReturnOperation)context.Operation;
-
-        if (returnOperation.SemanticModel.GetEnclosingSymbol(returnOperation.Syntax.SpanStart) is IMethodSymbol { Name: "Main", ReturnType.SpecialType: SpecialType.System_Int32 })
+        if (context.ContainingSymbol is not IMethodSymbol { Name: "Main", ReturnType.SpecialType: SpecialType.System_Int32 })
         {
-            // Check if return value is a constant out of range 0-255
-            var returnedValue = returnOperation.ReturnedValue;
-            if (returnedValue is { ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } })
-            {
-                var diagnostic = Diagnostic.Create(Rule, returnOperation.Syntax.GetLocation());
-                context.ReportDiagnostic(diagnostic);
-            }
+            return;
+        }
+
+        var returnOperation = (IReturnOperation)context.Operation;
+        var returnedValue = returnOperation.ReturnedValue;
+        if (returnedValue is { ConstantValue: { HasValue: true, Value: int value } } && (value < 0 || value > 255))
+        {
+            var diagnostic = Diagnostic.Create(Rule, returnOperation.Syntax.GetLocation());
+            context.ReportDiagnostic(diagnostic);
         }
     }
 
@@ -51,18 +50,27 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
     {
         var assignmentOperation = (ISimpleAssignmentOperation)context.Operation;
 
-        if (assignmentOperation.Target is IPropertyReferenceOperation propertyReference)
+        if (assignmentOperation.Target is not IPropertyReferenceOperation { Property: { } property })
         {
-            if (propertyReference.Property.Name == "ExitCode" && propertyReference.Property.ContainingType.Name == "Environment")
-            {
-                // Check if assigned value is a constant out of range 0-255
-                var assignedValue = assignmentOperation.Value;
-                if (assignedValue is { ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } })
-                {
-                    var diagnostic = Diagnostic.Create(Rule, assignmentOperation.Syntax.GetLocation());
-                    context.ReportDiagnostic(diagnostic);
-                }
-            }
+            return;
+        }
+
+        if (property.Name != "ExitCode")
+        {
+            return;
+        }
+
+        var containingType = property.ContainingType;
+        if (containingType is null || containingType.Name != "Environment")
+        {
+            return;
+        }
+
+        var assignedValue = assignmentOperation.Value;
+        if (assignedValue is { ConstantValue: { HasValue: true, Value: int value } } && (value < 0 || value > 255))
+        {
+            var diagnostic = Diagnostic.Create(Rule, assignmentOperation.Syntax.GetLocation());
+            context.ReportDiagnostic(diagnostic);
         }
     }
 
@@ -70,13 +78,21 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
     {
         var invocationOperation = (IInvocationOperation)context.Operation;
 
-        if (invocationOperation.TargetMethod.Name == "Exit" && invocationOperation.TargetMethod.ContainingType.Name == "Environment")
+        if (invocationOperation.TargetMethod is not { Name: "Exit", ContainingType: { } containingType })
         {
-            if (invocationOperation.Arguments is [{ Value.ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } }])
-            {
-                var diagnostic = Diagnostic.Create(Rule, invocationOperation.Syntax.GetLocation());
-                context.ReportDiagnostic(diagnostic);
-            }
+            return;
+        }
+
+        if (containingType.Name != "Environment")
+        {
+            return;
+        }
+
+        var argument = invocationOperation.Arguments.FirstOrDefault();
+        if (argument?.Value is { ConstantValue: { HasValue: true, Value: int value } } && (value < 0 || value > 255))
+        {
+            var diagnostic = Diagnostic.Create(Rule, invocationOperation.Syntax.GetLocation());
+            context.ReportDiagnostic(diagnostic);
         }
     }
 }

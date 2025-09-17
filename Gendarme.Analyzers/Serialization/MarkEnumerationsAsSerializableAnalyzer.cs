@@ -20,23 +20,36 @@ public sealed class MarkEnumerationsAsSerializableAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
     {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        if (namedType.TypeKind != TypeKind.Enum)
-            return;
-
-        if (!namedType.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.SerializableAttribute"))
+        if (context.Symbol is not INamedTypeSymbol namedType || namedType.TypeKind != TypeKind.Enum)
         {
-            var diagnostic = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name);
-            context.ReportDiagnostic(diagnostic);
+            return;
         }
+
+        var serializableAttributeType = context.Compilation.GetTypeByMetadataName("System.SerializableAttribute");
+        var hasSerializableAttribute = namedType.GetAttributes().Any(attribute =>
+            serializableAttributeType is not null
+                ? SymbolEqualityComparer.Default.Equals(attribute.AttributeClass, serializableAttributeType)
+                : attribute.AttributeClass?.ToDisplayString() == "System.SerializableAttribute");
+
+        if (hasSerializableAttribute)
+        {
+            return;
+        }
+
+        var location = namedType.Locations.FirstOrDefault();
+        if (location is null)
+        {
+            return;
+        }
+
+        var diagnostic = Diagnostic.Create(Rule, location, namedType.Name);
+        context.ReportDiagnostic(diagnostic);
     }
 }
