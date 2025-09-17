@@ -51,7 +51,13 @@ public sealed class UsePreferredTermsAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType, SymbolKind.Method, SymbolKind.Property, SymbolKind.Field, SymbolKind.Event, SymbolKind.Namespace, SymbolKind.Assembly);
+        context.RegisterSymbolAction(AnalyzeSymbol,
+            SymbolKind.NamedType,
+            SymbolKind.Method,
+            SymbolKind.Property,
+            SymbolKind.Field,
+            SymbolKind.Event,
+            SymbolKind.Namespace);
     }
 
     private static void AnalyzeSymbol(SymbolAnalysisContext context)
