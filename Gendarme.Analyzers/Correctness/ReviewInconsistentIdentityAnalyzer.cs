@@ -1,4 +1,4 @@
-using Gendarme.Analyzers.Extensions;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Gendarme.Analyzers.Correctness;
 
@@ -24,90 +24,90 @@ public sealed class ReviewInconsistentIdentityAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
+
+        context.RegisterCompilationStartAction(StartAnalysis);
     }
 
-    private static void AnalyzeSymbol(SymbolAnalysisContext context)
+    private static void StartAnalysis(CompilationStartAnalysisContext context)
     {
-        var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
+        var methodFieldUsages = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<ISymbol>>(SymbolEqualityComparer.Default);
 
-        var methods = namedTypeSymbol
-            .GetMembers()
-            .OfType<IMethodSymbol>()
-            .ToImmutableArray();
-
-        var equalsMethods = methods.Where(m => m is { Name: "Equals", Parameters.Length: 1 }).ToList();
-        var getHashCodeMethods = methods.Where(m => m is { Name: "GetHashCode", Parameters.Length: 0 }).ToList();
-        var compareToMethods = methods.Where(m => m is { Name: "CompareTo", Parameters.Length: 1 }).ToList();
-
-        foreach (var method in equalsMethods)
+        context.RegisterOperationBlockStartAction(blockStartContext =>
         {
-            if (UsesSameFields(method, getHashCodeMethods, compareToMethods, context.Compilation))
+            if (blockStartContext.OwningSymbol is not IMethodSymbol methodSymbol)
             {
-                continue;
+                return;
             }
 
-            var diagnostic = Diagnostic.Create(Rule, method.Locations[0], namedTypeSymbol.Name);
-            context.ReportDiagnostic(diagnostic);
-        }
-    }
+            if (methodSymbol.ContainingType is not { } containingType || containingType.TypeKind != TypeKind.Class)
+            {
+                return;
+            }
 
-    private static bool UsesSameFields(
-        IMethodSymbol equalsMethod,
-        IEnumerable<IMethodSymbol> getHashCodeMethods,
-        IEnumerable<IMethodSymbol> compareToMethods,
-        Compilation compilation)
-    {
-        var fieldsUsedInEquals = GetFieldsUsed(equalsMethod, compilation);
-        var fieldsUsedInGetHashCode = getHashCodeMethods.SelectMany(m => GetFieldsUsed(m, compilation)).ToList();
-        var fieldsUsedInCompareTo = compareToMethods.SelectMany(m => GetFieldsUsed(m, compilation)).ToList();
+            if (methodSymbol.MethodKind != MethodKind.Ordinary)
+            {
+                return;
+            }
 
-        return fieldsUsedInEquals.SetEquals(fieldsUsedInGetHashCode)
-               && fieldsUsedInEquals.SetEquals(fieldsUsedInCompareTo);
-    }
+            var accessedFields = ImmutableHashSet.CreateBuilder<ISymbol>(SymbolEqualityComparer.Default);
 
-    private static HashSet<ISymbol> GetFieldsUsed(IMethodSymbol method, Compilation compilation)
-    {
-        var methodSyntaxTree = method.DeclaringSyntaxReferences
-            .FirstOrDefault()?.SyntaxTree;
+            blockStartContext.RegisterOperationAction(operationContext =>
+            {
+                var fieldReference = (IFieldReferenceOperation)operationContext.Operation;
+                var field = fieldReference.Field;
 
-        if (methodSyntaxTree == null)
+                if (!field.IsStatic && SymbolEqualityComparer.Default.Equals(field.ContainingType, containingType))
+                {
+                    accessedFields.Add(field);
+                }
+            }, OperationKind.FieldReference);
+
+            blockStartContext.RegisterOperationBlockEndAction(_ =>
+            {
+                methodFieldUsages[methodSymbol] = accessedFields.ToImmutable();
+            });
+        });
+
+        context.RegisterSymbolAction(symbolContext =>
         {
-            return [];
-        }
+            var namedTypeSymbol = (INamedTypeSymbol)symbolContext.Symbol;
 
-        var methodNode = methodSyntaxTree
-            .GetRoot()
-            .DescendantNodes()
-            .OfType<MethodDeclarationSyntax>()
-            .FirstOrDefault(m => m.Identifier.Text == method.Name);
+            var methods = namedTypeSymbol.GetMembers().OfType<IMethodSymbol>().ToImmutableArray();
 
-        if (methodNode == null)
-        {
-            return [];
-        }
+            var equalsMethods = methods.Where(m => m is { Name: "Equals", Parameters.Length: 1 }).ToList();
+            var getHashCodeMethods = methods.Where(m => m is { Name: "GetHashCode", Parameters.Length: 0 }).ToList();
+            var compareToMethods = methods.Where(m => m is { Name: "CompareTo", Parameters.Length: 1 }).ToList();
 
-        var parentSyntaxTree = method.ContainingType.DeclaringSyntaxReferences
-            .FirstOrDefault()
-            ?.SyntaxTree;
+            foreach (var method in equalsMethods)
+            {
+                if (UsesSameFields(method, getHashCodeMethods, compareToMethods))
+                {
+                    continue;
+                }
 
-        if (parentSyntaxTree is null)
-        {
-            return [];
-        }
+                var diagnostic = Diagnostic.Create(Rule, method.Locations[0], namedTypeSymbol.Name);
+                symbolContext.ReportDiagnostic(diagnostic);
+            }
 
-        var semanticModel = compilation.GetSemanticModel(parentSyntaxTree);
+            ImmutableHashSet<ISymbol> GetFields(IMethodSymbol method)
+            {
+                return methodFieldUsages.TryGetValue(method, out var fields)
+                    ? fields
+                    : ImmutableHashSet.Create<ISymbol>(SymbolEqualityComparer.Default);
+            }
 
-        if (methodNode.Body is null)
-        {
-            return [];
-        }
+            bool UsesSameFields(
+                IMethodSymbol equalsMethod,
+                IEnumerable<IMethodSymbol> getHashCodeCandidates,
+                IEnumerable<IMethodSymbol> compareToCandidates)
+            {
+                var fieldsUsedInEquals = GetFields(equalsMethod);
+                var fieldsUsedInGetHashCode = getHashCodeCandidates.SelectMany(GetFields).ToImmutableHashSet(SymbolEqualityComparer.Default);
+                var fieldsUsedInCompareTo = compareToCandidates.SelectMany(GetFields).ToImmutableHashSet(SymbolEqualityComparer.Default);
 
-        return methodNode.Body
-            .DescendantNodes()
-            .OfType<IdentifierNameSyntax>()
-            .Select(identifier => semanticModel.GetSymbolInfo(identifier).Symbol)
-            .OfType<IFieldSymbol>()
-            .ToHashSet<ISymbol>(SymbolEqualityComparer.Default);
+                return fieldsUsedInEquals.SetEquals(fieldsUsedInGetHashCode)
+                       && fieldsUsedInEquals.SetEquals(fieldsUsedInCompareTo);
+            }
+        }, SymbolKind.NamedType);
     }
 }

@@ -23,47 +23,82 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method symbols
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterCompilationStartAction(AnalyzeCompilationStart);
+        context.RegisterCompilationStartAction(StartAnalysis);
     }
 
-    private void AnalyzeCompilationStart(CompilationStartAnalysisContext context)
+    private static void StartAnalysis(CompilationStartAnalysisContext context)
     {
-        var calledMethods = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+        var calledMethods = new ConcurrentDictionary<IMethodSymbol, byte>(SymbolEqualityComparer.Default);
+        var candidateMethods = new ConcurrentBag<IMethodSymbol>();
 
         context.RegisterOperationAction(operationContext =>
         {
-            var operation = operationContext.Operation;
-
-            if (operation is IInvocationOperation invocation)
-            {
-                var targetMethod = invocation.TargetMethod;
-                calledMethods.Add(targetMethod.OriginalDefinition);
-            }
+            var invocation = (IInvocationOperation)operationContext.Operation;
+            calledMethods[invocation.TargetMethod.OriginalDefinition] = 0;
         }, OperationKind.Invocation);
+
+        context.RegisterSymbolAction(symbolContext =>
+        {
+            var methodSymbol = (IMethodSymbol)symbolContext.Symbol;
+
+            if (methodSymbol.IsImplicitlyDeclared)
+            {
+                return;
+            }
+
+            if (methodSymbol.MethodKind != MethodKind.Ordinary)
+            {
+                return;
+            }
+
+            candidateMethods.Add(methodSymbol);
+        }, SymbolKind.Method);
 
         context.RegisterCompilationEndAction(compilationContext =>
         {
-            var compilation = compilationContext.Compilation;
-            var allMethods = compilation.SyntaxTrees
-                .SelectMany(syntaxTree => syntaxTree.GetRoot().DescendantNodes())
-                .OfType<MethodDeclarationSyntax>()
-                .Select(methodDecl => compilation.GetSemanticModel(methodDecl.SyntaxTree).GetDeclaredSymbol(methodDecl))
-                .OfType<IMethodSymbol>();
+            var entryPoint = compilationContext.Compilation.GetEntryPoint(compilationContext.CancellationToken);
 
-            var entryPoint = context.Compilation.GetEntryPoint(context.CancellationToken);
-            foreach (var method in allMethods)
+            foreach (var method in candidateMethods)
             {
-                if (method.DeclaredAccessibility is Accessibility.Private or Accessibility.Internal &&
-                    !calledMethods.Contains(method.OriginalDefinition) &&
-                    !SymbolEqualityComparer.Default.Equals(method, entryPoint))
+                if (!ShouldReport(method, entryPoint, calledMethods))
                 {
-                    var diagnostic = Diagnostic.Create(Rule, method.Locations[0], method.Name);
-                    compilationContext.ReportDiagnostic(diagnostic);
+                    continue;
                 }
+
+                var location = method.Locations.FirstOrDefault();
+                if (location is null)
+                {
+                    continue;
+                }
+
+                var diagnostic = Diagnostic.Create(Rule, location, method.Name);
+                compilationContext.ReportDiagnostic(diagnostic);
             }
         });
+    }
+
+    private static bool ShouldReport(
+        IMethodSymbol method,
+        IMethodSymbol? entryPoint,
+        ConcurrentDictionary<IMethodSymbol, byte> calledMethods)
+    {
+        if (method.DeclaredAccessibility is not (Accessibility.Private or Accessibility.Internal))
+        {
+            return false;
+        }
+
+        if (method.IsAbstract || method.IsVirtual || method.IsOverride)
+        {
+            return false;
+        }
+
+        if (SymbolEqualityComparer.Default.Equals(method.OriginalDefinition, entryPoint))
+        {
+            return false;
+        }
+
+        return !calledMethods.ContainsKey(method.OriginalDefinition);
     }
 }

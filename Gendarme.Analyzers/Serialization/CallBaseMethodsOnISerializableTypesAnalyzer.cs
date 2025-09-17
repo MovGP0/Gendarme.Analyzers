@@ -22,104 +22,130 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method bodies
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
-    }
 
-    private void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
-    {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        if (!namedType.AllInterfaces.Any(i => i.ToDisplayString() == "System.Runtime.Serialization.ISerializable"))
-            return;
-
-        if (namedType.BaseType == null || namedType.BaseType.SpecialType == SpecialType.System_Object)
-            return;
-
-        var serializationCtor = namedType.Constructors
-            .FirstOrDefault(c => c.Parameters.Length == 2 &&
-                                 c.Parameters[0].Type.ToDisplayString() == "System.Runtime.Serialization.SerializationInfo" &&
-                                 c.Parameters[1].Type.ToDisplayString() == "System.Runtime.Serialization.StreamingContext");
-
-        if (serializationCtor != null)
+        context.RegisterCompilationStartAction(startContext =>
         {
-            AnalyzeConstructor(context, serializationCtor, namedType);
-        }
+            var serializableInterface = startContext.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.ISerializable");
+            var serializationInfoType = startContext.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.SerializationInfo");
+            var streamingContextType = startContext.Compilation.GetTypeByMetadataName("System.Runtime.Serialization.StreamingContext");
 
-        var getObjectDataMethod = namedType.GetMembers()
-            .OfType<IMethodSymbol>()
-            .FirstOrDefault(m => m is { Name: "GetObjectData", Parameters.Length: 2 } &&
-                                 m.Parameters[0].Type.ToDisplayString() == "System.Runtime.Serialization.SerializationInfo" &&
-                                 m.Parameters[1].Type.ToDisplayString() == "System.Runtime.Serialization.StreamingContext");
-
-        if (getObjectDataMethod != null)
-        {
-            AnalyzeGetObjectDataMethod(context, getObjectDataMethod, namedType);
-        }
-    }
-
-    private void AnalyzeConstructor(SymbolAnalysisContext context, IMethodSymbol constructor, INamedTypeSymbol namedType)
-    {
-        var callsBaseCtor = false;
-
-        foreach (var syntaxRef in constructor.DeclaringSyntaxReferences)
-        {
-            var syntax = syntaxRef.GetSyntax(context.CancellationToken);
-            var semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree);
-
-            if (semanticModel.GetOperation(syntax, context.CancellationToken) is IConstructorBodyOperation
-                { Initializer: IExpressionStatementOperation { Operation: IInvocationOperation
-                {
-                    TargetMethod.MethodKind: MethodKind.Constructor
-                } invocation } } &&
-                SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, namedType.BaseType))
+            if (serializableInterface is null || serializationInfoType is null || streamingContextType is null)
             {
-                callsBaseCtor = true;
-                break;
+                return;
             }
-        }
 
-        if (!callsBaseCtor)
-        {
-            var diagnostic = Diagnostic.Create(Rule, constructor.Locations[0], namedType.Name, "constructor");
-            context.ReportDiagnostic(diagnostic);
-        }
+            startContext.RegisterOperationBlockStartAction(blockStartContext =>
+            {
+                if (blockStartContext.OwningSymbol is not IMethodSymbol methodSymbol)
+                {
+                    return;
+                }
+
+                if (methodSymbol.ContainingType is not { } containingType)
+                {
+                    return;
+                }
+
+                if (!ImplementsSerializationPattern(containingType, serializableInterface))
+                {
+                    return;
+                }
+
+                if (IsSerializationConstructor(methodSymbol, serializationInfoType, streamingContextType))
+                {
+                    TrackSerializationConstructor(blockStartContext, methodSymbol, containingType, serializationInfoType, streamingContextType);
+                    return;
+                }
+
+                if (IsGetObjectData(methodSymbol, serializationInfoType, streamingContextType))
+                {
+                    TrackGetObjectData(blockStartContext, methodSymbol, containingType, serializationInfoType, streamingContextType);
+                }
+            });
+        });
     }
 
-    private void AnalyzeGetObjectDataMethod(SymbolAnalysisContext context, IMethodSymbol method, INamedTypeSymbol namedType)
+    private static void TrackSerializationConstructor(
+        OperationBlockStartAnalysisContext blockStartContext,
+        IMethodSymbol constructor,
+        INamedTypeSymbol containingType,
+        INamedTypeSymbol serializationInfoType,
+        INamedTypeSymbol streamingContextType)
+    {
+        var callsBaseConstructor = false;
+
+        blockStartContext.RegisterOperationAction(operationContext =>
+        {
+            var invocation = (IInvocationOperation)operationContext.Operation;
+
+            if (invocation.TargetMethod is { MethodKind: MethodKind.Constructor } target &&
+                SymbolEqualityComparer.Default.Equals(target.ContainingType, containingType.BaseType) &&
+                IsSerializationConstructor(target, serializationInfoType, streamingContextType))
+            {
+                callsBaseConstructor = true;
+            }
+        }, OperationKind.Invocation);
+
+        blockStartContext.RegisterOperationBlockEndAction(endContext =>
+        {
+            if (!callsBaseConstructor)
+            {
+                var diagnostic = Diagnostic.Create(Rule, constructor.Locations[0], containingType.Name, "constructor");
+                endContext.ReportDiagnostic(diagnostic);
+            }
+        });
+    }
+
+    private static void TrackGetObjectData(
+        OperationBlockStartAnalysisContext blockStartContext,
+        IMethodSymbol method,
+        INamedTypeSymbol containingType,
+        INamedTypeSymbol serializationInfoType,
+        INamedTypeSymbol streamingContextType)
     {
         var callsBaseMethod = false;
 
-        foreach (var syntaxRef in method.DeclaringSyntaxReferences)
+        blockStartContext.RegisterOperationAction(operationContext =>
         {
-            var syntax = syntaxRef.GetSyntax(context.CancellationToken);
-            var semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree);
+            var invocation = (IInvocationOperation)operationContext.Operation;
 
-            if (semanticModel.GetOperation(syntax, context.CancellationToken) is IMethodBodyOperation operation)
+            if (invocation.TargetMethod is { Name: "GetObjectData" } target &&
+                SymbolEqualityComparer.Default.Equals(target.ContainingType, containingType.BaseType) &&
+                IsGetObjectData(target, serializationInfoType, streamingContextType))
             {
-                var invocations = operation.Descendants().OfType<IInvocationOperation>();
-
-                foreach (var invocation in invocations)
-                {
-                    if (invocation.TargetMethod.Name == "GetObjectData" &&
-                        SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, namedType.BaseType))
-                    {
-                        callsBaseMethod = true;
-                        break;
-                    }
-                }
+                callsBaseMethod = true;
             }
+        }, OperationKind.Invocation);
 
-            if (callsBaseMethod)
-                break;
-        }
-
-        if (!callsBaseMethod)
+        blockStartContext.RegisterOperationBlockEndAction(endContext =>
         {
-            var diagnostic = Diagnostic.Create(Rule, method.Locations[0], namedType.Name, "GetObjectData");
-            context.ReportDiagnostic(diagnostic);
-        }
+            if (!callsBaseMethod)
+            {
+                var diagnostic = Diagnostic.Create(Rule, method.Locations[0], containingType.Name, "GetObjectData");
+                endContext.ReportDiagnostic(diagnostic);
+            }
+        });
+    }
+
+    private static bool ImplementsSerializationPattern(INamedTypeSymbol type, INamedTypeSymbol serializableInterface)
+    {
+        return type.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, serializableInterface)) &&
+               type.BaseType is { SpecialType: not SpecialType.System_Object };
+    }
+
+    private static bool IsSerializationConstructor(IMethodSymbol method, INamedTypeSymbol serializationInfoType, INamedTypeSymbol streamingContextType)
+    {
+        return method is { MethodKind: MethodKind.Constructor, Parameters.Length: 2 }
+               && SymbolEqualityComparer.Default.Equals(method.Parameters[0].Type, serializationInfoType)
+               && SymbolEqualityComparer.Default.Equals(method.Parameters[1].Type, streamingContextType);
+    }
+
+    private static bool IsGetObjectData(IMethodSymbol method, INamedTypeSymbol serializationInfoType, INamedTypeSymbol streamingContextType)
+    {
+        return method is { Name: "GetObjectData", MethodKind: MethodKind.Ordinary, Parameters.Length: 2 }
+               && SymbolEqualityComparer.Default.Equals(method.Parameters[0].Type, serializationInfoType)
+               && SymbolEqualityComparer.Default.Equals(method.Parameters[1].Type, streamingContextType);
     }
 }
