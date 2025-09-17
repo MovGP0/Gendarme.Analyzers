@@ -46,7 +46,7 @@ public sealed class AvoidUnneededUnboxingAnalyzer : DiagnosticAnalyzer
             {
                 if (unboxing.Operand is ILocalReferenceOperation local)
                 {
-                    if (unboxedValues.ContainsKey(local.Local))
+                    if (!unboxedValues.TryAdd(local.Local, 1))
                     {
                         unboxedValues[local.Local]++;
                         if (unboxedValues[local.Local] == 2)
@@ -54,10 +54,6 @@ public sealed class AvoidUnneededUnboxingAnalyzer : DiagnosticAnalyzer
                             var diagnostic = Diagnostic.Create(Rule, unboxing.Syntax.GetLocation(), unboxing.Type.ToDisplayString());
                             operationContext.ReportDiagnostic(diagnostic);
                         }
-                    }
-                    else
-                    {
-                        unboxedValues[local.Local] = 1;
                     }
                 }
             }

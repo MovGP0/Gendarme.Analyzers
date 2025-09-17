@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Gendarme.Analyzers.Naming;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
+public sealed partial class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
 {
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.UseCorrectPrefixTitle), Strings.ResourceManager, typeof(Strings));
     private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.UseCorrectPrefixMessage), Strings.ResourceManager, typeof(Strings));
@@ -18,7 +18,7 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex GenericParameterRegex = new(@"^T[A-Z][a-zA-Z]*$", RegexOptions.Compiled);
+    private static readonly Regex GenericParameterRegex = GetGenericParameterRegex();
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -80,4 +80,7 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
             context.ReportDiagnostic(diagnostic);
         }
     }
+
+    [GeneratedRegex(@"^T[A-Z][a-zA-Z]*$", RegexOptions.Compiled)]
+    private static partial Regex GetGenericParameterRegex();
 }

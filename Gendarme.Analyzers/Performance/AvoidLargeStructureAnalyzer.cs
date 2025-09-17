@@ -18,7 +18,9 @@ public sealed class AvoidLargeStructureAnalyzer : DiagnosticAnalyzer
 
     private const int DefaultMaxSizeInBytes = 16;
 
-    // Configuration property to allow customization of max size
+    /// <summary>
+    /// Configuration property to allow customization of max size
+    /// </summary>
     private int MaxSizeInBytes { get; set; } = DefaultMaxSizeInBytes;
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];

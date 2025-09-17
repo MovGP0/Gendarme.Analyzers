@@ -20,7 +20,9 @@ public sealed class AvoidLargeNumberOfLocalVariablesAnalyzer : DiagnosticAnalyze
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
-    // Configuration property to allow customization of maximum variables
+    /// <summary>
+    /// Configuration property to allow customization of maximum variables
+    /// </summary>
     private int MaximumVariables { get; set; } = DefaultMaximumVariables;
 
     public override void Initialize(AnalysisContext context)

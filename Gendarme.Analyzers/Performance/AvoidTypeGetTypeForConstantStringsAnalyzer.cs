@@ -37,7 +37,7 @@ public sealed class AvoidTypeGetTypeForConstantStringsAnalyzer : DiagnosticAnaly
             invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Type" &&
             invocation.Arguments.Length == 1 &&
             invocation.Arguments[0].Value.ConstantValue.HasValue &&
-            invocation.Arguments[0].Value.Type.SpecialType == SpecialType.System_String)
+            invocation.Arguments[0].Value.Type?.SpecialType == SpecialType.System_String)
         {
             var typeName = invocation.Arguments[0].Value.ConstantValue.Value as string;
 

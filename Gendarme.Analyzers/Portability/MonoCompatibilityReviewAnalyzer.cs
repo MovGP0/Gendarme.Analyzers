@@ -24,7 +24,7 @@ public sealed class MonoCompatibilityReviewAnalyzer : DiagnosticAnalyzer
         // Add other methods known to be incompatible
     );
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {

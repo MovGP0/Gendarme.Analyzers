@@ -18,7 +18,7 @@ public sealed class DoNotExposeFieldsInSecuredTypeAnalyzer : DiagnosticAnalyzer
 
     private static readonly string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {

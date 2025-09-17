@@ -9,7 +9,7 @@ internal static class TypeSymbolExtensions
 
     public static bool InheritsFrom(this ITypeSymbol typeSymbol, ITypeSymbol baseType)
     {
-        ITypeSymbol currentType = typeSymbol.BaseType;
+        ITypeSymbol? currentType = typeSymbol.BaseType;
         while (currentType != null)
         {
             if (SymbolEqualityComparer.Default.Equals(currentType, baseType))

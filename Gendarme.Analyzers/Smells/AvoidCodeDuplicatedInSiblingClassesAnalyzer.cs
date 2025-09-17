@@ -40,7 +40,7 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
             if (baseType is null || baseType.SpecialType == SpecialType.System_Object)
                 return;
 
-            var bag = baseClassToMethods.GetOrAdd(baseType, _ => new ConcurrentBag<MethodDeclarationSyntax>());
+            var bag = baseClassToMethods.GetOrAdd(baseType, _ => []);
 
             foreach (var method in classDecl.Members.OfType<MethodDeclarationSyntax>())
             {

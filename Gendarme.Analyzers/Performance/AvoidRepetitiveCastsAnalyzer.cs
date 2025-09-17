@@ -36,20 +36,23 @@ public sealed class AvoidRepetitiveCastsAnalyzer : DiagnosticAnalyzer
         {
             var conversion = (IConversionOperation)operationContext.Operation;
 
-            var key = (conversion.Operand, conversion.Type);
-
-            if (castExpressions.ContainsKey(key))
+            if (conversion.Type is not { } type)
             {
-                castExpressions[key]++;
-                if (castExpressions[key] == 2)
-                {
-                    var diagnostic = Diagnostic.Create(Rule, conversion.Syntax.GetLocation(), conversion.Operand.Syntax.ToString(), conversion.Type.ToDisplayString());
-                    operationContext.ReportDiagnostic(diagnostic);
-                }
+                return;
             }
-            else
+
+            var key = (conversion.Operand, type);
+
+            if (castExpressions.TryAdd(key, 1))
             {
-                castExpressions[key] = 1;
+                return;
+            }
+
+            castExpressions[key]++;
+            if (castExpressions[key] == 2)
+            {
+                var diagnostic = Diagnostic.Create(Rule, conversion.Syntax.GetLocation(), conversion.Operand.Syntax.ToString(), conversion.Type.ToDisplayString());
+                operationContext.ReportDiagnostic(diagnostic);
             }
         }, OperationKind.Conversion);
     }

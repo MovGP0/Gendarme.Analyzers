@@ -18,7 +18,7 @@ public sealed class SecureGetObjectDataOverridesAnalyzer : DiagnosticAnalyzer
 
     private const string ISerializableTypeName = "System.Runtime.Serialization.ISerializable";
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {

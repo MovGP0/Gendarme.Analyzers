@@ -18,7 +18,7 @@ public sealed class ReviewSealedTypeWithInheritanceDemandAnalyzer : DiagnosticAn
 
     private static readonly string SecurityActionTypeName = "System.Security.Permissions.SecurityAction";
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {

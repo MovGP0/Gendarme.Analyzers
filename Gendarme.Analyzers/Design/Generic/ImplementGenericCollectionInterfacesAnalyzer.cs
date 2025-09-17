@@ -3,13 +3,18 @@ namespace Gendarme.Analyzers.Design.Generic;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class ImplementGenericCollectionInterfacesAnalyzer : DiagnosticAnalyzer
 {
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ImplementGenericCollectionInterfaces_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ImplementGenericCollectionInterfaces_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ImplementGenericCollectionInterfaces_Description), Strings.ResourceManager, typeof(Strings));
+
     private static readonly DiagnosticDescriptor Rule = new(
-        id: DiagnosticId.ImplementGenericCollectionInterfaces,
-        title: "Implement Generic Collection Interfaces",
-        messageFormat: "Consider implementing 'IEnumerable<T>' instead of 'IEnumerable' for type safety",
-        category: Category.Design,
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
+        DiagnosticId.ImplementGenericCollectionInterfaces,
+        Title,
+        MessageFormat,
+        Category.Design,
+        DiagnosticSeverity.Warning,
+        isEnabledByDefault: true,
+        description: Description);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
