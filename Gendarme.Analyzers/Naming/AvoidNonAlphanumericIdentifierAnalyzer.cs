@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Gendarme.Analyzers.Naming;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed partial class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
+public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
 {
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.AvoidNonAlphanumericIdentifierTitle), Strings.ResourceManager, typeof(Strings));
     private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.AvoidNonAlphanumericIdentifierMessage), Strings.ResourceManager, typeof(Strings));
@@ -18,7 +18,9 @@ public sealed partial class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticA
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex NonAlphanumericRegex = GetNonAlphanumericRegex();
+    private static readonly Regex NonAlphanumericRegex = new Regex(
+        "[^a-zA-Z0-9]",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -53,7 +55,4 @@ public sealed partial class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticA
             context.ReportDiagnostic(diagnostic);
         }
     }
-
-    [GeneratedRegex(@"[^a-zA-Z0-9]", RegexOptions.Compiled)]
-    private static partial Regex GetNonAlphanumericRegex();
 }

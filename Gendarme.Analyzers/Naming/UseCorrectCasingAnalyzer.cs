@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Gendarme.Analyzers.Naming;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-public sealed partial class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
+public sealed class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
 {
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.UseCorrectCasingTitle), Strings.ResourceManager, typeof(Strings));
     private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.UseCorrectCasingMessage), Strings.ResourceManager, typeof(Strings));
@@ -18,8 +18,13 @@ public sealed partial class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex PascalCaseRegex = GetPascalCaseRegex();
-    private static readonly Regex CamelCaseRegex = GetCamelCaseRegex();
+    private static readonly Regex PascalCaseRegex = new Regex(
+        "^[A-Z][a-zA-Z0-9]*$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    private static readonly Regex CamelCaseRegex = new Regex(
+        "^[a-z][a-zA-Z0-9]*$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -87,10 +92,4 @@ public sealed partial class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
             context.ReportDiagnostic(diagnostic);
         }
     }
-
-    [GeneratedRegex(@"^[A-Z][a-zA-Z0-9]*$", RegexOptions.Compiled)]
-    private static partial Regex GetPascalCaseRegex();
-
-    [GeneratedRegex(@"^[a-z][a-zA-Z0-9]*$", RegexOptions.Compiled)]
-    private static partial Regex GetCamelCaseRegex();
 }

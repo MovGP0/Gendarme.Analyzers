@@ -1,3 +1,5 @@
+using Gendarme.Analyzers.Extensions;
+
 namespace Gendarme.Analyzers.Correctness;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

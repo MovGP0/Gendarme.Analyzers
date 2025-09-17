@@ -1,3 +1,4 @@
+using Gendarme.Analyzers.Extensions;
 using Microsoft.CodeAnalysis.Operations;
 
 namespace Gendarme.Analyzers.Performance;
