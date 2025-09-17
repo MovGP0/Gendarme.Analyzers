@@ -6,17 +6,9 @@ namespace Gendarme.Analyzers.Design;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class TypesWithNativeFieldsShouldBeDisposableAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title =
-        new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableTitle),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableMessage),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableDescription),
-            Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableTitle), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableMessage), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.TypesWithNativeFieldsShouldBeDisposableDescription), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.TypesWithNativeFieldsShouldBeDisposable,

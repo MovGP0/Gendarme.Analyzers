@@ -4,17 +4,9 @@ namespace Gendarme.Analyzers.Design;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title =
-        new LocalizableResourceString(nameof(Strings.UseFlagsAttributeTitle),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Strings.UseFlagsAttributeMessage),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Strings.UseFlagsAttributeDescription),
-            Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.UseFlagsAttributeTitle), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.UseFlagsAttributeMessage), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.UseFlagsAttributeDescription), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.UseFlagsAttribute,

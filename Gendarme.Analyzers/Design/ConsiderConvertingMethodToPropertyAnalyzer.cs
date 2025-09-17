@@ -7,17 +7,9 @@ namespace Gendarme.Analyzers.Design;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ConsiderConvertingMethodToPropertyAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title =
-        new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyTitle),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyMessage),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyDescription),
-            Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyTitle), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyMessage), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ConsiderConvertingMethodToPropertyDescription), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ConsiderConvertingMethodToProperty,

@@ -3,17 +3,9 @@ namespace Gendarme.Analyzers.Design;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class TypesShouldBeInsideNamespacesAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title =
-        new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesTitle),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesMessage),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesDescription),
-            Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesTitle), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesMessage), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.TypesShouldBeInsideNamespacesDescription), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.TypesShouldBeInsideNamespaces,

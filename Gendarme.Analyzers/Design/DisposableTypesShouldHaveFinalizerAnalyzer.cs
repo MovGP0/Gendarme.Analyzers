@@ -6,17 +6,9 @@ namespace Gendarme.Analyzers.Design;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DisposableTypesShouldHaveFinalizerAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title =
-        new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerTitle),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString MessageFormat =
-        new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerMessage),
-            Strings.ResourceManager, typeof(Strings));
-
-    private static readonly LocalizableString Description =
-        new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerDescription),
-            Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerTitle), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerMessage), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DisposableTypesShouldHaveFinalizerDescription), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DisposableTypesShouldHaveFinalizer,

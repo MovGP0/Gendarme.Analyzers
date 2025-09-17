@@ -4,7 +4,7 @@ namespace Gendarme.Analyzers.BadPractice;
 public sealed class DoNotUseGetInterfaceToCheckAssignabilityAnalyzer : DiagnosticAnalyzer
 {
     private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DoNotUseGetInterfaceToCheckAssignability_Title), Strings.ResourceManager, typeof(Strings));
-    private static readonly LocalizableString MessageFormat = "Replace 'type.GetInterface(\"{0}\") != null' with 'typeof({0}).IsAssignableFrom(type)'";
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DoNotUseGetInterfaceToCheckAssignability_Message), Strings.ResourceManager, typeof(Strings));
     private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DoNotUseGetInterfaceToCheckAssignability_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(

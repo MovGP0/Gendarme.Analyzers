@@ -1873,4 +1873,13 @@
   <data name="UseFlagsAttributeDescription" xml:space="preserve">
     <value>An enum with bits that can be ORed together should declare [Flags] to improve usage and debugging.</value>
   </data>
+  <data name="DoNotUseGetInterfaceToCheckAssignability_Description" xml:space="preserve">
+    <value>Calls to Type.GetInterface to check if a type supports an interface should be replaced with typeof(interface).IsAssignableFrom(type).</value>
+  </data>
+  <data name="DoNotUseGetInterfaceToCheckAssignability_Message" xml:space="preserve">
+    <value>Replace 'type.GetInterface("{0}") != null' with 'typeof({0}).IsAssignableFrom(type)'</value>
+  </data>
+  <data name="DoNotUseGetInterfaceToCheckAssignability_Title" xml:space="preserve">
+    <value>Do not use GetInterface to check assignability</value>
+  </data>
 </root>

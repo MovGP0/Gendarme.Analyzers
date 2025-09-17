@@ -16,4 +16,5 @@ public static class Category
     public static readonly string Serialization = "Serialization";
     public static readonly string Smells = "Smells";
     public static readonly string Ui = "UI";
+    public static readonly string Usage = "Usage";
 }

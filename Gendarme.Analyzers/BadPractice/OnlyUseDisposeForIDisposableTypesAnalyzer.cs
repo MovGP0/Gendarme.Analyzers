@@ -11,7 +11,7 @@ public sealed class OnlyUseDisposeForIDisposableTypesAnalyzer : DiagnosticAnalyz
         DiagnosticId.OnlyUseDisposeForIDisposableTypes,
         Title,
         MessageFormat,
-        "Usage",
+        Category.Usage,
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: Description);

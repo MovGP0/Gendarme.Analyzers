@@ -2715,6 +2715,33 @@ namespace Gendarme.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Calls to Type.GetInterface to check if a type supports an interface should be replaced with typeof(interface).IsAssignableFrom(type)..
+        /// </summary>
+        internal static string DoNotUseGetInterfaceToCheckAssignability_Description {
+            get {
+                return ResourceManager.GetString("DoNotUseGetInterfaceToCheckAssignability_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replace &apos;type.GetInterface(&quot;{0}&quot;) != null&apos; with &apos;typeof({0}).IsAssignableFrom(type)&apos;.
+        /// </summary>
+        internal static string DoNotUseGetInterfaceToCheckAssignability_Message {
+            get {
+                return ResourceManager.GetString("DoNotUseGetInterfaceToCheckAssignability_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not use GetInterface to check assignability.
+        /// </summary>
+        internal static string DoNotUseGetInterfaceToCheckAssignability_Title {
+            get {
+                return ResourceManager.GetString("DoNotUseGetInterfaceToCheckAssignability_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using Monitor.Enter without Monitor.Exit in the same method can lead to deadlocks and is difficult to maintain..
         /// </summary>
         internal static string DoNotUseLockedRegionOutsideMethodAnalyzer_Description {
