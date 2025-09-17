@@ -22,7 +22,6 @@ public sealed class AvoidLongMethodsAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method declarations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSyntaxNodeAction(AnalyzeMethodDeclaration, SyntaxKind.MethodDeclaration);
@@ -50,7 +49,7 @@ public sealed class AvoidLongMethodsAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private bool IsWellKnownMethod(string methodName, IEnumerable<string> baseTypeNames)
+    private bool IsWellKnownMethod(string methodName, List<string> baseTypeNames)
     {
         if (methodName == "Build" && baseTypeNames.Any(bt => bt is "Bin" or "Window" or "Dialog"))
             return true;
@@ -61,13 +60,18 @@ public sealed class AvoidLongMethodsAnalyzer : DiagnosticAnalyzer
         return false;
     }
 
-    private IEnumerable<string> GetBaseTypeNames(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax classDeclaration)
+    private static List<string> GetBaseTypeNames(SyntaxNodeAnalysisContext context, ClassDeclarationSyntax? classDeclaration)
     {
+        if (classDeclaration is null)
+        {
+            return [];
+        }
+
         var semanticModel = context.SemanticModel;
         var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
         if (classSymbol == null)
         {
-            return new List<string>();
+            return [];
         }
         var baseType = classSymbol.BaseType;
         var baseTypeNames = new List<string>();

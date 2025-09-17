@@ -1,3 +1,5 @@
+using Gendarme.Analyzers.Extensions;
+
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -64,22 +66,5 @@ public sealed class AttributeArgumentsShouldHaveAccessorsAnalyzer : DiagnosticAn
                 }
             }
         }
-    }
-}
-
-// Simple helper extension to check inheritance
-internal static class SymbolExtensions
-{
-    public static bool InheritsFrom(this ITypeSymbol symbol, ITypeSymbol baseType)
-    {
-        while (symbol != null)
-        {
-            if (SymbolEqualityComparer.Default.Equals(symbol.BaseType, baseType))
-            {
-                return true;
-            }
-            symbol = symbol.BaseType;
-        }
-        return false;
     }
 }

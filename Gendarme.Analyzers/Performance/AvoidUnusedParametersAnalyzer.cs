@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.Operations;
+
 namespace Gendarme.Analyzers.Performance;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -16,79 +18,123 @@ public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly ImmutableHashSet<string> ExcludedMethodKinds = ImmutableHashSet.Create(
-        "DelegateInvoke",
-        "ExplicitInterfaceImplementation",
-        "Operator",
-        "Accessor",
-        "AnonymousFunction"
-    );
+    private static readonly ImmutableHashSet<MethodKind> ExcludedMethodKinds = ImmutableHashSet.Create(
+        MethodKind.DelegateInvoke,
+        MethodKind.ExplicitInterfaceImplementation,
+        MethodKind.UserDefinedOperator,
+        MethodKind.PropertyGet,
+        MethodKind.PropertySet,
+        MethodKind.EventAdd,
+        MethodKind.EventRemove,
+        MethodKind.EventRaise,
+        MethodKind.AnonymousFunction);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze method symbols
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterSymbolAction(AnalyzeMethodSymbol, SymbolKind.Method);
+
+        context.RegisterCompilationStartAction(startContext =>
+        {
+            var usedParameters = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<IParameterSymbol>>(SymbolEqualityComparer.Default);
+
+            startContext.RegisterOperationBlockStartAction(blockStartContext =>
+            {
+                if (blockStartContext.OwningSymbol is not IMethodSymbol methodSymbol)
+                {
+                    return;
+                }
+
+                if (!ShouldAnalyze(methodSymbol))
+                {
+                    return;
+                }
+
+                var referencedParameters = ImmutableHashSet.CreateBuilder<IParameterSymbol>(SymbolEqualityComparer.Default);
+
+                blockStartContext.RegisterOperationAction(operationContext =>
+                {
+                    var parameterReference = (IParameterReferenceOperation)operationContext.Operation;
+                    referencedParameters.Add(parameterReference.Parameter);
+                }, OperationKind.ParameterReference);
+
+                blockStartContext.RegisterOperationBlockEndAction(_ =>
+                {
+                    usedParameters[methodSymbol] = referencedParameters.ToImmutable();
+                });
+            });
+
+            startContext.RegisterSymbolAction(symbolContext =>
+            {
+                var method = (IMethodSymbol)symbolContext.Symbol;
+
+                if (!ShouldAnalyze(method))
+                {
+                    return;
+                }
+
+                if (method.Parameters.Length == 0)
+                {
+                    return;
+                }
+
+                var referenced = usedParameters.TryGetValue(method, out var parameters)
+                    ? parameters
+                    : ImmutableHashSet<IParameterSymbol>.Empty;
+
+                foreach (var parameter in method.Parameters)
+                {
+                    if (referenced.Contains(parameter))
+                    {
+                        continue;
+                    }
+
+                    var location = parameter.Locations.FirstOrDefault();
+                    if (location is null)
+                    {
+                        continue;
+                    }
+
+                    var diagnostic = Diagnostic.Create(Rule, location, parameter.Name, method.Name);
+                    symbolContext.ReportDiagnostic(diagnostic);
+                }
+            }, SymbolKind.Method);
+        });
     }
 
-    private void AnalyzeMethodSymbol(SymbolAnalysisContext context)
+    private static bool ShouldAnalyze(IMethodSymbol method)
     {
-        var method = (IMethodSymbol)context.Symbol;
-
-        // Skip abstract, virtual, override, extern methods
         if (method.IsAbstract || method.IsVirtual || method.IsOverride || method.IsExtern)
-            return;
-
-        // Skip methods with special kinds
-        if (ExcludedMethodKinds.Contains(method.MethodKind.ToString()))
-            return;
-
-        // Skip event handlers (methods with specific signatures)
-        if (IsEventHandler(method))
-            return;
-
-        var dataFlowAnalysis = (
-                from syntaxRef in method.DeclaringSyntaxReferences
-                let syntax = syntaxRef.GetSyntax(context.CancellationToken)
-                let semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree)
-                select semanticModel.AnalyzeDataFlow(syntax))
-            .FirstOrDefault();
-
-        if (dataFlowAnalysis == null)
-            return;
-
-        var usedParameters = dataFlowAnalysis.ReadInside
-            .Union(dataFlowAnalysis.WrittenInside, SymbolEqualityComparer.Default)
-            .OfType<IParameterSymbol>()
-            .Select(p => p.Name)
-            .ToImmutableHashSet();
-
-        foreach (var parameter in method.Parameters)
         {
-            if (usedParameters.Contains(parameter.Name))
-            {
-                continue;
-            }
-
-            var diagnostic = Diagnostic.Create(Rule, parameter.Locations[0], parameter.Name, method.Name);
-            context.ReportDiagnostic(diagnostic);
+            return false;
         }
+
+        if (ExcludedMethodKinds.Contains(method.MethodKind))
+        {
+            return false;
+        }
+
+        if (IsEventHandler(method))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private static bool IsEventHandler(IMethodSymbol method)
     {
-        if (method.Parameters.Length != 2) return false;
+        if (method.Parameters.Length != 2)
+        {
+            return false;
+        }
+
         var firstParamType = method.Parameters[0].Type;
         var secondParamType = method.Parameters[1].Type;
 
-        if (firstParamType.SpecialType == SpecialType.System_Object &&
-            (secondParamType.Name == "EventArgs" || secondParamType.BaseType?.Name == "EventArgs"))
-        {
-            return true;
-        }
-        return false;
+        return firstParamType.SpecialType == SpecialType.System_Object &&
+               (secondParamType.Name == "EventArgs" || secondParamType.BaseType?.Name == "EventArgs");
     }
 }

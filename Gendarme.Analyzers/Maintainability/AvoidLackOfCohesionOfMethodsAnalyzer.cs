@@ -1,5 +1,13 @@
+using System.Collections.Concurrent;
+using Microsoft.CodeAnalysis.Operations;
+
 namespace Gendarme.Analyzers.Maintainability;
 
+/// <summary>
+/// This analyzer checks every type for lack of cohesion between the fields and the methods.
+/// Low cohesion is often a sign that a type is doing too many, different and unrelated things.
+/// The cohesion score is given for each defect (higher is better).
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
 {
@@ -27,10 +35,10 @@ public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        context.RegisterSymbolAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
+        context.RegisterSymbolStartAction(AnalyzeNamedTypeSymbol, SymbolKind.NamedType);
     }
 
-    private static void AnalyzeNamedTypeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedTypeSymbol(SymbolStartAnalysisContext context)
     {
         if (context.Symbol is not INamedTypeSymbol typeSymbol)
         {
@@ -42,12 +50,18 @@ public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var fields = typeSymbol.GetMembers().OfType<IFieldSymbol>().Where(field => !field.IsStatic).ToList();
-        var methods = typeSymbol.GetMembers().OfType<IMethodSymbol>()
-            .Where(method => method is { IsStatic: false, MethodKind: MethodKind.Ordinary })
-            .ToList();
+        var instanceFields = typeSymbol.GetMembers().OfType<IFieldSymbol>().Where(field => !field.IsStatic).ToList();
+        if (instanceFields.Count < MinimumFieldCount)
+        {
+            return;
+        }
 
-        if (fields.Count < MinimumFieldCount || methods.Count < MinimumMethodCount)
+        var candidateMethods = typeSymbol.GetMembers()
+            .OfType<IMethodSymbol>()
+            .Where(IsCandidateMethod)
+            .ToImmutableArray();
+
+        if (candidateMethods.Length < MinimumMethodCount)
         {
             return;
         }
@@ -58,67 +72,87 @@ public sealed class AvoidLackOfCohesionOfMethodsAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var methodPairs = 0;
-        var disjointMethodPairs = 0;
+        var candidateMethodSet = new HashSet<IMethodSymbol>(candidateMethods, SymbolEqualityComparer.Default);
+        var methodFieldSets = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<string>>(SymbolEqualityComparer.Default);
 
-        for (var i = 0; i < methods.Count; i++)
+        context.RegisterOperationBlockStartAction(operationBlockStartContext =>
         {
-            for (var j = i + 1; j < methods.Count; j++)
+            if (operationBlockStartContext.OwningSymbol is not IMethodSymbol method ||
+                !candidateMethodSet.Contains(method))
             {
-                context.CancellationToken.ThrowIfCancellationRequested();
+                return;
+            }
 
-                methodPairs++;
+            var builder = ImmutableHashSet.CreateBuilder<string>(StringComparer.Ordinal);
 
-                var fieldsUsedByMethod1 = GetFieldsUsedByMethod(methods[i], context.Compilation, context.CancellationToken);
-                var fieldsUsedByMethod2 = GetFieldsUsedByMethod(methods[j], context.Compilation, context.CancellationToken);
-
-                if (!fieldsUsedByMethod1.Intersect(fieldsUsedByMethod2).Any())
+            operationBlockStartContext.RegisterOperationAction(operationContext =>
+            {
+                if (operationContext.Operation is not IFieldReferenceOperation fieldReference)
                 {
-                    disjointMethodPairs++;
+                    return;
                 }
-            }
-        }
 
-        if (methodPairs == 0)
-        {
-            return;
-        }
-
-        var levelOfComplexity = (double)disjointMethodPairs / methodPairs;
-
-        if (levelOfComplexity > SuccessLowerLimit)
-        {
-            var diagnostic = Diagnostic.Create(Rule, location, typeSymbol.Name, levelOfComplexity.ToString("F2"));
-            context.ReportDiagnostic(diagnostic);
-        }
-    }
-
-    private static ImmutableHashSet<string> GetFieldsUsedByMethod(IMethodSymbol methodSymbol, Compilation compilation, CancellationToken cancellationToken)
-    {
-        var builder = ImmutableHashSet.CreateBuilder<string>(StringComparer.Ordinal);
-
-        foreach (var syntaxReference in methodSymbol.DeclaringSyntaxReferences)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if (syntaxReference.GetSyntax(cancellationToken) is not MethodDeclarationSyntax methodSyntax)
-            {
-                continue;
-            }
-
-            var semanticModel = compilation.GetSemanticModel(methodSyntax.SyntaxTree);
-
-            foreach (var identifier in methodSyntax.DescendantNodes().OfType<IdentifierNameSyntax>())
-            {
-                var symbol = semanticModel.GetSymbolInfo(identifier, cancellationToken).Symbol as IFieldSymbol;
-                if (symbol is { IsStatic: false } field &&
-                    SymbolEqualityComparer.Default.Equals(field.ContainingType, methodSymbol.ContainingType))
+                var field = fieldReference.Field;
+                if (field is { IsStatic: false } &&
+                    SymbolEqualityComparer.Default.Equals(field.ContainingType, typeSymbol))
                 {
                     builder.Add(field.Name);
                 }
-            }
-        }
+            }, OperationKind.FieldReference);
 
-        return builder.ToImmutable();
+            operationBlockStartContext.RegisterOperationBlockEndAction(_ =>
+            {
+                methodFieldSets[method] = builder.ToImmutable();
+            });
+        });
+
+        context.RegisterSymbolEndAction(symbolEndContext =>
+        {
+            var methodFieldSetList = candidateMethods
+                .Select(method => methodFieldSets.TryGetValue(method, out var fields) ? fields : null)
+                .Where(fields => fields is not null)
+                .Select(fields => fields!)
+                .ToList();
+
+            if (methodFieldSetList.Count < MinimumMethodCount)
+            {
+                return;
+            }
+
+            var methodPairs = 0;
+            var disjointMethodPairs = 0;
+
+            for (var i = 0; i < methodFieldSetList.Count; i++)
+            {
+                for (var j = i + 1; j < methodFieldSetList.Count; j++)
+                {
+                    symbolEndContext.CancellationToken.ThrowIfCancellationRequested();
+
+                    methodPairs++;
+
+                    if (!methodFieldSetList[i].Overlaps(methodFieldSetList[j]))
+                    {
+                        disjointMethodPairs++;
+                    }
+                }
+            }
+
+            if (methodPairs == 0)
+            {
+                return;
+            }
+
+            var levelOfComplexity = (double)disjointMethodPairs / methodPairs;
+
+            if (levelOfComplexity > SuccessLowerLimit)
+            {
+                var diagnostic = Diagnostic.Create(Rule, location, typeSymbol.Name, levelOfComplexity.ToString("F2"));
+                symbolEndContext.ReportDiagnostic(diagnostic);
+            }
+        });
     }
+
+    private static bool IsCandidateMethod(IMethodSymbol methodSymbol) =>
+        methodSymbol is { IsStatic: false, IsAbstract: false, IsExtern: false, MethodKind: MethodKind.Ordinary };
 }
+

@@ -37,9 +37,9 @@ public sealed class AvoidUninstantiatedInternalClassesAnalyzer : DiagnosticAnaly
         {
             var operation = operationContext.Operation;
 
-            if (operation is IObjectCreationOperation objectCreation)
+            if (operation is IObjectCreationOperation { Type: { } objectCreationType })
             {
-                instantiatedTypes.Add(objectCreation.Type);
+                instantiatedTypes.Add(objectCreationType);
             }
         }, OperationKind.ObjectCreation);
 

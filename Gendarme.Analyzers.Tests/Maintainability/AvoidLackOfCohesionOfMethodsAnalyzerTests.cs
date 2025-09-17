@@ -69,4 +69,33 @@ public class MyClass
 
         await context.RunAsync(); // No diagnostics expected
     }
+
+    [Fact]
+    public async Task SkipsAbstractMethodsWithoutImplementation()
+    {
+        const string testCode = @"
+public abstract class MyClass
+{
+    private int field1;
+    private int field2;
+    private int field3;
+    private int field4;
+    private int field5;
+
+    public abstract void Method1();
+    public abstract void Method2();
+    public abstract void Method3();
+    public abstract void Method4();
+    public abstract void Method5();
+}
+";
+
+        var context = new CSharpAnalyzerTest<AvoidLackOfCohesionOfMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        await context.RunAsync();
+    }
 }

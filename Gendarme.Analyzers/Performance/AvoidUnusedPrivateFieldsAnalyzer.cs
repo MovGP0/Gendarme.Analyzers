@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.Operations;
+
 namespace Gendarme.Analyzers.Performance;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -20,45 +22,43 @@ public sealed class AvoidUnusedPrivateFieldsAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze named types
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
-    }
 
-    private void AnalyzeNamedType(SymbolAnalysisContext context)
-    {
-        var namedType = (INamedTypeSymbol)context.Symbol;
-
-        var privateFields = namedType.GetMembers().OfType<IFieldSymbol>()
-            .Where(f => f is { DeclaredAccessibility: Accessibility.Private, IsImplicitlyDeclared: false });
-
-        var usedFields = new HashSet<IFieldSymbol>(SymbolEqualityComparer.Default);
-
-        foreach (var member in namedType.GetMembers().OfType<IMethodSymbol>())
+        context.RegisterCompilationStartAction(startContext =>
         {
-            if (member.DeclaringSyntaxReferences.Length == 0)
-                continue;
+            var referencedFields = new ConcurrentDictionary<IFieldSymbol, byte>(SymbolEqualityComparer.Default);
 
-            foreach (var syntaxRef in member.DeclaringSyntaxReferences)
+            startContext.RegisterOperationAction(operationContext =>
             {
-                var syntax = syntaxRef.GetSyntax(context.CancellationToken);
-                var semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree);
+                var fieldReference = (IFieldReferenceOperation)operationContext.Operation;
+                referencedFields[fieldReference.Field] = 0;
+            }, OperationKind.FieldReference);
 
-                var dataFlowAnalysis = semanticModel.AnalyzeDataFlow(syntax);
-
-                usedFields.UnionWith(dataFlowAnalysis.ReadInside.OfType<IFieldSymbol>());
-                usedFields.UnionWith(dataFlowAnalysis.WrittenInside.OfType<IFieldSymbol>());
-            }
-        }
-
-        foreach (var field in privateFields)
-        {
-            if (!usedFields.Contains(field))
+            startContext.RegisterSymbolAction(symbolContext =>
             {
-                var diagnostic = Diagnostic.Create(Rule, field.Locations[0], field.Name);
-                context.ReportDiagnostic(diagnostic);
-            }
-        }
+                var namedType = (INamedTypeSymbol)symbolContext.Symbol;
+
+                var privateFields = namedType.GetMembers().OfType<IFieldSymbol>()
+                    .Where(f => f is { DeclaredAccessibility: Accessibility.Private, IsImplicitlyDeclared: false });
+
+                foreach (var field in privateFields)
+                {
+                    if (referencedFields.ContainsKey(field))
+                    {
+                        continue;
+                    }
+
+                    var location = field.Locations.FirstOrDefault();
+                    if (location is null)
+                    {
+                        continue;
+                    }
+
+                    var diagnostic = Diagnostic.Create(Rule, location, field.Name);
+                    symbolContext.ReportDiagnostic(diagnostic);
+                }
+            }, SymbolKind.NamedType);
+        });
     }
 }

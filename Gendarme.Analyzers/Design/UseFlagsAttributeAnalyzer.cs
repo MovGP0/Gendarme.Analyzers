@@ -1,4 +1,3 @@
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -17,7 +16,7 @@ public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics 
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         => [Rule];
 
     public override void Initialize(AnalysisContext context)
@@ -40,16 +39,21 @@ public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
         if (hasFlags)
             return;
 
+        if (namedType.EnumUnderlyingType is not ITypeSymbol underlyingType)
+            return;
+
         // Very naive check: if any fields are powers of two and more than one field => suggests bitmask usage
         var fields = namedType.GetMembers().OfType<IFieldSymbol>()
-            .Where(f => f is { HasConstantValue: true, ConstantValue: int }).ToList();
+            .Where(static f => f.HasConstantValue)
+            .ToList();
 
         int countBitfields = 0;
         foreach (var field in fields)
         {
-            int val = (int)field.ConstantValue;
-            // skip the '0' field or negative or weird values
-            if (val > 0 && (val & (val - 1)) == 0) // power-of-two check
+            if (!TryGetPositiveFlagCandidate(field.ConstantValue, underlyingType, out var value))
+                continue;
+
+            if ((value & (value - 1)) == 0) // power-of-two check
             {
                 countBitfields++;
                 if (countBitfields > 1)
@@ -79,4 +83,65 @@ public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
             context.ReportDiagnostic(diag);
         }
     }
+
+    private static bool TryGetPositiveFlagCandidate(object? constantValue, ITypeSymbol underlyingType, out ulong value)
+    {
+        value = 0;
+
+        if (constantValue is null)
+            return false;
+
+        try
+        {
+            value = Convert.ToUInt64(constantValue);
+        }
+        catch (InvalidCastException)
+        {
+            return false;
+        }
+        catch (OverflowException)
+        {
+            return false;
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
+
+        if (value == 0)
+            return false;
+
+        if (IsSignedIntegralType(underlyingType))
+        {
+            long signedValue;
+
+            try
+            {
+                signedValue = Convert.ToInt64(constantValue);
+            }
+            catch (InvalidCastException)
+            {
+                return false;
+            }
+            catch (OverflowException)
+            {
+                return false;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+
+            if (signedValue <= 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool IsSignedIntegralType(ITypeSymbol type)
+        => type.SpecialType is SpecialType.System_SByte
+        or SpecialType.System_Int16
+        or SpecialType.System_Int32
+        or SpecialType.System_Int64;
 }

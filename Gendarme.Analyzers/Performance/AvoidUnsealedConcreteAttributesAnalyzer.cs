@@ -42,7 +42,7 @@ public sealed class AvoidUnsealedConcreteAttributesAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private bool IsAttributeClass(INamedTypeSymbol type)
+    private bool IsAttributeClass(INamedTypeSymbol? type)
     {
         while (type != null)
         {

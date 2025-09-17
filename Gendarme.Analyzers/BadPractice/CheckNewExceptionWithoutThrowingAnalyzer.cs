@@ -55,14 +55,18 @@ public sealed class CheckNewExceptionWithoutThrowingAnalyzer : DiagnosticAnalyze
         return exceptionType != null && typeSymbol.AllInterfaces.Contains(exceptionType);
     }
 
-    private static bool IsPassedAsArgument(SyntaxNode parent)
+    /// <summary>
+    /// Checks if the parent node is an argument in a method call
+    /// </summary>
+    private static bool IsPassedAsArgument(SyntaxNode? parent)
     {
-        // Check if the parent node is an argument in a method call
-        if (parent is ArgumentSyntax argument)
+        if (parent is not ArgumentSyntax argument)
         {
-            var argumentParent = argument.Parent;
-            return argumentParent is ArgumentListSyntax && argumentParent.Parent is InvocationExpressionSyntax;
+            return false;
         }
-        return false;
+
+        var argumentParent = argument.Parent;
+        return argumentParent is ArgumentListSyntax
+               && argumentParent.Parent is InvocationExpressionSyntax;
     }
 }

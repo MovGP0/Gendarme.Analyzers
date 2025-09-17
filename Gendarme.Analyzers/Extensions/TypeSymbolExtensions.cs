@@ -15,4 +15,17 @@ internal static class TypeSymbolExtensions
             or SpecialType.System_Byte
             or SpecialType.System_SByte;
     }
+
+    public static bool InheritsFrom(this ITypeSymbol? symbol, ITypeSymbol baseType)
+    {
+        while (symbol != null)
+        {
+            if (SymbolEqualityComparer.Default.Equals(symbol.BaseType, baseType))
+            {
+                return true;
+            }
+            symbol = symbol.BaseType;
+        }
+        return false;
+    }
 }

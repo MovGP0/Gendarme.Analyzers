@@ -37,8 +37,11 @@ public sealed class DoNotShortCircuitCertificateCheckAnalyzer : DiagnosticAnalyz
     {
         var methodBody = (IMethodBodyOperation)context.Operation;
 
-        if (methodBody.SemanticModel.GetDeclaredSymbol(methodBody.Syntax) is not IMethodSymbol methodSymbol)
+        if (methodBody.SemanticModel is not { } semanticModel
+            || semanticModel.GetDeclaredSymbol(methodBody.Syntax) is not IMethodSymbol methodSymbol)
+        {
             return;
+        }
 
         // Check if the method is a certificate validation callback
         if (!CertificateValidationMethodNames.Contains(methodSymbol.Name))

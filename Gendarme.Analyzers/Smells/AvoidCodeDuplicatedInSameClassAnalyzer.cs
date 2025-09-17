@@ -37,7 +37,10 @@ public sealed class AvoidCodeDuplicatedInSameClassAnalyzer : DiagnosticAnalyzer
 
         var methods = classDeclaration.Members.OfType<MethodDeclarationSyntax>().ToList();
 
-        var methodBodies = methods.Select(m => m.Body?.ToString() ?? m.ExpressionBody?.Expression.ToString()).ToList();
+        var methodBodies = methods
+            .Select(m => m.Body?.ToString() ?? m.ExpressionBody?.Expression.ToString())
+            .OfType<string>()
+            .ToList();
 
         var duplicates = FindDuplicates(methodBodies);
 

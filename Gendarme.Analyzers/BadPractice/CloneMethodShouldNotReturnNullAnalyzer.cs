@@ -50,9 +50,8 @@ public sealed class CloneMethodShouldNotReturnNullAnalyzer : DiagnosticAnalyzer
         // Analyze the method body for return statements
         foreach (var descendantNode in methodDeclaration.DescendantNodes())
         {
-            if (descendantNode is ReturnStatementSyntax returnStatement)
+            if (descendantNode is ReturnStatementSyntax { Expression: { } returnExpression })
             {
-                var returnExpression = returnStatement.Expression;
                 var constantValue = context.SemanticModel.GetConstantValue(returnExpression);
 
                 if (constantValue is { HasValue: true, Value: null })
