@@ -23,7 +23,7 @@ public enum MyEnum
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.EnumsShouldDefineAZeroValue)
-            .WithSpan(3, 6, 3, 12)
+            .WithSpan(2, 13, 2, 19)
             .WithArguments("MyEnum");
 
         context.ExpectedDiagnostics.Add(expected);

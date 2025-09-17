@@ -1,4 +1,4 @@
-
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 // your namespace
 
@@ -53,9 +53,21 @@ public sealed class ConsiderConvertingMethodToPropertyAnalyzer : DiagnosticAnaly
             !methodSymbol.ReturnsVoid)
         {
             // Fire the diagnostic
+            var location = methodSymbol.Locations.FirstOrDefault();
+
+            var syntaxReference = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+            if (syntaxReference is not null)
+            {
+                var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                if (syntax is MethodDeclarationSyntax methodDeclaration)
+                {
+                    location = methodDeclaration.Identifier.GetLocation();
+                }
+            }
+
             var diagnostic = Diagnostic.Create(
                 Rule,
-                methodSymbol.Locations[0],
+                location,
                 methodSymbol.Name);
             context.ReportDiagnostic(diagnostic);
         }

@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -24,6 +26,18 @@ public sealed class EnsureSymmetryForOverloadedOperatorsAnalyzer : DiagnosticAna
         isEnabledByDefault: true,
         description: Description);
 
+    private static readonly (string OperatorMetadata, string ComplementaryMetadata, string DisplaySymbol)[] OperatorPairs =
+    [
+        ("op_Addition", "op_Subtraction", "+"),
+        ("op_Subtraction", "op_Addition", "-"),
+        ("op_Equality", "op_Inequality", "=="),
+        ("op_Inequality", "op_Equality", "!="),
+        ("op_LessThan", "op_GreaterThan", "<"),
+        ("op_GreaterThan", "op_LessThan", ">"),
+        ("op_LessThanOrEqual", "op_GreaterThanOrEqual", "<="),
+        ("op_GreaterThanOrEqual", "op_LessThanOrEqual", ">="),
+    ];
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
         => [Rule];
 
@@ -38,24 +52,53 @@ public sealed class EnsureSymmetryForOverloadedOperatorsAnalyzer : DiagnosticAna
     {
         var namedType = (INamedTypeSymbol)context.Symbol;
         var operatorMethods = namedType.GetMembers().OfType<IMethodSymbol>()
-            .Where(m => m.MethodKind == MethodKind.UserDefinedOperator);
+            .Where(m => m.MethodKind == MethodKind.UserDefinedOperator)
+            .GroupBy(m => m.MetadataName)
+            .ToDictionary(g => g.Key, g => g.First(), StringComparer.Ordinal);
 
-        // Pairs to check: +/-, ==/!=, <,>, <=,>=, etc.
-        // For simplicity, we'll demonstrate just +/-
-        var hasPlus = operatorMethods.Any(m => m.MetadataName == "op_Addition");
-        var hasMinus = operatorMethods.Any(m => m.MetadataName == "op_Subtraction");
-
-        if (hasPlus && !hasMinus)
+        foreach (var (operatorMetadata, complementaryMetadata, displaySymbol) in OperatorPairs)
         {
-            var diag = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name, "+");
-            context.ReportDiagnostic(diag);
+            if (!operatorMethods.TryGetValue(operatorMetadata, out var operatorSymbol))
+            {
+                continue;
+            }
+
+            if (operatorMethods.ContainsKey(complementaryMetadata))
+            {
+                continue;
+            }
+
+            var location = GetOperatorLocation(operatorSymbol, context.CancellationToken)
+                ?? namedType.Locations.FirstOrDefault();
+
+            if (location is null)
+            {
+                continue;
+            }
+
+            var diagnostic = Diagnostic.Create(
+                Rule,
+                location,
+                namedType.Name,
+                displaySymbol);
+            context.ReportDiagnostic(diagnostic);
         }
-        if (hasMinus && !hasPlus)
+    }
+
+    private static Location? GetOperatorLocation(IMethodSymbol operatorSymbol, CancellationToken cancellationToken)
+    {
+        var syntaxReference = operatorSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+        if (syntaxReference is null)
         {
-            var diag = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name, "-");
-            context.ReportDiagnostic(diag);
+            return operatorSymbol.Locations.FirstOrDefault();
         }
 
-        // You can expand the above pattern for all relevant operators
+        var syntax = syntaxReference.GetSyntax(cancellationToken);
+        if (syntax is OperatorDeclarationSyntax operatorDeclaration)
+        {
+            return operatorDeclaration.OperatorToken.GetLocation();
+        }
+
+        return operatorSymbol.Locations.FirstOrDefault();
     }
 }

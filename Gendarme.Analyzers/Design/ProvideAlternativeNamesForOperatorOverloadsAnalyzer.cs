@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -80,9 +82,21 @@ public sealed class ProvideAlternativeNamesForOperatorOverloadsAnalyzer : Diagno
 
                 if (!hasAlternative)
                 {
+                    var location = op.Locations.FirstOrDefault();
+
+                    var syntaxReference = op.DeclaringSyntaxReferences.FirstOrDefault();
+                    if (syntaxReference is not null)
+                    {
+                        var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                        if (syntax is OperatorDeclarationSyntax operatorDeclaration)
+                        {
+                            location = operatorDeclaration.OperatorKeyword.GetLocation();
+                        }
+                    }
+
                     var diag = Diagnostic.Create(
                         Rule,
-                        op.Locations.FirstOrDefault(),
+                        location,
                         namedType.Name,
                         op.Name,
                         suggestedName);

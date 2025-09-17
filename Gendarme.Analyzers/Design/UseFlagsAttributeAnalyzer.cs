@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -67,9 +68,21 @@ public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
         // If we found multiple power-of-two fields, it's likely a bitmask
         if (countBitfields > 1)
         {
+            var location = namedType.Locations.FirstOrDefault();
+
+            var syntaxReference = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+            if (syntaxReference is not null)
+            {
+                var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                if (syntax is EnumDeclarationSyntax enumDeclaration)
+                {
+                    location = enumDeclaration.Identifier.GetLocation();
+                }
+            }
+
             var diag = Diagnostic.Create(
                 Rule,
-                namedType.Locations.FirstOrDefault(),
+                location,
                 namedType.Name);
             context.ReportDiagnostic(diag);
         }

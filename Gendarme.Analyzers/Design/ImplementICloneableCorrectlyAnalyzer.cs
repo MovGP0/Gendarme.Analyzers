@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -51,9 +52,21 @@ public sealed class ImplementICloneableCorrectlyAnalyzer : DiagnosticAnalyzer
             // If it returns object but doesn't implement ICloneable -> diagnostic
             if (!implementsICloneable)
             {
+                var location = cloneMethod.Locations.FirstOrDefault();
+
+                var syntaxReference = cloneMethod.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxReference is not null)
+                {
+                    var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                    if (syntax is MethodDeclarationSyntax methodDeclaration)
+                    {
+                        location = methodDeclaration.Identifier.GetLocation();
+                    }
+                }
+
                 var diag = Diagnostic.Create(
                     Rule,
-                    cloneMethod.Locations.FirstOrDefault(),
+                    location,
                     namedType.Name);
                 context.ReportDiagnostic(diag);
             }

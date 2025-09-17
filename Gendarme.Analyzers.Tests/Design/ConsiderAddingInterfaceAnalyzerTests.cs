@@ -22,7 +22,7 @@ public class MyClass
         };
 
         var expected = new DiagnosticResult(DiagnosticId.ConsiderAddingInterface, DiagnosticSeverity.Info)
-            .WithSpan(4, 14, 4, 16)
+            .WithSpan(4, 17, 4, 19)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);

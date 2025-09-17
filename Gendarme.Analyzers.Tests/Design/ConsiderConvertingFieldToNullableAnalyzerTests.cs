@@ -18,6 +18,8 @@ public class MyClass
     private bool hasNonNullable;
     private NonNullableType nonNullableValue;
 }
+
+public class NonNullableType { }
 ";
 
         var context = new CSharpAnalyzerTest<ConsiderConvertingFieldToNullableAnalyzer, DefaultVerifier>
@@ -28,7 +30,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ConsiderConvertingFieldToNullable)
-            .WithSpan(7, 9, 7, 29)
+            .WithSpan(4, 18, 4, 26)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);

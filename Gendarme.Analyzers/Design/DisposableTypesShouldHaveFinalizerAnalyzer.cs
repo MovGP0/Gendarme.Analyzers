@@ -1,3 +1,6 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -31,7 +34,6 @@ public sealed class DisposableTypesShouldHaveFinalizerAnalyzer : DiagnosticAnaly
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-
         context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
     }
 
@@ -39,33 +41,52 @@ public sealed class DisposableTypesShouldHaveFinalizerAnalyzer : DiagnosticAnaly
     {
         var namedType = (INamedTypeSymbol)context.Symbol;
 
-        // Check if implements IDisposable
         var implementsIDisposable = namedType.AllInterfaces.Any(i =>
             i.ToDisplayString() == "System.IDisposable");
 
         if (!implementsIDisposable)
-            return;
-
-        // Check if there's a finalizer => a method with name '~ClassName'
-        var hasFinalizer = namedType.GetMembers().Any(m => m is IMethodSymbol { MethodKind: MethodKind.Destructor });
-
-        // Check for native fields: IntPtr, UIntPtr, HandleRef, etc.
-        var hasNativeField = namedType.GetMembers().OfType<IFieldSymbol>().Any(f =>
         {
-            var fullName = f.Type.ToDisplayString();
-            return fullName == "System.IntPtr"
-                   || fullName == "System.UIntPtr"
-                   || fullName == "System.Runtime.InteropServices.HandleRef";
-        });
+            return;
+        }
 
-        // If we have native fields, we want a finalizer
+        var hasFinalizer = namedType.GetMembers()
+            .OfType<IMethodSymbol>()
+            .Any(m => m.MethodKind == MethodKind.Destructor);
+
+        var hasNativeField = namedType.GetMembers()
+            .OfType<IFieldSymbol>()
+            .Any(f => f is { IsStatic: false } && IsNativeFieldType(f.Type));
+
         if (hasNativeField && !hasFinalizer)
         {
+            var location = namedType.Locations.FirstOrDefault();
+
+            var syntaxReference = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+            if (syntaxReference is not null)
+            {
+                var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                if (syntax is TypeDeclarationSyntax typeDeclaration)
+                {
+                    location = typeDeclaration.Identifier.GetLocation();
+                }
+            }
+
             var diagnostic = Diagnostic.Create(
                 Rule,
-                namedType.Locations[0],
+                location,
                 namedType.Name);
             context.ReportDiagnostic(diagnostic);
         }
+    }
+
+    private static bool IsNativeFieldType(ITypeSymbol type)
+    {
+        if (type.SpecialType is SpecialType.System_IntPtr or SpecialType.System_UIntPtr)
+        {
+            return true;
+        }
+
+        return type is INamedTypeSymbol named &&
+            named.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.Runtime.InteropServices.HandleRef";
     }
 }

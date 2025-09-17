@@ -15,9 +15,8 @@ namespace SmallNamespace
     public class MyClass2 { }
     public class MyClass3 { }
     public class MyClass4 { }
-    public class MyClass5 { }
-    public class MyClass6 { }
-}";
+}
+";
 
         var context = new CSharpAnalyzerTest<AvoidSmallNamespaceAnalyzer, DefaultVerifier>
         {
@@ -27,8 +26,8 @@ namespace SmallNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidSmallNamespace)
-            .WithSpan(4, 13, 4, 21)
-            .WithArguments("SmallNamespace", 6, 5);
+            .WithSpan(4, 18, 4, 26)
+            .WithArguments("SmallNamespace", 4, 5);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -43,7 +42,8 @@ namespace SmallNamespace
 {
     public class MyClass1 { }
     public class MyClass2 { }
-}";
+}
+";
 
         var context = new CSharpAnalyzerTest<AvoidSmallNamespaceAnalyzer, DefaultVerifier>
         {
@@ -53,7 +53,7 @@ namespace SmallNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidSmallNamespace)
-            .WithSpan(4, 13, 4, 21)
+            .WithSpan(4, 18, 4, 26)
             .WithArguments("SmallNamespace", 2, 5);
 
         context.ExpectedDiagnostics.Add(expected);

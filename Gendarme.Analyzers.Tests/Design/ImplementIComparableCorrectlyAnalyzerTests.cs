@@ -23,7 +23,7 @@ public class MyClass : System.IComparable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ImplementIComparableCorrectly)
-            .WithSpan(3, 1, 3, 32)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass", "Equals(object), operator ==, operator !=");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -77,7 +77,7 @@ public class MyClass : System.IComparable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ImplementIComparableCorrectly)
-            .WithSpan(3, 1, 3, 32)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass", "operator ==, operator !=");
 
         context.ExpectedDiagnostics.Add(expected);

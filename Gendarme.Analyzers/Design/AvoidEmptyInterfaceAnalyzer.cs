@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -36,7 +37,21 @@ public sealed class AvoidEmptyInterfaceAnalyzer : DiagnosticAnalyzer
             // If the interface has no members, report
             if (namedTypeSymbol.GetMembers().Length == 0)
             {
-                var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0],
+                var location = namedTypeSymbol.Locations.FirstOrDefault();
+
+                var syntaxReference = namedTypeSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxReference is not null)
+                {
+                    var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                    if (syntax is InterfaceDeclarationSyntax interfaceDeclaration)
+                    {
+                        location = interfaceDeclaration.Identifier.GetLocation();
+                    }
+                }
+
+                var diagnostic = Diagnostic.Create(
+                    Rule,
+                    location,
                     namedTypeSymbol.Name);
                 context.ReportDiagnostic(diagnostic);
             }

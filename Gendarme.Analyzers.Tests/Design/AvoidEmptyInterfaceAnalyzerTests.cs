@@ -22,7 +22,7 @@ public interface IMyEmptyInterface { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidEmptyInterface)
-            .WithSpan(4, 22, 4, 45)
+            .WithSpan(4, 18, 4, 35)
             .WithArguments("IMyEmptyInterface");
 
         context.ExpectedDiagnostics.Add(expected);

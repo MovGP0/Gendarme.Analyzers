@@ -41,6 +41,7 @@ public sealed class AvoidSmallNamespaceAnalyzer : DiagnosticAnalyzer
     {
         // Map namespace -> set of types
         private readonly Dictionary<string, HashSet<INamedTypeSymbol>> _namespaces = new();
+        private readonly object _gate = new();
 
         public void Collect(SymbolAnalysisContext context)
         {
@@ -51,18 +52,29 @@ public sealed class AvoidSmallNamespaceAnalyzer : DiagnosticAnalyzer
             if (!namedType.IsExternallyVisible())
                 return;
 
-            if (!_namespaces.TryGetValue(ns, out var set))
+            lock (_gate)
             {
-                set = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
-                _namespaces[ns] = set;
+                if (!_namespaces.TryGetValue(ns, out var set))
+                {
+                    set = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+                    _namespaces[ns] = set;
+                }
+                set.Add(namedType);
             }
-            set.Add(namedType);
         }
 
         public void Report(CompilationAnalysisContext context)
         {
-            // Evaluate namespace counts
-            foreach (var kvp in _namespaces)
+            Dictionary<string, HashSet<INamedTypeSymbol>> snapshot;
+            lock (_gate)
+            {
+                snapshot = _namespaces.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value,
+                    StringComparer.Ordinal);
+            }
+
+            foreach (var kvp in snapshot)
             {
                 var namespaceName = kvp.Key;
                 var typesInNamespace = kvp.Value;

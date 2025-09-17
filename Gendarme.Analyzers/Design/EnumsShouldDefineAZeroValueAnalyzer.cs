@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -52,7 +53,22 @@ public sealed class EnumsShouldDefineAZeroValueAnalyzer : DiagnosticAnalyzer
 
             if (!hasZeroValue)
             {
-                var diag = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name);
+                var location = namedType.Locations.FirstOrDefault();
+
+                var syntaxReference = namedType.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxReference is not null)
+                {
+                    var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                    if (syntax is EnumDeclarationSyntax enumDeclaration)
+                    {
+                        location = enumDeclaration.Identifier.GetLocation();
+                    }
+                }
+
+                var diag = Diagnostic.Create(
+                    Rule,
+                    location,
+                    namedType.Name);
                 context.ReportDiagnostic(diag);
             }
         }

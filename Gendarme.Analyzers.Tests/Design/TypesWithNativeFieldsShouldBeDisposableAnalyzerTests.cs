@@ -20,19 +20,12 @@ public class MyClass
         var context = new CSharpAnalyzerTest<TypesWithNativeFieldsShouldBeDisposableAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode,
-            TestState = 
-            {
-                AdditionalReferences = 
-                {
-                    MetadataReference.CreateFromFile(typeof(System.IntPtr).Assembly.Location)
-                }
-            }
+            TestCode = testCode
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.TypesWithNativeFieldsShouldBeDisposable)
-            .WithSpan(17, 13, 17, 19)  // points to "handle" in the field declaration
+            .WithSpan(7, 27, 7, 33)  // points to "handle" in the field declaration
             .WithArguments("MyClass", "handle");
 
         context.ExpectedDiagnostics.Add(expected);

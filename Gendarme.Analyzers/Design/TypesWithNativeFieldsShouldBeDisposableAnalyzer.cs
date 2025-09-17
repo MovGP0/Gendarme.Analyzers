@@ -1,3 +1,6 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -40,14 +43,13 @@ public sealed class TypesWithNativeFieldsShouldBeDisposableAnalyzer : Diagnostic
 
         var nativeFields = namedType.GetMembers()
             .OfType<IFieldSymbol>()
-            .Where(f => f is { IsStatic: false, IsConst: false } && 
-                        (f.Type.ToDisplayString() == "System.IntPtr" ||
-                         f.Type.ToDisplayString() == "System.UIntPtr" ||
-                         f.Type.ToDisplayString() == "System.Runtime.InteropServices.HandleRef"))
+            .Where(f => f is { IsStatic: false, IsConst: false } && IsNativeFieldType(f.Type))
             .ToList();
 
         if (nativeFields.Count == 0)
+        {
             return;
+        }
 
         bool implementsIDisposable = namedType.AllInterfaces.Any(i => i.ToDisplayString() == "System.IDisposable");
 
@@ -55,13 +57,36 @@ public sealed class TypesWithNativeFieldsShouldBeDisposableAnalyzer : Diagnostic
         {
             foreach (var field in nativeFields)
             {
+                var location = field.Locations.FirstOrDefault();
+
+                var syntaxReference = field.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxReference is not null)
+                {
+                    var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                    if (syntax is VariableDeclaratorSyntax declarator)
+                    {
+                        location = declarator.Identifier.GetLocation();
+                    }
+                }
+
                 var diag = Diagnostic.Create(
                     Rule,
-                    field.Locations.FirstOrDefault(),
+                    location,
                     namedType.Name,
                     field.Name);
                 context.ReportDiagnostic(diag);
             }
         }
+    }
+
+    private static bool IsNativeFieldType(ITypeSymbol type)
+    {
+        if (type.SpecialType is SpecialType.System_IntPtr or SpecialType.System_UIntPtr)
+        {
+            return true;
+        }
+
+        return type is INamedTypeSymbol named &&
+            named.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.Runtime.InteropServices.HandleRef";
     }
 }

@@ -13,7 +13,9 @@ using System;
 
 public class MyClass : IDisposable
 {
-    public void Dispose() { }
+    void IDisposable.Dispose() { }
+
+    protected virtual void Dispose(bool disposing) { }
 }
 ";
 
@@ -25,7 +27,7 @@ public class MyClass : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectDisposeSignatures)
-            .WithSpan(6, 18, 6, 24)
+            .WithSpan(4, 14, 4, 21)
             .WithArguments("MyClass", "[Missing public Dispose()]; ");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -41,6 +43,8 @@ using System;
 
 public class MyClass : IDisposable
 {
+    public void Dispose() { }
+
     public virtual void Dispose(bool disposing) { }
 }
 ";
@@ -53,8 +57,8 @@ public class MyClass : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseCorrectDisposeSignatures)
-            .WithSpan(6, 18, 6, 36)
-            .WithArguments("MyClass", "[Missing protected virtual Dispose(bool)]; ");
+            .WithSpan(4, 14, 4, 21)
+            .WithArguments("MyClass", "[Dispose(bool) should be protected virtual for unsealed]; [Missing protected virtual Dispose(bool)]; ");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -70,7 +74,7 @@ using System;
 public class MyClass : IDisposable
 {
     public void Dispose() { }
-    
+
     protected virtual void Dispose(bool disposing) { }
 }
 ";
@@ -80,8 +84,6 @@ public class MyClass : IDisposable
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = testCode
         };
-
-        // No expected diagnostics since Dispose signatures are correct
 
         await context.RunAsync();
     }

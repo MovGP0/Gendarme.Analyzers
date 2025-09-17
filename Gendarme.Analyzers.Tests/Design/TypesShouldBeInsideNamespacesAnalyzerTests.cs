@@ -20,7 +20,7 @@ public class MyClass { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.TypesShouldBeInsideNamespaces)
-            .WithSpan(2, 7, 2, 14)
+            .WithSpan(2, 14, 2, 21)
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);

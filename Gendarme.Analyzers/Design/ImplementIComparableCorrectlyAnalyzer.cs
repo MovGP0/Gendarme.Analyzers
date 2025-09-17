@@ -55,15 +55,10 @@ public sealed class ImplementIComparableCorrectlyAnalyzer : DiagnosticAnalyzer
         // Check operator ==, !=, <, >
         bool hasOpEq = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_Equality" });
         bool hasOpNe = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_Inequality" });
-        bool hasOpLt = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_LessThan" });
-        bool hasOpGt = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_GreaterThan" });
-
         var missingParts = new System.Collections.Generic.List<string>();
         if (!overridesEquals) missingParts.Add("Equals(object)");
         if (!hasOpEq) missingParts.Add("operator ==");
         if (!hasOpNe) missingParts.Add("operator !=");
-        if (!hasOpLt) missingParts.Add("operator <");
-        if (!hasOpGt) missingParts.Add("operator >");
 
         if (missingParts.Count > 0)
         {

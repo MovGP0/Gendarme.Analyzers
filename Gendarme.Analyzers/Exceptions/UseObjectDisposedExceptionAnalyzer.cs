@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace Gendarme.Analyzers.Exceptions;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -16,7 +18,6 @@ public sealed class UseObjectDisposedExceptionAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
@@ -32,33 +33,54 @@ public sealed class UseObjectDisposedExceptionAnalyzer : DiagnosticAnalyzer
         if (!typeSymbol.Interfaces.Any(i => i.ToString() == "System.IDisposable"))
             return;
 
-        var disposeField = typeSymbol.GetMembers().OfType<IFieldSymbol>().FirstOrDefault(f => f.Name == "disposed" && f.Type.SpecialType == SpecialType.System_Boolean);
+        var disposeField = typeSymbol.GetMembers()
+            .OfType<IFieldSymbol>()
+            .FirstOrDefault(f => f.Name == "disposed" && f.Type.SpecialType == SpecialType.System_Boolean);
         if (disposeField == null)
             return;
 
         foreach (var method in typeSymbol.GetMembers().OfType<IMethodSymbol>())
         {
-            if (method.Name == "Dispose")
+            if (method is not { MethodKind: MethodKind.Ordinary } || method.Name == "Dispose")
                 continue;
 
-            var methodSyntax = method.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() as MethodDeclarationSyntax;
-            if (methodSyntax == null)
+            var syntaxReference = method.DeclaringSyntaxReferences.FirstOrDefault();
+            if (syntaxReference is null)
                 continue;
 
-            var body = methodSyntax.Body;
-            if (body == null)
+            if (syntaxReference.GetSyntax(context.CancellationToken) is not MethodDeclarationSyntax methodDeclaration)
                 continue;
 
-            var statements = body.Statements;
-            if (!statements.Any())
-                continue;
-
-            var containsDisposedCheck = statements.Any(s => s.ToString().Contains("disposed"));
-            if (!containsDisposedCheck)
+            if (!MethodUsesDisposedFlag(methodDeclaration, disposeField.Name))
             {
-                var diagnostic = Diagnostic.Create(Rule, methodSyntax.Identifier.GetLocation(), method.Name);
+                var diagnostic = Diagnostic.Create(
+                    Rule,
+                    methodDeclaration.Identifier.GetLocation(),
+                    method.Name);
                 context.ReportDiagnostic(diagnostic);
             }
         }
+    }
+
+    private static bool MethodUsesDisposedFlag(MethodDeclarationSyntax methodDeclaration, string disposedFieldName)
+    {
+        if (methodDeclaration.ExpressionBody is ArrowExpressionClauseSyntax expressionBody)
+        {
+            return ExpressionUsesDisposedFlag(expressionBody.Expression, disposedFieldName);
+        }
+
+        if (methodDeclaration.Body is null)
+        {
+            return false;
+        }
+
+        return methodDeclaration.Body.DescendantNodes()
+            .Any(node => node is IdentifierNameSyntax identifier && identifier.Identifier.ValueText == disposedFieldName);
+    }
+
+    private static bool ExpressionUsesDisposedFlag(ExpressionSyntax expression, string disposedFieldName)
+    {
+        return expression.DescendantNodesAndSelf()
+            .Any(node => node is IdentifierNameSyntax identifier && identifier.Identifier.ValueText == disposedFieldName);
     }
 }

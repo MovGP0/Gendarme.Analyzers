@@ -25,7 +25,7 @@ namespace TestNamespace
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidVisibleNestedTypes)
-            .WithSpan(6, 14, 6, 33)
+            .WithSpan(6, 22, 6, 40)
             .WithArguments("VisibleNestedClass");
 
         context.ExpectedDiagnostics.Add(expected);

@@ -12,7 +12,7 @@ public sealed class DoNotDeclareProtectedMembersInSealedTypeAnalyzerTests
 public sealed class MySealedClass
 {
     protected int MyProtectedField; // should trigger a warning
-    protected virtual void MyProtectedMethod() { } // should trigger a warning
+    protected void MyProtectedMethod() { } // should trigger a warning
 }
 ";
 
@@ -24,12 +24,12 @@ public sealed class MySealedClass
 
         var expectedFieldWarning = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotDeclareProtectedMembersInSealedType)
-            .WithSpan(3, 14, 3, 36)
+            .WithSpan(4, 19, 4, 35)
             .WithArguments("MySealedClass", "MyProtectedField");
 
         var expectedMethodWarning = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotDeclareProtectedMembersInSealedType)
-            .WithSpan(4, 14, 4, 33)
+            .WithSpan(5, 20, 5, 37)
             .WithArguments("MySealedClass", "MyProtectedMethod");
 
         context.ExpectedDiagnostics.Add(expectedFieldWarning);

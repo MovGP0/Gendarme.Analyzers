@@ -34,7 +34,7 @@ public class MyClass : IDisposable
         };
 
         var expected = DiagnosticResult.CompilerWarning(DiagnosticId.UseObjectDisposedException)
-            .WithSpan(6, 13, 6, 25) // Start at SomeMethod() line
+            .WithSpan(8, 17, 8, 27) // Start at SomeMethod() line
             .WithArguments("SomeMethod");
 
         context.ExpectedDiagnostics.Add(expected);

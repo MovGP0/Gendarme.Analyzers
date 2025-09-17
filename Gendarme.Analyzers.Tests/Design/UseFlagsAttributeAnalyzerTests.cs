@@ -26,7 +26,7 @@ public enum MyFlags
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseFlagsAttribute)
-            .WithSpan(2, 14, 2, 21)
+            .WithSpan(2, 13, 2, 20)
             .WithArguments("MyFlags");
 
         context.ExpectedDiagnostics.Add(expected);

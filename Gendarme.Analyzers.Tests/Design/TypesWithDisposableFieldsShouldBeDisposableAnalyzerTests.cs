@@ -16,12 +16,14 @@ public class MyDisposable : IDisposable
     public void Dispose() { }
 }
 
-public class MyClass
+public class MyClass : IDisposable
 {
     private MyDisposable disposableField;
+
+    public void Dispose() { }
 }
 
-public class MyClassWithoutDisposable : IDisposable
+public class MyClassWithoutDisposable
 {
     private MyDisposable disposableField; // Has disposable field but does not implement IDisposable
 }
@@ -35,7 +37,7 @@ public class MyClassWithoutDisposable : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.TypesWithDisposableFieldsShouldBeDisposable)
-            .WithSpan(10, 5, 10, 32)
+            .WithSpan(18, 26, 18, 41)
             .WithArguments("MyClassWithoutDisposable", "disposableField");
 
         context.ExpectedDiagnostics.Add(expected);

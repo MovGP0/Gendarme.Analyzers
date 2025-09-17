@@ -22,7 +22,7 @@ public class MyClass
         };
 
         var expected = new DiagnosticResult(DiagnosticId.ConsiderConvertingMethodToProperty, DiagnosticSeverity.Info)
-            .WithSpan(4, 26, 4, 34)
+            .WithSpan(4, 16, 4, 24)
             .WithArguments("GetValue");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -85,7 +85,7 @@ public class MyClass
         };
 
         var expected = new DiagnosticResult(DiagnosticId.ConsiderConvertingMethodToProperty, DiagnosticSeverity.Info)
-            .WithSpan(4, 26, 4, 34)
+            .WithSpan(4, 17, 4, 24)
             .WithArguments("IsReady");
 
         context.ExpectedDiagnostics.Add(expected);

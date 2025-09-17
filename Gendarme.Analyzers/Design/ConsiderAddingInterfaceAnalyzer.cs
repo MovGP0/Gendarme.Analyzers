@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Gendarme.Analyzers.Design;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -35,17 +36,31 @@ public sealed class ConsiderAddingInterfaceAnalyzer : DiagnosticAnalyzer
             return;
 
         // 1) Check if the type has a method "Do()"
-        var hasMethodDo = namedTypeSymbol.GetMembers()
+        var doMethod = namedTypeSymbol.GetMembers()
             .OfType<IMethodSymbol>()
-            .Any(m => m is { Name: "Do", Parameters.Length: 0 });
+            .FirstOrDefault(m => m is { Name: "Do", Parameters.Length: 0 });
 
         // 2) Check if the type implements IDoable
         var hasIDoable = namedTypeSymbol.AllInterfaces
             .Any(i => i.Name == "IDoable");
 
-        if (hasMethodDo && !hasIDoable)
+        if (doMethod is not null && !hasIDoable)
         {
-            var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0],
+            var location = doMethod.Locations.FirstOrDefault();
+
+            var syntaxReference = doMethod.DeclaringSyntaxReferences.FirstOrDefault();
+            if (syntaxReference is not null)
+            {
+                var syntax = syntaxReference.GetSyntax(context.CancellationToken);
+                if (syntax is MethodDeclarationSyntax methodDeclaration)
+                {
+                    location = methodDeclaration.Identifier.GetLocation();
+                }
+            }
+
+            var diagnostic = Diagnostic.Create(
+                Rule,
+                location,
                 namedTypeSymbol.Name);
             context.ReportDiagnostic(diagnostic);
         }

@@ -23,7 +23,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.EnsureSymmetryForOverloadedOperators)
-            .WithSpan(3, 14, 3, 20)
+            .WithSpan(4, 36, 4, 37)
             .WithArguments("MyClass", "+");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -49,7 +49,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.EnsureSymmetryForOverloadedOperators)
-            .WithSpan(3, 14, 3, 20)
+            .WithSpan(4, 36, 4, 37)
             .WithArguments("MyClass", "-");
 
         context.ExpectedDiagnostics.Add(expected);

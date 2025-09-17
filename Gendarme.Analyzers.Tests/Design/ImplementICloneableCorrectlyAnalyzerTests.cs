@@ -26,7 +26,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ImplementICloneableCorrectly)
-            .WithSpan(3, 1, 6, 1) // Update this span according to your code structure
+            .WithSpan(4, 19, 4, 24) // Update this span according to your code structure
             .WithArguments("MyClass");
 
         context.ExpectedDiagnostics.Add(expected);

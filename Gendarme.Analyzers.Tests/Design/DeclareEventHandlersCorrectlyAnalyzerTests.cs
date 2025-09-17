@@ -27,7 +27,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DeclareEventHandlersCorrectly)
-            .WithSpan(7, 14, 7, 20)
+            .WithSpan(8, 39, 8, 46)
             .WithArguments("MyEvent");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -57,7 +57,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DeclareEventHandlersCorrectly)
-            .WithSpan(7, 14, 7, 20)
+            .WithSpan(8, 39, 8, 46)
             .WithArguments("MyEvent");
 
         context.ExpectedDiagnostics.Add(expected);

@@ -23,14 +23,14 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ProvideAlternativeNamesForOperatorOverloads)
-            .WithSpan(4, 25, 4, 26) // Assuming the first operator overload location
+            .WithSpan(4, 27, 4, 35) // Assuming the first operator overload location
             .WithArguments("MyClass", "op_UnaryPlus", "Plus");
         
         context.ExpectedDiagnostics.Add(expected);
 
         expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ProvideAlternativeNamesForOperatorOverloads)
-            .WithSpan(5, 25, 5, 26) // Assuming the second operator overload location
+            .WithSpan(5, 27, 5, 35) // Assuming the second operator overload location
             .WithArguments("MyClass", "op_UnaryNegation", "Negate");
         
         context.ExpectedDiagnostics.Add(expected);

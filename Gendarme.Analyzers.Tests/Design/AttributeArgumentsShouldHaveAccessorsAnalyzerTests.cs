@@ -29,7 +29,7 @@ public class MyClass {}
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AttributeArgumentsShouldHaveAccessors)
-            .WithSpan(8, 1, 8, 11) // Change as per exact span generated
+            .WithSpan(7, 12, 7, 23) // Change as per exact span generated
             .WithArguments("MyAttribute", "value");
 
         context.ExpectedDiagnostics.Add(expected);

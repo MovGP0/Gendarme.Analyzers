@@ -79,7 +79,7 @@ public class MyClass : IDisposable
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DisposableTypesShouldHaveFinalizer)
-            .WithSpan(62, 14, 62, 21)
+            .WithSpan(4, 14, 4, 21)
             .WithArguments("MyClass");
         context.ExpectedDiagnostics.Add(expected);
 
