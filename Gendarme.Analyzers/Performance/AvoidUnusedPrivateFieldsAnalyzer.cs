@@ -33,7 +33,7 @@ public sealed class AvoidUnusedPrivateFieldsAnalyzer : DiagnosticAnalyzer
         var privateFields = namedType.GetMembers().OfType<IFieldSymbol>()
             .Where(f => f is { DeclaredAccessibility: Accessibility.Private, IsImplicitlyDeclared: false });
 
-        var usedFields = new HashSet<IFieldSymbol>();
+        var usedFields = new HashSet<IFieldSymbol>(SymbolEqualityComparer.Default);
 
         foreach (var member in namedType.GetMembers().OfType<IMethodSymbol>())
         {

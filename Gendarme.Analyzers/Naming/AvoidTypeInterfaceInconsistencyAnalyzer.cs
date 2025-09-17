@@ -26,8 +26,8 @@ public sealed class AvoidTypeInterfaceInconsistencyAnalyzer : DiagnosticAnalyzer
 
         context.RegisterCompilationStartAction(startContext =>
         {
-            var interfaceTypes = new HashSet<INamedTypeSymbol>();
-            var classTypes = new HashSet<INamedTypeSymbol>();
+            var interfaceTypes = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
+            var classTypes = new HashSet<INamedTypeSymbol>(SymbolEqualityComparer.Default);
 
             startContext.RegisterSymbolAction(symbolContext =>
             {
@@ -49,7 +49,7 @@ public sealed class AvoidTypeInterfaceInconsistencyAnalyzer : DiagnosticAnalyzer
                     var typeNameWithoutI = interfaceType.Name.TrimStart('I');
                     var matchingClass = classTypes.FirstOrDefault(c => c.Name == typeNameWithoutI && c.ContainingNamespace.Equals(interfaceType.ContainingNamespace, SymbolEqualityComparer.Default));
 
-                    if (matchingClass != null && !matchingClass.AllInterfaces.Contains(interfaceType))
+                    if (matchingClass != null && !matchingClass.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, interfaceType)))
                     {
                         var diagnostic = Diagnostic.Create(Rule, matchingClass.Locations[0], matchingClass.Name, interfaceType.Name);
                         endContext.ReportDiagnostic(diagnostic);

@@ -74,7 +74,7 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
                 {
                     TargetMethod.MethodKind: MethodKind.Constructor
                 } invocation } } &&
-                invocation.TargetMethod.ContainingType.Equals(namedType.BaseType))
+                SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, namedType.BaseType))
             {
                 callsBaseCtor = true;
                 break;
@@ -104,7 +104,7 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
                 foreach (var invocation in invocations)
                 {
                     if (invocation.TargetMethod.Name == "GetObjectData" &&
-                        invocation.TargetMethod.ContainingType.Equals(namedType.BaseType))
+                        SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, namedType.BaseType))
                     {
                         callsBaseMethod = true;
                         break;

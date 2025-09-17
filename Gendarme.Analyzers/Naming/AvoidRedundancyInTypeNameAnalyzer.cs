@@ -49,6 +49,6 @@ public sealed class AvoidRedundancyInTypeNameAnalyzer : DiagnosticAnalyzer
     {
         var containingNamespace = typeSymbol.ContainingNamespace;
         var typesWithSameName = containingNamespace.GetMembers(proposedName).OfType<INamedTypeSymbol>();
-        return typesWithSameName.Any(t => !t.Equals(typeSymbol));
+        return typesWithSameName.Any(t => !SymbolEqualityComparer.Default.Equals(t, typeSymbol));
     }
 }

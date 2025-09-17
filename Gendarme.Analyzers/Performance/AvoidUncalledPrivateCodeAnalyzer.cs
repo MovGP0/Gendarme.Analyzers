@@ -30,7 +30,7 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
 
     private void AnalyzeCompilationStart(CompilationStartAnalysisContext context)
     {
-        var calledMethods = new HashSet<IMethodSymbol>();
+        var calledMethods = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
 
         context.RegisterOperationAction(operationContext =>
         {
@@ -56,7 +56,7 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
             foreach (var method in allMethods)
             {
                 if (method.DeclaredAccessibility is Accessibility.Private or Accessibility.Internal &&
-                    !calledMethods.Contains(method) &&
+                    !calledMethods.Contains(method.OriginalDefinition) &&
                     !SymbolEqualityComparer.Default.Equals(method, entryPoint))
                 {
                     var diagnostic = Diagnostic.Create(Rule, method.Locations[0], method.Name);

@@ -59,7 +59,7 @@ public sealed class AvoidAlwaysNullFieldAnalyzer : DiagnosticAnalyzer
             var semanticModel = context.Compilation.GetSemanticModel(typeDeclaration.SyntaxTree);
             var assignments = typeDeclaration.DescendantNodes()
                 .OfType<AssignmentExpressionSyntax>()
-                .Where(a => semanticModel.GetSymbolInfo(a.Left).Symbol?.Equals(fieldSymbol) == true);
+                .Where(a => SymbolEqualityComparer.Default.Equals(semanticModel.GetSymbolInfo(a.Left).Symbol, fieldSymbol));
 
             if (assignments.Any())
             {

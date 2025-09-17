@@ -56,7 +56,7 @@ public sealed class AvoidUnnecessarySpecializationAnalyzer : DiagnosticAnalyzer
             return methodSyntax?.DescendantNodes().OfType<IdentifierNameSyntax>() ?? [];
         });
 
-        var parameterUsages = usages.Where(u => context.SemanticModel.GetSymbolInfo(u).Symbol?.Equals(parameter) == true);
+        var parameterUsages = usages.Where(u => SymbolEqualityComparer.Default.Equals(context.SemanticModel.GetSymbolInfo(u).Symbol, parameter));
 
         var accessedMembers = parameterUsages.SelectMany(u =>
         {

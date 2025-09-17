@@ -43,7 +43,7 @@ public sealed class AvoidDeepInheritanceTreeAnalyzer : DiagnosticAnalyzer
         while (baseType != null && baseType.SpecialType != SpecialType.System_Object)
         {
             depth++;
-            if (!CountExternalDepth && !baseType.ContainingAssembly.Equals(context.Compilation.Assembly))
+            if (!CountExternalDepth && !SymbolEqualityComparer.Default.Equals(baseType.ContainingAssembly, context.Compilation.Assembly))
             {
                 break;
             }
