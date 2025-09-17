@@ -14,7 +14,8 @@ public sealed class AvoidSmallNamespaceAnalyzer : DiagnosticAnalyzer
         Category.Design,
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: Description
+        description: Description,
+        customTags: [WellKnownDiagnosticTags.CompilationEnd]
     );
 
     private const int DefaultMinimumTypes = 5;

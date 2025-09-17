@@ -14,7 +14,8 @@ public sealed class UseStaThreadAttributeOnSwfEntryPointsAnalyzer : DiagnosticAn
         Category.Ui,
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: Description);
+        description: Description,
+        customTags: [WellKnownDiagnosticTags.CompilationEnd]);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 

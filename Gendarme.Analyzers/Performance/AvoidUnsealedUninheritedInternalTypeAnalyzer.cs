@@ -14,7 +14,8 @@ public sealed class AvoidUnsealedUninheritedInternalTypeAnalyzer : DiagnosticAna
         Category.Performance,
         DiagnosticSeverity.Info,
         isEnabledByDefault: true,
-        description: Description);
+        description: Description,
+        customTags: [WellKnownDiagnosticTags.CompilationEnd]);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
