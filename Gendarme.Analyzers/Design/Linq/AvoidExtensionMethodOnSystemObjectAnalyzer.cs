@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Design.Linq;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidExtensionMethodOnSystemObjectAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.AvoidExtensionMethodOnSystemObject_Title;
-    private static readonly LocalizableString MessageFormat = Strings.AvoidExtensionMethodOnSystemObject_Message;
-    private static readonly LocalizableString Description = Strings.AvoidExtensionMethodOnSystemObject_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.AvoidExtensionMethodOnSystemObject_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.AvoidExtensionMethodOnSystemObject_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.AvoidExtensionMethodOnSystemObject_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.AvoidExtensionMethodOnSystemObject,

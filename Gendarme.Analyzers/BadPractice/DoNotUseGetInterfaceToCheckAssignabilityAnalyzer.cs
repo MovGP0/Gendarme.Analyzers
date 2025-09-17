@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotUseGetInterfaceToCheckAssignabilityAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = "Do not use GetInterface to check assignability";
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DoNotUseGetInterfaceToCheckAssignability_Title), Strings.ResourceManager, typeof(Strings));
     private static readonly LocalizableString MessageFormat = "Replace 'type.GetInterface(\"{0}\") != null' with 'typeof({0}).IsAssignableFrom(type)'";
-    private static readonly LocalizableString Description = "Calls to Type.GetInterface to check if a type supports an interface should be replaced with typeof(interface).IsAssignableFrom(type).";
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DoNotUseGetInterfaceToCheckAssignability_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DoNotUseGetInterfaceToCheckAssignability,

@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AttributeStringLiteralsShouldParseCorrectlyAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.AttributeStringLiteralsShouldParseCorrectly_Title;
-    private static readonly LocalizableString MessageFormat = Strings.AttributeStringLiteralsShouldParseCorrectly_Message;
-    private static readonly LocalizableString Description = Strings.AttributeStringLiteralsShouldParseCorrectly_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.AttributeStringLiteralsShouldParseCorrectly_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.AttributeStringLiteralsShouldParseCorrectly_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.AttributeStringLiteralsShouldParseCorrectly_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.AttributeStringLiteralsShouldParseCorrectly,

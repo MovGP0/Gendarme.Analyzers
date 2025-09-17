@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Concurrency;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ProtectCallToEventDelegatesAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ProtectCallToEventDelegatesAnalyzer_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ProtectCallToEventDelegatesAnalyzer_Message;
-    private static readonly LocalizableString Description = Strings.ProtectCallToEventDelegatesAnalyzer_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ProtectCallToEventDelegatesAnalyzer_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ProtectCallToEventDelegatesAnalyzer_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ProtectCallToEventDelegatesAnalyzer_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ProtectCallToEventDelegates,

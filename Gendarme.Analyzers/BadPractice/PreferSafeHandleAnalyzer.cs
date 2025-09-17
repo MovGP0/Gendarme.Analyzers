@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class PreferSafeHandleAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.PreferSafeHandle_Title;
-    private static readonly LocalizableString MessageFormat = Strings.PreferSafeHandle_Message;
-    private static readonly LocalizableString Description = Strings.PreferSafeHandle_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.PreferSafeHandle_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.PreferSafeHandle_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.PreferSafeHandle_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.PreferSafeHandle,

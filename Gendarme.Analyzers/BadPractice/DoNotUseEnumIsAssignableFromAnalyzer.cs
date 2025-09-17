@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotUseEnumIsAssignableFromAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.DoNotUseEnumIsAssignableFrom_Title;
-    private static readonly LocalizableString MessageFormat = Strings.DoNotUseEnumIsAssignableFrom_Message;
-    private static readonly LocalizableString Description = Strings.DoNotUseEnumIsAssignableFrom_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DoNotUseEnumIsAssignableFrom_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DoNotUseEnumIsAssignableFrom_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DoNotUseEnumIsAssignableFrom_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DoNotUseEnumIsAssignableFrom,

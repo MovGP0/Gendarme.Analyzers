@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class BadRecursiveInvocationAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.BadRecursiveInvocation_Title;
-    private static readonly LocalizableString MessageFormat = Strings.BadRecursiveInvocation_Message;
-    private static readonly LocalizableString Description = Strings.BadRecursiveInvocation_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.BadRecursiveInvocation_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.BadRecursiveInvocation_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.BadRecursiveInvocation_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.BadRecursiveInvocation,

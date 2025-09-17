@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class EnsureLocalDisposalAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.EnsureLocalDisposal_Title;
-    private static readonly LocalizableString MessageFormat = Strings.EnsureLocalDisposal_Message;
-    private static readonly LocalizableString Description = Strings.EnsureLocalDisposal_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.EnsureLocalDisposal_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.EnsureLocalDisposal_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.EnsureLocalDisposal_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.EnsureLocalDisposal,

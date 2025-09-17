@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidFloatingPointEqualityAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.AvoidFloatingPointEquality_Title;
-    private static readonly LocalizableString MessageFormat = Strings.AvoidFloatingPointEquality_Message;
-    private static readonly LocalizableString Description = Strings.AvoidFloatingPointEquality_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.AvoidFloatingPointEquality_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.AvoidFloatingPointEquality_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.AvoidFloatingPointEquality_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.AvoidFloatingPointEquality,

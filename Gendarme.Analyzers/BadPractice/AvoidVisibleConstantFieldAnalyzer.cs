@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidVisibleConstantFieldAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.AvoidVisibleConstantField_Title;
-    private static readonly LocalizableString MessageFormat = Strings.AvoidVisibleConstantField_Message;
-    private static readonly LocalizableString Description = Strings.AvoidVisibleConstantField_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.AvoidVisibleConstantField_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.AvoidVisibleConstantField_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.AvoidVisibleConstantField_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.AvoidVisibleConstantField,

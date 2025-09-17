@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Concurrency;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class NonConstantStaticFieldsShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.NonConstantStaticFieldsShouldNotBeVisible_Title;
-    private static readonly LocalizableString MessageFormat = Strings.NonConstantStaticFieldsShouldNotBeVisible_Message;
-    private static readonly LocalizableString Description = Strings.NonConstantStaticFieldsShouldNotBeVisible_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.NonConstantStaticFieldsShouldNotBeVisible_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.NonConstantStaticFieldsShouldNotBeVisible_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.NonConstantStaticFieldsShouldNotBeVisible_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.NonConstantStaticFieldsShouldNotBeVisible,

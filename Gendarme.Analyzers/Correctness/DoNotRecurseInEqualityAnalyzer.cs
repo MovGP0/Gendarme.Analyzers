@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotRecurseInEqualityAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.DoNotRecurseInEquality_Title;
-    private static readonly LocalizableString MessageFormat = Strings.DoNotRecurseInEquality_Message;
-    private static readonly LocalizableString Description = Strings.DoNotRecurseInEquality_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DoNotRecurseInEquality_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DoNotRecurseInEquality_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DoNotRecurseInEquality_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DoNotRecurseInEquality,

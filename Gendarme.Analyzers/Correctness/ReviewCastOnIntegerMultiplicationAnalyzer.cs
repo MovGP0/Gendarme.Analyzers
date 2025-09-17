@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewCastOnIntegerMultiplicationAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ReviewCastOnIntegerMultiplication_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ReviewCastOnIntegerMultiplication_Message;
-    private static readonly LocalizableString Description = Strings.ReviewCastOnIntegerMultiplication_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ReviewCastOnIntegerMultiplication_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ReviewCastOnIntegerMultiplication_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ReviewCastOnIntegerMultiplication_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ReviewCastOnIntegerMultiplication,

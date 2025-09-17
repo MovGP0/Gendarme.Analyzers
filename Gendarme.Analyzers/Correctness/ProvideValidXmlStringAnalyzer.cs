@@ -5,9 +5,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ProvideValidXmlStringAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ProvideValidXmlString_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ProvideValidXmlString_Message;
-    private static readonly LocalizableString Description = Strings.ProvideValidXmlString_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ProvideValidXmlString_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ProvideValidXmlString_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ProvideValidXmlString_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ProvideValidXmlString,

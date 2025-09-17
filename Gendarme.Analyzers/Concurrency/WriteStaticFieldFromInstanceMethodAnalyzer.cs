@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Concurrency;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class WriteStaticFieldFromInstanceMethodAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.WriteStaticFieldFromInstanceMethod_Title;
-    private static readonly LocalizableString MessageFormat = Strings.WriteStaticFieldFromInstanceMethod_Message;
-    private static readonly LocalizableString Description = Strings.WriteStaticFieldFromInstanceMethod_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.WriteStaticFieldFromInstanceMethod_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.WriteStaticFieldFromInstanceMethod_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.WriteStaticFieldFromInstanceMethod_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.WriteStaticFieldFromInstanceMethod,

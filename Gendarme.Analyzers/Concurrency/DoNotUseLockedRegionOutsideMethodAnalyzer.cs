@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Concurrency;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotUseLockedRegionOutsideMethodAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Title;
-    private static readonly LocalizableString MessageFormat = Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Message;
-    private static readonly LocalizableString Description = Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DoNotUseLockedRegionOutsideMethodAnalyzer_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DoNotUseLockedRegionOutsideMethod,

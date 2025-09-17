@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Concurrency;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message;
-    private static readonly LocalizableString Description = Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ReviewLockUsedOnlyForOperationsOnVariables,

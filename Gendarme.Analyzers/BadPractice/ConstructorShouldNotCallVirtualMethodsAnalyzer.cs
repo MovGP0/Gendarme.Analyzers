@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ConstructorShouldNotCallVirtualMethodsAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ConstructorShouldNotCallVirtualMethods_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ConstructorShouldNotCallVirtualMethods_Message;
-    private static readonly LocalizableString Description = Strings.ConstructorShouldNotCallVirtualMethods_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ConstructorShouldNotCallVirtualMethods_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ConstructorShouldNotCallVirtualMethods_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ConstructorShouldNotCallVirtualMethods_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ConstructorShouldNotCallVirtualMethods,

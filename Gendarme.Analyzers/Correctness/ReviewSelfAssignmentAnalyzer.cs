@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewSelfAssignmentAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ReviewSelfAssignment_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ReviewSelfAssignment_Message;
-    private static readonly LocalizableString Description = Strings.ReviewSelfAssignment_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ReviewSelfAssignment_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ReviewSelfAssignment_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ReviewSelfAssignment_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ReviewSelfAssignment,

@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class CheckParametersNullityInVisibleMethodsAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.CheckParametersNullityInVisibleMethods_Title;
-    private static readonly LocalizableString MessageFormat = Strings.CheckParametersNullityInVisibleMethods_Message;
-    private static readonly LocalizableString Description = Strings.CheckParametersNullityInVisibleMethods_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.CheckParametersNullityInVisibleMethods_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.CheckParametersNullityInVisibleMethods_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.CheckParametersNullityInVisibleMethods_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.CheckParametersNullityInVisibleMethods,

@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ProvideCorrectRegexPatternAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ProvideCorrectRegexPattern_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ProvideCorrectRegexPattern_Message;
-    private static readonly LocalizableString Description = Strings.ProvideCorrectRegexPattern_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ProvideCorrectRegexPattern_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ProvideCorrectRegexPattern_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ProvideCorrectRegexPattern_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ProvideCorrectRegexPattern,

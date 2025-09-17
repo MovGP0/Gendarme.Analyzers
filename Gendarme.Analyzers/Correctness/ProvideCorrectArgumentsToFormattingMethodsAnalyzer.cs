@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ProvideCorrectArgumentsToFormattingMethodsAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ProvideCorrectArgumentsToFormattingMethods_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ProvideCorrectArgumentsToFormattingMethods_Message;
-    private static readonly LocalizableString Description = Strings.ProvideCorrectArgumentsToFormattingMethods_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ProvideCorrectArgumentsToFormattingMethods_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ProvideCorrectArgumentsToFormattingMethods_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ProvideCorrectArgumentsToFormattingMethods_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ProvideCorrectArgumentsToFormattingMethods,

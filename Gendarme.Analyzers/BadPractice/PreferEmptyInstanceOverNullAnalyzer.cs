@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class PreferEmptyInstanceOverNullAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.PreferEmptyInstanceOverNull_Title;
-    private static readonly LocalizableString MessageFormat = Strings.PreferEmptyInstanceOverNull_Message;
-    private static readonly LocalizableString Description = Strings.PreferEmptyInstanceOverNull_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.PreferEmptyInstanceOverNull_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.PreferEmptyInstanceOverNull_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.PreferEmptyInstanceOverNull_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.PreferEmptyInstanceOverNull,

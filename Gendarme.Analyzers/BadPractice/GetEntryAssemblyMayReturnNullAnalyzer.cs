@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class GetEntryAssemblyMayReturnNullAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.GetEntryAssemblyMayReturnNull_Title;
-    private static readonly LocalizableString MessageFormat = Strings.GetEntryAssemblyMayReturnNull_Message;
-    private static readonly LocalizableString Description = Strings.GetEntryAssemblyMayReturnNull_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.GetEntryAssemblyMayReturnNull_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.GetEntryAssemblyMayReturnNull_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.GetEntryAssemblyMayReturnNull_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.GetEntryAssemblyMayReturnNull,

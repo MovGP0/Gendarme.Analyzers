@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DisposableFieldsShouldBeDisposedAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.DisposableFieldsShouldBeDisposed_Title;
-    private static readonly LocalizableString MessageFormat = Strings.DisposableFieldsShouldBeDisposed_Message;
-    private static readonly LocalizableString Description = Strings.DisposableFieldsShouldBeDisposed_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.DisposableFieldsShouldBeDisposed_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.DisposableFieldsShouldBeDisposed_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.DisposableFieldsShouldBeDisposed_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.DisposableFieldsShouldBeDisposed,

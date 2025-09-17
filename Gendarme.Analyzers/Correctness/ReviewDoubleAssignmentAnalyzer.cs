@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewDoubleAssignmentAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ReviewDoubleAssignment_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ReviewDoubleAssignment_Message;
-    private static readonly LocalizableString Description = Strings.ReviewDoubleAssignment_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ReviewDoubleAssignment_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ReviewDoubleAssignment_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ReviewDoubleAssignment_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ReviewDoubleAssignment,

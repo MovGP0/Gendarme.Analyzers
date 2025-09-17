@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class CheckNewExceptionWithoutThrowingAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.CheckNewExceptionWithoutThrowing_Title;
-    private static readonly LocalizableString MessageFormat = Strings.CheckNewExceptionWithoutThrowing_Message;
-    private static readonly LocalizableString Description = Strings.CheckNewExceptionWithoutThrowing_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.CheckNewExceptionWithoutThrowing_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.CheckNewExceptionWithoutThrowing_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.CheckNewExceptionWithoutThrowing_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.CheckNewExceptionWithoutThrowing,

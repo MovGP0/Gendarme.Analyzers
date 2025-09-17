@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.Correctness;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewUselessControlFlowAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.ReviewUselessControlFlow_Title;
-    private static readonly LocalizableString MessageFormat = Strings.ReviewUselessControlFlow_Message;
-    private static readonly LocalizableString Description = Strings.ReviewUselessControlFlow_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.ReviewUselessControlFlow_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.ReviewUselessControlFlow_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.ReviewUselessControlFlow_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.ReviewUselessControlFlow,

@@ -3,9 +3,9 @@ namespace Gendarme.Analyzers.BadPractice;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class CloneMethodShouldNotReturnNullAnalyzer : DiagnosticAnalyzer
 {
-    private static readonly LocalizableString Title = Strings.CloneMethodShouldNotReturnNull_Title;
-    private static readonly LocalizableString MessageFormat = Strings.CloneMethodShouldNotReturnNull_Message;
-    private static readonly LocalizableString Description = Strings.CloneMethodShouldNotReturnNull_Description;
+    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Strings.CloneMethodShouldNotReturnNull_Title), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Strings.CloneMethodShouldNotReturnNull_Message), Strings.ResourceManager, typeof(Strings));
+    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Strings.CloneMethodShouldNotReturnNull_Description), Strings.ResourceManager, typeof(Strings));
 
     private static readonly DiagnosticDescriptor Rule = new(
         DiagnosticId.CloneMethodShouldNotReturnNull,
