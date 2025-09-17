@@ -22,6 +22,7 @@
     <Using Include="Xunit"/>
     <Using Include="Microsoft.CodeAnalysis" />
     <Using Include="Microsoft.CodeAnalysis.Testing" />
+    <Using Include="Microsoft.CodeAnalysis.CSharp.Testing" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gendarme.Analyzers\Gendarme.Analyzers.csproj" />
