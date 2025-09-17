@@ -51,16 +51,15 @@ public sealed class CompareWithEmptyStringEfficientlyAnalyzer : DiagnosticAnalyz
 
     private bool IsEmptyString(IOperation operand)
     {
-        if (operand.ConstantValue.HasValue && operand.ConstantValue.Value is string s && s == "")
+        if (operand.ConstantValue is { HasValue: true, Value: string and "" })
             return true;
 
         var syntax = operand.Syntax;
-        if (syntax is LiteralExpressionSyntax literal && literal.Token.ValueText == "")
+        if (syntax is LiteralExpressionSyntax { Token.ValueText: "" })
             return true;
 
-        if (syntax is MemberAccessExpressionSyntax memberAccess &&
-            (memberAccess.Name.Identifier.Text == "Empty" &&
-             (memberAccess.Expression.ToString() == "string" || memberAccess.Expression.ToString() == "String")))
+        if (syntax is MemberAccessExpressionSyntax { Name.Identifier.Text: "Empty" } memberAccess &&
+            (memberAccess.Expression.ToString() == "string" || memberAccess.Expression.ToString() == "String"))
             return true;
 
         return false;

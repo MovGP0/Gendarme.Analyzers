@@ -28,10 +28,9 @@ public sealed class CheckNewExceptionWithoutThrowingAnalyzer : DiagnosticAnalyze
     private static void AnalyzeObjectCreation(SyntaxNodeAnalysisContext context)
     {
         var objectCreation = (ObjectCreationExpressionSyntax)context.Node;
-        var typeSymbol = context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol as INamedTypeSymbol;
 
         // Check if the created object is an exception
-        if (typeSymbol == null || !IsExceptionType(typeSymbol, context))
+        if (context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is not INamedTypeSymbol typeSymbol || !IsExceptionType(typeSymbol, context))
         {
             return;
         }

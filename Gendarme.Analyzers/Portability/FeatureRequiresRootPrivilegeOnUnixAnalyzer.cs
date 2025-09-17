@@ -54,7 +54,7 @@ public sealed class FeatureRequiresRootPrivilegeOnUnixAnalyzer : DiagnosticAnaly
                 if (assignedValue != null)
                 {
                     var constantValue = assignedValue.ConstantValue;
-                    if (constantValue.HasValue && constantValue.Value is int intValue)
+                    if (constantValue is { HasValue: true, Value: int intValue })
                     {
                         if (intValue != (int)System.Diagnostics.ProcessPriorityClass.Normal)
                         {

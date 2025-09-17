@@ -35,8 +35,7 @@ public sealed class ImplementEqualsTypeAnalyzer : DiagnosticAnalyzer
         // Check if type overrides Equals(object)
         var overridesEquals = type.GetMembers("Equals")
             .OfType<IMethodSymbol>()
-            .Any(m => m.Parameters.Length == 1 &&
-                      m.Parameters[0].Type.SpecialType == SpecialType.System_Object &&
+            .Any(m => m.Parameters is [{ Type.SpecialType: SpecialType.System_Object }] &&
                       m.IsOverride);
 
         if (!overridesEquals)

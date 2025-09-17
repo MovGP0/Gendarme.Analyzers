@@ -21,7 +21,7 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, Microsoft.CodeAnalysis.DiagnosticSeverity.Info)
+        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, DiagnosticSeverity.Info)
             .WithSpan(4, 17, 4, 27)
             .WithArguments("RaiseEvent");
 
@@ -46,7 +46,7 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, Microsoft.CodeAnalysis.DiagnosticSeverity.Info)
+        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, DiagnosticSeverity.Info)
             .WithSpan(4, 17, 4, 28)
             .WithArguments("OnSomething");
 
@@ -71,7 +71,7 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, Microsoft.CodeAnalysis.DiagnosticSeverity.Info)
+        var expected = new DiagnosticResult(DiagnosticId.PreferEventsOverMethods, DiagnosticSeverity.Info)
             .WithSpan(4, 17, 4, 26)
             .WithArguments("FireEvent");
 

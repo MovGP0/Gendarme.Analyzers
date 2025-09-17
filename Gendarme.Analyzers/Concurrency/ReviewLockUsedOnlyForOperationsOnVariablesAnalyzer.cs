@@ -42,7 +42,7 @@ public sealed class ReviewLockUsedOnlyForOperationsOnVariablesAnalyzer : Diagnos
                 continue;
             }
 
-            if (context.SemanticModel.GetSymbolInfo(assignment.Left).Symbol is not IFieldSymbol { IsStatic: true } leftSymbol)
+            if (context.SemanticModel.GetSymbolInfo(assignment.Left).Symbol is not IFieldSymbol { IsStatic: true })
             {
                 continue;
             }

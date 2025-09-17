@@ -25,8 +25,7 @@ public class DoNotExposeNestedGenericSignaturesAnalyzer : DiagnosticAnalyzer
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
 
-        if (methodSymbol.DeclaredAccessibility == Accessibility.Public ||
-            methodSymbol.DeclaredAccessibility == Accessibility.Protected)
+        if (methodSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
         {
             CheckType(methodSymbol.ReturnType, methodSymbol, context);
             foreach (var parameter in methodSymbol.Parameters)

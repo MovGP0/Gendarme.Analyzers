@@ -34,7 +34,7 @@ public sealed class MarkAllNonSerializableFieldsAnalyzer : DiagnosticAnalyzer
             return;
 
         var fields = namedType.GetMembers().OfType<IFieldSymbol>()
-            .Where(f => !f.IsStatic && !f.IsImplicitlyDeclared && !f.IsConst);
+            .Where(f => f is { IsStatic: false, IsImplicitlyDeclared: false, IsConst: false });
 
         foreach (var field in fields)
         {

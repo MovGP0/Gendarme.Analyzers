@@ -37,16 +37,17 @@ public sealed class AvoidCallingProblematicMethodsAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeInvocation, Microsoft.CodeAnalysis.CSharp.SyntaxKind.InvocationExpression);
+        context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
     }
 
     private static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
-        var invocation = (Microsoft.CodeAnalysis.CSharp.Syntax.InvocationExpressionSyntax)context.Node;
+        var invocation = (InvocationExpressionSyntax)context.Node;
 
-        var symbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-
-        if (symbol == null) return;
+        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol symbol)
+        {
+            return;
+        }
 
         var fullMethodName = $"{symbol.ContainingType.ToDisplayString()}.{symbol.Name}";
 

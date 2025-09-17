@@ -55,7 +55,7 @@ public sealed class ConsiderConvertingFieldToNullableAnalyzer : DiagnosticAnalyz
 
                 // Check if there's a field with the same suffix
                 var matchingField = fields.FirstOrDefault(
-                    f => f.Name.Equals(suffix, System.StringComparison.OrdinalIgnoreCase) &&
+                    f => f.Name.Equals(suffix, StringComparison.OrdinalIgnoreCase) &&
                          f.Type.IsValueType &&
                          f.Type.SpecialType != SpecialType.System_Boolean);
 

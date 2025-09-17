@@ -63,7 +63,7 @@ public sealed class SecureGetObjectDataOverridesAnalyzer : DiagnosticAnalyzer
         var namedArgs = attribute.NamedArguments;
         foreach (var arg in namedArgs)
         {
-            if (arg.Key == "SerializationFormatter" && arg.Value.Value is bool b && b)
+            if (arg is { Key: "SerializationFormatter", Value.Value: bool and true })
                 return true;
         }
         return false;

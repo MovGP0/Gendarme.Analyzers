@@ -59,7 +59,12 @@ public sealed class PreferSafeHandleAnalyzer : DiagnosticAnalyzer
 
     private static bool UsesIntPtrOrUIntPtrInUnmanagedContext(SyntaxNodeAnalysisContext context, MethodDeclarationSyntax methodDeclaration, VariableDeclarationSyntax variableDeclaration)
     {
-        foreach (var statement in methodDeclaration.Body.Statements)
+        if (methodDeclaration.Body is not { } body)
+        {
+            return false;
+        }
+
+        foreach (var statement in body.Statements)
         {
             if (statement is not ExpressionStatementSyntax
                 {
@@ -69,7 +74,7 @@ public sealed class PreferSafeHandleAnalyzer : DiagnosticAnalyzer
                 continue;
             }
 
-            if (context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol is not IMethodSymbol symbolInfo)
+            if (context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol is not IMethodSymbol)
             {
                 continue;
             }

@@ -35,7 +35,7 @@ public sealed class UseObjectDisposedExceptionAnalyzer : DiagnosticAnalyzer
 
         var disposeField = typeSymbol.GetMembers()
             .OfType<IFieldSymbol>()
-            .FirstOrDefault(f => f.Name == "disposed" && f.Type.SpecialType == SpecialType.System_Boolean);
+            .FirstOrDefault(f => f is { Name: "disposed", Type.SpecialType: SpecialType.System_Boolean });
         if (disposeField == null)
             return;
 

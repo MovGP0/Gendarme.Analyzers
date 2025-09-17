@@ -33,8 +33,7 @@ public sealed class AvoidCodeDuplicatedInSiblingClassesAnalyzer : DiagnosticAnal
         context.RegisterSyntaxNodeAction(syntaxContext =>
         {
             var classDecl = (ClassDeclarationSyntax)syntaxContext.Node;
-            var classSymbol = syntaxContext.SemanticModel.GetDeclaredSymbol(classDecl, syntaxContext.CancellationToken) as INamedTypeSymbol;
-            if (classSymbol is null)
+            if (syntaxContext.SemanticModel.GetDeclaredSymbol(classDecl, syntaxContext.CancellationToken) is not INamedTypeSymbol classSymbol)
                 return;
 
             var baseType = classSymbol.BaseType;

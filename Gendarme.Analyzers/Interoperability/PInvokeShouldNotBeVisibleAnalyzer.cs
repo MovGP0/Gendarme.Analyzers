@@ -37,7 +37,7 @@ public sealed class PInvokeShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
             return;
 
         // Check if the method's visibility is public or protected
-        if (methodSymbol.DeclaredAccessibility == Accessibility.Public || methodSymbol.DeclaredAccessibility == Accessibility.Protected || methodSymbol.DeclaredAccessibility == Accessibility.ProtectedOrInternal)
+        if (methodSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected or Accessibility.ProtectedOrInternal)
         {
             var location = methodSymbol.Locations.FirstOrDefault();
             if (location != null)

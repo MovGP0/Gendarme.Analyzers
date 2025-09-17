@@ -39,13 +39,14 @@ public sealed class EqualsShouldHandleNullArgAnalyzer : DiagnosticAnalyzer
 
         // Check if the method returns bool
         var returnType = context.SemanticModel.GetTypeInfo(methodDeclaration.ReturnType).Type;
-        if (returnType is not { SpecialType: SpecialType.System_Boolean })
+        if (returnType is not { SpecialType: SpecialType.System_Boolean }
+            || methodDeclaration.Body is not { } body)
         {
             return;
         }
 
         // Check if the method contains a null check for the parameter
-        foreach (var statement in methodDeclaration.Body.Statements)
+        foreach (var statement in body.Statements)
         {
             if (statement is IfStatementSyntax { Condition: BinaryExpressionSyntax binaryExpression } &&
                 binaryExpression.IsKind(SyntaxKind.EqualsExpression) &&

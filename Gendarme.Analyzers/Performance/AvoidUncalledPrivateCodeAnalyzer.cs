@@ -55,7 +55,7 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
             var entryPoint = context.Compilation.GetEntryPoint(context.CancellationToken);
             foreach (var method in allMethods)
             {
-                if ((method.DeclaredAccessibility == Accessibility.Private || method.DeclaredAccessibility == Accessibility.Internal) &&
+                if (method.DeclaredAccessibility is Accessibility.Private or Accessibility.Internal &&
                     !calledMethods.Contains(method) &&
                     !SymbolEqualityComparer.Default.Equals(method, entryPoint))
                 {

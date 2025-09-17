@@ -38,8 +38,7 @@ public sealed class RemoveUnneededFinalizerAnalyzer : DiagnosticAnalyzer
         if (syntaxReference == null)
             return;
 
-        var methodSyntax = syntaxReference.GetSyntax(context.CancellationToken) as DestructorDeclarationSyntax;
-        if (methodSyntax == null)
+        if (syntaxReference.GetSyntax(context.CancellationToken) is not DestructorDeclarationSyntax methodSyntax)
             return;
 
         // Check if finalizer is empty or only sets fields to null
@@ -56,7 +55,7 @@ public sealed class RemoveUnneededFinalizerAnalyzer : DiagnosticAnalyzer
         foreach (var statement in statements)
         {
             if (statement is ExpressionStatementSyntax { Expression: AssignmentExpressionSyntax assignment }
-                && assignment.Right.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.NullLiteralExpression))
+                && assignment.Right.IsKind(SyntaxKind.NullLiteralExpression))
             {
                 // Assignment to null
                 continue;

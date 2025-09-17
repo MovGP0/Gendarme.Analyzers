@@ -46,8 +46,8 @@ public sealed class ImplementISerializableCorrectlyAnalyzer : DiagnosticAnalyzer
         }
 
         // Check if all instance fields are serialized
-        var fields = namedType.GetMembers().OfType<IFieldSymbol>()
-            .Where(f => !f.IsStatic && !f.IsImplicitlyDeclared && !f.IsConst &&
+        namedType.GetMembers().OfType<IFieldSymbol>()
+            .Where(f => f is { IsStatic: false, IsImplicitlyDeclared: false, IsConst: false } &&
                         !f.GetAttributes().Any(attr => attr.AttributeClass.ToDisplayString() == "System.NonSerializedAttribute"));
 
         // Assume that the GetObjectData method serializes all fields (complex to verify)

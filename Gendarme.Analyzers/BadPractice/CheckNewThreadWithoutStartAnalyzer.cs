@@ -26,16 +26,14 @@ public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeObjectCreation(SyntaxNodeAnalysisContext context)
     {
         var objectCreation = (ObjectCreationExpressionSyntax)context.Node;
-        var typeSymbol = context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol as INamedTypeSymbol;
 
         // Check if the created object is a Thread
-        if (typeSymbol == null || typeSymbol.ToString() != "System.Threading.Thread")
+        if (context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is not INamedTypeSymbol typeSymbol || typeSymbol.ToString() != "System.Threading.Thread")
         {
             return;
         }
 
-        var variableDeclarator = objectCreation.Parent as VariableDeclaratorSyntax;
-        if (variableDeclarator == null)
+        if (objectCreation.Parent is not VariableDeclaratorSyntax variableDeclarator)
         {
             return;
         }
@@ -63,8 +61,7 @@ public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
         {
             if (descendantNode is InvocationExpressionSyntax invocation)
             {
-                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
-                    memberAccess.Expression is IdentifierNameSyntax identifierName &&
+                if (invocation.Expression is MemberAccessExpressionSyntax { Expression: IdentifierNameSyntax identifierName } memberAccess &&
                     identifierName.Identifier.Text == variableName &&
                     memberAccess.Name.Identifier.Text == "Start")
                 {
@@ -72,15 +69,13 @@ public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
                     break;
                 }
             }
-            else if (descendantNode is ReturnStatementSyntax returnStatement &&
-                     returnStatement.Expression is IdentifierNameSyntax returnIdentifier &&
+            else if (descendantNode is ReturnStatementSyntax { Expression: IdentifierNameSyntax returnIdentifier } &&
                      returnIdentifier.Identifier.Text == variableName)
             {
                 threadStartedOrUsed = true;
                 break;
             }
-            else if (descendantNode is ArgumentSyntax argument &&
-                     argument.Expression is IdentifierNameSyntax argumentIdentifier &&
+            else if (descendantNode is ArgumentSyntax { Expression: IdentifierNameSyntax argumentIdentifier } &&
                      argumentIdentifier.Identifier.Text == variableName)
             {
                 threadStartedOrUsed = true;

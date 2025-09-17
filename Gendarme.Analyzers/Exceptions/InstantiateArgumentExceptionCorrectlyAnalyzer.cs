@@ -41,7 +41,7 @@ public sealed class InstantiateArgumentExceptionCorrectlyAnalyzer : DiagnosticAn
             || context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is not INamedTypeSymbol typeSymbol
             || typeSymbol.ToString() is not { } typeName
             || !ParameterPositions.ContainsKey(typeName)
-            || context.SemanticModel.GetSymbolInfo(objectCreation).Symbol is not IMethodSymbol constructorSymbol)
+            || context.SemanticModel.GetSymbolInfo(objectCreation).Symbol is not IMethodSymbol)
         {
             return;
         }

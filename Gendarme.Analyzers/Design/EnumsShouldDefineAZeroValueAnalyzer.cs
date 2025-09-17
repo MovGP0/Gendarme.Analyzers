@@ -42,7 +42,7 @@ public sealed class EnumsShouldDefineAZeroValueAnalyzer : DiagnosticAnalyzer
             return;
 
         // Check if it's flagged
-        var isFlags = namedType.GetAttributes().Any(a => a.AttributeClass?.Name == nameof(System.FlagsAttribute));
+        var isFlags = namedType.GetAttributes().Any(a => a.AttributeClass?.Name == nameof(FlagsAttribute));
 
         // For non-flags enums, we want a zero value
         if (!isFlags)

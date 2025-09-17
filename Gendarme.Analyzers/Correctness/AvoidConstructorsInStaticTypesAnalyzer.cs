@@ -47,7 +47,7 @@ public sealed class AvoidConstructorsInStaticTypesAnalyzer : DiagnosticAnalyzer
 
         foreach (var constructor in namedTypeSymbol.Constructors)
         {
-            if (constructor.DeclaredAccessibility == Accessibility.Public || constructor.DeclaredAccessibility == Accessibility.Protected)
+            if (constructor.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
             {
                 var diagnostic = Diagnostic.Create(Rule, constructor.Locations[0], namedTypeSymbol.Name);
                 context.ReportDiagnostic(diagnostic);

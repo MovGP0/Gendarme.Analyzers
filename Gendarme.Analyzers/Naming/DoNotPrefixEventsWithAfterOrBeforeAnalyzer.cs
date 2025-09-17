@@ -36,7 +36,7 @@ public sealed class DoNotPrefixEventsWithAfterOrBeforeAnalyzer : DiagnosticAnaly
 
         foreach (var prefix in DisallowedPrefixes)
         {
-            if (eventName.StartsWith(prefix, System.StringComparison.OrdinalIgnoreCase))
+            if (eventName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
             {
                 var diagnostic = Diagnostic.Create(Rule, eventSymbol.Locations[0], eventName);
                 context.ReportDiagnostic(diagnostic);

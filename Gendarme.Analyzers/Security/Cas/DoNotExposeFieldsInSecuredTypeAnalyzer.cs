@@ -66,7 +66,7 @@ public sealed class DoNotExposeFieldsInSecuredTypeAnalyzer : DiagnosticAnalyzer
     private bool IsDemandOrLinkDemand(AttributeData attribute)
     {
         var action = GetSecurityAction(attribute);
-        return action == SecurityAction.Demand || action == SecurityAction.LinkDemand;
+        return action is SecurityAction.Demand or SecurityAction.LinkDemand;
     }
 
     private SecurityAction? GetSecurityAction(AttributeData attribute)

@@ -34,9 +34,8 @@ public sealed class GetLastErrorMustBeCalledRightAfterPInvokeAnalyzer : Diagnost
     private static void AnalyzeGetLastWin32ErrorCall(SyntaxNodeAnalysisContext context)
     {
         var invocationExpression = (InvocationExpressionSyntax)context.Node;
-        var symbol = context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol as IMethodSymbol;
 
-        if (symbol == null || symbol.ToString() != GetLastWin32ErrorMethodName)
+        if (context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol is not IMethodSymbol symbol || symbol.ToString() != GetLastWin32ErrorMethodName)
             return;
 
         // Find the previous statement
@@ -53,8 +52,7 @@ public sealed class GetLastErrorMustBeCalledRightAfterPInvokeAnalyzer : Diagnost
         if (invocation == null)
             return;
 
-        var methodSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
-        if (methodSymbol == null)
+        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol methodSymbol)
             return;
 
         // Identify P/Invoke by checking for the DllImportAttribute

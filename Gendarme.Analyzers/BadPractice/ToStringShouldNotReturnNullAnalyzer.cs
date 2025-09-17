@@ -43,8 +43,7 @@ public sealed class ToStringShouldNotReturnNullAnalyzer : DiagnosticAnalyzer
         }
 
         // Check if the method overrides an inherited method
-        var methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodDeclaration) as IMethodSymbol;
-        if (methodSymbol is not { IsOverride: true })
+        if (context.SemanticModel.GetDeclaredSymbol(methodDeclaration) is not IMethodSymbol { IsOverride: true })
         {
             return;
         }

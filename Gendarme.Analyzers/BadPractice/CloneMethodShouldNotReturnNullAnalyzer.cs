@@ -36,7 +36,7 @@ public sealed class CloneMethodShouldNotReturnNullAnalyzer : DiagnosticAnalyzer
         }
 
         var returnType = context.SemanticModel.GetTypeInfo(methodDeclaration.ReturnType).Type;
-        if (returnType == null || returnType.SpecialType != SpecialType.System_Object)
+        if (returnType is not { SpecialType: SpecialType.System_Object })
         {
             return;
         }
@@ -55,7 +55,7 @@ public sealed class CloneMethodShouldNotReturnNullAnalyzer : DiagnosticAnalyzer
                 var returnExpression = returnStatement.Expression;
                 var constantValue = context.SemanticModel.GetConstantValue(returnExpression);
 
-                if (constantValue.HasValue && constantValue.Value == null)
+                if (constantValue is { HasValue: true, Value: null })
                 {
                     var diagnostic = Diagnostic.Create(Rule, returnExpression.GetLocation());
                     context.ReportDiagnostic(diagnostic);

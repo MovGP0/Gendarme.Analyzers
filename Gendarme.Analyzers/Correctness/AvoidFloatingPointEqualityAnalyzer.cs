@@ -33,8 +33,8 @@ public sealed class AvoidFloatingPointEqualityAnalyzer : DiagnosticAnalyzer
         var leftType = context.SemanticModel.GetTypeInfo(binaryExpression.Left).Type;
         var rightType = context.SemanticModel.GetTypeInfo(binaryExpression.Right).Type;
 
-        if ((leftType?.SpecialType == SpecialType.System_Double || leftType?.SpecialType == SpecialType.System_Single) &&
-            (rightType?.SpecialType == SpecialType.System_Double || rightType?.SpecialType == SpecialType.System_Single))
+        if (leftType?.SpecialType is SpecialType.System_Double or SpecialType.System_Single &&
+            rightType?.SpecialType is SpecialType.System_Double or SpecialType.System_Single)
         {
             var diagnostic = Diagnostic.Create(Rule, binaryExpression.GetLocation());
             context.ReportDiagnostic(diagnostic);

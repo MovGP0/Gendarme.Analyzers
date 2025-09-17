@@ -41,10 +41,7 @@ public sealed class AvoidUnneededCallsOnStringAnalyzer : DiagnosticAnalyzer
             // Special handling for Substring(0)
             if (invocation.TargetMethod.Name == "Substring")
             {
-                if (invocation.Arguments.Length == 1 &&
-                    invocation.Arguments[0].Value.ConstantValue.HasValue &&
-                    invocation.Arguments[0].Value.ConstantValue.Value is int value &&
-                    value == 0)
+                if (invocation.Arguments is [{ Value.ConstantValue: { HasValue: true, Value: int and 0 } }])
                 {
                     var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), invocation.TargetMethod.Name, invocation.Instance.Syntax.ToString());
                     context.ReportDiagnostic(diagnostic);

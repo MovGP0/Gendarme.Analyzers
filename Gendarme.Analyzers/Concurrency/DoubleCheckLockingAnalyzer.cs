@@ -28,9 +28,8 @@ public sealed class DoubleCheckLockingAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var ifStatement = (IfStatementSyntax)context.Node;
-        var lockStatement = ifStatement.Statement as BlockSyntax;
 
-        if (lockStatement == null)
+        if (ifStatement.Statement is not BlockSyntax lockStatement)
             return;
 
         var lockStatements = lockStatement.Statements.OfType<LockStatementSyntax>().ToList();

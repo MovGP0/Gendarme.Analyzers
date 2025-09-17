@@ -18,7 +18,7 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex GenericParameterRegex = new Regex(@"^T[A-Z][a-zA-Z]*$", RegexOptions.Compiled);
+    private static readonly Regex GenericParameterRegex = new(@"^T[A-Z][a-zA-Z]*$", RegexOptions.Compiled);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -71,7 +71,7 @@ public sealed class UseCorrectPrefixAnalyzer : DiagnosticAnalyzer
         var name = identifier.ValueText;
 
         // Generic parameters should be a single uppercase letter or prefixed with 'T'
-        var isSingleUpper = name.Length == 1 && name[0] >= 'A' && name[0] <= 'Z';
+        var isSingleUpper = name is [>= 'A' and <= 'Z'];
         var matchesTPrefix = GenericParameterRegex.IsMatch(name);
 
         if (!isSingleUpper && !matchesTPrefix)

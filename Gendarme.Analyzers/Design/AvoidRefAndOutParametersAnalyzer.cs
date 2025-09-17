@@ -47,7 +47,7 @@ public sealed class AvoidRefAndOutParametersAnalyzer : DiagnosticAnalyzer
         // For each parameter, see if it uses ref or out. If "Try" pattern, we allow out (but not ref).
         foreach (var parameter in methodSymbol.Parameters)
         {
-            if (parameter.RefKind == RefKind.Ref || parameter.RefKind == RefKind.Out)
+            if (parameter.RefKind is RefKind.Ref or RefKind.Out)
             {
                 // If it's the Try pattern with out, skip
                 if (isTryPattern && parameter.RefKind == RefKind.Out)

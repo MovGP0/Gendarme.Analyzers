@@ -43,21 +43,16 @@ public sealed class AvoidLongMethodsAnalyzer : DiagnosticAnalyzer
         }
 
         var body = methodDeclaration.Body;
-        if (body != null)
+        if (body is { Statements.Count: > MaxStatements })
         {
-            var statementCount = body.Statements.Count;
-
-            if (statementCount > MaxStatements)
-            {
-                var diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodName);
-                context.ReportDiagnostic(diagnostic);
-            }
+            var diagnostic = Diagnostic.Create(Rule, methodDeclaration.Identifier.GetLocation(), methodName);
+            context.ReportDiagnostic(diagnostic);
         }
     }
 
     private bool IsWellKnownMethod(string methodName, IEnumerable<string> baseTypeNames)
     {
-        if (methodName == "Build" && baseTypeNames.Any(bt => bt == "Bin" || bt == "Window" || bt == "Dialog"))
+        if (methodName == "Build" && baseTypeNames.Any(bt => bt is "Bin" or "Window" or "Dialog"))
             return true;
 
         if (methodName == "InitializeComponent" && baseTypeNames.Any(bt => bt == "Form"))

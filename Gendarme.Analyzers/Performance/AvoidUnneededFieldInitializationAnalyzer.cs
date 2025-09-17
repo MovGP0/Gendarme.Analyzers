@@ -35,9 +35,8 @@ public sealed class AvoidUnneededFieldInitializationAnalyzer : DiagnosticAnalyze
             if (variable.Initializer != null)
             {
                 var semanticModel = context.SemanticModel;
-                var fieldSymbol = semanticModel.GetDeclaredSymbol(variable) as IFieldSymbol;
 
-                if (fieldSymbol != null && IsDefaultValue(variable.Initializer.Value, fieldSymbol.Type, context))
+                if (semanticModel.GetDeclaredSymbol(variable) is IFieldSymbol fieldSymbol && IsDefaultValue(variable.Initializer.Value, fieldSymbol.Type, context))
                 {
                     var diagnostic = Diagnostic.Create(Rule, variable.Initializer.GetLocation(), fieldSymbol.Name);
                     context.ReportDiagnostic(diagnostic);

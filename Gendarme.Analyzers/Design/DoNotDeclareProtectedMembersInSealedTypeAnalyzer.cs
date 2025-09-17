@@ -42,9 +42,7 @@ public sealed class DoNotDeclareProtectedMembersInSealedTypeAnalyzer : Diagnosti
         // Check each member for 'protected' accessibility
         foreach (var member in namedType.GetMembers())
         {
-            if (member.DeclaredAccessibility == Accessibility.Protected ||
-                member.DeclaredAccessibility == Accessibility.ProtectedOrInternal ||
-                member.DeclaredAccessibility == Accessibility.ProtectedAndInternal)
+            if (member.DeclaredAccessibility is Accessibility.Protected or Accessibility.ProtectedOrInternal or Accessibility.ProtectedAndInternal)
             {
                 var diagnostic = Diagnostic.Create(
                     Rule,

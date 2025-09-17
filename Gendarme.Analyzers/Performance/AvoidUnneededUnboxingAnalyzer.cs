@@ -44,8 +44,7 @@ public sealed class AvoidUnneededUnboxingAnalyzer : DiagnosticAnalyzer
                 && unboxing.Operand.Type?.IsValueType == false
                 && unboxing.Type?.IsValueType == true)
             {
-                var local = unboxing.Operand as ILocalReferenceOperation;
-                if (local != null)
+                if (unboxing.Operand is ILocalReferenceOperation local)
                 {
                     if (unboxedValues.ContainsKey(local.Local))
                     {

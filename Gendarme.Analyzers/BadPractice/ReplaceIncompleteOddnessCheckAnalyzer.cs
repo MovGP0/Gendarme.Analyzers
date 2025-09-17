@@ -29,13 +29,10 @@ public sealed class ReplaceIncompleteOddnessCheckAnalyzer : DiagnosticAnalyzer
     {
         var binaryExpression = (BinaryExpressionSyntax)context.Node;
 
-        if (binaryExpression.Left is ParenthesizedExpressionSyntax leftParenExpr &&
-            leftParenExpr.Expression is BinaryExpressionSyntax moduloExpr &&
+        if (binaryExpression.Left is ParenthesizedExpressionSyntax { Expression: BinaryExpressionSyntax moduloExpr } &&
             moduloExpr.OperatorToken.IsKind(SyntaxKind.PercentToken) &&
-            moduloExpr.Right is LiteralExpressionSyntax literalExpr &&
-            literalExpr.Token.ValueText == "2" &&
-            binaryExpression.Right is LiteralExpressionSyntax rightLiteralExpr &&
-            rightLiteralExpr.Token.ValueText == "1")
+            moduloExpr.Right is LiteralExpressionSyntax { Token.ValueText: "2" } &&
+            binaryExpression.Right is LiteralExpressionSyntax { Token.ValueText: "1" })
         {
             var diagnostic = Diagnostic.Create(Rule, binaryExpression.GetLocation());
             context.ReportDiagnostic(diagnostic);

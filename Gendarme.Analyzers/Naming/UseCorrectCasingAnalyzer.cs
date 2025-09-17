@@ -18,8 +18,8 @@ public sealed class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex PascalCaseRegex = new Regex(@"^[A-Z][a-zA-Z0-9]*$", RegexOptions.Compiled);
-    private static readonly Regex CamelCaseRegex = new Regex(@"^[a-z][a-zA-Z0-9]*$", RegexOptions.Compiled);
+    private static readonly Regex PascalCaseRegex = new(@"^[A-Z][a-zA-Z0-9]*$", RegexOptions.Compiled);
+    private static readonly Regex CamelCaseRegex = new(@"^[a-z][a-zA-Z0-9]*$", RegexOptions.Compiled);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -64,7 +64,7 @@ public sealed class UseCorrectCasingAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeMethod(SymbolAnalysisContext context)
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
-        if (methodSymbol.MethodKind == MethodKind.Constructor || methodSymbol.MethodKind == MethodKind.Destructor)
+        if (methodSymbol.MethodKind is MethodKind.Constructor or MethodKind.Destructor)
             return;
 
         var name = methodSymbol.Name;

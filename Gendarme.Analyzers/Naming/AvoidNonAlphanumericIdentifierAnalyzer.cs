@@ -18,7 +18,7 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly Regex NonAlphanumericRegex = new Regex(@"[^a-zA-Z0-9]", RegexOptions.Compiled);
+    private static readonly Regex NonAlphanumericRegex = new(@"[^a-zA-Z0-9]", RegexOptions.Compiled);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -37,7 +37,7 @@ public sealed class AvoidNonAlphanumericIdentifierAnalyzer : DiagnosticAnalyzer
         var name = symbol.Name;
 
         // Ignore if the symbol is an interface used for COM interop
-        if (symbol is INamedTypeSymbol namedTypeSymbol && namedTypeSymbol.TypeKind == TypeKind.Interface)
+        if (symbol is INamedTypeSymbol { TypeKind: TypeKind.Interface } namedTypeSymbol)
         {
             var hasInterfaceType = namedTypeSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.InterfaceTypeAttribute");
             var hasGuid = namedTypeSymbol.GetAttributes().Any(attr => attr.AttributeClass.ToString() == "System.Runtime.InteropServices.GuidAttribute");

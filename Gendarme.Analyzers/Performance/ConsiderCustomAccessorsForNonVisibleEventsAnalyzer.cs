@@ -31,7 +31,7 @@ public sealed class ConsiderCustomAccessorsForNonVisibleEventsAnalyzer : Diagnos
         var eventSymbol = (IEventSymbol)context.Symbol;
 
         // Skip visible events
-        if (eventSymbol.DeclaredAccessibility == Accessibility.Public || eventSymbol.DeclaredAccessibility == Accessibility.Protected)
+        if (eventSymbol.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
             return;
 
         // Check if the add/remove methods are compiler-generated (synchronized)

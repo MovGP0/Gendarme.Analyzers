@@ -28,9 +28,8 @@ public sealed class DoNotUseLockedRegionOutsideMethodAnalyzer : DiagnosticAnalyz
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var invocation = (InvocationExpressionSyntax)context.Node;
-        var methodSymbol = context.SemanticModel.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
 
-        if (methodSymbol == null)
+        if (context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol methodSymbol)
             return;
 
         if (methodSymbol.ContainingType.ToString() == "System.Threading.Monitor" && methodSymbol.Name == "Enter")

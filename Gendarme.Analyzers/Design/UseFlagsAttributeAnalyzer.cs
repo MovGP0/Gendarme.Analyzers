@@ -43,7 +43,7 @@ public sealed class UseFlagsAttributeAnalyzer : DiagnosticAnalyzer
 
         // If the enum already has [Flags], skip
         bool hasFlags = namedType.GetAttributes()
-            .Any(a => a.AttributeClass?.Name == nameof(System.FlagsAttribute));
+            .Any(a => a.AttributeClass?.Name == nameof(FlagsAttribute));
 
         if (hasFlags)
             return;

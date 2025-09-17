@@ -35,7 +35,7 @@ public sealed class AvoidUnsealedConcreteAttributesAnalyzer : DiagnosticAnalyzer
             return;
 
         // Check if the class is not abstract and not sealed
-        if (!namedType.IsAbstract && !namedType.IsSealed)
+        if (namedType is { IsAbstract: false, IsSealed: false })
         {
             var diagnostic = Diagnostic.Create(Rule, namedType.Locations[0], namedType.Name);
             context.ReportDiagnostic(diagnostic);

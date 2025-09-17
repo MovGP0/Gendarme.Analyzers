@@ -35,7 +35,7 @@ public sealed class DoNotUseReservedInEnumValueNamesAnalyzer : DiagnosticAnalyze
 
         foreach (var member in enumSymbol.GetMembers().OfType<IFieldSymbol>())
         {
-            if (member.Name.Equals("Reserved", System.StringComparison.OrdinalIgnoreCase))
+            if (member.Name.Equals("Reserved", StringComparison.OrdinalIgnoreCase))
             {
                 var diagnostic = Diagnostic.Create(Rule, member.Locations[0], member.Name, enumSymbol.Name);
                 context.ReportDiagnostic(diagnostic);

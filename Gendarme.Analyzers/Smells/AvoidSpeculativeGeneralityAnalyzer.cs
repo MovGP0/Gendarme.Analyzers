@@ -31,9 +31,9 @@ public sealed class AvoidSpeculativeGeneralityAnalyzer : DiagnosticAnalyzer
         var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
 
         // Check for abstract classes with only one subclass
-        if (namedTypeSymbol.TypeKind == TypeKind.Class && namedTypeSymbol.IsAbstract)
+        if (namedTypeSymbol is { TypeKind: TypeKind.Class, IsAbstract: true })
         {
-            var derivedTypes = context.Compilation.GetTypeByMetadataName(namedTypeSymbol.ToDisplayString())
+            context.Compilation.GetTypeByMetadataName(namedTypeSymbol.ToDisplayString())
                 .AllInterfaces.SelectMany(i => i.AllInterfaces)
                 .Distinct();
 

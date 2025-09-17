@@ -35,8 +35,6 @@ public sealed class AvoidLargeNumberOfLocalVariablesAnalyzer : DiagnosticAnalyze
     {
         var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-        var semanticModel = context.SemanticModel;
-
         var localVariables = methodDeclaration.DescendantNodes()
             .OfType<VariableDeclaratorSyntax>()
             .Count();

@@ -31,7 +31,7 @@ public sealed class ParameterNamesShouldMatchOverriddenMethodAnalyzer : Diagnost
     {
         var methodSymbol = (IMethodSymbol)context.Symbol;
 
-        if (!methodSymbol.IsOverride && methodSymbol.ExplicitInterfaceImplementations.Length == 0)
+        if (methodSymbol is { IsOverride: false, ExplicitInterfaceImplementations.Length: 0 })
             return;
 
         IMethodSymbol baseMethod = methodSymbol.OverriddenMethod ?? methodSymbol.ExplicitInterfaceImplementations.FirstOrDefault();

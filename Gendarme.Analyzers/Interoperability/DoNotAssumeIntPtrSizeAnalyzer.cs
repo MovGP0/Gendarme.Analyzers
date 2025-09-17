@@ -51,9 +51,8 @@ public sealed class DoNotAssumeIntPtrSizeAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeInvocationExpression(SyntaxNodeAnalysisContext context)
     {
         var invocationExpression = (InvocationExpressionSyntax)context.Node;
-        var symbol = context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol as IMethodSymbol;
 
-        if (symbol == null)
+        if (context.SemanticModel.GetSymbolInfo(invocationExpression).Symbol is not IMethodSymbol symbol)
             return;
 
         if (symbol.ContainingType.ToString() == "System.Runtime.InteropServices.Marshal" &&

@@ -55,7 +55,7 @@ public sealed class ImplementIComparableCorrectlyAnalyzer : DiagnosticAnalyzer
         // Check operator ==, !=, <, >
         bool hasOpEq = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_Equality" });
         bool hasOpNe = namedType.GetMembers().OfType<IMethodSymbol>().Any(m => m is { MethodKind: MethodKind.UserDefinedOperator, Name: "op_Inequality" });
-        var missingParts = new System.Collections.Generic.List<string>();
+        var missingParts = new List<string>();
         if (!overridesEquals) missingParts.Add("Equals(object)");
         if (!hasOpEq) missingParts.Add("operator ==");
         if (!hasOpNe) missingParts.Add("operator !=");

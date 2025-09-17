@@ -42,12 +42,11 @@ public sealed class DeclareEventHandlersCorrectlyAnalyzer : DiagnosticAnalyzer
 
         // Check if the event's type matches EventHandler or EventHandler<T>,
         // or if the delegate has the standard (object, EventArgs) signature
-        var delegateType = eventSymbol.Type as INamedTypeSymbol;
-        if (delegateType == null)
+        if (eventSymbol.Type is not INamedTypeSymbol delegateType)
             return;
 
         // If it's EventHandler or EventHandler<T>, it's presumably correct
-        if (delegateType.Name == nameof(System.EventHandler) && delegateType.ContainingNamespace.Name == "System")
+        if (delegateType.Name == nameof(EventHandler) && delegateType.ContainingNamespace.Name == "System")
             return;
 
         // Otherwise, check the parameters
@@ -72,7 +71,7 @@ public sealed class DeclareEventHandlersCorrectlyAnalyzer : DiagnosticAnalyzer
         var secondParam = parameters[1];
 
         if (firstParam.Type.SpecialType != SpecialType.System_Object ||
-            secondParam.Type.Name != nameof(System.EventArgs))
+            secondParam.Type.Name != nameof(EventArgs))
         {
             ReportDiagnostic(context, eventSymbol);
         }

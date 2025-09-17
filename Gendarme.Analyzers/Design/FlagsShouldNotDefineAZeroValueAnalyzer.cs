@@ -42,7 +42,7 @@ public sealed class FlagsShouldNotDefineAZeroValueAnalyzer : DiagnosticAnalyzer
 
         // Check if it has [Flags]
         bool isFlags = namedType.GetAttributes()
-            .Any(a => a.AttributeClass?.Name == nameof(System.FlagsAttribute));
+            .Any(a => a.AttributeClass?.Name == nameof(FlagsAttribute));
 
         if (!isFlags)
             return;

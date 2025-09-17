@@ -35,7 +35,7 @@ public sealed class ArrayFieldsShouldNotBeReadOnlyAnalyzer : DiagnosticAnalyzer
             return;
 
         // Check if the field is public and readonly
-        if (fieldSymbol.DeclaredAccessibility == Accessibility.Public && fieldSymbol.IsReadOnly)
+        if (fieldSymbol is { DeclaredAccessibility: Accessibility.Public, IsReadOnly: true })
         {
             var diagnostic = Diagnostic.Create(Rule, fieldSymbol.Locations[0], fieldSymbol.Name);
             context.ReportDiagnostic(diagnostic);

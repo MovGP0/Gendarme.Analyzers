@@ -29,23 +29,26 @@ public sealed class DisposableFieldsShouldBeDisposedAnalyzer : DiagnosticAnalyze
     {
         var methodDeclaration = (MethodDeclarationSyntax)context.Node;
 
-        if (methodDeclaration.Identifier.Text != "Dispose")
+        if (methodDeclaration.Identifier.Text != "Dispose"
+            || methodDeclaration.Body is not { } body
+            || context.ContainingSymbol is not { } containingSymbol)
         {
             return;
         }
 
-        var containingType = (INamedTypeSymbol)context.ContainingSymbol.ContainingType;
-        var disposableFields = containingType.GetMembers()
+        var disposableFields = containingSymbol.ContainingType
+            .GetMembers()
             .OfType<IFieldSymbol>()
             .Where(field => field.Type.AllInterfaces.Any(i => i.Name == "IDisposable"));
 
         foreach (var field in disposableFields)
         {
-            if (!methodDeclaration.Body.Statements
+            if (!body.Statements
                 .OfType<ExpressionStatementSyntax>()
-                .Any(stmt => stmt.Expression is InvocationExpressionSyntax invocation &&
-                             invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
-                             memberAccess.Expression is IdentifierNameSyntax identifier &&
+                .Any(stmt => stmt.Expression is InvocationExpressionSyntax { Expression: MemberAccessExpressionSyntax
+                             {
+                                 Expression: IdentifierNameSyntax identifier
+                             } memberAccess } &&
                              identifier.Identifier.Text == field.Name &&
                              memberAccess.Name.Identifier.Text == "Dispose"))
             {

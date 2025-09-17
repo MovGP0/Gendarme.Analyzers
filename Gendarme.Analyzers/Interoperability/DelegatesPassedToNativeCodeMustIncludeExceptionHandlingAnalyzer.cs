@@ -37,8 +37,7 @@ public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnaly
             {
                 var delegateCreation = (IDelegateCreationOperation)operationContext.Operation;
 
-                var targetMethod = delegateCreation.Target as IMethodReferenceOperation;
-                if (targetMethod == null)
+                if (delegateCreation.Target is not IMethodReferenceOperation targetMethod)
                     return;
 
                 var methodSymbol = targetMethod.Method;
@@ -46,8 +45,7 @@ public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnaly
                 if (MethodIsPassedToPInvoke(delegateCreation, operationContext))
                 {
                     // Check if method has a try-catch block that spans the entire method
-                    var methodSyntax = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() as MethodDeclarationSyntax;
-                    if (methodSyntax == null)
+                    if (methodSymbol.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() is not MethodDeclarationSyntax methodSyntax)
                         return;
 
                     var hasCatchAll = MethodHasCatchAllExceptionHandling(methodSyntax);
@@ -64,12 +62,10 @@ public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnaly
 
     private static bool MethodIsPassedToPInvoke(IDelegateCreationOperation delegateCreation, OperationAnalysisContext context)
     {
-        var parentInvocation = delegateCreation.Parent as IArgumentOperation;
-        if (parentInvocation == null)
+        if (delegateCreation.Parent is not IArgumentOperation parentInvocation)
             return false;
 
-        var targetMethod = parentInvocation.Parent as IInvocationOperation;
-        if (targetMethod == null)
+        if (parentInvocation.Parent is not IInvocationOperation targetMethod)
             return false;
 
         var methodSymbol = targetMethod.TargetMethod;
@@ -84,7 +80,7 @@ public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnaly
         if (body == null)
             return false;
 
-        if (body.Statements.Count != 1 || !(body.Statements[0] is TryStatementSyntax tryStatement))
+        if (body.Statements is not [TryStatementSyntax tryStatement])
             return false;
 
         var catchClauses = tryStatement.Catches;

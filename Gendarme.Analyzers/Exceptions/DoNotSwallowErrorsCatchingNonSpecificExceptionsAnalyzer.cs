@@ -34,8 +34,7 @@ public sealed class DoNotSwallowErrorsCatchingNonSpecificExceptionsAnalyzer : Di
         if (exceptionType == null)
             return;
 
-        var typeSymbol = context.SemanticModel.GetTypeInfo(exceptionType).Type as INamedTypeSymbol;
-        if (typeSymbol == null)
+        if (context.SemanticModel.GetTypeInfo(exceptionType).Type is not INamedTypeSymbol typeSymbol)
             return;
 
         if (typeSymbol.ToString() == "System.Exception" || typeSymbol.ToString() == "System.SystemException")

@@ -50,8 +50,7 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
 
         var getObjectDataMethod = namedType.GetMembers()
             .OfType<IMethodSymbol>()
-            .FirstOrDefault(m => m.Name == "GetObjectData" &&
-                                 m.Parameters.Length == 2 &&
+            .FirstOrDefault(m => m is { Name: "GetObjectData", Parameters.Length: 2 } &&
                                  m.Parameters[0].Type.ToDisplayString() == "System.Runtime.Serialization.SerializationInfo" &&
                                  m.Parameters[1].Type.ToDisplayString() == "System.Runtime.Serialization.StreamingContext");
 
@@ -70,11 +69,11 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
             var syntax = syntaxRef.GetSyntax(context.CancellationToken);
             var semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree);
 
-            var operation = semanticModel.GetOperation(syntax, context.CancellationToken) as IConstructorBodyOperation;
-
-            if (operation != null && operation.Initializer is IExpressionStatementOperation expressionStatement &&
-                expressionStatement.Operation is IInvocationOperation invocation &&
-                invocation.TargetMethod.MethodKind == MethodKind.Constructor &&
+            if (semanticModel.GetOperation(syntax, context.CancellationToken) is IConstructorBodyOperation
+                { Initializer: IExpressionStatementOperation { Operation: IInvocationOperation
+                {
+                    TargetMethod.MethodKind: MethodKind.Constructor
+                } invocation } } &&
                 invocation.TargetMethod.ContainingType.Equals(namedType.BaseType))
             {
                 callsBaseCtor = true;
@@ -98,9 +97,7 @@ public sealed class CallBaseMethodsOnISerializableTypesAnalyzer : DiagnosticAnal
             var syntax = syntaxRef.GetSyntax(context.CancellationToken);
             var semanticModel = context.Compilation.GetSemanticModel(syntax.SyntaxTree);
 
-            var operation = semanticModel.GetOperation(syntax, context.CancellationToken) as IMethodBodyOperation;
-
-            if (operation != null)
+            if (semanticModel.GetOperation(syntax, context.CancellationToken) is IMethodBodyOperation operation)
             {
                 var invocations = operation.Descendants().OfType<IInvocationOperation>();
 

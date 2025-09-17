@@ -28,37 +28,38 @@ public sealed class AttributeStringLiteralsShouldParseCorrectlyAnalyzer : Diagno
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
         var attribute = (AttributeSyntax)context.Node;
-        var symbol = context.SemanticModel.GetSymbolInfo(attribute).Symbol as IMethodSymbol;
-        if (symbol == null)
+        if (context.SemanticModel.GetSymbolInfo(attribute).Symbol is not IMethodSymbol symbol
+            || attribute.ArgumentList is not { } argumentList)
         {
             return;
         }
 
-        foreach (var argument in attribute.ArgumentList.Arguments)
+        foreach (var argument in argumentList.Arguments)
         {
             var argumentType = context.SemanticModel.GetTypeInfo(argument.Expression).Type;
-            if (argumentType.SpecialType == SpecialType.System_String)
+            if (argumentType?.SpecialType != SpecialType.System_String)
             {
-                var stringLiteral = argument.Expression as LiteralExpressionSyntax;
-                if (stringLiteral != null)
-                {
-                    var valueText = stringLiteral.Token.ValueText;
+                continue;
+            }
 
-                    if (IsAttributeTarget(symbol, "System.Version") && !Version.TryParse(valueText, out _))
-                    {
-                        var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
-                        context.ReportDiagnostic(diagnostic);
-                    }
-                    else if (IsAttributeTarget(symbol, "System.Guid") && !Guid.TryParse(valueText, out _))
-                    {
-                        var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
-                        context.ReportDiagnostic(diagnostic);
-                    }
-                    else if (IsAttributeTarget(symbol, "System.Uri") && !Uri.IsWellFormedUriString(valueText, UriKind.RelativeOrAbsolute))
-                    {
-                        var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
-                        context.ReportDiagnostic(diagnostic);
-                    }
+            if (argument.Expression is LiteralExpressionSyntax stringLiteral)
+            {
+                var valueText = stringLiteral.Token.ValueText;
+
+                if (IsAttributeTarget(symbol, "System.Version") && !Version.TryParse(valueText, out _))
+                {
+                    var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
+                    context.ReportDiagnostic(diagnostic);
+                }
+                else if (IsAttributeTarget(symbol, "System.Guid") && !Guid.TryParse(valueText, out _))
+                {
+                    var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
+                    context.ReportDiagnostic(diagnostic);
+                }
+                else if (IsAttributeTarget(symbol, "System.Uri") && !Uri.IsWellFormedUriString(valueText, UriKind.RelativeOrAbsolute))
+                {
+                    var diagnostic = Diagnostic.Create(Rule, argument.GetLocation(), valueText);
+                    context.ReportDiagnostic(diagnostic);
                 }
             }
         }

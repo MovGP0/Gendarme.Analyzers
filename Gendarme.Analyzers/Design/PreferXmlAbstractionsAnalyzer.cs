@@ -81,10 +81,7 @@ public sealed class PreferXmlAbstractionsAnalyzer : DiagnosticAnalyzer
         // We look for classes like XmlDocument, XPathDocument, XmlNode
         string fullName = symbolType.ToDisplayString();
 
-        if (fullName == "System.Xml.XmlDocument"
-            || fullName == "System.Xml.XPath.XPathDocument"
-            || fullName == "System.Xml.XmlNode"
-            || fullName == "System.Xml.XmlElement")
+        if (fullName is "System.Xml.XmlDocument" or "System.Xml.XPath.XPathDocument" or "System.Xml.XmlNode" or "System.Xml.XmlElement")
         {
             var diag = Diagnostic.Create(
                 Rule,

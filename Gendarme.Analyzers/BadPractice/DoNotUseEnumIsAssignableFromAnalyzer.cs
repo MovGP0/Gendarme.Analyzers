@@ -28,15 +28,13 @@ public sealed class DoNotUseEnumIsAssignableFromAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
         var invocation = (InvocationExpressionSyntax)context.Node;
-        var memberAccess = invocation.Expression as MemberAccessExpressionSyntax;
 
-        if (memberAccess == null || memberAccess.Name.Identifier.Text != "IsAssignableFrom")
+        if (invocation.Expression is not MemberAccessExpressionSyntax memberAccess || memberAccess.Name.Identifier.Text != "IsAssignableFrom")
         {
             return;
         }
 
-        var memberAccessExpression = memberAccess.Expression as MemberAccessExpressionSyntax;
-        if (memberAccessExpression == null)
+        if (memberAccess.Expression is not MemberAccessExpressionSyntax memberAccessExpression)
         {
             return;
         }

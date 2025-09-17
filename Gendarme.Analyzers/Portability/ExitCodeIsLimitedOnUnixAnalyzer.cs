@@ -35,23 +35,14 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
     {
         var returnOperation = (IReturnOperation)context.Operation;
 
-        var containingMethod = returnOperation.SemanticModel.GetEnclosingSymbol(returnOperation.Syntax.SpanStart) as IMethodSymbol;
-
-        if (containingMethod != null && containingMethod.Name == "Main" && containingMethod.ReturnType.SpecialType == SpecialType.System_Int32)
+        if (returnOperation.SemanticModel.GetEnclosingSymbol(returnOperation.Syntax.SpanStart) is IMethodSymbol { Name: "Main", ReturnType.SpecialType: SpecialType.System_Int32 })
         {
             // Check if return value is a constant out of range 0-255
             var returnedValue = returnOperation.ReturnedValue;
-            if (returnedValue != null)
+            if (returnedValue is { ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } })
             {
-                var constantValue = returnedValue.ConstantValue;
-                if (constantValue.HasValue && constantValue.Value is int intValue)
-                {
-                    if (intValue < 0 || intValue > 255)
-                    {
-                        var diagnostic = Diagnostic.Create(Rule, returnOperation.Syntax.GetLocation());
-                        context.ReportDiagnostic(diagnostic);
-                    }
-                }
+                var diagnostic = Diagnostic.Create(Rule, returnOperation.Syntax.GetLocation());
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }
@@ -66,17 +57,10 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
             {
                 // Check if assigned value is a constant out of range 0-255
                 var assignedValue = assignmentOperation.Value;
-                if (assignedValue != null)
+                if (assignedValue is { ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } })
                 {
-                    var constantValue = assignedValue.ConstantValue;
-                    if (constantValue.HasValue && constantValue.Value is int intValue)
-                    {
-                        if (intValue < 0 || intValue > 255)
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, assignmentOperation.Syntax.GetLocation());
-                            context.ReportDiagnostic(diagnostic);
-                        }
-                    }
+                    var diagnostic = Diagnostic.Create(Rule, assignmentOperation.Syntax.GetLocation());
+                    context.ReportDiagnostic(diagnostic);
                 }
             }
         }
@@ -88,21 +72,10 @@ public sealed class ExitCodeIsLimitedOnUnixAnalyzer : DiagnosticAnalyzer
 
         if (invocationOperation.TargetMethod.Name == "Exit" && invocationOperation.TargetMethod.ContainingType.Name == "Environment")
         {
-            if (invocationOperation.Arguments.Length == 1)
+            if (invocationOperation.Arguments is [{ Value.ConstantValue: { HasValue: true, Value: int and (< 0 or > 255) } }])
             {
-                var argument = invocationOperation.Arguments[0].Value;
-                if (argument != null)
-                {
-                    var constantValue = argument.ConstantValue;
-                    if (constantValue.HasValue && constantValue.Value is int intValue)
-                    {
-                        if (intValue < 0 || intValue > 255)
-                        {
-                            var diagnostic = Diagnostic.Create(Rule, invocationOperation.Syntax.GetLocation());
-                            context.ReportDiagnostic(diagnostic);
-                        }
-                    }
-                }
+                var diagnostic = Diagnostic.Create(Rule, invocationOperation.Syntax.GetLocation());
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }

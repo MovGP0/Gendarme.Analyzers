@@ -29,8 +29,7 @@ public sealed class AvoidArgumentExceptionDefaultConstructorAnalyzer : Diagnosti
     {
         var objectCreation = (ObjectCreationExpressionSyntax)context.Node;
 
-        var typeSymbol = context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol as INamedTypeSymbol;
-        if (typeSymbol == null)
+        if (context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is not INamedTypeSymbol typeSymbol)
             return;
 
         var exceptionTypeNames = new[]
@@ -44,8 +43,7 @@ public sealed class AvoidArgumentExceptionDefaultConstructorAnalyzer : Diagnosti
         if (!exceptionTypeNames.Contains(typeSymbol.ToString()))
             return;
 
-        var constructorSymbol = context.SemanticModel.GetSymbolInfo(objectCreation).Symbol as IMethodSymbol;
-        if (constructorSymbol == null)
+        if (context.SemanticModel.GetSymbolInfo(objectCreation).Symbol is not IMethodSymbol constructorSymbol)
             return;
 
         if (constructorSymbol.Parameters.Length == 0)

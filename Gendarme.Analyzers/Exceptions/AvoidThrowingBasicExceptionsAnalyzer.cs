@@ -46,8 +46,7 @@ public sealed class AvoidThrowingBasicExceptionsAnalyzer : DiagnosticAnalyzer
 
     private static void AnalyzeThrow(SyntaxNodeAnalysisContext context, ExpressionSyntax expression)
     {
-        var typeInfo = context.SemanticModel.GetTypeInfo(expression).Type as INamedTypeSymbol;
-        if (typeInfo == null)
+        if (context.SemanticModel.GetTypeInfo(expression).Type is not INamedTypeSymbol typeInfo)
             return;
 
         var basicExceptions = new[]
