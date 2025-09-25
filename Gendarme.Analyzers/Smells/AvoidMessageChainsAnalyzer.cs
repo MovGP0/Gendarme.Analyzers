@@ -1,5 +1,25 @@
 namespace Gendarme.Analyzers.Smells;
 
+/// <summary>
+/// This rule checks for the Message Chain smell.
+/// This can cause problems because it means that your code is heavily coupled to the navigation structure.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public void Method(Person person)
+/// {
+///     person.GetPhone ().GetAreaCode ().GetCountry ().Language.ToFrench ("Hello world");
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public void Method(Language language)
+/// {
+///     language.ToFrench ("Hello world");
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidMessageChainsAnalyzer : DiagnosticAnalyzer
 {
@@ -32,24 +52,52 @@ public sealed class AvoidMessageChainsAnalyzer : DiagnosticAnalyzer
     {
         var memberAccess = (MemberAccessExpressionSyntax)context.Node;
 
+        // Start with 1 for the current member access
         int chainLength = 1;
         var expression = memberAccess.Expression;
 
-        while (expression is MemberAccessExpressionSyntax innerMemberAccess)
+        while (true)
         {
-            chainLength++;
-            expression = innerMemberAccess.Expression;
+            expression = Unwrap(expression);
 
-            if (chainLength > MaxChainLength)
+            if (expression is MemberAccessExpressionSyntax innerMemberAccess)
             {
-                var methodDeclaration = memberAccess.Ancestors().OfType<MethodDeclarationSyntax>().FirstOrDefault();
-                if (methodDeclaration != null)
-                {
-                    var diagnostic = Diagnostic.Create(Rule, memberAccess.GetLocation(), methodDeclaration.Identifier.Text);
-                    context.ReportDiagnostic(diagnostic);
-                }
-                break;
+                chainLength++;
+                expression = innerMemberAccess.Expression;
+                continue;
             }
+
+            break;
+        }
+
+        if (chainLength >= MaxChainLength)
+        {
+            var methodDeclaration = memberAccess.Ancestors().OfType<MethodDeclarationSyntax>().FirstOrDefault();
+            if (methodDeclaration != null)
+            {
+                var diagnostic = Diagnostic.Create(Rule, memberAccess.GetLocation(), methodDeclaration.Identifier.Text);
+                context.ReportDiagnostic(diagnostic);
+            }
+        }
+    }
+
+    private static ExpressionSyntax Unwrap(ExpressionSyntax expression)
+    {
+        while (true)
+        {
+            switch (expression)
+            {
+                case InvocationExpressionSyntax invocation:
+                    expression = invocation.Expression;
+                    continue;
+                case ParenthesizedExpressionSyntax paren:
+                    expression = paren.Expression;
+                    continue;
+                case ElementAccessExpressionSyntax element:
+                    expression = element.Expression;
+                    continue;
+            }
+            return expression;
         }
     }
 }

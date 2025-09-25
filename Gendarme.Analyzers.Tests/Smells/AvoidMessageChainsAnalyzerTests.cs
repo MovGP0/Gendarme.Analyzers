@@ -49,7 +49,7 @@ public class C
         // The column span can be refined if needed, but 22..32 should capture "a.b.c.d".
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidMessageChains)
-            .WithSpan(8, 22, 8, 32)
+            .WithSpan(8, 22, 8, 29)
             .WithArguments("MyMethod");
 
         context.ExpectedDiagnostics.Add(expected);
