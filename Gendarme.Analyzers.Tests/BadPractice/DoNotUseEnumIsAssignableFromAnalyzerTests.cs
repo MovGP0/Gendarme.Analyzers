@@ -30,8 +30,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotUseEnumIsAssignableFrom)
-            .WithSpan(6, 20, 6, 44)
-            .WithArguments("typeof(MyEnum)");
+            .WithSpan(8, 23, 8, 68)
+            .WithArguments("typeof(Enum).IsAssignableFrom(typeof(MyEnum))");
 
         context.ExpectedDiagnostics.Add(expected);
 
