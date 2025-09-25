@@ -22,7 +22,7 @@ public class SingleImplementation : MyAbstractClass { }
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidSpeculativeGenerality)
-            .WithSpan(1, 1, 5, 24)
+            .WithSpan(2, 23, 2, 38)
             .WithArguments("MyAbstractClass");
 
         context.ExpectedDiagnostics.Add(expected);
