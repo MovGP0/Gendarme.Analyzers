@@ -26,7 +26,7 @@ public sealed class ReviewDoubleAssignmentAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ReviewDoubleAssignment)
-            .WithSpan(6, 17, 6, 23)
+            .WithSpan(7, 17, 7, 22)
             .WithArguments("x");
 
         context.ExpectedDiagnostics.Add(expected);
