@@ -1,5 +1,39 @@
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule looks for unused local variables inside methods.
+/// This can lead to larger code (IL) size and longer JIT time,
+/// but note that some optimizing compilers can remove the locals so they won’t
+/// be reported even if you can still see them in the source code.
+/// This could also be a typo in the source were a value is assigned to the wrong variable.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// bool DualCheck ()
+/// {
+/// bool b1 = true;
+/// bool b2 = CheckDetails ();
+///     if (b2) {
+///     // typo: a find-replace changed b1 into b2
+///     b2 = CheckMoreDetails ();
+/// }
+/// return b2 && b2;
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// bool DualCheck ()
+/// {
+/// bool b1 = true;
+/// bool b2 = CheckDetails ();
+///     if (b2) {
+///     b1 = CheckMoreDetails ();
+/// }
+/// return b1 && b2;
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class RemoveUnusedLocalVariablesAnalyzer : DiagnosticAnalyzer
 {

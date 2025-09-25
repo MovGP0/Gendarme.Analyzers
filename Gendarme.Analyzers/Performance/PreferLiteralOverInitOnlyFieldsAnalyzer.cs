@@ -1,5 +1,29 @@
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule looks for InitOnly fields (readonly in C#) that could be turned into Literal (const in C#)
+/// because their value is known at compile time.
+/// Literal fields don’t need to be initialized
+/// (i.e. they don’t force the compiler to add a static constructor to the type)
+/// resulting in less code and the value (not a reference to the field)
+/// will be directly used in the IL (which is OK if the field has internal visibility,
+/// but is often problematic if the field is visible outside the assembly).
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class ClassWithReadOnly {
+///     static readonly int One = 1;
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public class ClassWithConst
+/// {
+///     const int One = 1;
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class PreferLiteralOverInitOnlyFieldsAnalyzer : DiagnosticAnalyzer
 {

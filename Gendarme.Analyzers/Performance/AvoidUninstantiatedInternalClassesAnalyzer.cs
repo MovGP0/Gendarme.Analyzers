@@ -1,7 +1,41 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule will fire if a type is only visible within its assembly, can be instantiated, but is not instantiated.
+/// Such types are often leftover (dead code) or are debugging/testing code and not required.
+/// However, in some case the types might be needed, e.g. when accessed through reflection
+/// or if the <c>[InternalsVisibleTo]</c> attribute is used on the assembly.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// // defined, but never instantiated
+/// internal class MyInternalClass {
+///     // ...
+/// }
+///  
+/// public class MyClass {
+///     static void Main ()
+///     {
+///         // ...
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// internal class MyInternalClass {
+///     // ...
+/// }
+///  
+/// public class MyClass {
+///     static void Main ()
+///     {
+///         MyInternalClass c = new MyInternalClass ();
+///         // ...
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUninstantiatedInternalClassesAnalyzer : DiagnosticAnalyzer
 {

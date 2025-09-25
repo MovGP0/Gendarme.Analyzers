@@ -1,7 +1,50 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule will check for internally visible methods which are never called.
+/// The rule will warn you if a private method isn’t called in its declaring type
+/// or if an internal method doesn't have any callers in the assembly or isn’t invoked by the runtime or a delegate.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="csharp">
+/// public class MyClass {
+///     private void MakeSuff ()
+///     {
+///         // ...
+///     }
+///  
+///     public void Method ()
+///     {
+///         Console.WriteLine ("Foo");
+///     }
+/// }
+/// </code>
+/// Good example (removing unused code):
+/// <code language="csharp">
+/// public class MyClass {
+///     public void Method ()
+///     {
+///         Console.WriteLine ("Foo");
+///     }
+/// }
+/// </code>
+/// Good example (use the code):
+/// <code language="csharp">
+/// public class MyClass {
+///     private void MakeSuff ()
+///     {
+///         // ...
+///     }
+///  
+///     public void Method ()
+///     {
+///         Console.WriteLine ("Foo");
+///         MakeSuff ();
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
 {

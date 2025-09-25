@@ -1,7 +1,35 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule is used to ensure that all parameters in a method signature are being used. The rule won't report a defect against the following:
+/// <ul>
+/// <li>Methods that are referenced by a delegate;</li>
+/// <li>Methods used as event handlers;</li>
+/// <li>Abstract methods;</li>
+/// <li>Virtual or overriden methods;</li>
+/// <li>External methods (e.g. p/invokes)</li>
+/// </ul>
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public void MethodWithUnusedParameters (IEnumerable enumerable, int x)
+/// {
+///     foreach (object item in enumerable) {
+///         Console.WriteLine (item);
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public void MethodWithUsedParameters (IEnumerable enumerable)
+/// {
+///     foreach (object item in enumerable) {
+///         Console.WriteLine (item);
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
 {

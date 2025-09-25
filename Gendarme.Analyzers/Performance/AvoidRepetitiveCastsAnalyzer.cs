@@ -3,6 +3,55 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule fires if multiple casts are done on the same value, for the same type.
+/// Casts are expensive so reducing them, by changing the logic or caching the result, can help performance.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// foreach (object o in list) {
+///     // first cast (is)
+///     if (o is ICollection) {
+///         // second cast (as) if item implements ICollection
+///         Process (o as ICollection);
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// foreach (object o in list) {
+///     // a single cast (as) per item
+///     ICollection c = (o as ICollection);
+///     if (c != null) {
+///         SingleCast (c);
+///     }
+/// }
+/// </code>
+/// Bad example:
+/// <code language="C#">
+/// // first cast (is):
+/// if (o is IDictionary) {
+///     // second cast if item implements IDictionary:
+///     Process ((IDictionary) o);
+///     // first cast (is):
+/// } else if (o is ICollection) {
+///     // second cast if item implements ICollection:
+///     Process ((ICollection) o);
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// // a single cast (as) per item
+/// IDictionary dict;
+/// ICollection col;
+/// if ((dict = o as IDictionary) != null) {
+///     SingleCast (dict);
+/// } else if ((col = o as ICollection) != null) {
+///     SingleCast (col);
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidRepetitiveCastsAnalyzer : DiagnosticAnalyzer
 {

@@ -1,7 +1,45 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule checks all private fields inside each type to see if some of them are not being used.
+/// This could be a leftover from debugging or testing code or a more serious typo where a wrong field is being used.
+/// In any case this makes the type bigger than it needs to be
+/// which can affect performance when a large number of instances exist.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class Bad {
+///     int level;
+///     bool b;
+///  
+///     public void Indent ()
+///     {
+///         level++;
+/// #if DEBUG
+///         if (b) Console.WriteLine (level);
+/// #endif
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public class Good {
+///     int level;
+/// #if DEBUG
+///     bool b;
+/// #endif
+///  
+///     public void Indent ()
+///     {
+///         level++;
+/// #if DEBUG
+///         if (b) Console.WriteLine (level);
+/// #endif
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUnusedPrivateFieldsAnalyzer : DiagnosticAnalyzer
 {

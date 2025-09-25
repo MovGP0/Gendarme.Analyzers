@@ -1,8 +1,28 @@
 using Gendarme.Analyzers.Extensions;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule looks for complex cast operations (e.g. an <c>aswith</c> a null check)
+/// that can be simplified using the is operator (C# syntax).
+/// </summary>
+/// <remarks>
+/// In some case a compiler, like <c>[g]mcs</c>, can optimize the code and generate IL identical to an <c>is</c> operator.
+/// </remarks>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// bool is_my_type = (my_instance as MyType) != null;
+/// </code>
+/// Bad example:
+/// <code language="C#">
+/// bool is_my_type = (my_instance as MyType) is not null;
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// bool is_my_type = (my_instance is MyType);
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UseIsOperatorAnalyzer : DiagnosticAnalyzer
 {

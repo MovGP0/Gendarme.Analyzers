@@ -1,5 +1,48 @@
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule looks for types that override <c>Object.Equals(object)</c>
+/// but do not provide an <c>Equals(x)</c> overload using the type.
+/// Such an overload removes the need to cast the object to the correct type.
+/// For value types this also removes the costly boxing operations.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class Bad {
+///     public override bool Equals (object obj)
+///     {
+///         return base.Equals (obj);
+///     }
+///  
+///     public override int GetHashCode ()
+///     {
+///         return base.GetHashCode ();
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// // IEquatable&lt;T> is only available since
+/// // version 2.0 of the .NET framework
+/// public class Good : IEquatable&lt;Good> {
+///     public override bool Equals (object obj)
+///     {
+///         return (obj as Good);
+///     }
+///  
+///     public bool Equals (Good other)
+///     {
+///         return (other != null);
+///     }
+///  
+///     public override int GetHashCode ()
+///     {
+///         return base.GetHashCode ();
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ImplementEqualsTypeAnalyzer : DiagnosticAnalyzer
 {

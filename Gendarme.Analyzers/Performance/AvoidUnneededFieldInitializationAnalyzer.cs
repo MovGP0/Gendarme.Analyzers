@@ -1,5 +1,40 @@
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule looks for constructors that assign fields to their default value
+/// (e.g. 0 for an integer, null for an object or a string).
+/// Since the CLR zero initializes all values there is no need, under most circumstances, to assign default values.
+/// Doing so only adds size to source code and in IL.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class Bad {
+///     int i;
+///     string s;
+///  
+///     public Bad ()
+///     {
+///         i = 0;
+///         s = null;
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public class Good {
+///     int i;
+///     string s;
+///  
+///     public Good ()
+///     {
+///         // don't assign 'i' since it's already 0
+///         // but we might prefer to assign a string to String.Empty
+///         s = String.Empty;
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUnneededFieldInitializationAnalyzer : DiagnosticAnalyzer
 {

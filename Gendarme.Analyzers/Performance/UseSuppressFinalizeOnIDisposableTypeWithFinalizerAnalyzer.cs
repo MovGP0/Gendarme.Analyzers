@@ -1,7 +1,70 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule will fire if a type implements <c>System.IDisposable</c> and has a finalizer (called a destructor in C#),
+/// but the Dispose method does not call <c>System.GC.SuppressFinalize</c>.
+/// Failing to do this should not cause properly written code to fail,
+/// but it does place a non-trivial amount of extra pressure on the garbage collector and on the finalizer thread.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// class BadClass : IDisposable {
+///     ~BadClass ()
+///     {
+///         Dispose (false);
+///     }
+///  
+///     public void Dispose ()
+///     {
+///         // GC.SuppressFinalize is missing so the finalizer will be called
+///         // which puts needless extra pressure on the garbage collector.
+///         Dispose (true);
+///     }
+///  
+///     private void Dispose (bool disposing)
+///     {
+///         if (ptr != IntPtr.Zero) {
+///             Free (ptr);
+///             ptr = IntPtr.Zero;
+///         }
+///     }
+///  
+///     [DllImport ("somelib")]
+///     private static extern void Free (IntPtr ptr);
+///  
+///     private IntPtr ptr;
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// class GoodClass : IDisposable {
+///     ~GoodClass ()
+///     {
+///         Dispose (false);
+///     }
+///  
+///     public void Dispose ()
+///     {
+///         Dispose (true);
+///         GC.SuppressFinalize (this);
+///     }
+///  
+///     private void Dispose (bool disposing)
+///     {
+///         if (ptr != IntPtr.Zero) {
+///             Free (ptr);
+///             ptr = IntPtr.Zero;
+///         }
+///     }
+///  
+///     [DllImport ("somelib")]
+///     private static extern void Free (IntPtr ptr);
+///  
+///     private IntPtr ptr;
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer : DiagnosticAnalyzer
 {

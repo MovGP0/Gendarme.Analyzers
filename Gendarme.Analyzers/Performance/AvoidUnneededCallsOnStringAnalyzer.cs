@@ -1,7 +1,27 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule detects when some methods, like <c>Clone()</c>, <c>Substring(0)</c>, <c>ToString()</c> or <c>ToString(IFormatProvider)</c>,
+/// are being called on a string instance.<br/>
+/// Since these calls all return the original string they don’t do anything useful
+/// and should be carefully reviewed to see if they are working as intended and, if they are, the method call can be removed.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="csharp">
+/// public void PrintName (string name)
+/// {
+///     Console.WriteLine ("Name: {0}", name.ToString ());
+/// }
+/// </code>
+/// Good example:
+/// <code language="csharp">
+/// public void PrintName (string name)
+/// {
+///     Console.WriteLine ("Name: {0}", name);
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUnneededCallsOnStringAnalyzer : DiagnosticAnalyzer
 {

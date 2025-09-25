@@ -1,7 +1,33 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Performance;
 
+/// <summary>
+/// This rule fires if a method is called that returns a new instance but that instance is not used.
+/// This is a performance problem because it is wasteful to create and collect objects which are never actually used.
+/// It may also indicate a logic problem.
+/// Note that this rule currently only checks methods within a small number of System types.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public void GetName ()
+/// {
+///     string name = Console.ReadLine ();
+///     // This is a bug: strings are (mostly) immutable so Trim leaves
+///     // name untouched and returns a new string.
+///     name.Trim ();
+///     Console.WriteLine ("Name: {0}", name);
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public void GetName ()
+/// {
+///     string name = Console.ReadLine ();
+///     name = name.Trim ();
+///     Console.WriteLine ("Name: {0}", name);
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotIgnoreMethodResultAnalyzer : DiagnosticAnalyzer
 {
