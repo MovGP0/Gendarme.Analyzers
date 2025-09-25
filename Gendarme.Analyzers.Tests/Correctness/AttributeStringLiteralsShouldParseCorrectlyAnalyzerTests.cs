@@ -6,98 +6,122 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 public sealed class AttributeStringLiteralsShouldParseCorrectlyAnalyzerTests
 {
     [Fact]
-    public async Task TestInvalidVersionAttribute()
+    public async Task DetectsInvalidVersionLiteral()
     {
-        const string testCode = @"
-using System;
+        const string source = @"using System;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class MyAttribute : Attribute
+public sealed class VersionLikeAttribute : Attribute
 {
-    public MyAttribute(string version) { }
+    public VersionLikeAttribute(string version) { }
 }
 
-[MyAttribute(""not.a.valid.version"")]
-public class MyClass { }
+[VersionLikeAttribute(""not.a.valid.version"")]
+public sealed class C { }
 ";
-
-        var context = new CSharpAnalyzerTest<AttributeStringLiteralsShouldParseCorrectlyAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AttributeStringLiteralsShouldParseCorrectly)
-            .WithSpan(6, 15, 6, 38)
+            .WithSpan(9, 23, 9, 44)
             .WithArguments("not.a.valid.version");
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestInvalidGuidAttribute()
+    public async Task DetectsInvalidGuidLiteral()
     {
-        const string testCode = @"
-using System;
+        const string source = @"using System;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class MyAttribute : Attribute
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+public sealed class GuidLikeAttribute : Attribute
 {
-    public MyAttribute(string guid) { }
+    public GuidLikeAttribute(string guid) { }
 }
 
-[MyAttribute(""invalid-guid"")]
-public class MyClass { }
+[GuidLikeAttribute(""invalid-guid"")]
+public sealed class C { }
 ";
-
-        var context = new CSharpAnalyzerTest<AttributeStringLiteralsShouldParseCorrectlyAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AttributeStringLiteralsShouldParseCorrectly)
-            .WithSpan(6, 15, 6, 32)
+            .WithSpan(9, 20, 9, 34)
             .WithArguments("invalid-guid");
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestInvalidUriAttribute()
+    public async Task DetectsInvalidUriLiteral()
     {
-        const string testCode = @"
-using System;
+        const string source = @"using System;
 
-[AttributeUsage(AttributeTargets.Class)]
-public class MyAttribute : Attribute
+[AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
+public sealed class UriLikeAttribute : Attribute
 {
-    public MyAttribute(string uri) { }
+    public UriLikeAttribute(string uri) { }
 }
 
-[MyAttribute(""http://invalid-url"")]
-public class MyClass { }
+[UriLikeAttribute(""http://invalid url"")]
+public sealed class C { }
 ";
-
-        var context = new CSharpAnalyzerTest<AttributeStringLiteralsShouldParseCorrectlyAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AttributeStringLiteralsShouldParseCorrectly)
-            .WithSpan(6, 15, 6, 33)
-            .WithArguments("http://invalid-url");
+            .WithSpan(9, 19, 9, 39)
+            .WithArguments("http://invalid url");
 
-        context.ExpectedDiagnostics.Add(expected);
+        await VerifyAsync(source, expected);
+    }
 
-        await context.RunAsync();
+    [Fact]
+    public async Task SkipsWhenParameterHasStringSyntaxAttribute()
+    {
+        const string source = @"using System;
+using System.Diagnostics.CodeAnalysis;
+
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class UriAttribute : Attribute
+{
+    public UriAttribute([StringSyntax(StringSyntaxAttribute.Uri)] string uri) { }
+}
+
+[UriAttribute(""http://invalid url"")]
+public sealed class C { }
+";
+
+        await VerifyAsync(source);
+    }
+
+    [Fact]
+    public async Task SkipsWhenPropertyHasStringSyntaxAttribute()
+    {
+        const string source = @"using System;
+using System.Diagnostics.CodeAnalysis;
+
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class UriAttribute : Attribute
+{
+    [StringSyntax(StringSyntaxAttribute.Uri)]
+    public string Uri { get; set; }
+}
+
+[UriAttribute(Uri = ""http://invalid url"")]
+public sealed class C { }
+";
+
+        await VerifyAsync(source);
+    }
+
+    private static Task VerifyAsync(string source, params DiagnosticResult[] expectedDiagnostics)
+    {
+        var test = new CSharpAnalyzerTest<AttributeStringLiteralsShouldParseCorrectlyAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        test.ExpectedDiagnostics.AddRange(expectedDiagnostics);
+        return test.RunAsync();
     }
 }
