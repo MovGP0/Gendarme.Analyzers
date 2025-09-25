@@ -6,64 +6,107 @@ namespace Gendarme.Analyzers.Tests.Concurrency;
 public sealed class DoNotLockOnWeakIdentityObjectsAnalyzerTests
 {
     [Fact]
-    public async Task TestLockOnWeakIdentityObject()
+    public async Task DetectsLockOnStringLiteral()
     {
-        const string testCode = @"
-using System.Threading;
+        const string testCode = @"using System;
 
 public class MyClass
 {
     public void MyMethod()
     {
-        lock (string.Empty) // Locking on a weak identity object
+        lock (string.Empty)
         {
-            // Critical section
+            Console.WriteLine();
         }
     }
-}
-";
-
-        var context = new CSharpAnalyzerTest<DoNotLockOnWeakIdentityObjectsAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+}";
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotLockOnWeakIdentityObjects)
-            .WithSpan(6, 14, 6, 28) // Adjusted location based on actual code
-            .WithArguments("System.String");
+            .WithSpan(7, 15, 7, 27);
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(testCode, expected);
     }
 
     [Fact]
-    public async Task TestLockOnNonWeakIdentityObject()
+    public async Task DetectsLockOnTypeInstance()
     {
-        const string testCode = @"
+        const string testCode = @"using System;
+
 public class MyClass
 {
-    private readonly object _lock = new object();
+    public void MyMethod()
+    {
+        lock (typeof(string))
+        {
+            Console.WriteLine();
+        }
+    }
+}";
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotLockOnWeakIdentityObjects)
+            .WithSpan(7, 15, 7, 29);
+
+        await VerifyAsync(testCode, expected);
+    }
+
+    [Fact]
+    public async Task DetectsLockOnThreadInstance()
+    {
+        const string testCode = @"using System.Threading;
+
+public class MyClass
+{
+    private readonly Thread _thread = Thread.CurrentThread;
 
     public void MyMethod()
     {
-        lock (_lock) // Locking on a strong identity object
+        lock (_thread)
         {
-            // Critical section
+            _ = 0;
         }
     }
-}
-";
+}";
 
-        var context = new CSharpAnalyzerTest<DoNotLockOnWeakIdentityObjectsAnalyzer, DefaultVerifier>
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotLockOnWeakIdentityObjects)
+            .WithSpan(9, 15, 9, 22);
+
+        await VerifyAsync(testCode, expected);
+    }
+
+    [Fact]
+    public async Task SkipsLockOnDedicatedObject()
+    {
+        const string testCode = @"using System;
+
+public class MyClass
+{
+    private readonly object _gate = new object();
+
+    public void MyMethod()
+    {
+        lock (_gate)
+        {
+            Console.WriteLine();
+        }
+    }
+}";
+
+        await VerifyAsync(testCode);
+    }
+
+    private static Task VerifyAsync(string source, params DiagnosticResult[] expectedDiagnostics)
+    {
+        var test = new CSharpAnalyzerTest<DoNotLockOnWeakIdentityObjectsAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected
-        await context.RunAsync();
+        test.ExpectedDiagnostics.AddRange(expectedDiagnostics);
+        return test.RunAsync();
     }
 }
+

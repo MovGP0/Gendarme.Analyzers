@@ -1,3 +1,5 @@
+using Gendarme.Analyzers.Extensions;
+
 namespace Gendarme.Analyzers.Concurrency;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -16,6 +18,13 @@ public sealed class DoNotLockOnWeakIdentityObjectsAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
+    private static readonly ImmutableArray<string> ExceptionTypeMetadataNames =
+    [
+        "System.OutOfMemoryException",
+        "System.ExecutionEngineException",
+        "System.StackOverflowException"
+    ];
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
@@ -30,26 +39,88 @@ public sealed class DoNotLockOnWeakIdentityObjectsAnalyzer : DiagnosticAnalyzer
         var lockStatement = (LockStatementSyntax)context.Node;
         var expression = lockStatement.Expression;
 
-        var type = context.SemanticModel.GetTypeInfo(expression).Type;
-        if (type == null)
+        var type = context.SemanticModel.GetTypeInfo(expression, context.CancellationToken).Type;
+        if (type is null)
+        {
             return;
-
-        var weakIdentities = new[]
-        {
-            "System.String",
-            "System.MarshalByRefObject",
-            "System.OutOfMemoryException",
-            "System.Reflection.MemberInfo",
-            "System.Reflection.ParameterInfo",
-            "System.ExecutionEngineException",
-            "System.StackOverflowException",
-            "System.Threading.Thread"
-        };
-
-        if (weakIdentities.Contains(type.ToString()))
-        {
-            var diagnostic = Diagnostic.Create(Rule, expression.GetLocation());
-            context.ReportDiagnostic(diagnostic);
         }
+
+        if (!IsWeakIdentityType(type, context.SemanticModel.Compilation))
+        {
+            return;
+        }
+
+        context.ReportDiagnostic(Diagnostic.Create(Rule, expression.GetLocation()));
+    }
+
+    private static bool IsWeakIdentityType(ITypeSymbol type, Compilation compilation)
+    {
+        if (type is IErrorTypeSymbol)
+        {
+            return false;
+        }
+
+        if (type is ITypeParameterSymbol typeParameter)
+        {
+            foreach (var constraint in typeParameter.ConstraintTypes)
+            {
+                if (IsWeakIdentityType(constraint, compilation))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        if (type.SpecialType == SpecialType.System_String)
+        {
+            return true;
+        }
+
+        if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName("System.Type")))
+        {
+            return true;
+        }
+
+        if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName("System.MarshalByRefObject")))
+        {
+            return true;
+        }
+
+        if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName("System.Threading.Thread")))
+        {
+            return true;
+        }
+
+        if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName("System.Reflection.MemberInfo")))
+        {
+            return true;
+        }
+
+        if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName("System.Reflection.ParameterInfo")))
+        {
+            return true;
+        }
+
+        foreach (var metadataName in ExceptionTypeMetadataNames)
+        {
+            if (IsOrInheritsFrom(type, compilation.GetTypeByMetadataName(metadataName)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsOrInheritsFrom(ITypeSymbol type, INamedTypeSymbol? baseType)
+    {
+        if (baseType is null)
+        {
+            return false;
+        }
+
+        return SymbolEqualityComparer.Default.Equals(type, baseType) || type.InheritsFrom(baseType);
     }
 }
