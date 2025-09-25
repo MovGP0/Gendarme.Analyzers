@@ -33,7 +33,8 @@ public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (objectCreation.Parent is not VariableDeclaratorSyntax variableDeclarator)
+        if (objectCreation.Parent is not EqualsValueClauseSyntax equalsValueClause
+            || equalsValueClause.Parent is not VariableDeclaratorSyntax variableDeclarator)
         {
             return;
         }
@@ -55,34 +56,16 @@ public sealed class CheckNewThreadWithoutStartAnalyzer : DiagnosticAnalyzer
 
     private static bool IsThreadStartedOrUsed(MethodDeclarationSyntax methodDeclaration, string variableName)
     {
-        var threadStartedOrUsed = false;
-
-        foreach (var descendantNode in methodDeclaration.DescendantNodes())
+        foreach (var invocation in methodDeclaration.DescendantNodes().OfType<InvocationExpressionSyntax>())
         {
-            if (descendantNode is InvocationExpressionSyntax invocation)
+            if (invocation.Expression is MemberAccessExpressionSyntax { Expression: IdentifierNameSyntax identifierName } memberAccess &&
+                identifierName.Identifier.Text == variableName &&
+                memberAccess.Name.Identifier.Text == "Start")
             {
-                if (invocation.Expression is MemberAccessExpressionSyntax { Expression: IdentifierNameSyntax identifierName } memberAccess &&
-                    identifierName.Identifier.Text == variableName &&
-                    memberAccess.Name.Identifier.Text == "Start")
-                {
-                    threadStartedOrUsed = true;
-                    break;
-                }
-            }
-            else if (descendantNode is ReturnStatementSyntax { Expression: IdentifierNameSyntax returnIdentifier } &&
-                     returnIdentifier.Identifier.Text == variableName)
-            {
-                threadStartedOrUsed = true;
-                break;
-            }
-            else if (descendantNode is ArgumentSyntax { Expression: IdentifierNameSyntax argumentIdentifier } &&
-                     argumentIdentifier.Identifier.Text == variableName)
-            {
-                threadStartedOrUsed = true;
-                break;
+                return true;
             }
         }
 
-        return threadStartedOrUsed;
+        return false;
     }
 }

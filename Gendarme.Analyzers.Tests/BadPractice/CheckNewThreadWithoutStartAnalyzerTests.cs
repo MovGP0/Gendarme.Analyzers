@@ -26,7 +26,8 @@ public sealed class CheckNewThreadWithoutStartAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.CheckNewThreadWithoutStart)
-            .WithSpan(8, 17, 8, 23)
+            .WithSpan(8, 33, 8, 68)
+            .WithMessage("The thread 'thread' is created but not started, not returned, and not passed to another method")
             .WithArguments("thread");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -81,7 +82,7 @@ public sealed class CheckNewThreadWithoutStartAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.CheckNewThreadWithoutStart)
-            .WithSpan(8, 17, 8, 23)
+            .WithSpan(8, 33, 8, 68)
             .WithArguments("thread");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -117,7 +118,7 @@ public sealed class CheckNewThreadWithoutStartAnalyzerTests
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.CheckNewThreadWithoutStart)
-            .WithSpan(12, 17, 12, 23)
+            .WithSpan(13, 33, 13, 68)
             .WithArguments("thread");
 
         context.ExpectedDiagnostics.Add(expected);
