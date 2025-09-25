@@ -79,6 +79,12 @@ public class MyClass
             TestCode = testCode
         };
 
+        var expected = DiagnosticResult.CompilerWarning(DiagnosticId.AvoidLargeClasses)
+            .WithSpan(2, 14, 2, 21)
+            .WithArguments("MyClass");
+
+        context.ExpectedDiagnostics.Add(expected);
+
         await context.RunAsync();
     }
 

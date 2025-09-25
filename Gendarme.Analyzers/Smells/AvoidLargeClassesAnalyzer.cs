@@ -1,5 +1,30 @@
 namespace Gendarme.Analyzers.Smells;
 
+/// <summary>
+/// This rule allows developers to measure the classes size.
+/// When a class is trying to do a lot of work, then you probably have the Large Class smell.
+/// This rule will fire if a type contains too many fields (over 25 by default) or has fields with common prefixes.
+/// If the rule does fire then the type should be reviewed to see if new classes should be extracted from it.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class MyClass {
+///     int x, x1, x2, x3;
+///     string s, s1, s2, s3;
+///     DateTime bar, bar1, bar2;
+///     string[] strings, strings1;
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public class MyClass {
+///     int x;
+///     string s;
+///     DateTime bar;
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidLargeClassesAnalyzer : DiagnosticAnalyzer
 {
@@ -17,6 +42,7 @@ public sealed class AvoidLargeClassesAnalyzer : DiagnosticAnalyzer
         description: Description);
 
     private const int MaxFieldCount = 25;
+    private const int MinPrefixGroupSize = 6; // require at least 6 fields sharing a prefix to avoid false positives
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -47,8 +73,11 @@ public sealed class AvoidLargeClassesAnalyzer : DiagnosticAnalyzer
         var fieldNames = fieldDeclarations.SelectMany(f => f.Declaration.Variables)
             .Select(v => v.Identifier.Text);
 
-        var groupedByPrefix = fieldNames.GroupBy(name => GetPrefix(name))
-            .Where(g => g.Count() > 1);
+        var groupedByPrefix = fieldNames
+            .Select(GetPrefix)
+            .Where(prefix => !string.IsNullOrEmpty(prefix))
+            .GroupBy(prefix => prefix)
+            .Where(g => g.Count() >= MinPrefixGroupSize);
 
         if (groupedByPrefix.Any())
         {
@@ -59,11 +88,22 @@ public sealed class AvoidLargeClassesAnalyzer : DiagnosticAnalyzer
 
     private string GetPrefix(string fieldName)
     {
-        int index = 0;
-        while (index < fieldName.Length && char.IsLetter(fieldName[index]))
+        if (string.IsNullOrEmpty(fieldName))
+            return string.Empty;
+
+        // Skip leading non-letter characters (e.g., '_' or 'm_')
+        var i = 0;
+        while (i < fieldName.Length && !char.IsLetter(fieldName[i]))
         {
-            index++;
+            i++;
         }
-        return fieldName.Substring(0, index);
+
+        var start = i;
+        while (i < fieldName.Length && char.IsLetter(fieldName[i]))
+        {
+            i++;
+        }
+
+        return i > start ? fieldName.Substring(start, i - start) : string.Empty;
     }
 }
