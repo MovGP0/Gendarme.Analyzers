@@ -1,5 +1,34 @@
 namespace Gendarme.Analyzers.Serialization;
 
+/// <summary>
+/// This rule checks for methods which use the serialization attributes:
+/// <c>[OnSerializing, OnDeserializing, OnSerialized, OnDeserialized]</c>.
+/// You must ensure that these methods have the correct signature.
+/// They should be <c>private</c>, return <c>void</c> and have a single parameter of type <c>StreamingContext</c>.
+/// Failure to have the right signature can, in some circumstances, make your assembly unusable at runtime.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="c#">
+/// [Serializable]
+/// public class Bad {
+///     [OnSerializing]
+///     public bool Serializing (StreamingContext context)
+///     {
+///     }
+/// }
+/// </code>
+/// Good example:
+/// <code language="c#">
+/// [Serializable]
+/// public class BadClass {
+///     [OnSerializing]
+///     private void Serializing (StreamingContext context)
+///     {
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UseCorrectSignatureForSerializationMethodsAnalyzer : DiagnosticAnalyzer
 {

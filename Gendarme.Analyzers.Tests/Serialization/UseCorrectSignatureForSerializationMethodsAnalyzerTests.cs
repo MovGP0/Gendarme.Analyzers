@@ -70,7 +70,7 @@ public sealed class UseCorrectSignatureForSerializationMethodsAnalyzerTests
     public class MyClass
     {
         [OnSerialized]
-        public void OnSerializedMethod(StreamingContext context) { }
+        private void OnSerializedMethod(StreamingContext context) { }
     }";
 
         var context = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
@@ -80,5 +80,170 @@ public sealed class UseCorrectSignatureForSerializationMethodsAnalyzerTests
         };
 
         await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestAllAttributesValidSignature()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnSerializing]
+        private void OnSerializingMethod(StreamingContext context) { }
+
+        [OnDeserializing]
+        private void OnDeserializingMethod(StreamingContext context) { }
+
+        [OnSerialized]
+        private void OnSerializedMethod(StreamingContext context) { }
+
+        [OnDeserialized]
+        private void OnDeserializedMethod(StreamingContext context) { }
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestWrongVisibility_ShouldReport()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnDeserialized]
+        public void Handler(StreamingContext context) { }
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerError(DiagnosticId.UseCorrectSignatureForSerializationMethods)
+            .WithSpan(7, 21, 7, 28)
+            .WithArguments("Handler");
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestWrongReturnType_ShouldReport()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnSerialized]
+        private int Handler(StreamingContext context) => 0;
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerError(DiagnosticId.UseCorrectSignatureForSerializationMethods)
+            .WithSpan(7, 21, 7, 28)
+            .WithArguments("Handler");
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestWrongParameterType_ShouldReport()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnSerializing]
+        private void Handler(int notContext) { }
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerError(DiagnosticId.UseCorrectSignatureForSerializationMethods)
+            .WithSpan(7, 22, 7, 29)
+            .WithArguments("Handler");
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestNoParameter_ShouldReport()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnDeserializing]
+        private void Handler() { }
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerError(DiagnosticId.UseCorrectSignatureForSerializationMethods)
+            .WithSpan(7, 22, 7, 29)
+            .WithArguments("Handler");
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestTwoParameters_ShouldReport()
+    {
+        const string testCode = @"
+    using System.Runtime.Serialization;
+
+    public class MyClass
+    {
+        [OnDeserialized]
+        private void Handler(StreamingContext context, int extra) { }
+    }";
+
+        var test = new CSharpAnalyzerTest<UseCorrectSignatureForSerializationMethodsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerError(DiagnosticId.UseCorrectSignatureForSerializationMethods)
+            .WithSpan(7, 22, 7, 29)
+            .WithArguments("Handler");
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
     }
 }
