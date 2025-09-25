@@ -34,7 +34,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotRecurseInEquality)
-            .WithSpan(7, 9, 7, 20); // Adjust Span according to your code
+            .WithSpan(6, 33, 6, 35);
 
         context.ExpectedDiagnostics.Add(expected);
 
