@@ -1,7 +1,28 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Interoperability;
 
+/// <summary>
+/// Every delegate which is passed to <c>native code</c> must include an exception block which spans the entire method and has a catch-all handler.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code>
+/// public void NativeCallback()
+/// {
+///     Console.WriteLine("{0}", 1);
+/// }
+/// </code>
+/// Good example:
+/// <code>
+/// public void NativeCallback()
+/// {
+///     try {
+///         Console.WriteLine("{0}", 1);
+///     }
+///     catch {
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnalyzer : DiagnosticAnalyzer
 {

@@ -21,7 +21,12 @@ public class MyClass
 
     public void MethodWithoutCatchAll()
     {
-        ExternalMethod(() => { throw new Exception(); });
+        ExternalMethod(Callback);
+    }
+
+    public void Callback()
+    {
+        Console.WriteLine(""Hello"");
     }
 }";
 
@@ -33,8 +38,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DelegatesPassedToNativeCodeMustIncludeExceptionHandling)
-            .WithSpan(10, 9, 10, 31)
-            .WithArguments("MethodWithoutCatchAll");
+            .WithSpan(17, 17, 17, 25)
+            .WithArguments("Callback");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -57,9 +62,14 @@ public class MyClass
 
     public void MethodWithCatchAll()
     {
+        ExternalMethod(Callback);
+    }
+
+    public void Callback()
+    {
         try
         {
-            ExternalMethod(() => { throw new Exception(); });
+            Console.WriteLine(""Hello"");
         }
         catch
         {
@@ -74,8 +84,6 @@ public class MyClass
             TestCode = testCode
         };
 
-        // No diagnostics are expected since the method has catch-all exception handling.
-        
         await context.RunAsync();
     }
 }
