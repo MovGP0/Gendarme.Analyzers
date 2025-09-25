@@ -54,10 +54,44 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.GetLastErrorMustBeCalledRightAfterPInvoke)
-            .WithSpan(7, 9, 7, 26);
+            .WithSpan(8, 21, 8, 48);
 
         context.ExpectedDiagnostics.Add(expected);
 
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task TestGetLastErrorNotImmediatelyAfterPInvoke()
+    {
+        const string testCode = @"
+using System;
+using System.Runtime.InteropServices;
+
+public class MyClass
+{
+    [DllImport(""user32.dll"")]
+    public static extern bool MessageBeep(uint type);
+
+    public void DestroyError()
+    {
+        MessageBeep(2);
+        Console.WriteLine(""Beep"");
+        int error = Marshal.GetLastWin32Error();
+    }
+}";
+
+        var context = new CSharpAnalyzerTest<GetLastErrorMustBeCalledRightAfterPInvokeAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.GetLastErrorMustBeCalledRightAfterPInvoke)
+            .WithSpan(14, 21, 14, 48);
+
+        context.ExpectedDiagnostics.Add(expected);
         await context.RunAsync();
     }
 }
