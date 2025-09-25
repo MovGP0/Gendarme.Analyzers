@@ -1,5 +1,33 @@
 namespace Gendarme.Analyzers.Maintainability;
 
+/// <summary>
+/// This rule checks methods for cases where a <c>System.Diagnostics.Stopwatch</c> could be used
+/// instead of using <c>System.DateTime</c> to compute the time required for an action.
+/// </summary>
+/// <remarks>
+/// <c>Stopwatch</c> is preferred because it better expresses the intent of the code and because (on some platforms at least)
+/// <c>StopWatch</c> is accurate to roughly the microsecond whereas <c>DateTime.Now</c> is only accurate to 16 milliseconds or so.
+/// </remarks>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public TimeSpan DoLongOperation()
+/// {
+///     DateTime start = DateTime.Now;
+///     DownloadNewOpenSuseDvdIso();
+///     return DateTime.Now - start;
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public TimeSpan DoLongOperation()
+/// {
+///     Stopwatch watch = Stopwatch.StartNew();
+///     DownloadNewOpenSuseDvdIso();
+///     return watch.Elapsed;
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ConsiderUsingStopwatchAnalyzer : DiagnosticAnalyzer
 {
@@ -12,7 +40,7 @@ public sealed class ConsiderUsingStopwatchAnalyzer : DiagnosticAnalyzer
         Title,
         MessageFormat,
         Category.Performance,
-        DiagnosticSeverity.Info,
+        DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
         description: Description);
 
@@ -38,13 +66,22 @@ public sealed class ConsiderUsingStopwatchAnalyzer : DiagnosticAnalyzer
 
         foreach (var variable in variables)
         {
-            if (variable.Initializer is not {} initializer
-                || context.SemanticModel.GetTypeInfo(initializer.Value).Type is not {} symbol
-                || symbol.ToString() != "System.DateTime"
-                || initializer.Value is not InvocationExpressionSyntax invocation
-                || context.SemanticModel.GetSymbolInfo(invocation).Symbol is not IMethodSymbol invokedMethod
-                || invokedMethod.ContainingType.ToString() != "System.DateTime"
-                || invokedMethod.Name != "get_Now")
+            if (variable.Initializer is not {} initializer)
+            {
+                continue;
+            }
+
+            // Ensure the initializer is a DateTime.Now or DateTime.UtcNow property access
+            var typeInfo = context.SemanticModel.GetTypeInfo(initializer.Value).Type;
+            if (typeInfo?.SpecialType != SpecialType.System_DateTime)
+            {
+                continue;
+            }
+
+            if (initializer.Value is not MemberAccessExpressionSyntax memberAccess
+                || context.SemanticModel.GetSymbolInfo(memberAccess).Symbol is not IPropertySymbol prop
+                || prop.ContainingType.SpecialType != SpecialType.System_DateTime
+                || (prop.Name != nameof(DateTime.Now) && prop.Name != nameof(DateTime.UtcNow)))
             {
                 continue;
             }
@@ -67,7 +104,7 @@ public sealed class ConsiderUsingStopwatchAnalyzer : DiagnosticAnalyzer
 
             if (dateTimeSubtractions.Any())
             {
-                var diagnostic = Diagnostic.Create(Rule, initializer.GetLocation());
+                var diagnostic = Diagnostic.Create(Rule, memberAccess.GetLocation());
                 context.ReportDiagnostic(diagnostic);
             }
         }

@@ -30,8 +30,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ConsiderUsingStopwatch)
-            .WithSpan(8, 33, 8, 42) // Adjust span as per actual code structure
-            .WithArguments("Consider using Stopwatch instead of DateTime for measuring elapsed time.");
+            .WithSpan(8, 25, 8, 37);
 
         context.ExpectedDiagnostics.Add(expected);
 
