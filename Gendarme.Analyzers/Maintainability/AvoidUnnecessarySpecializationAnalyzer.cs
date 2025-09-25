@@ -1,5 +1,41 @@
 namespace Gendarme.Analyzers.Maintainability;
 
+/// <summary>
+/// This rule checks methods for over-specialized parameters.
+/// E.g. parameter types that are unnecessarily specialized with respect to what the method needs to perform its job.
+/// This often impairs the reusability of the method.
+/// If a problem is found the rule will suggest the most general type, or interface, required for the method to work.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code language="C#">
+/// public class DefaultEqualityComparer : IEqualityComparer {
+///     public int GetHashCode (object obj)
+///     {
+///         return o.GetHashCode ();
+///     }
+/// }
+///  
+/// public int Bad (DefaultEqualityComparer ec, object o)
+/// {
+///     return ec.GetHashCode (o);
+/// }
+/// </code>
+/// Good example:
+/// <code language="C#">
+/// public class DefaultEqualityComparer : IEqualityComparer {
+///     public int GetHashCode (object obj)
+///     {
+///         return o.GetHashCode ();
+///     }
+/// }
+/// 
+/// public int Good (IEqualityComparer ec, object o)
+/// {
+///     return ec.GetHashCode (o);
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class AvoidUnnecessarySpecializationAnalyzer : DiagnosticAnalyzer
 {
@@ -68,6 +104,10 @@ public sealed class AvoidUnnecessarySpecializationAnalyzer : DiagnosticAnalyzer
         });
 
         var requiredMembers = accessedMembers.Select(m => m.Name).Distinct().ToArray();
+
+        // If the parameter isn't used for any member access, do not attempt to generalize.
+        if (requiredMembers.Length == 0)
+            return null;
 
         // Find interfaces implemented by the parameter type that include all required members
         var interfaces = parameter.Type.AllInterfaces;
