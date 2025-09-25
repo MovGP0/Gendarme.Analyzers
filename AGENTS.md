@@ -1,5 +1,11 @@
 # Repository Guidelines
 
+## Command line usage
+- Prefer to use `pwsh`, since other terminals my not be available on all platforms.
+- Do not assume that `python` is available.
+- Execute `pwsh` with `-NoProfile -NoLogo` arguments to avoid loading the user profile.
+- After making changes, always verify that those changes do not break the project. Use `dotnet build -v:m` and check for compile errors.
+
 ## Project Structure & Module Organization
 - Analyzer code lives in `Gendarme.Analyzers`, grouped by rule category; when adding a rule, touch `Category.cs`, `DiagnosticId.cs`, and `Strings.resx` together.
 - Shared Roslyn helpers sit under `Extensions/` (and `TypeSymbolExtensions.cs` in the root). Prefer extending these instead of creating new utilities.
