@@ -6,58 +6,130 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 public sealed class BadRecursiveInvocationAnalyzerTests
 {
     [Fact]
-    public async Task TestBadRecursiveMethodInvocation()
+    public async Task ReportsRecursiveMethodCall()
     {
-        const string testCode = @"
-public class MyClass
+        const string source = @"
+class C
 {
-    public void MyMethod()
+    void M()
     {
-        MyMethod(); // Recursive invocation
+        M();
     }
-}";
-
-        var context = new CSharpAnalyzerTest<BadRecursiveInvocationAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+}
+";
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.BadRecursiveInvocation)
-            .WithSpan(6, 9, 6, 19)
-            .WithArguments("MyMethod");
+            .WithSpan(6, 9, 6, 12)
+            .WithArguments("M");
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestBadRecursivePropertyInvocation()
+    public async Task ReportsExpressionBodiedMethod()
     {
-        const string testCode = @"
-public class MyClass
+        const string source = @"
+class C
 {
-    public int MyProperty
-    {
-        get { return MyProperty; } // Recursive invocation
-    }
-}";
-
-        var context = new CSharpAnalyzerTest<BadRecursiveInvocationAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+    void M() => M();
+}
+";
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.BadRecursiveInvocation)
-            .WithSpan(5, 28, 5, 38)
-            .WithArguments("MyProperty");
+            .WithSpan(4, 17, 4, 20)
+            .WithArguments("M");
 
-        context.ExpectedDiagnostics.Add(expected);
+        await VerifyAsync(source, expected);
+    }
 
-        await context.RunAsync();
+    [Fact]
+    public async Task ReportsRecursiveGetter()
+    {
+        const string source = @"
+class C
+{
+    int P
+    {
+        get { return P; }
+    }
+}
+";
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.BadRecursiveInvocation)
+            .WithSpan(6, 22, 6, 23)
+            .WithArguments("P");
+
+        await VerifyAsync(source, expected);
+    }
+
+    [Fact]
+    public async Task ReportsRecursiveSetter()
+    {
+        const string source = @"
+class C
+{
+    private int _value;
+
+    int P
+    {
+        get { return _value; }
+        set { P = value; }
+    }
+}
+";
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.BadRecursiveInvocation)
+            .WithSpan(9, 15, 9, 16)
+            .WithArguments("P");
+
+        await VerifyAsync(source, expected);
+    }
+
+    [Fact]
+    public async Task SkipsNameofUsage()
+    {
+        const string source = @"
+class C
+{
+    string M() => nameof(M);
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    [Fact]
+    public async Task SkipsPropertyUsingBackingField()
+    {
+        const string source = @"
+class C
+{
+    private int _value;
+
+    int P
+    {
+        get { return _value; }
+        set { _value = value; }
+    }
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    private static Task VerifyAsync(string source, params DiagnosticResult[] expectedDiagnostics)
+    {
+        var test = new CSharpAnalyzerTest<BadRecursiveInvocationAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        test.ExpectedDiagnostics.AddRange(expectedDiagnostics);
+        return test.RunAsync();
     }
 }
