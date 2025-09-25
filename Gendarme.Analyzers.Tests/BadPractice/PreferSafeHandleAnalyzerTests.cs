@@ -28,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.PreferSafeHandle)
-            .WithSpan(6, 14, 6, 20)
+            .WithSpan(5, 12, 5, 18)
             .WithArguments("IntPtr");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -59,7 +59,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.PreferSafeHandle)
-            .WithSpan(6, 14, 6, 21)
+            .WithSpan(5, 12, 5, 19)
             .WithArguments("UIntPtr");
 
         context.ExpectedDiagnostics.Add(expected);

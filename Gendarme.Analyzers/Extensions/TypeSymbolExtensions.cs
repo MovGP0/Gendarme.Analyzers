@@ -2,8 +2,8 @@ namespace Gendarme.Analyzers.Extensions;
 
 internal static class TypeSymbolExtensions
 {
-    public static bool IsIntPtrType(this ITypeSymbol type) => type.ToString() == "System.IntPtr";
-    public static bool IsUIntPtrType(this ITypeSymbol type) => type.ToString() == "System.UIntPtr";
+    public static bool IsIntPtrType(this ITypeSymbol type) => type?.SpecialType == SpecialType.System_IntPtr;
+    public static bool IsUIntPtrType(this ITypeSymbol type) => type?.SpecialType == SpecialType.System_UIntPtr;
 
     public static bool Is32BitOrSmaller(this ITypeSymbol type)
     {
