@@ -16,18 +16,10 @@ public sealed class NativeFieldsShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly ImmutableHashSet<string> NativeTypes = ImmutableHashSet.Create(
-        "System.IntPtr",
-        "System.UIntPtr",
-        "Microsoft.Win32.SafeHandles.SafeHandle",
-        "System.Runtime.InteropServices.HandleRef"
-    );
-
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze field declarations
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.RegisterSymbolAction(AnalyzeFieldSymbol, SymbolKind.Field);
@@ -37,33 +29,48 @@ public sealed class NativeFieldsShouldNotBeVisibleAnalyzer : DiagnosticAnalyzer
     {
         var fieldSymbol = (IFieldSymbol)context.Symbol;
 
-        // Check if the field is public
+        // Only consider visible (public) fields
         if (fieldSymbol.DeclaredAccessibility != Accessibility.Public)
             return;
 
-        // Check if the field type is a native type
-        if (IsNativeType(fieldSymbol.Type))
+        var fieldType = fieldSymbol.Type;
+        if (IsNativeType(fieldType))
         {
-            var diagnostic = Diagnostic.Create(Rule, fieldSymbol.Locations[0], fieldSymbol.Name, fieldSymbol.Type.ToDisplayString());
+            var diagnostic = Diagnostic.Create(Rule, fieldSymbol.Locations[0], fieldSymbol.Name, fieldType.ToDisplayString());
             context.ReportDiagnostic(diagnostic);
         }
     }
 
-    private bool IsNativeType(ITypeSymbol type)
+    private static bool IsNativeType(ITypeSymbol type)
     {
-        if (NativeTypes.Contains(type.ToDisplayString()))
+        // IntPtr / UIntPtr
+        if (type.SpecialType == SpecialType.System_IntPtr || type.SpecialType == SpecialType.System_UIntPtr)
             return true;
 
-        // Check if the type inherits from SafeHandle
-        var baseType = type.BaseType;
-        while (baseType != null)
-        {
-            if (baseType.ToDisplayString() == "Microsoft.Win32.SafeHandles.SafeHandle")
-                return true;
+        // System.Runtime.InteropServices.HandleRef
+        if (IsType(type, "HandleRef", "System.Runtime.InteropServices"))
+            return true;
 
-            baseType = baseType.BaseType;
+        // System.Runtime.InteropServices.SafeHandle or any derived type
+        if (IsOrDerivesFromSafeHandle(type))
+            return true;
+
+        return false;
+    }
+
+    private static bool IsOrDerivesFromSafeHandle(ITypeSymbol type)
+    {
+        for (var current = type; current is INamedTypeSymbol named; current = named.BaseType)
+        {
+            if (IsType(named, "SafeHandle", "System.Runtime.InteropServices"))
+                return true;
         }
 
         return false;
+    }
+
+    private static bool IsType(ITypeSymbol symbol, string typeName, string containingNamespace)
+    {
+        return symbol.Name == typeName && symbol.ContainingNamespace?.ToDisplayString() == containingNamespace;
     }
 }

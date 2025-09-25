@@ -10,7 +10,7 @@ public sealed class NativeFieldsShouldNotBeVisibleAnalyzerTests
     {
         const string testCode = @"
 using System;
-using Microsoft.Win32.SafeHandles;
+using System.Runtime.InteropServices;
 
 public class MyClass
 {
@@ -26,8 +26,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.NativeFieldsShouldNotBeVisible)
-            .WithSpan(6, 14, 6, 25) // Span for the NativeField declaration
-            .WithArguments("NativeField", "System.IntPtr");
+            .WithSpan(7, 19, 7, 30) // Span for the NativeField identifier (exclusive end)
+            .WithArguments("NativeField", "nint");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -39,7 +39,7 @@ public class MyClass
     {
         const string testCode = @"
 using System;
-using Microsoft.Win32.SafeHandles;
+using System.Runtime.InteropServices;
 
 public class MyClass
 {
@@ -55,8 +55,8 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.NativeFieldsShouldNotBeVisible)
-            .WithSpan(6, 14, 6, 25) // Span for the HandleField declaration
-            .WithArguments("HandleField", "Microsoft.Win32.SafeHandles.SafeHandle");
+            .WithSpan(7, 23, 7, 34) // Span for the HandleField identifier (exclusive end)
+            .WithArguments("HandleField", "System.Runtime.InteropServices.SafeHandle");
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -68,7 +68,7 @@ public class MyClass
     {
         const string testCode = @"
 using System;
-using Microsoft.Win32.SafeHandles;
+using System.Runtime.InteropServices;
 
 public class MyClass
 {
