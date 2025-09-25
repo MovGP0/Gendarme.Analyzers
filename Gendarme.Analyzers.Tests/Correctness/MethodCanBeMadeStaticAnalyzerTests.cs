@@ -140,4 +140,163 @@ public sealed class MethodCanBeMadeStaticAnalyzerTests
 
         await context.RunAsync();
     }
+
+    [Fact]
+    public async Task ReportsWhenMethodHasNoInstanceUsage()
+    {
+        const string source = @"
+class C
+{
+    int M()
+    {
+        return 42;
+    }
+}
+";
+
+        var expected = new DiagnosticResult(DiagnosticId.MethodCanBeMadeStatic, DiagnosticSeverity.Info)
+            .WithSpan(4, 9, 4, 10)
+            .WithArguments("M");
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        test.ExpectedDiagnostics.Add(expected);
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsWhenMethodUsesProperty()
+    {
+        const string source = @"
+class C
+{
+    int Age { get; set; }
+    int M() => Age;
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsWhenMethodUsesInstanceField()
+    {
+        const string source = @"
+class C
+{
+    int _value;
+    int M() => _value;
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsWhenMethodCallsInstanceMember()
+    {
+        const string source = @"
+class C
+{
+    int _value;
+
+    void Helper()
+    {
+        _value++;
+    }
+
+    void M()
+    {
+        Helper();
+    }
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsExpressionBodiedMethodUsingInstance()
+    {
+        const string source = @"
+class C
+{
+    int _value;
+    int M() => this._value;
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsOverrideMethod()
+    {
+        const string source = @"
+abstract class B
+{
+    public abstract void M();
+}
+
+class C : B
+{
+    public override void M() { }
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsStaticMethod()
+    {
+        const string source = @"
+class C
+{
+    static void M() { }
+}
+";
+
+        var test = new CSharpAnalyzerTest<MethodCanBeMadeStaticAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = source
+        };
+
+        await test.RunAsync();
+    }
 }
