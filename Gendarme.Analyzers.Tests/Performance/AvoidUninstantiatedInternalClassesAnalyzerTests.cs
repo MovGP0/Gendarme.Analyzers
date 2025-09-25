@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidUninstantiatedInternalClassesAnalyzer))]
 public sealed class AvoidUninstantiatedInternalClassesAnalyzerTests
 {
-    [Fact(Skip = "Anlyzer not working as expected")]
+    [Fact]
     public async Task TestUninstantiatedInternalClass()
     {
         const string testCode = @"
@@ -30,7 +30,7 @@ namespace TestNamespace
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestInstantiatedInternalClass()
     {
         const string testCode = @"

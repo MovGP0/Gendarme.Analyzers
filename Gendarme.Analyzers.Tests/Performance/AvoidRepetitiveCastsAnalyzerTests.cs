@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidRepetitiveCastsAnalyzer))]
 public sealed class AvoidRepetitiveCastsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestRepetitiveCasts()
     {
         const string testCode = @"

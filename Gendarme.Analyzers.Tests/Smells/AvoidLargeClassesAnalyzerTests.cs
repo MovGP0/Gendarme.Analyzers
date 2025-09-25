@@ -56,7 +56,7 @@ public class MyLargeClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestClassWithFieldPrefixes()
     {
         const string testCode = @"
@@ -82,7 +82,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestValidClass()
     {
         const string testCode = @"

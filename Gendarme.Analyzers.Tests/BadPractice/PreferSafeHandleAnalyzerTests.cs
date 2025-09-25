@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.BadPractice;
 [TestOf(typeof(PreferSafeHandleAnalyzer))]
 public sealed class PreferSafeHandleAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestPreferSafeHandleWarningForIntPtrField()
     {
         const string testCode = @"
@@ -36,7 +36,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestPreferSafeHandleWarningForUIntPtrField()
     {
         const string testCode = @"

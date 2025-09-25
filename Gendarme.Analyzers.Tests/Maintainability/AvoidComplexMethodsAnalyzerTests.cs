@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Maintainability;
 [TestOf(typeof(AvoidComplexMethodsAnalyzer))]
 public sealed class AvoidComplexMethodsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestMethodComplexityExceedsThreshold()
     {
         const string testCode = @"
@@ -63,7 +63,7 @@ public class MyClass
         await context.RunAsync();
     }
     
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestConstructorComplexityExceedsThreshold()
     {
         const string testCode = @"
@@ -95,7 +95,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestConstructorComplexityBelowThreshold()
     {
         const string testCode = @"

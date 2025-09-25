@@ -33,7 +33,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working")]
+    [Fact]
     public async Task TestBadRecursivePropertyInvocation()
     {
         const string testCode = @"

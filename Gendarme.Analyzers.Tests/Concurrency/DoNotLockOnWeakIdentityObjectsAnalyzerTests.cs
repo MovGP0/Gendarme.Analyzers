@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Concurrency;
 [TestOf(typeof(DoNotLockOnWeakIdentityObjectsAnalyzer))]
 public sealed class DoNotLockOnWeakIdentityObjectsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestLockOnWeakIdentityObject()
     {
         const string testCode = @"

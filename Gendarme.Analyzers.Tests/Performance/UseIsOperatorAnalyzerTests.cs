@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(UseIsOperatorAnalyzer))]
 public sealed class UseIsOperatorAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUseIsOperator()
     {
         const string testCode = @"

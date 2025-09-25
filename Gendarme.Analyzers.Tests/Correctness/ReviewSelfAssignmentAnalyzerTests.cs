@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ReviewSelfAssignmentAnalyzer))]
 public sealed class ReviewSelfAssignmentAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestSelfAssignmentWarning()
     {
         const string testCode = @"

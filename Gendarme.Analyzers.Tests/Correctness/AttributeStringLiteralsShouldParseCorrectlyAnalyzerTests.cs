@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(AttributeStringLiteralsShouldParseCorrectlyAnalyzer))]
 public sealed class AttributeStringLiteralsShouldParseCorrectlyAnalyzerTests
 {
-    [Fact(Skip = "not working properly")]
+    [Fact]
     public async Task TestInvalidVersionAttribute()
     {
         const string testCode = @"
@@ -37,7 +37,7 @@ public class MyClass { }
         await context.RunAsync();
     }
 
-    [Fact(Skip = "not working properly")]
+    [Fact]
     public async Task TestInvalidGuidAttribute()
     {
         const string testCode = @"
@@ -69,7 +69,7 @@ public class MyClass { }
         await context.RunAsync();
     }
 
-    [Fact(Skip = "not working properly")]
+    [Fact]
     public async Task TestInvalidUriAttribute()
     {
         const string testCode = @"

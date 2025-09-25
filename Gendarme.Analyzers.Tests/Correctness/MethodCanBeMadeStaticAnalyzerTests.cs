@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(MethodCanBeMadeStaticAnalyzer))]
 public sealed class MethodCanBeMadeStaticAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestMethodCanBeMadeStatic_NoWarnings()
     {
         const string testCode = @"

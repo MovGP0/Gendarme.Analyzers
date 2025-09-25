@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ProvideValidXPathExpressionAnalyzer))]
 public sealed class ProvideValidXPathExpressionAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task Should_ReportWarning_When_InvalidXPathExpression_Used_In_SelectNodes()
     {
         const string testCode = @"
@@ -62,7 +62,7 @@ public class MyClass
         await context.RunAsync(); // No diagnostics expected
     }
 
-    [Fact(Skip = "Analyzer not implemented correctly")]
+    [Fact]
     public async Task Should_ReportWarning_When_InvalidXPathExpression_Used_In_Compile()
     {
         const string testCode = @"

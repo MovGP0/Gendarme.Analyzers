@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(ImplementEqualsTypeAnalyzer))]
 public sealed class ImplementEqualsTypeAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestClassWithoutIEquatable()
     {
         const string testCode = @"
@@ -30,7 +30,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestClassWithIEquatableAndEquals()
     {
         const string testCode = @"
@@ -56,7 +56,7 @@ public class MyClass : IEquatable<MyClass>
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestClassWithOnlyIEquatable()
     {
         const string testCode = @"

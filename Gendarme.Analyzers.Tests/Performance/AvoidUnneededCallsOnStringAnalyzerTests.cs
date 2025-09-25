@@ -57,7 +57,7 @@ public class MyClass {
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUnneededSubstringCall()
     {
         const string testCode = @"

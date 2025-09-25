@@ -32,7 +32,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Test does not invoke P/Invoke")]
+    [Fact]
     public async Task TestGetLastErrorNotCalledAfterNonPInvoke()
     {
         const string testCode = @"

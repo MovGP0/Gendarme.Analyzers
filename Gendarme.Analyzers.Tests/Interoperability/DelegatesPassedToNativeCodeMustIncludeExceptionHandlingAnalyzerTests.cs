@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Interoperability;
 [TestOf(typeof(DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnalyzer))]
 public sealed class DelegatesPassedToNativeCodeMustIncludeExceptionHandlingAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestMethodWithoutCatchAll()
     {
         const string testCode = @"

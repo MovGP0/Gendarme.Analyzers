@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(RemoveUnusedLocalVariablesAnalyzer))]
 public sealed class RemoveUnusedLocalVariablesAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUnusedLocalVariable()
     {
         const string testCode = @"

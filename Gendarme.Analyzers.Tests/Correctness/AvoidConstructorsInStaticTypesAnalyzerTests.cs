@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(AvoidConstructorsInStaticTypesAnalyzer))]
 public sealed class AvoidConstructorsInStaticTypesAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working properly")]
+    [Fact]
     public async Task TestStaticClassWithConstructor()
     {
         const string testCode = @"

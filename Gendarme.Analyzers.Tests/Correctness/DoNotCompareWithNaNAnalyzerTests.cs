@@ -34,7 +34,7 @@ class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working properly")]
+    [Fact]
     public async Task TestNaNComparison_Inequality()
     {
         const string testCode = @"

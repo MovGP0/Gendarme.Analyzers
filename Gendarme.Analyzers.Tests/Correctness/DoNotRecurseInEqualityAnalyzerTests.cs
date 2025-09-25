@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(DoNotRecurseInEqualityAnalyzer))]
 public sealed class DoNotRecurseInEqualityAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working properly")]
+    [Fact]
     public async Task TestEqualityOperatorRecursion()
     {
         const string testCode = @"

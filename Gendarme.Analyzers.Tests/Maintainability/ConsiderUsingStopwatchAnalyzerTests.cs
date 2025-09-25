@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Maintainability;
 [TestOf(typeof(ConsiderUsingStopwatchAnalyzer))]
 public sealed class ConsiderUsingStopwatchAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestDateTimeNowUsage()
     {
         const string testCode = @"

@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidUnusedPrivateFieldsAnalyzer))]
 public sealed class AvoidUnusedPrivateFieldsAnalyzerTests
 {
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestUnusedPrivateField()
     {
         const string testCode = @"
@@ -34,7 +34,7 @@ public class MyClass
         await context.RunAsync();
     }
     
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestUsedPrivateField()
     {
         const string testCode = @"

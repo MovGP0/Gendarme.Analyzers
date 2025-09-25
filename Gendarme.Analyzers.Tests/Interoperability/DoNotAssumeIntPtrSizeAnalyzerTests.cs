@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Interoperability;
 [TestOf(typeof(DoNotAssumeIntPtrSizeAnalyzer))]
 public sealed class DoNotAssumeIntPtrSizeAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestCastToInt32FromIntPtr()
     {
         const string testCode = @"
@@ -59,7 +59,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestMarshalReadInt32WithIntPtr()
     {
         const string testCode = @"

@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.BadPractice;
 [TestOf(typeof(ReplaceIncompleteOddnessCheckAnalyzer))]
 public sealed class ReplaceIncompleteOddnessCheckAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestIncompleteOddnessCheck()
     {
         const string testCode = @"

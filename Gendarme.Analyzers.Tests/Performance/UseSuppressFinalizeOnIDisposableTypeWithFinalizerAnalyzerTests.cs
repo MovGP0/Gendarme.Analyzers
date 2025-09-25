@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer))]
 public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzerTests
 {
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestIDisposableWithFinalizerWithoutSuppressFinalize()
     {
         const string testCode = @"
@@ -37,7 +37,7 @@ public class MyClass : System.IDisposable
         await context.RunAsync();
     }
 
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestIDisposableWithFinalizerWithSuppressFinalize()
     {
         const string testCode = @"

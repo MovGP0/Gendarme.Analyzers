@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ReviewInconsistentIdentityAnalyzer))]
 public sealed class ReviewInconsistentIdentityAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestInconsistentIdentity()
     {
         const string testCode = @"

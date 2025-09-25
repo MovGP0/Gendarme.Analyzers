@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Serialization;
 [TestOf(typeof(MarkAllNonSerializableFieldsAnalyzer))]
 public sealed class MarkAllNonSerializableFieldsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestNonSerializableField()
     {
         const string testCode = @"
@@ -36,7 +36,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestSerializableField()
     {
         const string testCode = @"
@@ -61,7 +61,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestNoSerializableAttribute()
     {
         const string testCode = @"

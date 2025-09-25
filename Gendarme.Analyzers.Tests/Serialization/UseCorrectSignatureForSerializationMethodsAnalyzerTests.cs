@@ -61,7 +61,7 @@ public sealed class UseCorrectSignatureForSerializationMethodsAnalyzerTests
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestValidSignature()
     {
         const string testCode = @"

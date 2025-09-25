@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Smells;
 [TestOf(typeof(AvoidSpeculativeGeneralityAnalyzer))]
 public sealed class AvoidSpeculativeGeneralityAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestAbstractClassWithSingleSubclass()
     {
         const string testCode = @"

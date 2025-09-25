@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.UI;
 [TestOf(typeof(SystemWindowsFormsExecutableTargetAnalyzer))]
 public sealed class SystemWindowsFormsExecutableTargetAnalyzerTests
 {
-    [Fact(Skip = "Was unable to compile as .exe")]
+    [Fact]
     public async Task TestConsoleApplicationWithWinFormsReference()
     {
         const string testCode = @"

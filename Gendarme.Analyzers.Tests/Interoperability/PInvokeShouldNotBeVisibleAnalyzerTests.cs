@@ -92,7 +92,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestPrivatePInvokeMethodShouldNotBeReported()
     {
         const string testCode = @"

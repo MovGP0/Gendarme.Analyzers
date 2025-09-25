@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Smells;
 [TestOf(typeof(AvoidMessageChainsAnalyzer))]
 public sealed class AvoidMessageChainsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working properly")]
+    [Fact]
     public async Task TestTooManyMemberAccesses()
     {
         // This code defines A, B, and C so that

@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Maintainability;
 [TestOf(typeof(AvoidUnnecessarySpecializationAnalyzer))]
 public sealed class AvoidUnnecessarySpecializationAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUnnecessarySpecializationDetection()
     {
         const string testCode = @"

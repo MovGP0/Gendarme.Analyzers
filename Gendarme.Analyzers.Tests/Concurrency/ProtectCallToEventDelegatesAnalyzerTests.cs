@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Concurrency;
 [TestOf(typeof(ProtectCallToEventDelegatesAnalyzer))]
 public sealed class ProtectCallToEventDelegatesAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected yet")]
+    [Fact]
     public async Task TestEventDelegateInvocation()
     {
         const string testCode = @"

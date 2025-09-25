@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidUnneededFieldInitializationAnalyzer))]
 public sealed class AvoidUnneededFieldInitializationAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUnneededFieldInitialization()
     {
         const string testCode = @"

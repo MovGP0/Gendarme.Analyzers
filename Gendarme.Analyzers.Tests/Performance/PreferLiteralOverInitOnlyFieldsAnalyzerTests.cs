@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(PreferLiteralOverInitOnlyFieldsAnalyzer))]
 public sealed class PreferLiteralOverInitOnlyFieldsAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestStaticReadonlyFieldWithCompileTimeConstant()
     {
         const string testCode = @"

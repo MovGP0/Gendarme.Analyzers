@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.UI;
 [TestOf(typeof(UseStaThreadAttributeOnSwfEntryPointsAnalyzer))]
 public sealed class UseStaThreadAttributeOnSwfEntryPointsAnalyzerTests
 {
-    [Fact(Skip = "Was unable to compile as .exe")]
+    [Fact]
     public async Task TestMissingSTAThreadAttribute()
     {
         const string testCode = @"
@@ -37,7 +37,7 @@ public class Program
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Was unable to compile as .exe")]
+    [Fact]
     public async Task TestMTAThreadAttribute()
     {
         const string testCode = @"

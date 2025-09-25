@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ReviewDoubleAssignmentAnalyzer))]
 public sealed class ReviewDoubleAssignmentAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestDoubleAssignmentWarning()
     {
         const string testCode = @"

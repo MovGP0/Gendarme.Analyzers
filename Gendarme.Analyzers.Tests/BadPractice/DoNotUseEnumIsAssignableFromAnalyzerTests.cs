@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.BadPractice;
 [TestOf(typeof(DoNotUseEnumIsAssignableFromAnalyzer))]
 public sealed class DoNotUseEnumIsAssignableFromAnalyzerTests
 {
-    [Fact(Skip = "Analyzer does not work as expected")]
+    [Fact]
     public async Task TestEnumIsAssignableFromUsage()
     {
         const string testCode = @"

@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ReviewCastOnIntegerDivisionAnalyzer))]
 public sealed class ReviewCastOnIntegerDivisionAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestIntegerDivisionWithCast()
     {
         const string testCode = @"

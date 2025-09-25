@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.BadPractice;
 [TestOf(typeof(CheckNewExceptionWithoutThrowingAnalyzer))]
 public sealed class CheckNewExceptionWithoutThrowingAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestNewExceptionWithoutThrowing()
     {
         const string testCode = @"

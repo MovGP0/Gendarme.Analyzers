@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 [TestOf(typeof(ReviewCastOnIntegerMultiplicationAnalyzer))]
 public sealed class ReviewCastOnIntegerMultiplicationAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestCastOnIntegerMultiplication()
     {
         const string testCode = @"

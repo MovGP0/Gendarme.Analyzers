@@ -30,7 +30,7 @@ namespace MyNamespace
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected yet")]
+    [Fact]
     public async Task TestGtkSharpExecutableTarget_WithGtkSharpReference()
     {
         const string testCode = @"

@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(DoNotIgnoreMethodResultAnalyzer))]
 public sealed class DoNotIgnoreMethodResultAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestTrimIgnoredResult()
     {
         const string testCode = @"
@@ -35,7 +35,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestToUpperIgnoredResult()
     {
         const string testCode = @"

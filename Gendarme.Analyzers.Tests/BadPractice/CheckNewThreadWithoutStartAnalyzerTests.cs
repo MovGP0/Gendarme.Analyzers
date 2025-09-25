@@ -3,7 +3,7 @@ namespace Gendarme.Analyzers.Tests.BadPractice;
 [TestOf(typeof(CheckNewThreadWithoutStartAnalyzer))]
 public sealed class CheckNewThreadWithoutStartAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestNewThreadWithoutStart()
     {
         const string testCode = @"
@@ -58,7 +58,7 @@ public sealed class CheckNewThreadWithoutStartAnalyzerTests
         await context.RunAsync(); // No diagnostics expected
     }
 
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestThreadReturned()
     {
         const string testCode = @"
@@ -89,7 +89,7 @@ public sealed class CheckNewThreadWithoutStartAnalyzerTests
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working yet")]
+    [Fact]
     public async Task TestThreadPassedAsArgument()
     {
         const string testCode = @"

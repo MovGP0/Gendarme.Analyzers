@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidUnusedParametersAnalyzer))]
 public sealed class AvoidUnusedParametersAnalyzerTests
 {
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestUnusedParameterWarning()
     {
         const string testCode = @"
@@ -32,7 +32,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "ArgumentException in analyzer")]
+    [Fact]
     public async Task TestUsedParameterNoWarning()
     {
         const string testCode = @"

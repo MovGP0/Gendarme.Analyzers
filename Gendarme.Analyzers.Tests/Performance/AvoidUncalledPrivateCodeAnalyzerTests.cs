@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Performance;
 [TestOf(typeof(AvoidUncalledPrivateCodeAnalyzer))]
 public sealed class AvoidUncalledPrivateCodeAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestUncalledPrivateMethod()
     {
         const string testCode = @"
@@ -36,7 +36,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestPrivateMethodIsUncalled()
     {
         const string testCode = @"

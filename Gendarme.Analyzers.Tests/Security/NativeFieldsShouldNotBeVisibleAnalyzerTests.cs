@@ -5,7 +5,7 @@ namespace Gendarme.Analyzers.Tests.Security;
 [TestOf(typeof(NativeFieldsShouldNotBeVisibleAnalyzer))]
 public sealed class NativeFieldsShouldNotBeVisibleAnalyzerTests
 {
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestPublicNativeField()
     {
         const string testCode = @"
@@ -34,7 +34,7 @@ public class MyClass
         await context.RunAsync();
     }
 
-    [Fact(Skip = "Analyzer not working as expected")]
+    [Fact]
     public async Task TestPublicSafeHandleField()
     {
         const string testCode = @"
