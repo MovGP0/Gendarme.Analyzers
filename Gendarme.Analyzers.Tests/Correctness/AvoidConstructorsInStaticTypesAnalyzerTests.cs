@@ -6,71 +6,99 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 public sealed class AvoidConstructorsInStaticTypesAnalyzerTests
 {
     [Fact]
-    public async Task TestStaticClassWithConstructor()
+    public async Task ReportsWhenStaticLikeTypeHasPublicConstructor()
     {
-        const string testCode = @"
-using System;
-
-public static class MyStaticClass
+        const string source = @"
+public class Utilities
 {
-    static MyStaticClass() { }
+    public static void DoWork() { }
+
+    public Utilities() { }
 }
 ";
-        var context = new CSharpAnalyzerTest<AvoidConstructorsInStaticTypesAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidConstructorsInStaticTypes)
-            .WithSpan(4, 5, 6, 6)
-            .WithArguments("MyStaticClass");
+            .WithSpan(6, 12, 6, 21)
+            .WithArguments("Utilities");
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestStaticClassWithoutConstructor()
+    public async Task ReportsWhenStaticLikeTypeHasProtectedConstructor()
     {
-        const string testCode = @"
-using System;
-
-public static class MyStaticClass
+        const string source = @"
+public class BaseUtilities
 {
-    public static void MyMethod() { }
+    public static void DoWork() { }
+
+    protected BaseUtilities() { }
 }
 ";
-        var context = new CSharpAnalyzerTest<AvoidConstructorsInStaticTypesAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
 
-        await context.RunAsync(); // No diagnostics expected
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.AvoidConstructorsInStaticTypes)
+            .WithSpan(6, 15, 6, 28)
+            .WithArguments("BaseUtilities");
+
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestNonStaticClassWithStaticMembers()
+    public async Task SkipsWhenConstructorIsPrivate()
     {
-        const string testCode = @"
-using System;
-
-public class MyClass
+        const string source = @"
+public class HiddenUtilities
 {
-    public static void MyStaticMethod() { }
-    
-    public MyClass() { } // This is valid
+    public static void DoWork() { }
+
+    private HiddenUtilities() { }
 }
 ";
-        var context = new CSharpAnalyzerTest<AvoidConstructorsInStaticTypesAnalyzer, DefaultVerifier>
+
+        await VerifyAsync(source);
+    }
+
+    [Fact]
+    public async Task SkipsWhenTypeHasInstanceMembers()
+    {
+        const string source = @"
+public class MixedUtilities
+{
+    public static void DoWork() { }
+
+    public MixedUtilities() { }
+
+    public int Value { get; } = 42;
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    [Fact]
+    public async Task SkipsStaticClassWithStaticConstructor()
+    {
+        const string source = @"
+public static class StaticUtilities
+{
+    static StaticUtilities() { }
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    private static Task VerifyAsync(string source, params DiagnosticResult[] expectedDiagnostics)
+    {
+        var test = new CSharpAnalyzerTest<AvoidConstructorsInStaticTypesAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        await context.RunAsync(); // No diagnostics expected
+        test.ExpectedDiagnostics.AddRange(expectedDiagnostics);
+        return test.RunAsync();
     }
 }

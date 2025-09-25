@@ -22,36 +22,81 @@ public sealed class AvoidConstructorsInStaticTypesAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
+        context.RegisterSymbolAction(AnalyzeNamedType, SymbolKind.NamedType);
     }
 
-    private static void AnalyzeSymbol(SymbolAnalysisContext context)
+    private static void AnalyzeNamedType(SymbolAnalysisContext context)
     {
-        var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
-
-        if (namedTypeSymbol.IsStatic)
+        if (context.Symbol is not INamedTypeSymbol { TypeKind: TypeKind.Class } namedType)
         {
             return;
         }
 
-        var hasStaticMembersOnly = namedTypeSymbol.GetMembers().All(member =>
-            member.Kind == SymbolKind.Method && ((IMethodSymbol)member).IsStatic ||
-            member.Kind == SymbolKind.Property && ((IPropertySymbol)member).IsStatic ||
-            member.Kind == SymbolKind.Field && ((IFieldSymbol)member).IsStatic ||
-            member.Kind == SymbolKind.Event && ((IEventSymbol)member).IsStatic);
-
-        if (!hasStaticMembersOnly)
+        if (!IsStaticLikeType(namedType))
         {
             return;
         }
 
-        foreach (var constructor in namedTypeSymbol.Constructors)
+        foreach (var constructor in namedType.InstanceConstructors)
         {
-            if (constructor.DeclaredAccessibility is Accessibility.Public or Accessibility.Protected)
+            if (constructor.IsImplicitlyDeclared)
             {
-                var diagnostic = Diagnostic.Create(Rule, constructor.Locations[0], namedTypeSymbol.Name);
-                context.ReportDiagnostic(diagnostic);
+                continue;
+            }
+
+            if (IsVisibleConstructor(constructor))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Rule, constructor.Locations[0], namedType.Name));
             }
         }
+    }
+
+    private static bool IsStaticLikeType(INamedTypeSymbol type)
+    {
+        if (type.IsStatic)
+        {
+            return true;
+        }
+
+        foreach (var member in type.GetMembers())
+        {
+            if (!ShouldConsiderMember(member))
+            {
+                continue;
+            }
+
+            if (!member.IsStatic)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool ShouldConsiderMember(ISymbol member)
+    {
+        if (member.IsImplicitlyDeclared)
+        {
+            return false;
+        }
+
+        return member switch
+        {
+            IMethodSymbol method => method.MethodKind is MethodKind.Ordinary or MethodKind.UserDefinedOperator or MethodKind.Conversion,
+            IPropertySymbol => true,
+            IFieldSymbol => true,
+            IEventSymbol => true,
+            _ => false,
+        };
+    }
+
+    private static bool IsVisibleConstructor(IMethodSymbol constructor)
+    {
+        return constructor.DeclaredAccessibility
+            is Accessibility.Public
+            or Accessibility.Protected
+            or Accessibility.ProtectedOrInternal
+            or Accessibility.ProtectedAndInternal;
     }
 }
