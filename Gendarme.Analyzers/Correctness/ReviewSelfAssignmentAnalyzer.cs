@@ -1,5 +1,32 @@
 namespace Gendarme.Analyzers.Correctness;
 
+/// <summary>
+/// This rule checks for variables or fields that are assigned to themselves.
+/// This won’t change the value of the variable (or fields) but should be reviewed since it could be a typo that hides a real issue in the code.
+/// </summary>
+/// <example>
+/// <code language="c#">
+/// public class Bad {
+///    private int value;
+///     
+///    public Bad (int value)
+///    {
+///        // argument is assigned to itself, this.value is unchanged
+///        value = value;
+///    }
+/// }
+/// </code>
+/// <code language="c#">
+/// public class Good {
+///     private int value;
+///      
+///     public Good (int value)
+///     {
+///         this.value = value;
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewSelfAssignmentAnalyzer : DiagnosticAnalyzer
 {
@@ -29,11 +56,21 @@ public sealed class ReviewSelfAssignmentAnalyzer : DiagnosticAnalyzer
     {
         var assignmentExpression = (AssignmentExpressionSyntax)context.Node;
 
-        if (assignmentExpression.Left.IsEquivalentTo(assignmentExpression.Right))
-        {
-            var location = assignmentExpression.GetLocation();
-            var diagnostic = Diagnostic.Create(Rule, location, assignmentExpression.Left.ToString());
-            context.ReportDiagnostic(diagnostic);
-        }
+        var left = assignmentExpression.Left;
+        var right = assignmentExpression.Right;
+
+        // Semantic check: same symbol on both sides (variable, field, property)
+        var leftSymbol = context.SemanticModel.GetSymbolInfo(left, context.CancellationToken).Symbol;
+        var rightSymbol = context.SemanticModel.GetSymbolInfo(right, context.CancellationToken).Symbol;
+
+        var isSelfAssignment = leftSymbol is not null && rightSymbol is not null &&
+                               SymbolEqualityComparer.Default.Equals(leftSymbol, rightSymbol);
+
+        // Fallback to syntax equivalence for very simple cases
+        if (!isSelfAssignment && !left.IsEquivalentTo(right))
+            return;
+
+        var diagnostic = Diagnostic.Create(Rule, assignmentExpression.GetLocation(), left.ToString());
+        context.ReportDiagnostic(diagnostic);
     }
 }
