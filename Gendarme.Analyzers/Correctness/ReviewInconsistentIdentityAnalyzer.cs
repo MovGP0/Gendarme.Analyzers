@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis.Operations;
-
 namespace Gendarme.Analyzers.Correctness;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
