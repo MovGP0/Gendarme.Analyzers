@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis.Operations;
+
 namespace Gendarme.Analyzers.BadPractice;
 
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -22,51 +24,75 @@ public sealed class CheckNewExceptionWithoutThrowingAnalyzer : DiagnosticAnalyze
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeObjectCreation, SyntaxKind.ObjectCreationExpression);
+        context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
     }
 
-    private static void AnalyzeObjectCreation(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeObjectCreation(OperationAnalysisContext context)
     {
-        var objectCreation = (ObjectCreationExpressionSyntax)context.Node;
-
-        // Check if the created object is an exception
-        if (context.SemanticModel.GetSymbolInfo(objectCreation.Type).Symbol is not INamedTypeSymbol typeSymbol || !IsExceptionType(typeSymbol, context))
+        if (context.Operation is not IObjectCreationOperation objectCreation
+            || objectCreation.Type is not INamedTypeSymbol typeSymbol
+            || !IsExceptionType(typeSymbol, context.Compilation))
         {
             return;
         }
 
-        var parent = objectCreation.Parent;
+        var usage = SkipImplicitConversions(objectCreation.Parent);
 
-        // Check if the exception object is used correctly
-        if (parent is ThrowStatementSyntax ||
-            parent is ReturnStatementSyntax ||
-            IsPassedAsArgument(parent))
+        if (usage is null)
+        {
+            Report(context, objectCreation, typeSymbol);
+            return;
+        }
+
+        if (usage is IThrowOperation or IReturnOperation)
         {
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, objectCreation.GetLocation(), typeSymbol.Name);
+        if (usage is IArgumentOperation argument)
+        {
+            var owner = SkipImplicitConversions(argument.Parent);
+            if (owner is IInvocationOperation or IDynamicInvocationOperation or IObjectCreationOperation)
+            {
+                return;
+            }
+        }
+
+        Report(context, objectCreation, typeSymbol);
+    }
+
+    private static void Report(OperationAnalysisContext context, IObjectCreationOperation objectCreation, INamedTypeSymbol typeSymbol)
+    {
+        var diagnostic = Diagnostic.Create(Rule, objectCreation.Syntax.GetLocation(), typeSymbol.Name);
         context.ReportDiagnostic(diagnostic);
     }
 
-    private static bool IsExceptionType(INamedTypeSymbol typeSymbol, SyntaxNodeAnalysisContext context)
+    private static bool IsExceptionType(INamedTypeSymbol typeSymbol, Compilation compilation)
     {
-        var exceptionType = context.SemanticModel.Compilation.GetTypeByMetadataName("System.Exception");
-        return exceptionType != null && typeSymbol.AllInterfaces.Contains(exceptionType);
-    }
-
-    /// <summary>
-    /// Checks if the parent node is an argument in a method call
-    /// </summary>
-    private static bool IsPassedAsArgument(SyntaxNode? parent)
-    {
-        if (parent is not ArgumentSyntax argument)
+        var exceptionType = compilation.GetTypeByMetadataName("System.Exception");
+        if (exceptionType is null)
         {
             return false;
         }
 
-        var argumentParent = argument.Parent;
-        return argumentParent is ArgumentListSyntax
-               && argumentParent.Parent is InvocationExpressionSyntax;
+        for (var current = typeSymbol; current is not null; current = current.BaseType)
+        {
+            if (SymbolEqualityComparer.Default.Equals(current, exceptionType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IOperation? SkipImplicitConversions(IOperation? operation)
+    {
+        while (operation is IConversionOperation { IsImplicit: true } conversion)
+        {
+            operation = conversion.Parent;
+        }
+
+        return operation;
     }
 }

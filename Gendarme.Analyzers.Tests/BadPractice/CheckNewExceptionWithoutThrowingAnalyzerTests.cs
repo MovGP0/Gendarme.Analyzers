@@ -28,7 +28,8 @@ public class TestClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.CheckNewExceptionWithoutThrowing)
-            .WithSpan(7, 26, 7, 53)
+            .WithSpan(8, 25, 8, 56)
+            .WithMessage("The exception 'InvalidOperationException' is created but not thrown, not returned, and not passed to another method")
             .WithArguments("InvalidOperationException");
 
         context.ExpectedDiagnostics.Add(expected);
