@@ -11,6 +11,7 @@
 - Shared Roslyn helpers sit under `Extensions/` (and `TypeSymbolExtensions.cs` in the root). Prefer extending these instead of creating new utilities.
 - Tests mirror the analyzer folders inside `Gendarme.Analyzers.Tests` and reference the production project so diagnostics stay in sync.
 - Build outputs (`bin/`, `obj/`) are git-ignored and should remain uncommitted.
+- Note that we have global usings enabled, so avoid redundant `using` directives. Check the `*.csproj` files for additional global usings.
 
 ## Build, Test, and Development Commands
 - `dotnet restore` — restore dependencies for both projects.
