@@ -6,19 +6,18 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 public sealed class ReviewCastOnIntegerDivisionAnalyzerTests
 {
     [Fact]
-    public async Task TestIntegerDivisionWithCast()
+    public async Task Should_ReportWarning_When_ResultOfIntegerDivisionIsCastToDouble()
     {
         const string testCode = @"
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public double Compute(int numerator, int denominator)
     {
-        double result = (double)5 / 2; // This should trigger a warning
+        return (double)(numerator / denominator);
     }
-}
-";
+}";
 
         var context = new CSharpAnalyzerTest<ReviewCastOnIntegerDivisionAnalyzer, DefaultVerifier>
         {
@@ -28,7 +27,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ReviewCastOnIntegerDivision)
-            .WithSpan(6, 29, 6, 34);
+            .WithSpan(8, 16, 8, 49);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -36,19 +35,18 @@ public class MyClass
     }
 
     [Fact]
-    public async Task TestNonIntegerDivisionWithoutCast()
+    public async Task Should_ReportWarning_When_ResultOfIntegerDivisionIsCastToDecimal()
     {
         const string testCode = @"
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public decimal Compute(int numerator, int denominator)
     {
-        double result = 5.0 / 2; // This should not trigger a warning
+        return (decimal)(numerator / denominator);
     }
-}
-";
+}";
 
         var context = new CSharpAnalyzerTest<ReviewCastOnIntegerDivisionAnalyzer, DefaultVerifier>
         {
@@ -56,23 +54,28 @@ public class MyClass
             TestCode = testCode
         };
 
-        await context.RunAsync(); // No warnings expected
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.ReviewCastOnIntegerDivision)
+            .WithSpan(8, 16, 8, 50);
+
+        context.ExpectedDiagnostics.Add(expected);
+
+        await context.RunAsync();
     }
 
     [Fact]
-    public async Task TestNoCastOnIntegerDivision()
+    public async Task Should_NotReportWarning_When_OperandIsCastBeforeDivision()
     {
         const string testCode = @"
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public double Compute(int numerator, int denominator)
     {
-        int result = 5 / 2; // This should not trigger a warning
+        return (double)numerator / denominator;
     }
-}
-";
+}";
 
         var context = new CSharpAnalyzerTest<ReviewCastOnIntegerDivisionAnalyzer, DefaultVerifier>
         {
@@ -80,6 +83,29 @@ public class MyClass
             TestCode = testCode
         };
 
-        await context.RunAsync(); // No warnings expected
+        await context.RunAsync();
+    }
+
+    [Fact]
+    public async Task Should_NotReportWarning_When_DivisionIsAlreadyFloatingPoint()
+    {
+        const string testCode = @"
+using System;
+
+public class Sample
+{
+    public double Compute(int numerator, int denominator)
+    {
+        return (double)(numerator / (double)denominator);
+    }
+}";
+
+        var context = new CSharpAnalyzerTest<ReviewCastOnIntegerDivisionAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        await context.RunAsync();
     }
 }
