@@ -22,27 +22,77 @@ public sealed class ProtectCallToEventDelegatesAnalyzer : DiagnosticAnalyzer
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeNode, SyntaxKind.InvocationExpression);
+        context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
     }
 
-    private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
+    private static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not InvocationExpressionSyntax invocation)
+        var invocation = (InvocationExpressionSyntax)context.Node;
+
+        if (invocation.Parent is ConditionalAccessExpressionSyntax)
         {
             return;
         }
 
-        if (invocation.Expression is not MemberAccessExpressionSyntax expression)
+        var eventSymbol = GetEventSymbol(invocation, context.SemanticModel, context.CancellationToken);
+        if (eventSymbol is null)
         {
             return;
         }
 
-        if (context.SemanticModel.GetSymbolInfo(expression).Symbol is not IEventSymbol memberSymbol)
+        context.ReportDiagnostic(Diagnostic.Create(Rule, invocation.Expression.GetLocation(), eventSymbol.Name));
+    }
+
+    private static IEventSymbol? GetEventSymbol(InvocationExpressionSyntax invocation, SemanticModel semanticModel, CancellationToken cancellationToken)
+    {
+        return invocation.Expression switch
         {
-            return;
+            IdentifierNameSyntax identifier => TryGetEventSymbol(identifier, semanticModel, cancellationToken),
+            MemberAccessExpressionSyntax { Name.Identifier.ValueText: "Invoke" } memberAccess => TryGetEventSymbol(memberAccess.Expression, semanticModel, cancellationToken),
+            _ => null,
+        };
+    }
+
+    private static IEventSymbol? TryGetEventSymbol(ExpressionSyntax expression, SemanticModel semanticModel, CancellationToken cancellationToken)
+    {
+        var symbolInfo = semanticModel.GetSymbolInfo(expression, cancellationToken);
+        var symbol = symbolInfo.Symbol ?? symbolInfo.CandidateSymbols.FirstOrDefault();
+
+        switch (symbol)
+        {
+            case IEventSymbol eventSymbol:
+                return eventSymbol;
+            case IFieldSymbol { AssociatedSymbol: IEventSymbol associatedEvent }:
+                return associatedEvent;
+            case IMethodSymbol { MethodKind: MethodKind.DelegateInvoke } methodSymbol:
+                return FindEventSymbol(expression, semanticModel, cancellationToken, methodSymbol.ContainingType);
         }
 
-        var diagnostic = Diagnostic.Create(Rule, expression.GetLocation(), memberSymbol.Name);
-        context.ReportDiagnostic(diagnostic);
+        return null;
+    }
+
+    private static IEventSymbol? FindEventSymbol(ExpressionSyntax expression, SemanticModel semanticModel, CancellationToken cancellationToken, ITypeSymbol delegateType)
+    {
+        var name = expression switch
+        {
+            IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+            MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.ValueText,
+            _ => null,
+        };
+
+        if (string.IsNullOrEmpty(name))
+        {
+            return null;
+        }
+
+        foreach (var candidate in semanticModel.LookupSymbols(expression.SpanStart, name: name))
+        {
+            if (candidate is IEventSymbol eventSymbol && SymbolEqualityComparer.Default.Equals(eventSymbol.Type, delegateType))
+            {
+                return eventSymbol;
+            }
+        }
+
+        return null;
     }
 }
