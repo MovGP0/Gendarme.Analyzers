@@ -27,7 +27,8 @@ class TestClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.ReviewCastOnIntegerMultiplication)
-            .WithSpan(6, 13, 6, 19);
+            .WithMessage("Cast on integer multiplication may cause overflow")
+            .WithSpan(8, 23, 8, 36);
 
         context.ExpectedDiagnostics.Add(expected);
 

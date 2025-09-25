@@ -27,20 +27,47 @@ public sealed class ReviewCastOnIntegerMultiplicationAnalyzer : DiagnosticAnalyz
 
     private static void AnalyzeNode(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not CastExpressionSyntax castExpression
-            || context.SemanticModel.GetTypeInfo(castExpression.Type).Type is not
+        if (context.Node is not CastExpressionSyntax castExpression)
+        {
+            return;
+        }
+
+        if (context.SemanticModel.GetTypeInfo(castExpression.Type).Type is not
             {
                 SpecialType: SpecialType.System_Int64
-            }
-            || castExpression.Expression is not BinaryExpressionSyntax binaryExpr
-            || !binaryExpr.IsKind(SyntaxKind.MultiplyExpression)
-            || context.SemanticModel.GetTypeInfo(binaryExpr.Left).Type?.SpecialType != SpecialType.System_Int32
-            || context.SemanticModel.GetTypeInfo(binaryExpr.Right).Type?.SpecialType != SpecialType.System_Int32)
+            })
+        {
+            return;
+        }
+
+        var expression = Unwrap(castExpression.Expression);
+
+        if (expression is not BinaryExpressionSyntax binaryExpression || !binaryExpression.IsKind(SyntaxKind.MultiplyExpression))
+        {
+            return;
+        }
+
+        var leftInfo = context.SemanticModel.GetTypeInfo(binaryExpression.Left);
+        var rightInfo = context.SemanticModel.GetTypeInfo(binaryExpression.Right);
+        var leftType = leftInfo.Type ?? leftInfo.ConvertedType;
+        var rightType = rightInfo.Type ?? rightInfo.ConvertedType;
+
+        if (leftType?.SpecialType != SpecialType.System_Int32 || rightType?.SpecialType != SpecialType.System_Int32)
         {
             return;
         }
 
         var diagnostic = Diagnostic.Create(Rule, castExpression.GetLocation());
         context.ReportDiagnostic(diagnostic);
+    }
+
+    private static ExpressionSyntax Unwrap(ExpressionSyntax expression)
+    {
+        while (expression is ParenthesizedExpressionSyntax parenthesized)
+        {
+            expression = parenthesized.Expression;
+        }
+
+        return expression;
     }
 }
