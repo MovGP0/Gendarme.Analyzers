@@ -1,5 +1,46 @@
 namespace Gendarme.Analyzers.UI;
 
+/// <summary>
+/// This rule checks executable assemblies, i.e. <c>*.exe</c>’s, that reference <c>System.Windows.Forms</c>
+/// to ensure that their entry point is decorated with <c>[System.STAThread]</c> attribute
+/// and is not decorated with <c>[System.MTAThread]</c> attribute to ensure that Windows Forms work properly.
+/// </summary>
+/// <example>
+/// Bad example #1 (no attributes):
+/// <code language="C#">
+/// public class WindowsFormsEntryPoint {
+///     static void Main ()
+///     {
+///     }
+/// }
+/// </code>
+/// Bad example #2 (MTAThread)
+/// <code language="C#">
+/// public class WindowsFormsEntryPoint {
+///     [MTAThread]
+///     static void Main ()
+///     {
+///     }
+/// }
+/// </code>
+/// Good example #1 (STAThread):
+/// <code language="C#">
+/// public class WindowsFormsEntryPoint {
+///     [STAThread]
+///     static void Main ()
+///     {
+///     }
+/// }
+/// </code>
+/// Good example #2 (not Windows Forms):
+/// <code language="C#">
+/// public class ConsoleAppEntryPoint {
+///     static void Main ()
+///     {
+///     }
+/// }
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UseStaThreadAttributeOnSwfEntryPointsAnalyzer : DiagnosticAnalyzer
 {

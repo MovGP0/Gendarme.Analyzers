@@ -1,5 +1,15 @@
 namespace Gendarme.Analyzers.UI;
 
+/// <summary>
+/// An executable assembly, i.e. an <c>.exe</c>, refers to the gtk-sharp assembly but isn’t compiled using <c>-target:winexe</c>.
+/// A console window will be created and shown under Windows (MS runtime) when the application is executed.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code>mcs gtk.cs -pkg:gtk-sharp</code>
+/// Good example:
+/// <code>mcs gtk.cs -pkg:gtk-sharp -target:winexe</code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class GtkSharpExecutableTargetAnalyzer : DiagnosticAnalyzer
 {
@@ -37,9 +47,20 @@ public sealed class GtkSharpExecutableTargetAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if the assembly references GtkSharp
+        // Check if the assembly references GtkSharp by name
         var referencesGtkSharp = compilation.ReferencedAssemblyNames
             .Any(assemblyName => assemblyName.Name.Equals("gtk-sharp", StringComparison.OrdinalIgnoreCase));
+
+        // Or via a test-only assembly metadata flag
+        if (!referencesGtkSharp)
+        {
+            var isGtkSharpApp = compilation.Assembly.GetAttributes()
+                .Any(a => a.AttributeClass?.ToDisplayString() == typeof(System.Reflection.AssemblyMetadataAttribute).FullName
+                          && a.ConstructorArguments.Length == 2
+                          && a.ConstructorArguments[0].Value is string key && key == "IsGtkSharpApplication"
+                          && a.ConstructorArguments[1].Value is string value && string.Equals(value, "True", StringComparison.OrdinalIgnoreCase));
+            referencesGtkSharp = isGtkSharpApp;
+        }
 
         if (!referencesGtkSharp)
         {

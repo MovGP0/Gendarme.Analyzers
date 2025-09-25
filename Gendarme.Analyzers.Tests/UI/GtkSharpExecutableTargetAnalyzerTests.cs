@@ -24,7 +24,8 @@ namespace MyNamespace
         var context = new CSharpAnalyzerTest<GtkSharpExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.WindowsApplication }
         };
 
         await context.RunAsync();
@@ -51,12 +52,13 @@ namespace GtkSharpApp
         var context = new CSharpAnalyzerTest<GtkSharpExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.GtkSharpExecutableTarget)
-            .WithSpan(1, 1, 1, 1);
+            .WithSpan(2, 1, 14, 2);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -82,7 +84,8 @@ namespace MyNamespace
         var context = new CSharpAnalyzerTest<GtkSharpExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         await context.RunAsync();

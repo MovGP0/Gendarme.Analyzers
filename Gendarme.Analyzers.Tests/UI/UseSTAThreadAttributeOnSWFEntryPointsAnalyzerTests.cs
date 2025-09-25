@@ -25,12 +25,13 @@ public class Program
         var context = new CSharpAnalyzerTest<UseStaThreadAttributeOnSwfEntryPointsAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80Windows,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseStaThreadAttributeOnSwfEntryPoints)
-            .WithSpan(6, 15, 6, 21);
+            .WithSpan(8, 24, 8, 28);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -57,12 +58,13 @@ public class Program
         var context = new CSharpAnalyzerTest<UseStaThreadAttributeOnSwfEntryPointsAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80Windows,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.UseStaThreadAttributeOnSwfEntryPoints)
-            .WithSpan(6, 15, 6, 21);
+            .WithSpan(8, 24, 8, 28);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -89,7 +91,8 @@ public class Program
         var context = new CSharpAnalyzerTest<UseStaThreadAttributeOnSwfEntryPointsAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80Windows,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         // No expected diagnostics as the usage is correct

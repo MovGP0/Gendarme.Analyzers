@@ -1,5 +1,15 @@
 namespace Gendarme.Analyzers.UI;
 
+/// <summary>
+/// An executable assembly, i.e. an <c>.exe</c>, refers to the <c>System.Windows.Forms</c> assembly but isn’t compiled using <c>-target:winexe</c>.
+/// A console window will be created and shown under Windows (MS runtime) when the application is executed which is probably not desirable for a winforms application.
+/// </summary>
+/// <example>
+/// Bad example:
+/// <code>mcs swf.cs -pkg:dotnet</code>
+/// Good example:
+/// <code>mcs swf.cs -pkg:dotnet -target:winexe</code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class SystemWindowsFormsExecutableTargetAnalyzer : DiagnosticAnalyzer
 {

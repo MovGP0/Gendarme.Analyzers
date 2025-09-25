@@ -23,12 +23,13 @@ class Program
         var context = new CSharpAnalyzerTest<SystemWindowsFormsExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80Windows,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.SystemWindowsFormsExecutableTarget)
-            .WithSpan(1, 1, 6, 1);
+            .WithSpan(2, 1, 11, 2);
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -48,7 +49,8 @@ class MyForm : Form
         var context = new CSharpAnalyzerTest<SystemWindowsFormsExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80Windows,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.DynamicallyLinkedLibrary }
         };
 
         // No diagnostics expected for non-console applications
@@ -72,7 +74,8 @@ class Program
         var context = new CSharpAnalyzerTest<SystemWindowsFormsExecutableTargetAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = testCode,
+            TestState = { OutputKind = OutputKind.ConsoleApplication }
         };
 
         // No diagnostics expected since there is no WinForms reference
