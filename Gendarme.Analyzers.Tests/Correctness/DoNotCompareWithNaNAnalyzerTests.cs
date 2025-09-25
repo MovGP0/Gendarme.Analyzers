@@ -6,83 +6,146 @@ namespace Gendarme.Analyzers.Tests.Correctness;
 public sealed class DoNotCompareWithNaNAnalyzerTests
 {
     [Fact]
-    public async Task TestNaNComparison_Equality()
+    public async Task ReportsEqualityOperator()
     {
-        const string testCode = @"
-class MyClass
+        const string source = @"
+class C
 {
-    public void Check(double value)
+    void M(double value)
     {
-        if (value == double.NaN) // Warning should be triggered here
+        if (value == double.NaN)
         {
         }
     }
-}";
-
-        var context = new CSharpAnalyzerTest<DoNotCompareWithNaNAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+}
+";
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotCompareWithNaN)
             .WithSpan(6, 13, 6, 32);
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestNaNComparison_Inequality()
+    public async Task ReportsInequalityOperator()
     {
-        const string testCode = @"
-class MyClass
+        const string source = @"
+class C
 {
-    public void Check(double value)
+    void M(double value)
     {
-        if (value != double.NaN) // Warning should be triggered here
+        if (value != double.NaN)
         {
         }
     }
-}";
-
-        var context = new CSharpAnalyzerTest<DoNotCompareWithNaNAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+}
+";
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotCompareWithNaN)
-            .WithSpan(5, 17, 5, 34);
+            .WithSpan(6, 13, 6, 32);
 
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await VerifyAsync(source, expected);
     }
 
     [Fact]
-    public async Task TestNoNaNComparison()
+    public async Task ReportsOrderingOperator()
     {
-        const string testCode = @"
-class MyClass
+        const string source = @"
+class C
 {
-    public void Check(double value)
+    void M(float value)
     {
-        if (value < 0) // No warning expected here
+        if (float.NaN <= value)
         {
         }
     }
-}";
+}
+";
 
-        var context = new CSharpAnalyzerTest<DoNotCompareWithNaNAnalyzer, DefaultVerifier>
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotCompareWithNaN)
+            .WithSpan(6, 13, 6, 31);
+
+        await VerifyAsync(source, expected);
+    }
+
+    [Fact]
+    public async Task ReportsInstanceEquals()
+    {
+        const string source = @"
+class C
+{
+    bool M(double value)
+        => value.Equals(double.NaN);
+}
+";
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotCompareWithNaN)
+            .WithSpan(5, 12, 5, 36);
+
+        await VerifyAsync(source, expected);
+    }
+
+    [Fact]
+    public async Task ReportsStaticEquals()
+    {
+        const string source = @"
+class C
+{
+    bool M(double value)
+        => object.Equals(value, float.NaN);
+}
+";
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotCompareWithNaN)
+            .WithSpan(5, 12, 5, 43);
+
+        await VerifyAsync(source, expected);
+    }
+
+    [Fact]
+    public async Task SkipsIsNaNCall()
+    {
+        const string source = @"
+class C
+{
+    bool M(double value)
+        => double.IsNaN(value);
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    [Fact]
+    public async Task SkipsRegularComparison()
+    {
+        const string source = @"
+class C
+{
+    bool M(double value)
+        => value < 0;
+}
+";
+
+        await VerifyAsync(source);
+    }
+
+    private static Task VerifyAsync(string source, params DiagnosticResult[] expectedDiagnostics)
+    {
+        var test = new CSharpAnalyzerTest<DoNotCompareWithNaNAnalyzer, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        await context.RunAsync(); // No diagnostics expected
+        test.ExpectedDiagnostics.AddRange(expectedDiagnostics);
+        return test.RunAsync();
     }
 }
+
+
