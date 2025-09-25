@@ -81,4 +81,34 @@ public class MyClass
         // No diagnostics expected
         await context.RunAsync();
     }
+
+    [Fact]
+    public async Task TestInterfaceField()
+    {
+        const string testCode = @"
+using System;
+
+[Serializable]
+public class MyClass
+{
+    public IMy Field1; // Interface typed field is not serializable
+}
+
+public interface IMy {}
+";
+
+        var context = new CSharpAnalyzerTest<MarkAllNonSerializableFieldsAnalyzer, DefaultVerifier>
+        {
+            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
+            TestCode = testCode
+        };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.MarkAllNonSerializableFields)
+            .WithSpan(7, 16, 7, 22)
+            .WithArguments("Field1", "MyClass");
+
+        context.ExpectedDiagnostics.Add(expected);
+        await context.RunAsync();
+    }
 }
