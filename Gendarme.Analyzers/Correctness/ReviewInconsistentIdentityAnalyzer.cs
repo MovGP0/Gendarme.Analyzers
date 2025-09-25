@@ -1,5 +1,13 @@
 namespace Gendarme.Analyzers.Correctness;
 
+/// <summary>
+/// This rule checks to see if a type manages its identity in a consistent way. It checks:
+/// <ul>
+/// <li>Equals methods, relational operators and CompareTo must either use the same set of fields and properties or call a helper method.</li>
+/// <li>GetHashCode must use the same or a subset of the fields used by the equality methods or call a helper method.</li>
+/// <li>Clone must use the same or a superset of the fields used by the equality methods or call a helper method.</li>
+/// </ul>
+/// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class ReviewInconsistentIdentityAnalyzer : DiagnosticAnalyzer
 {
@@ -14,7 +22,8 @@ public sealed class ReviewInconsistentIdentityAnalyzer : DiagnosticAnalyzer
         Category.Correctness,
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: Description);
+        description: Description,
+        customTags: [WellKnownDiagnosticTags.CompilationEnd]);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
@@ -28,84 +37,154 @@ public sealed class ReviewInconsistentIdentityAnalyzer : DiagnosticAnalyzer
 
     private static void StartAnalysis(CompilationStartAnalysisContext context)
     {
-        var methodFieldUsages = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<ISymbol>>(SymbolEqualityComparer.Default);
+        var methodMemberUsages = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<ISymbol>>(SymbolEqualityComparer.Default);
+        var methodSameTypeCalls = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<IMethodSymbol>>(SymbolEqualityComparer.Default);
+        var candidateTypes = new ConcurrentDictionary<INamedTypeSymbol, byte>(SymbolEqualityComparer.Default);
 
         context.RegisterOperationBlockStartAction(blockStartContext =>
         {
             if (blockStartContext.OwningSymbol is not IMethodSymbol methodSymbol)
-            {
                 return;
-            }
 
-            if (methodSymbol.ContainingType is not { } containingType || containingType.TypeKind != TypeKind.Class)
-            {
+            var containingType = methodSymbol.ContainingType;
+            if (containingType is null || containingType.TypeKind != TypeKind.Class)
                 return;
-            }
 
-            if (methodSymbol.MethodKind != MethodKind.Ordinary)
-            {
-                return;
-            }
+            candidateTypes[containingType] = 0;
 
-            var accessedFields = ImmutableHashSet.CreateBuilder<ISymbol>(SymbolEqualityComparer.Default);
+            var members = ImmutableHashSet.CreateBuilder<ISymbol>(SymbolEqualityComparer.Default);
+            var callees = ImmutableHashSet.CreateBuilder<IMethodSymbol>(SymbolEqualityComparer.Default);
 
             blockStartContext.RegisterOperationAction(operationContext =>
             {
-                var fieldReference = (IFieldReferenceOperation)operationContext.Operation;
-                var field = fieldReference.Field;
-
+                var field = ((IFieldReferenceOperation)operationContext.Operation).Field;
                 if (!field.IsStatic && SymbolEqualityComparer.Default.Equals(field.ContainingType, containingType))
                 {
-                    accessedFields.Add(field);
+                    members.Add(field);
                 }
             }, OperationKind.FieldReference);
 
+            blockStartContext.RegisterOperationAction(operationContext =>
+            {
+                var property = ((IPropertyReferenceOperation)operationContext.Operation).Property;
+                if (!property.IsStatic && SymbolEqualityComparer.Default.Equals(property.ContainingType, containingType))
+                {
+                    members.Add(property);
+                }
+            }, OperationKind.PropertyReference);
+
+            blockStartContext.RegisterOperationAction(operationContext =>
+            {
+                var target = ((IInvocationOperation)operationContext.Operation).TargetMethod;
+                if (SymbolEqualityComparer.Default.Equals(target.ContainingType, containingType))
+                {
+                    callees.Add(target);
+                }
+            }, OperationKind.Invocation);
+
             blockStartContext.RegisterOperationBlockEndAction(_ =>
             {
-                methodFieldUsages[methodSymbol] = accessedFields.ToImmutable();
+                methodMemberUsages[methodSymbol] = members.ToImmutable();
+                methodSameTypeCalls[methodSymbol] = callees.ToImmutable();
             });
         });
 
-        context.RegisterSymbolAction(symbolContext =>
+        context.RegisterCompilationEndAction(compilationEndContext =>
         {
-            var namedTypeSymbol = (INamedTypeSymbol)symbolContext.Symbol;
-
-            var methods = namedTypeSymbol.GetMembers().OfType<IMethodSymbol>().ToImmutableArray();
-
-            var equalsMethods = methods.Where(m => m is { Name: "Equals", Parameters.Length: 1 }).ToList();
-            var getHashCodeMethods = methods.Where(m => m is { Name: "GetHashCode", Parameters.Length: 0 }).ToList();
-            var compareToMethods = methods.Where(m => m is { Name: "CompareTo", Parameters.Length: 1 }).ToList();
-
-            foreach (var method in equalsMethods)
+            foreach (var type in candidateTypes.Keys)
             {
-                if (UsesSameFields(method, getHashCodeMethods, compareToMethods))
+                var methods = type.GetMembers().OfType<IMethodSymbol>().ToImmutableArray();
+
+                var equalsMethods = methods.Where(m => m.Name == "Equals" && m.Parameters.Length == 1).ToImmutableArray();
+                var compareToMethods = methods.Where(m => m.Name == "CompareTo" && m.Parameters.Length == 1).ToImmutableArray();
+                var operatorEquals = methods.Where(m => m.MethodKind == MethodKind.UserDefinedOperator && m.Name == "op_Equality").ToImmutableArray();
+                var operatorNotEquals = methods.Where(m => m.MethodKind == MethodKind.UserDefinedOperator && m.Name == "op_Inequality").ToImmutableArray();
+                var getHashCodeMethods = methods.Where(m => m.Name == "GetHashCode" && m.Parameters.Length == 0).ToImmutableArray();
+                var cloneMethods = methods.Where(m => m.Name == "Clone" && m.Parameters.Length == 0).ToImmutableArray();
+
+                var aggregatedCache = new Dictionary<IMethodSymbol, ImmutableHashSet<ISymbol>>(SymbolEqualityComparer.Default);
+                ImmutableHashSet<ISymbol> AggregateMembers(IMethodSymbol method)
                 {
+                    if (aggregatedCache.TryGetValue(method, out var cached))
+                        return cached;
+
+                    var visited = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+                    var stack = new Stack<IMethodSymbol>();
+                    stack.Push(method);
+                    var builder = ImmutableHashSet.CreateBuilder<ISymbol>(SymbolEqualityComparer.Default);
+
+                    while (stack.Count > 0)
+                    {
+                        var current = stack.Pop();
+                        if (!visited.Add(current))
+                            continue;
+
+                        if (methodMemberUsages.TryGetValue(current, out var currentMembers))
+                        {
+                            builder.UnionWith(currentMembers);
+                        }
+
+                        if (methodSameTypeCalls.TryGetValue(current, out var calls))
+                        {
+                            foreach (var callee in calls)
+                            {
+                                stack.Push(callee);
+                            }
+                        }
+                    }
+
+                    var result = builder.ToImmutable();
+                    aggregatedCache[method] = result;
+                    return result;
+                }
+
+                var equalityGroup = equalsMethods.Concat(compareToMethods).Concat(operatorEquals).Concat(operatorNotEquals).ToImmutableArray();
+                var equalitySets = equalityGroup.Select(AggregateMembers).ToList();
+
+                bool EqualitySetsConsistent()
+                {
+                    if (equalitySets.Count <= 1)
+                        return true;
+                    var first = equalitySets[0];
+                    for (int i = 1; i < equalitySets.Count; i++)
+                    {
+                        if (!first.SetEquals(equalitySets[i]))
+                            return false;
+                    }
+                    return true;
+                }
+
+                if (!EqualitySetsConsistent())
+                {
+                    compilationEndContext.ReportDiagnostic(Diagnostic.Create(Rule, Location.None, type.Name));
                     continue;
                 }
 
-                var diagnostic = Diagnostic.Create(Rule, method.Locations[0], namedTypeSymbol.Name);
-                symbolContext.ReportDiagnostic(diagnostic);
-            }
+                var equalitySet = equalitySets.FirstOrDefault() ?? ImmutableHashSet<ISymbol>.Empty;
 
-            ImmutableHashSet<ISymbol> GetFields(IMethodSymbol method)
-            {
-                return methodFieldUsages.TryGetValue(method, out var fields)
-                    ? fields
-                    : ImmutableHashSet.Create<ISymbol>(SymbolEqualityComparer.Default);
-            }
+                foreach (var ghc in getHashCodeMethods)
+                {
+                    var set = AggregateMembers(ghc);
+                    if (!set.IsSubsetOf(equalitySet))
+                    {
+                        compilationEndContext.ReportDiagnostic(Diagnostic.Create(Rule, Location.None, type.Name));
+                        goto NextType;
+                    }
+                }
 
-            bool UsesSameFields(
-                IMethodSymbol equalsMethod,
-                IEnumerable<IMethodSymbol> getHashCodeCandidates,
-                IEnumerable<IMethodSymbol> compareToCandidates)
-            {
-                var fieldsUsedInEquals = GetFields(equalsMethod);
-                var fieldsUsedInGetHashCode = getHashCodeCandidates.SelectMany(GetFields).ToImmutableHashSet(SymbolEqualityComparer.Default);
-                var fieldsUsedInCompareTo = compareToCandidates.SelectMany(GetFields).ToImmutableHashSet(SymbolEqualityComparer.Default);
+                foreach (var clone in cloneMethods)
+                {
+                    var set = AggregateMembers(clone);
+                    if (!equalitySet.IsSubsetOf(set))
+                    {
+                        compilationEndContext.ReportDiagnostic(Diagnostic.Create(Rule, Location.None, type.Name));
+                        goto NextType;
+                    }
+                }
 
-                return fieldsUsedInEquals.SetEquals(fieldsUsedInGetHashCode)
-                       && fieldsUsedInEquals.SetEquals(fieldsUsedInCompareTo);
+            NextType:
+                ;
             }
-        }, SymbolKind.NamedType);
+        });
     }
 }
