@@ -2,6 +2,38 @@ using Gendarme.Analyzers.Extensions;
 
 namespace Gendarme.Analyzers.Interoperability;
 
+/// <summary>
+/// This rule checks for code which casts an <c>IntPtr</c> or <c>UIntPtr</c> into a 32-bit (or smaller) value.
+/// It will also check if memory read with the <c>Marshal.ReadInt32</c> and <c>Marshal.ReadInt64</c> methods is being cast into an <c>IntPtr</c> or <c>UIntPtr</c>.
+/// <c>IntPtr</c> is generally used to reference a memory location and down-casting them to 32-bits will make the code fail on 64-bit CPUs.
+/// </summary>
+/// <example>
+/// Bad example (cast):
+/// <code language="c#">
+///   int ptr = dest.ToInt32();
+///   for (int i = 0; i &lt; 16; i++) {
+///       Marshal.StructureToPtr(this, (IntPtr)ptr, false);
+///       ptr += 4;
+///   }
+/// </code>
+/// Bad example (<c>Marshal.Read*</c>):
+/// <code language="c#">
+/// // that won't work on 64 bits platforms
+/// IntPtr p = (IntPtr) Marshal.ReadInt32(p);
+/// </code>
+/// Good example (cast):
+/// <code language="c#">
+/// long ptr = dest.ToInt64();
+/// for (int i = 0; i &lt; 16; i++) {
+///     Marshal.StructureToPtr(this, (IntPtr) ptr, false);
+///     ptr += IntPtr.Size;
+/// }
+/// </code>
+/// Good example (<c>Marshal.Read*</c>):
+/// <code language="c#">
+/// IntPtr p = (IntPtr)Marshal.ReadIntPtr(p);
+/// </code>
+/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class DoNotAssumeIntPtrSizeAnalyzer : DiagnosticAnalyzer
 {

@@ -28,7 +28,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotAssumeIntPtrSize)
-            .WithSpan(6, 18, 6, 22);
+            .WithSpan(9, 21, 9, 29); // (int)ptr
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -60,7 +60,7 @@ public class MyClass
     }
 
     [Fact]
-    public async Task TestMarshalReadInt32WithIntPtr()
+    public async Task TestMarshalReadInt32CastToIntPtr()
     {
         const string testCode = @"
 using System;
@@ -71,7 +71,7 @@ public class MyClass
     public void MyMethod()
     {
         IntPtr ptr = IntPtr.Zero;
-        int value = Marshal.ReadInt32(ptr); // This should trigger the diagnostic
+        IntPtr value = (IntPtr)Marshal.ReadInt32(ptr); // Should trigger
     }
 }";
 
@@ -83,7 +83,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.DoNotAssumeIntPtrSize)
-            .WithSpan(6, 47, 6, 81);
+            .WithSpan(10, 32, 10, 54); // Marshal.ReadInt32(ptr)
 
         context.ExpectedDiagnostics.Add(expected);
 
@@ -91,7 +91,7 @@ public class MyClass
     }
 
     [Fact]
-    public async Task TestMarshalReadInt64WithIntPtr()
+    public async Task TestMarshalReadInt64CastToIntPtr()
     {
         const string testCode = @"
 using System;
@@ -102,7 +102,7 @@ public class MyClass
     public void MyMethod()
     {
         IntPtr ptr = IntPtr.Zero;
-        long value = Marshal.ReadInt64(ptr); // This should not trigger the diagnostic
+        IntPtr value = (IntPtr)Marshal.ReadInt64(ptr); // Should trigger
     }
 }";
 
@@ -111,6 +111,12 @@ public class MyClass
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = testCode
         };
+
+        var expected = DiagnosticResult
+            .CompilerWarning(DiagnosticId.DoNotAssumeIntPtrSize)
+            .WithSpan(10, 32, 10, 54); // Marshal.ReadInt64(ptr)
+
+        context.ExpectedDiagnostics.Add(expected);
 
         await context.RunAsync();
     }
