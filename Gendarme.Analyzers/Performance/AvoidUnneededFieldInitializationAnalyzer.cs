@@ -82,14 +82,32 @@ public sealed class AvoidUnneededFieldInitializationAnalyzer : DiagnosticAnalyze
 
     private static bool IsDefaultValue(ExpressionSyntax expression, ITypeSymbol type, SyntaxNodeAnalysisContext context)
     {
-        var operation = context.SemanticModel.GetOperation(expression, context.CancellationToken);
-        var constantValue = operation?.ConstantValue;
-        if (constantValue.HasValue)
+        // Handle 'default' and 'default(T)' explicitly
+        if (expression.IsKind(SyntaxKind.DefaultLiteralExpression))
         {
-            var defaultValue = GetDefaultValue(type);
-            return Equals(constantValue.Value, defaultValue);
+            return true;
         }
-        return false;
+
+        if (expression is DefaultExpressionSyntax)
+        {
+            return true;
+        }
+
+        var constant = context.SemanticModel.GetConstantValue(expression, context.CancellationToken);
+        if (!constant.HasValue)
+        {
+            return false;
+        }
+
+        // Reference types: default is null
+        if (type.IsReferenceType)
+        {
+            return constant.Value is null;
+        }
+
+        // Value types: compare to type-specific default value
+        var defaultValue = GetDefaultValue(type);
+        return Equals(constant.Value, defaultValue);
     }
 
     private static object? GetDefaultValue(ITypeSymbol type)
@@ -106,9 +124,9 @@ public sealed class AvoidUnneededFieldInitializationAnalyzer : DiagnosticAnalyze
                 or SpecialType.System_UInt16
                 or SpecialType.System_UInt32
                 or SpecialType.System_UInt64 => 0,
-            SpecialType.System_Single
-                or SpecialType.System_Double
-                or SpecialType.System_Decimal => 0.0,
+            SpecialType.System_Single => 0f,
+            SpecialType.System_Double => 0d,
+            SpecialType.System_Decimal => 0m,
             _ => null
         };
     }

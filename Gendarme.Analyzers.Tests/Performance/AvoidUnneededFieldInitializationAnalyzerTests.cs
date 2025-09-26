@@ -22,7 +22,7 @@ public class MyClass
         };
 
         var expected = new DiagnosticResult(DiagnosticId.AvoidUnneededFieldInitialization, DiagnosticSeverity.Info)
-            .WithSpan(5, 24, 5, 30)
+            .WithSpan(4, 24, 4, 27)
             .WithArguments("_field");
 
         context.ExpectedDiagnostics.Add(expected);
