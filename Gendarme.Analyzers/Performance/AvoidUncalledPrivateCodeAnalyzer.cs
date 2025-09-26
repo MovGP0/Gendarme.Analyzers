@@ -110,7 +110,18 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
                     continue;
                 }
 
-                var location = method.Locations.FirstOrDefault();
+                // Report at the identifier location of the method name if available.
+                Location? location = null;
+                var syntaxRef = method.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxRef is not null && syntaxRef.GetSyntax(compilationContext.CancellationToken) is MethodDeclarationSyntax mds)
+                {
+                    location = mds.Identifier.GetLocation();
+                }
+                else
+                {
+                    location = method.Locations.FirstOrDefault();
+                }
+
                 if (location is null)
                 {
                     continue;
@@ -127,7 +138,8 @@ public sealed class AvoidUncalledPrivateCodeAnalyzer : DiagnosticAnalyzer
         IMethodSymbol? entryPoint,
         ConcurrentDictionary<IMethodSymbol, byte> calledMethods)
     {
-        if (method.DeclaredAccessibility is not (Accessibility.Private or Accessibility.Internal))
+        // Only private methods are in scope for this rule
+        if (method.DeclaredAccessibility is not Accessibility.Private)
         {
             return false;
         }

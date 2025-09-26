@@ -15,7 +15,6 @@ public class MyClass
 
     public void CalledMethod()
     {
-        UncalledMethod();
     }
 }
 ";
@@ -28,7 +27,7 @@ public class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidUncalledPrivateCode)
-            .WithSpan(3, 14, 3, 30)
+            .WithSpan(4, 18, 4, 32)
             .WithArguments("UncalledMethod");
 
         context.ExpectedDiagnostics.Add(expected);
