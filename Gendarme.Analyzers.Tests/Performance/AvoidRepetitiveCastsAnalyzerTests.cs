@@ -27,7 +27,7 @@ class MyClass
 
         var expected = DiagnosticResult
             .CompilerWarning(DiagnosticId.AvoidRepetitiveCasts)
-            .WithSpan(6, 9, 6, 34)
+            .WithSpan(7, 21, 7, 32)
             .WithArguments("obj", "string");
 
         context.ExpectedDiagnostics.Add(expected);

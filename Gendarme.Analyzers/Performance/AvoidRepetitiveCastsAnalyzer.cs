@@ -80,7 +80,8 @@ public sealed class AvoidRepetitiveCastsAnalyzer : DiagnosticAnalyzer
 
     private void OnOperationBlockStart(OperationBlockStartAnalysisContext context)
     {
-        var castExpressions = new Dictionary<(IOperation, ITypeSymbol), int>();
+        // Key: (operand identity, target type display)
+        var castExpressions = new Dictionary<string, int>(StringComparer.Ordinal);
 
         context.RegisterOperationAction(operationContext =>
         {
@@ -91,7 +92,10 @@ public sealed class AvoidRepetitiveCastsAnalyzer : DiagnosticAnalyzer
                 return;
             }
 
-            var key = (conversion.Operand, type);
+            var operand = conversion.Operand;
+            var operandIdentity = GetOperandIdentity(operand);
+            var typeIdentity = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            var key = operandIdentity + "|" + typeIdentity;
 
             if (castExpressions.TryAdd(key, 1))
             {
@@ -105,5 +109,30 @@ public sealed class AvoidRepetitiveCastsAnalyzer : DiagnosticAnalyzer
                 operationContext.ReportDiagnostic(diagnostic);
             }
         }, OperationKind.Conversion);
+    }
+
+    private static string GetOperandIdentity(IOperation operand)
+    {
+        // Prefer a stable symbol-based identity when available.
+        ISymbol? symbol = operand switch
+        {
+            ILocalReferenceOperation l => l.Local,
+            IParameterReferenceOperation p => p.Parameter,
+            IFieldReferenceOperation f => f.Field,
+            IPropertyReferenceOperation pr => pr.Property,
+            IMemberReferenceOperation m => m.Member,
+            _ => null
+        };
+
+        if (symbol is not null)
+        {
+            var kindPrefix = symbol.Kind.ToString();
+            var display = symbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            return $"sym:{kindPrefix}:{display}";
+        }
+
+        // Fall back to normalized syntax text for non-symbol operands.
+        var text = operand.Syntax.ToString().Trim();
+        return "syn:" + text;
     }
 }
