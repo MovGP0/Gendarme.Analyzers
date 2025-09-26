@@ -1,4 +1,4 @@
-namespace Gendarme.Analyzers.Performance;
+﻿namespace Gendarme.Analyzers.Performance;
 
 /// <summary>
 /// This rule will fire if a type implements <c>System.IDisposable</c> and has a finalizer (called a destructor in C#),
@@ -88,28 +88,29 @@ public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer : 
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
 
-        context.RegisterCompilationStartAction(startContext =>
+        context.RegisterCompilationStartAction(static compilationContext =>
         {
-            var disposableType = startContext.Compilation.GetTypeByMetadataName("System.IDisposable");
-            var gcType = startContext.Compilation.GetTypeByMetadataName("System.GC");
+            var disposableType = compilationContext.Compilation.GetTypeByMetadataName("System.IDisposable");
+            var gcType = compilationContext.Compilation.GetTypeByMetadataName(typeof(GC).FullName!);
 
             if (disposableType is null || gcType is null)
             {
                 return;
             }
 
-            startContext.RegisterOperationBlockStartAction(blockStartContext =>
+            compilationContext.RegisterOperationBlockStartAction(blockStartContext =>
             {
-                if (blockStartContext.OwningSymbol is not IMethodSymbol methodSymbol)
+                if (blockStartContext.OwningSymbol is not IMethodSymbol method)
                 {
                     return;
                 }
 
-                if (!IsDisposeCandidate(methodSymbol) || methodSymbol.ContainingType is not { } containingType)
+                if (!IsDisposeMethod(method, disposableType))
                 {
                     return;
                 }
 
+                var containingType = method.ContainingType;
                 if (!ImplementsDisposable(containingType, disposableType) || !HasFinalizer(containingType))
                 {
                     return;
@@ -121,8 +122,22 @@ public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer : 
                 {
                     var invocation = (IInvocationOperation)operationContext.Operation;
 
-                    if (invocation.TargetMethod is { Name: nameof(GC.SuppressFinalize) } target &&
-                        SymbolEqualityComparer.Default.Equals(target.ContainingType, gcType))
+                    if (!SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.ContainingType, gcType))
+                    {
+                        return;
+                    }
+
+                    if (!string.Equals(invocation.TargetMethod.Name, nameof(GC.SuppressFinalize), StringComparison.Ordinal))
+                    {
+                        return;
+                    }
+
+                    if (invocation.Arguments.Length != 1)
+                    {
+                        return;
+                    }
+
+                    if (IsThisArgument(invocation.Arguments[0]))
                     {
                         callsSuppressFinalize = true;
                     }
@@ -130,22 +145,61 @@ public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer : 
 
                 blockStartContext.RegisterOperationBlockEndAction(endContext =>
                 {
-                    if (!callsSuppressFinalize)
+                    if (callsSuppressFinalize)
                     {
-                        var diagnostic = Diagnostic.Create(Rule, methodSymbol.Locations[0], containingType.Name);
-                        endContext.ReportDiagnostic(diagnostic);
+                        return;
                     }
+
+                    var diagnosticLocation = GetTypeLocation(containingType) ?? method.Locations.FirstOrDefault();
+                    if (diagnosticLocation is null)
+                    {
+                        return;
+                    }
+
+                    endContext.ReportDiagnostic(Diagnostic.Create(Rule, diagnosticLocation, containingType.Name));
                 });
             });
         });
     }
 
-    private static bool IsDisposeCandidate(IMethodSymbol method)
-        => method is { Name: "Dispose", Parameters.Length: 0 };
+    private static bool IsDisposeMethod(IMethodSymbol method, INamedTypeSymbol disposableType)
+    {
+        if (method is not { Name: nameof(IDisposable.Dispose), Parameters.IsEmpty: true, ReturnsVoid: true, IsStatic: false })
+        {
+            return false;
+        }
 
-    private static bool ImplementsDisposable(INamedTypeSymbol type, INamedTypeSymbol disposableType)
-        => type.AllInterfaces.Any(i => SymbolEqualityComparer.Default.Equals(i, disposableType));
+        if (method.MethodKind is MethodKind.ExplicitInterfaceImplementation)
+        {
+            return method.ExplicitInterfaceImplementations.Any(explicitImplementation =>
+                SymbolEqualityComparer.Default.Equals(explicitImplementation.ContainingType, disposableType));
+        }
 
-    private static bool HasFinalizer(INamedTypeSymbol type)
-        => type.GetMembers().OfType<IMethodSymbol>().Any(m => m.MethodKind == MethodKind.Destructor);
+        return true;
+    }
+
+    private static bool ImplementsDisposable(INamedTypeSymbol type, INamedTypeSymbol disposableType) =>
+        type.AllInterfaces.Any(@interface => SymbolEqualityComparer.Default.Equals(@interface, disposableType));
+
+    private static bool HasFinalizer(INamedTypeSymbol type) =>
+        type.GetMembers().OfType<IMethodSymbol>().Any(member => member.MethodKind == MethodKind.Destructor);
+
+    private static bool IsThisArgument(IArgumentOperation argument)
+    {
+        var value = Unwrap(argument.Value);
+        return value is IInstanceReferenceOperation { ReferenceKind: InstanceReferenceKind.ContainingTypeInstance };
+    }
+
+    private static IOperation Unwrap(IOperation operation)
+    {
+        while (operation is IConversionOperation conversion)
+        {
+            operation = conversion.Operand;
+        }
+
+        return operation;
+    }
+
+    private static Location? GetTypeLocation(INamedTypeSymbol type) =>
+        type.Locations.FirstOrDefault(location => location.IsInSource);
 }

@@ -1,4 +1,4 @@
-using Gendarme.Analyzers.Performance;
+﻿using Gendarme.Analyzers.Performance;
 
 namespace Gendarme.Analyzers.Tests.Performance;
 
@@ -6,81 +6,102 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzerTests
 {
     [Fact]
-    public async Task TestIDisposableWithFinalizerWithoutSuppressFinalize()
+    public async Task DetectsMissingSuppressFinalize()
     {
-        const string testCode = @"
-public class MyClass : System.IDisposable
+        const string source = """
+using System;
+
+public class Sample : IDisposable
 {
-    ~MyClass()
+    ~Sample()
     {
     }
 
     public void Dispose()
     {
-        // Missing SuppressFinalize call
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(3, 14, 3, 20).WithArguments("Sample"));
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.UseSuppressFinalizeOnIDisposableTypeWithFinalizer)
-            .WithSpan(5, 14, 5, 22)
-            .WithArguments("MyClass");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestIDisposableWithFinalizerWithSuppressFinalize()
+    public async Task DetectsSuppressFinalizeWithWrongInstance()
     {
-        const string testCode = @"
-public class MyClass : System.IDisposable
+        const string source = """
+using System;
+
+public class Sample : IDisposable
 {
-    ~MyClass()
+    private readonly object _other = new();
+
+    ~Sample()
     {
     }
 
     public void Dispose()
     {
-        System.GC.SuppressFinalize(this);
+        GC.SuppressFinalize(_other);
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(3, 14, 3, 20).WithArguments("Sample"));
 
-        // No diagnostics expected
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestNonIDisposableClassWithFinalizer()
+    public async Task SkipsWhenSuppressFinalizeCalled()
     {
-        const string testCode = @"
-public class MyClass
+        const string source = """
+using System;
+
+public class Sample : IDisposable
 {
-    ~MyClass()
+    ~Sample()
     {
     }
-}";
 
-        var context = new CSharpAnalyzerTest<UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer, DefaultVerifier>
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsWhenNoFinalizer()
+    {
+        const string source = """
+using System;
+
+public class Sample : IDisposable
+{
+    public void Dispose()
+    {
+    }
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<UseSuppressFinalizeOnIDisposableTypeWithFinalizerAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected
-        await context.RunAsync();
-    }
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.UseSuppressFinalizeOnIDisposableTypeWithFinalizer, DiagnosticSeverity.Warning);
 }
