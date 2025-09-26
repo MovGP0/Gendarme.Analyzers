@@ -69,27 +69,54 @@ public sealed class AvoidUninstantiatedInternalClassesAnalyzer : DiagnosticAnaly
 
         context.RegisterOperationAction(operationContext =>
         {
-            var operation = operationContext.Operation;
-
-            if (operation is IObjectCreationOperation { Type: { } objectCreationType })
+            if (operationContext.Operation is IObjectCreationOperation { Type: { } objectCreationType })
             {
-                instantiatedTypes.Add(objectCreationType);
+                // Normalize generics to their original definition to match declarations
+                instantiatedTypes.Add(objectCreationType.OriginalDefinition);
             }
         }, OperationKind.ObjectCreation);
 
         context.RegisterCompilationEndAction(compilationContext =>
         {
             var compilation = compilationContext.Compilation;
+
+            // Only consider classes declared in source for this compilation, not metadata or implicitly declared ones.
             var allTypes = GetAllTypes(compilation.GlobalNamespace)
-                .Where(t => t is { DeclaredAccessibility: Accessibility.Internal, TypeKind: TypeKind.Class, IsAbstract: false });
+                .Where(t =>
+                    t is
+                    {
+                        DeclaredAccessibility: Accessibility.Internal,
+                        TypeKind: TypeKind.Class,
+                        IsAbstract: false,
+                        IsImplicitlyDeclared: false
+                    }
+                    && t.Locations.Any(l => l.IsInSource)
+                    && SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly));
 
             foreach (var type in allTypes)
             {
-                if (!instantiatedTypes.Contains(type))
+                // Match using original definition in case of generics
+                var matchSymbol = type.OriginalDefinition;
+                if (instantiatedTypes.Contains(matchSymbol))
+                    continue;
+
+                // Report at the identifier location if possible.
+                Location? location = null;
+                var syntaxRef = type.DeclaringSyntaxReferences.FirstOrDefault();
+                if (syntaxRef is not null && syntaxRef.GetSyntax(compilationContext.CancellationToken) is ClassDeclarationSyntax cds)
                 {
-                    var diagnostic = Diagnostic.Create(Rule, type.Locations[0], type.Name);
-                    compilationContext.ReportDiagnostic(diagnostic);
+                    location = cds.Identifier.GetLocation();
                 }
+                else
+                {
+                    location = type.Locations.FirstOrDefault(l => l.IsInSource) ?? type.Locations.FirstOrDefault();
+                }
+
+                if (location is null)
+                    continue;
+
+                var diagnostic = Diagnostic.Create(Rule, location, type.Name);
+                compilationContext.ReportDiagnostic(diagnostic);
             }
         });
     }
@@ -108,6 +135,8 @@ public sealed class AvoidUninstantiatedInternalClassesAnalyzer : DiagnosticAnaly
                 }
                 case INamedTypeSymbol namedType:
                     yield return namedType;
+                    foreach (var nested in namedType.GetTypeMembers())
+                        yield return nested;
                     break;
             }
         }

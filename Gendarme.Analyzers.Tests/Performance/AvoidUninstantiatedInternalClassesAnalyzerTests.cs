@@ -22,7 +22,7 @@ namespace TestNamespace
         };
 
         var expected = new DiagnosticResult(DiagnosticId.AvoidUninstantiatedInternalClasses, DiagnosticSeverity.Info)
-            .WithSpan(4, 5, 4, 27)  // Adjust the span according to specific line/column for your case
+            .WithSpan(4, 20, 4, 39)
             .WithArguments("UninstantiatedClass");
 
         context.ExpectedDiagnostics.Add(expected);
