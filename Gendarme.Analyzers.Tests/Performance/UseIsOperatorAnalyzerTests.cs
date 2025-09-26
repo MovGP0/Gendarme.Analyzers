@@ -6,58 +6,72 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class UseIsOperatorAnalyzerTests
 {
     [Fact]
-    public async Task TestUseIsOperator()
+    public async Task DetectsAsNotEqualsNull()
     {
-        const string testCode = @"
-class MyClass
+        const string source = """
+class Sample
 {
-    void MyMethod(object obj)
+    void M(object value)
     {
-        if (obj as string != null) // This should trigger a warning
+        if (value as string != null)
         {
-            // Do something
         }
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<UseIsOperatorAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(6, 9, 6, 34).WithArguments("value as string != null"));
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.UseIsOperator)
-            .WithSpan(6, 9, 6, 26)
-            .WithArguments("(obj as string) != null");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestNoUseIsOperatorWarning()
+    public async Task DetectsAsEqualsNull()
     {
-        const string testCode = @"
-class MyClass
+        const string source = """
+class Sample
 {
-    void MyMethod(object obj)
+    void M(object value)
     {
-        if (obj != null) // This should not trigger a warning
+        if ((value as string) == null)
         {
-            // Do something
         }
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<UseIsOperatorAnalyzer, DefaultVerifier>
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(6, 9, 6, 38).WithArguments("(value as string) == null"));
+
+        await test.RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsIsCheck()
+    {
+        const string source = """
+class Sample
+{
+    void M(object value)
+    {
+        if (value is string)
+        {
+        }
+    }
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<UseIsOperatorAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected
-        await context.RunAsync();
-    }
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.UseIsOperator, DiagnosticSeverity.Info);
 }
