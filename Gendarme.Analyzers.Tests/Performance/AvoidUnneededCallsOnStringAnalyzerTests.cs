@@ -74,12 +74,7 @@ public class MyClass {
             TestCode = testCode
         };
 
-        var expected = new DiagnosticResult(DiagnosticId.AvoidUnneededCallsOnString, DiagnosticSeverity.Info)
-            .WithSpan(6, 9, 6, 19)
-            .WithArguments("Substring", "s");
-
-        context.ExpectedDiagnostics.Add(expected);
-
+        // No diagnostic expected for Substring with non-zero start index
         await context.RunAsync();
     }
 

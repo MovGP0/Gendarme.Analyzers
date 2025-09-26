@@ -59,16 +59,12 @@ public sealed class AvoidUnneededCallsOnStringAnalyzer : DiagnosticAnalyzer
         }
 
         var targetMethod = invocation.TargetMethod;
-        if (targetMethod is null || !UnneededMethods.Contains(targetMethod.Name))
+        if (!UnneededMethods.Contains(targetMethod.Name))
         {
             return;
         }
 
         var syntax = instance.Syntax;
-        if (syntax is null)
-        {
-            return;
-        }
 
         if (targetMethod.Name == "Substring")
         {
@@ -83,4 +79,3 @@ public sealed class AvoidUnneededCallsOnStringAnalyzer : DiagnosticAnalyzer
         context.ReportDiagnostic(Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), targetMethod.Name, syntax.ToString()));
     }
 }
-
