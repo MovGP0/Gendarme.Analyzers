@@ -44,49 +44,84 @@ public sealed class DoNotIgnoreMethodResultAnalyzer : DiagnosticAnalyzer
         isEnabledByDefault: true,
         description: Description);
 
-    private static readonly ImmutableHashSet<string> TrackedTypes = ImmutableHashSet.Create(
-        "System.String",
-        "System.Text.StringBuilder",
-        "System.Linq.Enumerable"
-        // Add more types as needed
-    );
-
-    private static readonly ImmutableHashSet<string> TrackedMethods = ImmutableHashSet.Create(
-        "Trim",
-        "ToUpper",
-        "ToLower",
-        "Substring",
-        "Replace",
-        "Concat",
-        "Reverse"
-        // Add more methods as needed
-    );
+    private static readonly ImmutableDictionary<string, ImmutableHashSet<string>> WellKnownMembers =
+        new Dictionary<string, ImmutableHashSet<string>>(StringComparer.Ordinal)
+        {
+            ["System.String"] = ImmutableHashSet.Create(
+                StringComparer.Ordinal,
+                "Trim",
+                "TrimStart",
+                "TrimEnd",
+                "ToUpper",
+                "ToLower",
+                "Substring",
+                "Replace"),
+            ["System.Linq.Enumerable"] = ImmutableHashSet.Create(
+                StringComparer.Ordinal,
+                "Reverse",
+                "OrderBy",
+                "OrderByDescending",
+                "Select",
+                "Where",
+                "Distinct")
+        }.ToImmutableDictionary();
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze expression statements
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterOperationAction(AnalyzeExpressionStatement, OperationKind.ExpressionStatement);
-    }
 
-    private void AnalyzeExpressionStatement(OperationAnalysisContext context)
-    {
-        var expressionStatement = (IExpressionStatementOperation)context.Operation;
-
-        if (expressionStatement.Operation is IInvocationOperation invocation)
+        context.RegisterCompilationStartAction(static compilationStartContext =>
         {
-            var method = invocation.TargetMethod;
+            var trackedMethodsBuilder = ImmutableHashSet.CreateBuilder<IMethodSymbol>(SymbolEqualityComparer.Default);
 
-            if (TrackedTypes.Contains(method.ContainingType.ToDisplayString()) &&
-                TrackedMethods.Contains(method.Name) &&
-                method.ReturnType.SpecialType != SpecialType.System_Void)
+            foreach (var pair in WellKnownMembers)
             {
-                var diagnostic = Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), method.Name);
-                context.ReportDiagnostic(diagnostic);
+                var metadataName = pair.Key;
+                var methodNames = pair.Value;
+
+                var typeSymbol = compilationStartContext.Compilation.GetTypeByMetadataName(metadataName);
+                if (typeSymbol is null)
+                {
+                    continue;
+                }
+
+                foreach (var member in typeSymbol.GetMembers().OfType<IMethodSymbol>())
+                {
+                    if (!methodNames.Contains(member.Name) || member.ReturnsVoid)
+                    {
+                        continue;
+                    }
+
+                    trackedMethodsBuilder.Add(member.OriginalDefinition);
+                }
             }
-        }
+
+            if (trackedMethodsBuilder.Count is 0)
+            {
+                return;
+            }
+
+            var trackedMethods = trackedMethodsBuilder.ToImmutable();
+
+            compilationStartContext.RegisterOperationAction(operationContext =>
+            {
+                var expressionStatement = (IExpressionStatementOperation)operationContext.Operation;
+                if (expressionStatement.Operation is not IInvocationOperation invocation)
+                {
+                    return;
+                }
+
+                var targetMethod = invocation.TargetMethod.OriginalDefinition;
+                if (!trackedMethods.Contains(targetMethod))
+                {
+                    return;
+                }
+
+                operationContext.ReportDiagnostic(Diagnostic.Create(Rule, invocation.Syntax.GetLocation(), invocation.TargetMethod.Name));
+            }, OperationKind.ExpressionStatement);
+        });
     }
 }

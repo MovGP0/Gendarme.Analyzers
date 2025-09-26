@@ -6,89 +6,95 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class DoNotIgnoreMethodResultAnalyzerTests
 {
     [Fact]
-    public async Task TestTrimIgnoredResult()
+    public async Task DetectsIgnoredStringMethod()
     {
-        const string testCode = @"
+        const string source = """
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public void M()
     {
-        var str = ""Hello"";
-        str.Trim(); // This should produce a diagnostic
+        var text = "Hello";
+        text.Trim();
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<DoNotIgnoreMethodResultAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(8, 9, 8, 20).WithArguments("Trim"));
 
-        var expected = DiagnosticResult.CompilerWarning(DiagnosticId.DoNotIgnoreMethodResult)
-            .WithSpan(6, 9, 6, 16)
-            .WithArguments("Trim");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestToUpperIgnoredResult()
+    public async Task DetectsIgnoredEnumerableMethod()
     {
-        const string testCode = @"
-using System;
+        const string source = """
+using System.Collections.Generic;
+using System.Linq;
 
-public class MyClass
+public static class Sample
 {
-    public void MyMethod()
+    public static void M()
     {
-        var str = ""Hello"";
-        str.ToUpper(); // This should produce a diagnostic
+        var values = new List<int>();
+        Enumerable.Reverse(values);
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<DoNotIgnoreMethodResultAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(9, 9, 9, 35).WithArguments("Reverse"));
 
-        var expected = DiagnosticResult.CompilerWarning(DiagnosticId.DoNotIgnoreMethodResult)
-            .WithSpan(6, 9, 6, 16)
-            .WithArguments("ToUpper");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestUsedReturnedValue()
+    public async Task SkipsWhenResultIsAssigned()
     {
-        const string testCode = @"
+        const string source = """
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public void M()
     {
-        var str = ""Hello"";
-        var result = str.ToUpper(); // This should not produce a diagnostic
+        var text = "Hello";
+        var trimmed = text.Trim();
+        Console.WriteLine(trimmed);
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<DoNotIgnoreMethodResultAnalyzer, DefaultVerifier>
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsVoidReturningMethod()
+    {
+        const string source = """
+using System;
+
+public class Sample
+{
+    public void M()
+    {
+        Console.WriteLine("value");
+    }
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<DoNotIgnoreMethodResultAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected
-        await context.RunAsync();
-    }
-
-    // Add more tests for other tracked methods and additional scenarios as necessary
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.DoNotIgnoreMethodResult, DiagnosticSeverity.Warning);
 }
