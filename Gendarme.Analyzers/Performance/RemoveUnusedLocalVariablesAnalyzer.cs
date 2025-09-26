@@ -1,39 +1,9 @@
 namespace Gendarme.Analyzers.Performance;
 
 /// <summary>
-/// This rule looks for unused local variables inside methods.
-/// This can lead to larger code (IL) size and longer JIT time,
-/// but note that some optimizing compilers can remove the locals so they won’t
-/// be reported even if you can still see them in the source code.
-/// This could also be a typo in the source were a value is assigned to the wrong variable.
+/// This rule flags locals that are declared but never used.
+/// Unused locals increase IL size and can indicate logic errors.
 /// </summary>
-/// <example>
-/// Bad example:
-/// <code language="C#">
-/// bool DualCheck ()
-/// {
-/// bool b1 = true;
-/// bool b2 = CheckDetails ();
-///     if (b2) {
-///     // typo: a find-replace changed b1 into b2
-///     b2 = CheckMoreDetails ();
-/// }
-/// return b2 && b2;
-/// }
-/// </code>
-/// Good example:
-/// <code language="C#">
-/// bool DualCheck ()
-/// {
-/// bool b1 = true;
-/// bool b2 = CheckDetails ();
-///     if (b2) {
-///     b1 = CheckMoreDetails ();
-/// }
-/// return b1 && b2;
-/// }
-/// </code>
-/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class RemoveUnusedLocalVariablesAnalyzer : DiagnosticAnalyzer
 {
@@ -56,60 +26,93 @@ public sealed class RemoveUnusedLocalVariablesAnalyzer : DiagnosticAnalyzer
     {
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterSyntaxNodeAction(AnalyzeMethodBody, SyntaxKind.MethodDeclaration);
-    }
 
-    private static void AnalyzeMethodBody(SyntaxNodeAnalysisContext context)
-    {
-        if (context.SemanticModel is null || context.Node is not MethodDeclarationSyntax methodDeclaration)
+        context.RegisterOperationBlockStartAction(operationBlockContext =>
         {
-            return;
-        }
-
-        var body = methodDeclaration.Body;
-        if (body is null)
-        {
-            return;
-        }
-
-        var dataFlowAnalysis = context.SemanticModel.AnalyzeDataFlow(body);
-        if (dataFlowAnalysis is null)
-        {
-            return;
-        }
-
-        var usedVariables = ImmutableHashSet.CreateBuilder<ISymbol>(SymbolEqualityComparer.Default);
-        AddSymbols(dataFlowAnalysis.ReadInside);
-        AddSymbols(dataFlowAnalysis.WrittenInside);
-
-        foreach (var variable in dataFlowAnalysis.VariablesDeclared)
-        {
-            if (usedVariables.Contains(variable))
-            {
-                continue;
-            }
-
-            var location = variable.Locations.FirstOrDefault();
-            if (location is null || location == Location.None)
-            {
-                continue;
-            }
-
-            var diagnostic = Diagnostic.Create(Rule, location, variable.Name);
-            context.ReportDiagnostic(diagnostic);
-        }
-
-        void AddSymbols(ImmutableArray<ISymbol> symbols)
-        {
-            if (symbols.IsDefaultOrEmpty)
+            if (operationBlockContext.OwningSymbol is not (IMethodSymbol or IPropertySymbol or IEventSymbol))
             {
                 return;
             }
 
-            foreach (var symbol in symbols)
+            var declaredLocals = new HashSet<ILocalSymbol>(SymbolEqualityComparer.Default);
+            var usedLocals = new HashSet<ILocalSymbol>(SymbolEqualityComparer.Default);
+
+            operationBlockContext.RegisterOperationAction(operationContext =>
             {
-                usedVariables.Add(symbol);
-            }
+                var declarator = (IVariableDeclaratorOperation)operationContext.Operation;
+                if (declarator.Symbol is { IsConst: false, IsImplicitlyDeclared: false } local)
+                {
+                    declaredLocals.Add(local);
+                }
+            }, OperationKind.VariableDeclarator);
+
+            operationBlockContext.RegisterOperationAction(operationContext =>
+            {
+                var localReference = (ILocalReferenceOperation)operationContext.Operation;
+                if (localReference.IsDeclaration)
+                {
+                    return;
+                }
+
+                if (IsUsage(localReference))
+                {
+                    usedLocals.Add(localReference.Local);
+                }
+            }, OperationKind.LocalReference);
+
+            operationBlockContext.RegisterOperationBlockEndAction(operationBlockEndContext =>
+            {
+                foreach (var local in declaredLocals)
+                {
+                    if (usedLocals.Contains(local))
+                    {
+                        continue;
+                    }
+
+                    var location = local.Locations.FirstOrDefault(static loc => loc.IsInSource);
+                    if (location is null)
+                    {
+                        continue;
+                    }
+
+                    operationBlockEndContext.ReportDiagnostic(Diagnostic.Create(Rule, location, local.Name));
+                }
+            });
+        });
+    }
+
+    private static bool IsUsage(ILocalReferenceOperation localReference)
+    {
+        var parent = localReference.Parent;
+        if (parent is null)
+        {
+            return true;
         }
+
+        if (parent is IAssignmentOperation assignment && ReferenceEquals(assignment.Target, localReference))
+        {
+            if (assignment is ISimpleAssignmentOperation { IsRef: false })
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (parent is IArgumentOperation argument)
+        {
+            return argument.Parameter?.RefKind switch
+            {
+                RefKind.Out => true,
+                _ => true
+            };
+        }
+
+        if (parent is IDiscardOperation)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -6,55 +6,66 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class RemoveUnusedLocalVariablesAnalyzerTests
 {
     [Fact]
-    public async Task TestUnusedLocalVariable()
+    public async Task DetectsUnusedLocal()
     {
-        const string testCode = @"
-        public class MyClass
-        {
-            public void MyMethod()
-            {
-                int unusedVariable = 42;
-            }
-        }";
+        const string source = """
+public class Sample
+{
+    public void M()
+    {
+        int unused = 42;
+    }
+}
+""";
 
-        var context = new CSharpAnalyzerTest<RemoveUnusedLocalVariablesAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(5, 13, 5, 19).WithArguments("unused"));
 
-        var expected = new DiagnosticResult(DiagnosticId.RemoveUnusedLocalVariables, DiagnosticSeverity.Info)
-            .WithSpan(5, 17, 5, 34)
-            .WithArguments("unusedVariable");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestUsedLocalVariable()
+    public async Task SkipsUsedLocal()
     {
-        const string testCode = @"
+        const string source = """
 using System;
 
-public class MyClass
+public class Sample
 {
-    public void MyMethod()
+    public void M()
     {
-        int usedVariable = 42;
-        Console.WriteLine(usedVariable);
+        int value = 42;
+        Console.WriteLine(value);
     }
-}";
+}
+""";
 
-        var context = new CSharpAnalyzerTest<RemoveUnusedLocalVariablesAnalyzer, DefaultVerifier>
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsOutArgument()
+    {
+        const string source = """
+public class Sample
+{
+    public void M()
+    {
+        bool.TryParse(string.Empty, out var parsed);
+    }
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<RemoveUnusedLocalVariablesAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected for usedVariable
-
-        await context.RunAsync();
-    }
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.RemoveUnusedLocalVariables, DiagnosticSeverity.Info);
 }
