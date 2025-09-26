@@ -6,83 +6,95 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class ImplementEqualsTypeAnalyzerTests
 {
     [Fact]
-    public async Task TestClassWithoutIEquatable()
+    public async Task DetectsMissingTypeSpecificEqualsAndInterface()
     {
-        const string testCode = @"
-public class MyClass
+        const string source = """
+public class Sample
 {
-    public override bool Equals(object obj) => base.Equals(obj);
-}";
+    public override bool Equals(object? obj) => base.Equals(obj);
+}
+""";
 
-        var context = new CSharpAnalyzerTest<ImplementEqualsTypeAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(1, 14, 1, 20).WithArguments("Sample"));
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.ImplementEqualsType)
-            .WithSpan(3, 14, 3, 21)
-            .WithArguments("MyClass");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestClassWithIEquatableAndEquals()
+    public async Task DetectsMissingInterface()
     {
-        const string testCode = @"
-using System;
-
-public class MyClass : IEquatable<MyClass>
+        const string source = """
+public class Sample
 {
-    public override bool Equals(object obj) => base.Equals(obj);
+    public override bool Equals(object? obj) => base.Equals(obj);
 
-    public bool Equals(MyClass other)
-    {
-        return other != null;
-    }
-}";
+    public bool Equals(Sample other) => other is not null;
+}
+""";
 
-        var context = new CSharpAnalyzerTest<ImplementEqualsTypeAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(1, 14, 1, 20).WithArguments("Sample"));
 
-        // No diagnostics expected
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestClassWithOnlyIEquatable()
+    public async Task SkipsWhenRequirementsMet()
     {
-        const string testCode = @"
+        const string source = """
 using System;
 
-public class MyClass : IEquatable<MyClass>
+public class Sample : IEquatable<Sample>
 {
-    public bool Equals(MyClass other)
-    {
-        return other != null;
-    }
-}";
+    public override bool Equals(object? obj) => obj is Sample other && Equals(other);
 
-        var context = new CSharpAnalyzerTest<ImplementEqualsTypeAnalyzer, DefaultVerifier>
+    public bool Equals(Sample other) => other is not null;
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsWhenDoesNotOverrideEquals()
+    {
+        const string source = """
+using System;
+
+public class Sample : IEquatable<Sample>
+{
+    public bool Equals(Sample other) => other is not null;
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsForGenericType()
+    {
+        const string source = """
+using System;
+
+public class Sample<T> : IEquatable<Sample<T>>
+{
+    public override bool Equals(object? obj) => obj is Sample<T> other && Equals(other);
+
+    public bool Equals(Sample<T> other) => other is not null;
+}
+""";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<ImplementEqualsTypeAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.ImplementEqualsType)
-            .WithSpan(3, 14, 3, 21)
-            .WithArguments("MyClass");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
-    }
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.ImplementEqualsType, DiagnosticSeverity.Info);
 }
