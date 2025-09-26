@@ -3,27 +3,9 @@ namespace Gendarme.Analyzers.Performance;
 /// <summary>
 /// This rule looks for InitOnly fields (readonly in C#) that could be turned into Literal (const in C#)
 /// because their value is known at compile time.
-/// Literal fields don’t need to be initialized
-/// (i.e. they don’t force the compiler to add a static constructor to the type)
-/// resulting in less code and the value (not a reference to the field)
-/// will be directly used in the IL (which is OK if the field has internal visibility,
-/// but is often problematic if the field is visible outside the assembly).
+/// Literal fields don't need to be initialized (they don't force the compiler to add a static constructor),
+/// resulting in less code and the value itself being used directly in IL.
 /// </summary>
-/// <example>
-/// Bad example:
-/// <code language="C#">
-/// public class ClassWithReadOnly {
-///     static readonly int One = 1;
-/// }
-/// </code>
-/// Good example:
-/// <code language="C#">
-/// public class ClassWithConst
-/// {
-///     const int One = 1;
-/// }
-/// </code>
-/// </example>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class PreferLiteralOverInitOnlyFieldsAnalyzer : DiagnosticAnalyzer
 {
@@ -44,25 +26,70 @@ public sealed class PreferLiteralOverInitOnlyFieldsAnalyzer : DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context)
     {
-        // Analyze field symbols
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
-        context.RegisterSymbolAction(AnalyzeFieldSymbol, SymbolKind.Field);
+
+        context.RegisterOperationAction(static operationContext =>
+        {
+            var initializer = (IFieldInitializerOperation)operationContext.Operation;
+            if (initializer.Value is not { ConstantValue.HasValue: true })
+            {
+                return;
+            }
+
+            foreach (var field in initializer.InitializedFields)
+            {
+                if (!ShouldAnalyze(field))
+                {
+                    continue;
+                }
+
+                if (!CanBeDeclaredConst(field.Type))
+                {
+                    continue;
+                }
+
+                var location = field.Locations.FirstOrDefault(static loc => loc.IsInSource);
+                if (location is null)
+                {
+                    continue;
+                }
+
+                operationContext.ReportDiagnostic(Diagnostic.Create(Rule, location, field.Name));
+            }
+        }, OperationKind.FieldInitializer);
     }
 
-    private void AnalyzeFieldSymbol(SymbolAnalysisContext context)
-    {
-        var fieldSymbol = (IFieldSymbol)context.Symbol;
-
-        // Check if field is static readonly
-        if (!fieldSymbol.IsStatic || !fieldSymbol.IsReadOnly)
-            return;
-
-        // Check if field is initialized with a compile-time constant
-        if (fieldSymbol.HasConstantValue)
+    private static bool ShouldAnalyze(IFieldSymbol field) =>
+        field is
         {
-            var diagnostic = Diagnostic.Create(Rule, fieldSymbol.Locations[0], fieldSymbol.Name);
-            context.ReportDiagnostic(diagnostic);
+            IsStatic: true,
+            IsReadOnly: true,
+            IsConst: false,
+            IsImplicitlyDeclared: false
+        };
+
+    private static bool CanBeDeclaredConst(ITypeSymbol type)
+    {
+        if (type.TypeKind is TypeKind.Enum)
+        {
+            return true;
         }
+
+        return type.SpecialType is
+            SpecialType.System_Boolean or
+            SpecialType.System_Char or
+            SpecialType.System_String or
+            SpecialType.System_Byte or
+            SpecialType.System_SByte or
+            SpecialType.System_Int16 or
+            SpecialType.System_UInt16 or
+            SpecialType.System_Int32 or
+            SpecialType.System_UInt32 or
+            SpecialType.System_Int64 or
+            SpecialType.System_UInt64 or
+            SpecialType.System_Single or
+            SpecialType.System_Double or
+            SpecialType.System_Decimal;
     }
 }

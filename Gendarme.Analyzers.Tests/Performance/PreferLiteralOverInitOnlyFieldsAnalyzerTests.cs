@@ -6,89 +6,55 @@ namespace Gendarme.Analyzers.Tests.Performance;
 public sealed class PreferLiteralOverInitOnlyFieldsAnalyzerTests
 {
     [Fact]
-    public async Task TestStaticReadonlyFieldWithCompileTimeConstant()
+    public async Task DetectsStaticReadonlyLiteralValue()
     {
-        const string testCode = @"
-public class MyClass
-{
-    public static readonly int ConstantValue = 42;
-}";
+        const string source = "public class Sample\n{\n    public static readonly int Value = 42;\n}\n";
 
-        var context = new CSharpAnalyzerTest<PreferLiteralOverInitOnlyFieldsAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
+        var test = CreateTest(source);
+        test.ExpectedDiagnostics.Add(Diagnostic().WithSpan(3, 32, 3, 37).WithArguments("Value"));
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.PreferLiteralOverInitOnlyFields)
-            .WithSpan(4, 22, 4, 37) // Adjusted positions based on actual code
-            .WithArguments("ConstantValue");
-
-        context.ExpectedDiagnostics.Add(expected);
-
-        await context.RunAsync();
+        await test.RunAsync();
     }
 
     [Fact]
-    public async Task TestStaticReadonlyFieldWithNonConstantValue()
+    public async Task SkipsStaticReadonlyNonConstant()
     {
-        const string testCode = @"
-public class MyClass
-{
-    public static readonly int NonConstantValue = GetValue();
+        const string source = "public class Sample\n{\n    public static readonly int Value = GetValue();\n\n    private static int GetValue() => 42;\n}\n";
 
-    private static int GetValue()
-    {
-        return 42;
-    }
-}";
-
-        var context = new CSharpAnalyzerTest<PreferLiteralOverInitOnlyFieldsAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
-
-        // No diagnostics expected
-        await context.RunAsync();
+        await CreateTest(source).RunAsync();
     }
 
     [Fact]
-    public async Task TestInstanceReadonlyFieldWithCompileTimeConstant()
+    public async Task SkipsInstanceReadonly()
     {
-        const string testCode = @"
-public class MyClass
-{
-    public readonly int InstanceConstantValue = 42;
-}";
+        const string source = "public class Sample\n{\n    public readonly int Value = 42;\n}\n";
 
-        var context = new CSharpAnalyzerTest<PreferLiteralOverInitOnlyFieldsAnalyzer, DefaultVerifier>
-        {
-            ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
-        };
-
-        // No diagnostics expected
-        await context.RunAsync();
+        await CreateTest(source).RunAsync();
     }
 
     [Fact]
-    public async Task TestStaticFieldNotReadonly()
+    public async Task SkipsStaticNonReadonly()
     {
-        const string testCode = @"
-public class MyClass
-{
-    public static int NotReadonly = 42;
-}";
+        const string source = "public class Sample\n{\n    public static int Value = 42;\n}\n";
 
-        var context = new CSharpAnalyzerTest<PreferLiteralOverInitOnlyFieldsAnalyzer, DefaultVerifier>
+        await CreateTest(source).RunAsync();
+    }
+
+    [Fact]
+    public async Task SkipsConstField()
+    {
+        const string source = "public class Sample\n{\n    public const int Value = 42;\n}\n";
+
+        await CreateTest(source).RunAsync();
+    }
+
+    private static CSharpAnalyzerTest<PreferLiteralOverInitOnlyFieldsAnalyzer, DefaultVerifier> CreateTest(string source) =>
+        new()
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-            TestCode = testCode
+            TestCode = source
         };
 
-        // No diagnostics expected
-        await context.RunAsync();
-    }
+    private static DiagnosticResult Diagnostic() =>
+        new(DiagnosticId.PreferLiteralOverInitOnlyFields, DiagnosticSeverity.Info);
 }
