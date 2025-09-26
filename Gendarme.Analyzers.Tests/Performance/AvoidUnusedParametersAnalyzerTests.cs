@@ -22,9 +22,8 @@ public class MyClass
             TestCode = testCode
         };
 
-        var expected = DiagnosticResult
-            .CompilerWarning(DiagnosticId.AvoidUnusedParameters)
-            .WithSpan(4, 24, 4, 41)
+        var expected = new DiagnosticResult(DiagnosticId.AvoidUnusedParameters, DiagnosticSeverity.Info)
+            .WithSpan(4, 30, 4, 45)
             .WithArguments("unusedParameter", "MyMethod");
 
         context.ExpectedDiagnostics.Add(expected);
@@ -36,6 +35,7 @@ public class MyClass
     public async Task TestUsedParameterNoWarning()
     {
         const string testCode = @"
+using System;
 public class MyClass
 {
     public void MyMethod(int usedParameter)

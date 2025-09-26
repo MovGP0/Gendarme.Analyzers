@@ -44,7 +44,8 @@ public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
         Category.Maintainability,
         DiagnosticSeverity.Info,
         isEnabledByDefault: true,
-        description: Description);
+        description: Description,
+        customTags: [WellKnownDiagnosticTags.CompilationEnd]);
 
     private static readonly ImmutableHashSet<MethodKind> ExcludedMethodKinds = ImmutableHashSet.Create(
         MethodKind.DelegateInvoke,
@@ -66,7 +67,8 @@ public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
 
         context.RegisterCompilationStartAction(startContext =>
         {
-            var usedParameters = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<IParameterSymbol>>(SymbolEqualityComparer.Default);
+            var usedParameters = new ConcurrentDictionary<IMethodSymbol, ImmutableHashSet<int>>(SymbolEqualityComparer.Default);
+            var candidateMethods = new ConcurrentBag<IMethodSymbol>();
 
             startContext.RegisterOperationBlockStartAction(blockStartContext =>
             {
@@ -80,24 +82,23 @@ public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
                     return;
                 }
 
-                var referencedParameters = ImmutableHashSet.CreateBuilder<IParameterSymbol>(SymbolEqualityComparer.Default);
+                var referencedOrdinals = ImmutableHashSet.CreateBuilder<int>();
 
                 blockStartContext.RegisterOperationAction(operationContext =>
                 {
                     var parameterReference = (IParameterReferenceOperation)operationContext.Operation;
-                    referencedParameters.Add(parameterReference.Parameter);
+                    referencedOrdinals.Add(parameterReference.Parameter.Ordinal);
                 }, OperationKind.ParameterReference);
 
                 blockStartContext.RegisterOperationBlockEndAction(_ =>
                 {
-                    usedParameters[methodSymbol] = referencedParameters.ToImmutable();
+                    usedParameters[methodSymbol] = referencedOrdinals.ToImmutable();
                 });
             });
 
             startContext.RegisterSymbolAction(symbolContext =>
             {
                 var method = (IMethodSymbol)symbolContext.Symbol;
-
                 if (!ShouldAnalyze(method))
                 {
                     return;
@@ -108,27 +109,35 @@ public sealed class AvoidUnusedParametersAnalyzer : DiagnosticAnalyzer
                     return;
                 }
 
-                var referenced = usedParameters.TryGetValue(method, out var parameters)
-                    ? parameters
-                    : ImmutableHashSet<IParameterSymbol>.Empty;
-
-                foreach (var parameter in method.Parameters)
-                {
-                    if (referenced.Contains(parameter))
-                    {
-                        continue;
-                    }
-
-                    var location = parameter.Locations.FirstOrDefault();
-                    if (location is null)
-                    {
-                        continue;
-                    }
-
-                    var diagnostic = Diagnostic.Create(Rule, location, parameter.Name, method.Name);
-                    symbolContext.ReportDiagnostic(diagnostic);
-                }
+                candidateMethods.Add(method);
             }, SymbolKind.Method);
+
+            startContext.RegisterCompilationEndAction(compilationContext =>
+            {
+                foreach (var method in candidateMethods)
+                {
+                    var referenced = usedParameters.TryGetValue(method, out var ordinals)
+                        ? ordinals
+                        : ImmutableHashSet<int>.Empty;
+
+                    foreach (var parameter in method.Parameters)
+                    {
+                        if (referenced.Contains(parameter.Ordinal))
+                        {
+                            continue;
+                        }
+
+                        var location = parameter.Locations.FirstOrDefault(l => l.IsInSource) ?? parameter.Locations.FirstOrDefault();
+                        if (location is null)
+                        {
+                            continue;
+                        }
+
+                        var diagnostic = Diagnostic.Create(Rule, location, parameter.Name, method.Name);
+                        compilationContext.ReportDiagnostic(diagnostic);
+                    }
+                }
+            });
         });
     }
 
